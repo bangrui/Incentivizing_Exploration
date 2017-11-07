@@ -48,21 +48,48 @@
 \maketitle
 
 
+\section{Introduction}
+In this paper, we study a variant of incentivizing exploration with heterogeneous agents' preferences, that generalizes \cite{frazier2014incentivizing} and \cite{han2015incentivizing}. 
+
+In our setting we have arms that have unknown multivariate attributes, and agents have heterogeneous utility functions that map these attribute vectors onto utilities. All agents see the attribute outcomes from previous agents. We study a simple policy that mostly exploits, and occasionally incentivizes exploration when an arm would be unpulled by all agent types given the current posterior.  
+
+The intuition behind is that heterogeneity of a certain kind reduces but doesn't eliminate the need for incentivizing exploration --- basically that you get a certain amount of exploration for free via heterogeneity.
+
+We structure our paper as follows: In Section~\ref{sec:prob}, we state our problem formulation; In Section~\ref{sec:ub}, we state our algorithm and prove a upper bound for both the payment budget as well as the regret; In Section~\ref{sec:lb}, we construct an example to show that the regret bound is at least $O(\log(T))$ in the worst case example, regardless the payment budget.
+
+
+
+\subsection{Related Work}
+
+With money transfer: \cite{frazier2014incentivizing} considers a problem setting where the principal pays the agents extra money in order to incentivize them to explore. In their paper, they assume all agents have equal value of money and provide a complete characterization of achievable reward with a fixed budget. \cite{han2015incentivizing} generalizes this framework to allow agents have heterogeneous value of money. Further, it assumes there is a external signal scheme which provides partial information about each agent. Under this setting, they proved a similar bound as in \cite{frazier2014incentivizing} which depends on the signal scheme.
+
+Without money transfer but using information asymmetry:
+\cite{kremer2014implementing} considers a simple model where agents arrive to the principal one by one and there are only two actions at each time. \cite{mansour2015bayesian} generalizes \cite{kremer2014implementing} by allowing finite number of actions at each time. \cite{mansour2016bayesian} considers a problem setting where there are multiple agents at each time and allow agents to interact with each other. At each time, the principal provides each agent an recommendation, which is Bayesian incentive-compatible. They prove principal can achieve constant regret when utilities are deterministic and logarithmic regret when utilities are stochastic.
+
+\subsection{Applications}
+
+The motivation of this project is to build a recommender system. Agent arrives to the system one at a time. Upon arrival, he/she receives a recommendation from the system and chooses a product based on the recommendation. At the end, the agent provides some feedback about the product when he/she leaves the system.
+Here are a few applications where we can apply our framework:
+
+\begin{itemize}
+\item \textit{Recommender systems/Online Retailers}: For recommender systems such as Yelp, they want to find the best restaurants based on the user's review. As the system, it wants all restaurants to have as many reviews as possible so that it knows which restaurants are good. However, as a user, he/she may only want to try the restaurants with a large number of positive reviews. In this case, the system may incentivize the user to review the new restaurants by offering them extra money as a reward. As for users, they may have different utilities vectors about the restaurant's location, environment, service, queueing time etc, which could be the restaurant's attribute vector. This is also the case for online retailers such as Amazon. In this case, the attribute vector could be each item's quality, design and price etc.
+\item \textit{Citizen Science}:  \cite{frazier2014incentivizing} mentioned for scientific organizations like Galaxy Zoo, they will guide the enthusiasts to explore the less-explored parts of domain. For each enthusiast, he/she may have different preference towards the location's sight-seeing, weather, distance and safety etc. Thus, as the organization, it needs to incentivize each person differently. 
+\end{itemize}
+
+
 
 
 \section{Problem Setting}
 \label{sec:prob}
-Suppose we have $N$ arms. For the $i^{th}$ arm, it has a latent utility vector $u_i\in \mathbb{R}^{m}$. As the principal, we hope to learn each arm's latent utility vector $u_i$ through the interaction with the agents. We denote $u_{i,t}$ as our estimation for $u_i$ at time t. 
 
+Suppose we have $N$ arms. For the $i^{th}$ arm, it has a latent utility vector $u_i\in \mathbb{R}^{m}$. 
 A stream of agents come to our system and we use $\theta\in \mathbb{R}^{m}$ to denote the agent's preference. We assume $\theta\sim F(\cdot)$.
+Each agent would pull one arm based on his/her preference and provides the feedback before he/she leaves.
+As the principal, we hope to learn each arm's latent utility vector $u_i$ through the interaction with the agents. We denote $u_{i,t}$ as our estimation for $u_i$ at time t. 
 
+Throughout this paper, we abbreviate ``agent with preference vector $\theta$'' as just ``$\theta$''. We denote the agent comes to the system at time $t$ as $\theta_{t}$. We denote agent $\theta$'s best arm index as $B(\theta)$ (break ties randomly). 
 
-Throughout this paper, we abbreviate ``agent with preference vector $\theta$'' as just ``$\theta$''. We denote the agent comes to the system at time $t$ as $\theta_{t}$. For simplicity, we assume each type of agents has a unique favourite arm, denoted agent $\theta$'s best arm index as $B(\theta)$. 
-
-
-
-At each time $t$, an agent comes to the system and can observe our current estimation $u_{i,t}$ for all arms. As the principal, we know $F(\cdot)$ from the prior knowledge. However, we do not know $\theta_t$.
-
+At each time $t$, an agent comes to the system and can observe our current estimation $u_{i,t}$ for all arms. As the principal, we know $F(\cdot)$ from the prior knowledge. However, we do not know each agent's preference vector $\theta_t$.
 
 Without incentive, each agent pulls the arm myopically, i.e. agent with $\theta_t$ will choose arm $A_t=\arg\max_{i}\{\theta_t\cdot u_{i,t}\}$. \bccomment{We focus on the linear utility function in the current writeup} To balance the exploration and exploitation, at time $t$, we (the principal) offer each arm an non-negative payment $c_{i,t}\geq 0$. In this case, we assume the agent with $\theta_t$ will pull the arm $A_t=\arg\max_{i}\{\theta_t\cdot u_{i,t}+c_{i,t}\}$, breaking tie in favor of the principal's incentive. We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$.
 
@@ -97,35 +124,42 @@ Define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_
 
 As the principal, we want to find a strategy $\mathcal{A}$ which (1) minimizes the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and (2) minimizes the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$.
 
-Throughout this paper, we assume $m\geq 2$. For $m=1$,  \cite{han2015incentivizing} provides a complete characterization for its solution.
-
 \section{Upper Bound}
+\label{sec:ub}
 
 In this section, we propose a simple policy that mostly exploits, and occasionally incentivizes exploration when an arm would be unpulled by all agent types given the current posterior. We prove that with the help of heterogeneous preferences, we can get a certain amount of exploration for free via heterogeneity. 
 
-Throughout this section, we assume $F(\cdot)$ is a continuous distribution. Denote
+
+
+\subsection{Assumptions}
+Throughout this section, we use $F(\cdot)$ to denote the agent's preference distribution, which could either be a continuous distribution or a discrete distribution. Denote
 
 \begin{align}
 \Omega_{i,j}=\{\theta:B(\theta)=i, \hat{B}(\theta)=j\}, \nonumber 
 \end{align}
-which is the users whose best arm is arm $i$ and the second best arm is arm $j$. We need the following assumption in our analysis:
+which is the users whose best arm is arm $i$ and the second best arm is arm $j$. We need the following assumptions in our analysis:
 
-\begin{assumption} Let $f_{i,j}(y)$ be the density of $(u_i-u_j)\cdot\theta$ conditioned on $\theta \in \Omega_{i,j}$. We assume $M^{'}=\sup_{i,j}\limsup_{y\rightarrow 0^{+}}f_{i,j}(y) <\infty$.
+\begin{assumption} Let $f_{i,j}(y)$ be the marginal probability density function (or marginal probability mass function if $F(\cdot)$ is a discrete distribution) of $(u_i-u_j)\cdot\theta$ conditioned on $\theta \in \Omega_{i,j}$. We assume $M^{'}=\max_{i,j}\limsup_{y\rightarrow 0^{+}}f_{i,j}(y) <\infty$.
 \label{A1}
 \end{assumption}
 
-Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. For simplicity in our analysis, we use a slightly stronger condition below: $M=\sup_{i,j}sup_{y\in R^{+}}f_{i,j}(y) <\infty$.
+Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. For simplicity in our analysis, we use a slightly stronger condition below: $M=\max_{i,j}sup_{y\in R^{+}}f_{i,j}(y) <\infty$.
+
 
 \begin{assumption} We assume $F$ has a compact support set. Without loss of generality, we assume $\theta\in [0,W]^m$.
 \label{A2}
 \end{assumption}
 
-Throughout this write up, we use $R$ to denote the maximum regret it can occur at each time.
+Throughout this write up, we use $R$ to denote the maximum regret it can occur at each time. We know $R<\infty$ due to Assumption~\ref{A2}. 
 
+\begin{assumption}
+Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$. Throughout this paper, we assume $p>0$.
+\label{A3}
+\end{assumption}
 
+Assumption~\ref{A3} means for each arm $i$, there exist a positive proportion of users whose best arm is $i$. 
 
-\subsection{Unknown $p$ Value}
-
+\subsection{Our Algorithm}
 Before we introduce our algorithm, we need to use the following definition:
 
 \begin{definition}
@@ -155,7 +189,9 @@ We break ties randomly. If we decides to incentivize an arm, we use ``pay what i
 \end{algorithm}
 
 
-Now we analyze the regret occurred by Algorithm~\ref{Alg1} and its payment budget. Before we start our analysis, we need the following notations. Denote $\hat{B}(\theta)=\arg\max_{i\neq B(\theta)}\{\theta\cdot u_{i}\}$ to the $\theta$'s second best arm. We use $S(\delta)$ to denote the proportion of user whose utility difference between their best arm and the second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Denote $\lambda(\delta)=\frac{\delta}{2m}$. Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$ and we assume $p>0$ in our analysis, where means for each arm $i$, there exist a positive proportion of users whose best arm is $i$. Denote $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$ and we know $p(0)=p$. 
+\subsection{General Results}
+
+Now we analyze the regret occurred by Algorithm~\ref{Alg1} and its payment budget. Before we start our analysis, we need the following notations. Denote $\hat{B}(\theta)=\arg\max_{i\neq B(\theta)}\{\theta\cdot u_{i}\}$ to the $\theta$'s second best arm. We use $S(\delta)$ to denote the proportion of user whose utility difference between their best arm and the second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Denote $\lambda(\delta)=\frac{\delta}{2m}$.  Denote $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$ and we know $p(0)=p$. 
 
 With the help of our assumptions and the above notations, we can prove the following main results:
 
@@ -170,7 +206,7 @@ The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2) + O(N
 \label{rst:regret}
 \end{theorem}
 
-Before we prove our main results, we need to prove several lemmas. First, based on assumption~\ref{A1}, we can get the following bound for $S(\delta)$.
+Before we prove our main results, we need to prove several lemmas. First, based on Assumption~\ref{A1}, we can get the following bound for $S(\delta)$.
 
 \begin{lemma}
 $S(\delta)\leq M\delta$.
@@ -430,11 +466,16 @@ For a fixed $T$, if we choose $f(n)=n^{-1/2+\frac{1}{2\log(T)}}$, we have
 \end{proof}
 
 
+\subsection{Special Case}
 
+In this section, we consider a special case of our problem, in which the agent's preference distribution $F(\cdot)$ satisfies $S(\delta)=0$ for $\delta<\delta^{'}$. Under this assumption, we still have $O(N^2)$ budget bound, however we get a better regret bound. The proof is similar to the proof of Theorem~\ref{rst:regret}, but for $t$ large enough, $S(f(t))=0$. Thus,
 
+\subsection{Practical Issues}
+
+In our algorithm, we take ``pay what it takes'' strategy when we decided to incentivize the agent. However, as long as 
 
 \section{Lower Bound $O(\log(T))$}
-\label{sec:continuous}
+\label{sec:lb}
 
 In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide a example to show the best possible lower bound is $O(N\log(T))$.
 
