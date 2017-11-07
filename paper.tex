@@ -1,0 +1,509 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage[english]{babel}
+
+\usepackage{blindtext}
+\usepackage{amssymb}
+
+\usepackage[]{algorithm}
+\usepackage[]{algorithmic}
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{xr} 
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amsthm}
+\usepackage{comment}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{dblfloatfix}
+\usepackage{bbm}
+
+\newcommand{\IE}{IE} 
+
+
+
+\newcommand\floor[1]{\lfloor#1\rfloor}
+\newcommand\ceil[1]{\lceil#1\rceil}
+
+\newcommand{\bccomment}[1]{{\color{blue}BC: #1}}
+\newcommand{\pfcomment}[1]{{\color{blue}PF: #1}}
+
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{assumption}{Assumption}
+
+
+
+\title{Incentivizing Exploration with Heterogeneous Utilities}
+
+\begin{document}
+
+\maketitle
+
+
+
+
+\section{Problem Setting}
+\label{sec:prob}
+Suppose we have $N$ arms. For the $i^{th}$ arm, it has a latent utility vector $u_i\in \mathbb{R}^{m}$. As the principal, we hope to learn each arm's latent utility vector $u_i$ through the interaction with the agents. We denote $u_{i,t}$ as our estimation for $u_i$ at time t. 
+
+A stream of agents come to our system and we use $\theta\in \mathbb{R}^{m}$ to denote the agent's preference. We assume $\theta\sim F(\cdot)$.
+
+
+Throughout this paper, we abbreviate ``agent with preference vector $\theta$'' as just ``$\theta$''. We denote the agent comes to the system at time $t$ as $\theta_{t}$. For simplicity, we assume each type of agents has a unique favourite arm, denoted agent $\theta$'s best arm index as $B(\theta)$. 
+
+
+
+At each time $t$, an agent comes to the system and can observe our current estimation $u_{i,t}$ for all arms. As the principal, we know $F(\cdot)$ from the prior knowledge. However, we do not know $\theta_t$.
+
+
+Without incentive, each agent pulls the arm myopically, i.e. agent with $\theta_t$ will choose arm $A_t=\arg\max_{i}\{\theta_t\cdot u_{i,t}\}$. \bccomment{We focus on the linear utility function in the current writeup} To balance the exploration and exploitation, at time $t$, we (the principal) offer each arm an non-negative payment $c_{i,t}\geq 0$. In this case, we assume the agent with $\theta_t$ will pull the arm $A_t=\arg\max_{i}\{\theta_t\cdot u_{i,t}+c_{i,t}\}$, breaking tie in favor of the principal's incentive. We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$.
+
+After the agent pulls an arm $A_t$, the principal can observe a noisy observation of $u_{A_{t}}$ in the form of $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is a $m$ dimensional white noise. Here, we use $I_m$ to denote a $m$ dimensional identity matrix. For simplicity, we assume the noise has the same variance across different dimensions, but same proof holds true even we assume different variance for each component.
+
+
+We use $\tau(i,t)$ to denote the set of times which arm i was pulled up to time $t$. At each time $t$, $\tau(i,t)$ is updated as
+\[ \tau(i,t) =
+\begin{cases}
+\tau(i,t-1) \cup \{t\}       & \text{if } i = A_t, \\
+\tau(i,t-1)  & \text{if } i \neq A_t. \\
+\end{cases}
+\]
+
+We use $N(i,t)$ to denote the total number of pulls for the $i_{th}$ arm up to time $t$, which is updated at each time $t$ as follows:
+\[ N(i,t) =
+\begin{cases}
+N(i,t-1) + 1       & \text{if } i = A_t, \\
+N(i,t-1)  & \text{if } i \neq A_t. \\
+\end{cases}
+\]
+
+As the principal, we use the average of all previous observation for an arm as its estimation, i.e. $u_{i,t}=\frac{1}{N(i,t)}\sum_{k\in \tau(i,t)}O_{k}$. So after observing $O_t$, we update estimation for $u_{i,t}$ as follows:
+\[ u_{i,t} =
+\begin{cases}
+u_{i,t-1}+\frac{O_t-u_{i,t-1}}{N(i,t)} & \text{if } i \neq A_t, \\
+u_{i,t-1}  & \text{if } i \neq A_t. \\
+\end{cases}
+\]
+
+Define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_t\cdot u_{A_t}$. Denote the cumulative regret up to time T as $R(T)=\sum_{t=1}^{T}r(t)$. Denote the cumulative payment upto time T as $C(t)=\sum_{t=1}^{T}c(t)$. 
+
+As the principal, we want to find a strategy $\mathcal{A}$ which (1) minimizes the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and (2) minimizes the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$.
+
+Throughout this paper, we assume $m\geq 2$. For $m=1$,  \cite{han2015incentivizing} provides a complete characterization for its solution.
+
+\section{Upper Bound}
+
+In this section, we propose a simple policy that mostly exploits, and occasionally incentivizes exploration when an arm would be unpulled by all agent types given the current posterior. We prove that with the help of heterogeneous preferences, we can get a certain amount of exploration for free via heterogeneity. 
+
+Throughout this section, we assume $F(\cdot)$ is a continuous distribution. Denote
+
+\begin{align}
+\Omega_{i,j}=\{\theta:B(\theta)=i, \hat{B}(\theta)=j\}, \nonumber 
+\end{align}
+which is the users whose best arm is arm $i$ and the second best arm is arm $j$. We need the following assumption in our analysis:
+
+\begin{assumption} Let $f_{i,j}(y)$ be the density of $(u_i-u_j)\cdot\theta$ conditioned on $\theta \in \Omega_{i,j}$. We assume $M^{'}=\sup_{i,j}\limsup_{y\rightarrow 0^{+}}f_{i,j}(y) <\infty$.
+\label{A1}
+\end{assumption}
+
+Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. For simplicity in our analysis, we use a slightly stronger condition below: $M=\sup_{i,j}sup_{y\in R^{+}}f_{i,j}(y) <\infty$.
+
+\begin{assumption} We assume $F$ has a compact support set. Without loss of generality, we assume $\theta\in [0,W]^m$.
+\label{A2}
+\end{assumption}
+
+Throughout this write up, we use $R$ to denote the maximum regret it can occur at each time.
+
+
+
+\subsection{Unknown $p$ Value}
+
+Before we introduce our algorithm, we need to use the following definition:
+
+\begin{definition}
+We call time $t_{n}$ as the starting point of the $n_{th}$ round if $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$. We call the time period from $t_{n}$ to $t_{n+1}$ as the $n_{th}$ round.
+\end{definition}
+
+In this setting, we consider an algorithm that offers incentive to an arm if and only if 
+\begin{itemize}
+\item there is no agents will play it anymore;
+\item this arm has not been played or incentivized before in this round.
+\end{itemize}
+We break ties randomly. If we decides to incentivize an arm, we use ``pay what it takes strategy''. This algorithm does not need to know $T$ in advance. The detailed algorithm is as follows:
+
+\begin{algorithm}
+\caption{Algorithm: Upper Bound}
+\label{Alg1}
+\begin{algorithmic}
+\STATE Set n = 1 to denote the round number; g(n) to be a increasing function which we choose later;
+\FOR{ $t = 1, 2, 3, \cdots$}{
+	\IF{the myopic probability of pulling an arm is less than $g(n)^{-1}$ and we haven’t pulled that arm in this round}
+	\STATE{ we pay whatever it takes to incentivize that arm}\ELSE 
+		\STATE {let the agents play myopically}\ENDIF
+		\STATE $n = min_{i} N(i,t)$
+}\ENDFOR
+
+\end{algorithmic}
+\end{algorithm}
+
+
+Now we analyze the regret occurred by Algorithm~\ref{Alg1} and its payment budget. Before we start our analysis, we need the following notations. Denote $\hat{B}(\theta)=\arg\max_{i\neq B(\theta)}\{\theta\cdot u_{i}\}$ to the $\theta$'s second best arm. We use $S(\delta)$ to denote the proportion of user whose utility difference between their best arm and the second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Denote $\lambda(\delta)=\frac{\delta}{2m}$. Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$ and we assume $p>0$ in our analysis, where means for each arm $i$, there exist a positive proportion of users whose best arm is $i$. Denote $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$ and we know $p(0)=p$. 
+
+With the help of our assumptions and the above notations, we can prove the following main results:
+
+\begin{theorem}
+The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N^2)$.
+\label{rst:budget}
+\end{theorem}
+
+
+\begin{theorem}
+The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2) + O(N \sum_{n=1}^{T}n^{\alpha})$ for $-1<\alpha<0$.
+\label{rst:regret}
+\end{theorem}
+
+Before we prove our main results, we need to prove several lemmas. First, based on assumption~\ref{A1}, we can get the following bound for $S(\delta)$.
+
+\begin{lemma}
+$S(\delta)\leq M\delta$.
+\label{lemma:sdelta}
+\end{lemma}
+
+\begin{proof}
+\begin{align}
+S(\delta)&=\sum_{B(\theta)=i}\sum_{\hat{B}(\theta)=j}P(\{\theta(u_{i}-u_{j})<\delta\}) \nonumber \\
+&=\sum_{B(\theta)=i}\sum_{\hat{B}(\theta)=j}P(\{\theta(u_{i}-u_{j})<\delta|\theta\in \Omega_{i,j}\})P(\theta\in \Omega_{i,j}) \nonumber \\
+&\leq \sum_{B(\theta)=i}\sum_{\hat{B}(\theta)=j}M\delta \times P(\theta\in \Omega_{i,j}) \nonumber \\
+&=M\delta \nonumber 
+\end{align}
+\end{proof}
+
+The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n_{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant.
+
+\begin{lemma}
+For those user whose utility difference between their best arm and the second best arm is at least $2m\lambda$, the probability that myopic action can incur regret at any time $t\in [t_{n-1},t_{n}-1]$ in the $n_{th}$ round is bounded above by $24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right)$, for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
+\label{round:prob}
+\end{lemma}
+
+
+We need the following lemma in order to prove Lemma~\ref{round:prob}.
+
+\begin{lemma}
+For $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$, we have
+\begin{align}
+\frac{n\lambda}{2\sqrt{2}\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)}. \nonumber
+\end{align}
+\label{n0-inequality}
+\end{lemma}
+
+\begin{proof}
+First, we observe that
+\begin{align}
+&\frac{n\lambda}{2\sqrt{2}\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)} \nonumber \\
+\iff &\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{4.8\sigma^2}{\lambda^2}. \nonumber 
+\end{align}
+Since $\log(x)\leq x-1$ for $x>0$, we know 
+\begin{align}
+\log(\log_{1.1}(n)+1)=\log\left(\frac{\log(n)}{\log(1.1)}+1\right)\leq \log(11\log(n)+1)\leq \log(11n)\leq 3+\log(n). \nonumber
+\end{align}
+
+Thus, we know
+\begin{align}
+\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{n}{3+\log(n)}. \nonumber 
+\end{align}
+
+In order to prove the original lemma, we just need to show for $n\geq n_{0}$, we have
+\begin{align}
+\frac{n}{3+\log(n)}\geq \frac{4.8\sigma^2}{\lambda^2}. \label{n0-equ}
+\end{align}
+Inequality~(\ref{n0-equ}) is true because the following two observations:
+\begin{itemize}
+\item for $n\geq 50$, we have $\frac{n}{3+\log(n)}\geq n^{0.5}$;
+\item $n\geq \frac{23.04\sigma^4}{\lambda^4}$ we have $n^{0.5}\geq {4.8\sigma^{2}}{\lambda^{2}}$.
+\end{itemize}
+
+Thus, we know our lemma is true.
+
+\end{proof}
+
+We also need to use an adaptive concentration inequality, which is introduce in \cite{zhao2016adaptive}. For reference, we state it as a Lemma.
+
+\begin{lemma}[Corollary 1 in \cite{zhao2016adaptive}]
+Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any random variable taking value in $\mathbb{N}$. If
+\begin{align}
+f(n)=\sqrt{0.6n\log(\log_{1.1}(n)+1)+bn}, \nonumber
+\end{align}
+then
+\begin{align}
+Pr[S_{J}\geq f(J)]\leq 12e^{-1.8b}. \nonumber
+\end{align}
+\label{ACI-inequality}
+\end{lemma}
+
+
+Now we can get back to prove Lemma~\ref{round:prob}.
+
+\begin{proof}
+In the $n_{th}$ round, we know all arms have been pulled at least $n$ times. Thus, the probability that myopic action can occur regret is bounded by
+\begin{align}
+&P(\text{myopic action incurs regret})\nonumber \\
+\leq &P(\exists i, \exists j, |u_{i,t}^{j}-u_{i}^{j}|>\lambda) \nonumber \\
+\leq & \sum_{i}\sum_{j} P(|u_{i,t}^{j}-u_{i}^{j}|>\lambda) \nonumber \\
+= &  \sum_{i}\sum_{j} P\left(\bigg|\sum_{k\in \tau_{i,t}}\epsilon_{k}\bigg|>N(i,t)\lambda\right). \label{ACI}
+\end{align}
+
+To bound equation~(\ref{ACI}), we need to use Lemma~\ref{ACI-inequality}. Similar to Lemma~\ref{ACI-inequality}, we define
+\begin{align}
+S_{N(i,t)}=\sum_{k\in\tau_{i,t}}\frac{\epsilon_{k}}{\sqrt{2}\sigma}=\frac{1}{\sqrt{2}\sigma}\sum_{k\in\tau_{i,t}}\epsilon_{k}. \nonumber
+\end{align}
+
+Based on Lemma~\ref{n0-inequality}, we know there exists a $n_{0}=\max\{50, \frac{23.04\sigma^2}{\lambda^2}\}$ such that for $n\geq n_{0}$, we have
+\begin{align}
+\frac{n\lambda}{2\sqrt{2}\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)}. \nonumber
+\end{align}
+
+Thus, if we set $b=\frac{n\lambda^2}{8\sigma^2}$ in Lemma~\ref{ACI-inequality}, for any $N(i,t)\geq n\geq n_{0}$, we have
+\begin{align}
+\frac{N(i,t)\lambda}{\sqrt{2}\sigma}\geq & \sqrt{0.6N(i,t)\log(\log_{1.1}(N(i,t))+1)}+\frac{\lambda}{2\sqrt{2}\sigma}\sqrt{n N(i,t)} \nonumber \\
+\geq & \sqrt{0.6N(i,t)\log(\log_{1.1}(N(i,t))+1)+bN(i,t)}, \nonumber 
+\end{align}
+where the last inequality is because $\sqrt{x}+\sqrt{y}\geq \sqrt{x+y}$. Thus, we have
+\begin{align}
+&P\left(\bigg|\sum_{k\in \tau_{i,t}}\epsilon_{k}\bigg|>N(i,t)\lambda\right) \nonumber \\
+=&2P\left(S_{N(i,t)}>\frac{N(i,t)\lambda}{\sqrt{2}\sigma}\right) \nonumber \\
+\leq & 2P\left(S_{N(i,t)}> \sqrt{0.6 N_{i,t}\log(\log_{1.1}(N(i,t))+1)+b N(i,t)}\right) \nonumber \\
+\leq & 24\exp( -1.8b) \nonumber \\
+= & 24\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber
+\end{align}
+
+
+Thus, we know
+\begin{align}
+&\sum_{i}\sum_{j} P\left(\bigg|\sum_{k\in \tau_{i,t}}\epsilon_{k}\bigg|>N(i,t)\lambda\right)  \nonumber \\
+=& 24Nm \exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber
+\end{align}
+
+\end{proof}
+
+
+
+
+
+Before we start analyzing the cumulative regret, we first prove the following lemma which bounds the expected length of each round.
+
+\begin{lemma}
+Using our algorithm, we have $\mathbb{E}[t_{n}-t_{n-1}]\leq Ng(n)$, $\forall n\geq 1$.
+\label{round:length}
+\end{lemma}
+
+
+\begin{proof}
+In each round, each arm needs to be pulled at least once. Denote $X_{i}$ to be the number of agents come to the system between $i-1$ different arms were pulled and the $i_{th}$ different arm was pulled. Then we know 
+\begin{align}
+\mathbb{E}[t_{n}-t_{n-1}]=\sum_{i=1}^{N}E[X_{i}]. \nonumber
+\end{align}
+
+
+Denote $t^{0}=t_{n-1}+\sum_{j=1}^{i-1}X_{j}$, then $X_{i}$ follows a ``geometric distribution'', which counts the total number of trials before the $i_{th}$ different arm were pulled at time $t=t^{0},t^{0}+1,\cdots$. At each time $t=t^{0}, t^{0}+1,\cdots$, there are two possibilities for a success trial:
+\begin{itemize}
+\item If there exists an arm has not been pulled and the proportion of agents who would pull this arm is less than $\frac{1}{g(n)}$, then based on our algorithm, the principal will offer an payment for that arm and it will be pulled. In this case, the probability that the $i_{th}$ different arm will be pulled is 1.  
+\item There exists at least $\frac{1}{g(n)}$ proportion of agents who will choose an un-pulled arm as his/her myopic action. In this case, we know each type of agent shows up with probability at least $p$. Thus, the probability that the $i_{th}$ different arm will be pulled is at least $\frac{1}{g(n)}$.
+\end{itemize}
+
+Since $X_{i}$ follows a ``geometric distribution'' with success probability at least $\frac{1}{g(n)}$ at each time, we know 
+\begin{align}
+E[t_{n}-t_{n-1}]\leq Ng(n). \nonumber
+\end{align}
+\end{proof}
+
+\begin{lemma}
+The expected incentive payment at round $n$ is bounded above by \bccomment{How to bound this conditional expectation?}
+\end{lemma}
+
+\begin{proof}
+Denote $\Delta=\sup_{\theta}\max_{i}\{\theta\cdot u_{B(\theta)}-\theta\cdot u_{i}\}$ to be the theoretical maximum payment with no noisy. We first consider the expected payment for arm $1$ in the $n_{th}$ round. Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$.
+
+\begin{align}
+&E[\max_{i}\theta_t\cdot u_{i,t}-\theta_t\cdot u_{1,t}|\text{agents pull arm $1$ with prob less than $g(n)^{-1}$}] \nonumber \\
+\leq & \Delta + E[\max_{i}\theta_t\cdot \epsilon_{i,t}-\theta_t\cdot \epsilon_{B(\theta_t),t}|\text{agents pull arm $1$ with prob less than $g(n)^{-1}$}] \nonumber 
+\end{align}
+
+Denote $p_1=P_{\theta\sim F}(B(\theta)=1)$. 
+
+
+If in the $n_{th}$ round we have $g(n)^{-1}>p_1$:
+
+
+If in the $n_{th}$ round we have $g(n)^{-1}<\frac{p}{2}$:
+\begin{align}
+E[\max_{i}\theta_t\cdot \epsilon_{i,t}-\theta_t\cdot \epsilon_{B(\theta_t),t}|\text{agents pull arm $1$ with prob less than $g(n)^{-1}$}]  \nonumber 
+\end{align}
+
+\end{proof}
+
+
+
+Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
+
+\begin{proof}
+If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $1/g(n)<p/2$, we do not need to incentivize any arms.
+
+Denote 
+\begin{align}
+n_{1}=\max\bigg\{50, \frac{23.04\sigma^4}{\lambda\left(p^{-1}(\frac{p}{2})\right)^4},\min_{n}\{n:1/g(n)<\frac{p}{2}\}\bigg\}. \nonumber
+\end{align}
+
+The cumulative payment is bounded above by:
+
+\begin{align}
+&E[C(T)] \nonumber \\
+= & \sum_{t=1}^{\infty}E[\mathbbm{1}\{\text{need to offer payment to an arm}\}] \nonumber \\
+\leq &\sum_{n=1}^{\infty}\sum_{t=1}^{\infty}E[\mathbbm{1}\{t_{n-1}\leq t\leq t_{n}: \text{myopic action occurs regret for agents with } \nonumber \\
+&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}(1/g(n))\}\}] \nonumber \\
+\leq &\sum_{n=n_{1}}^{\infty}\sum_{t=1}^{\infty}P(\text{myopic action occurs regret for agents with }\nonumber \\
+&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}\left(\frac{p}{2}\right)\}|t_{n-1}\leq t\leq t_{n})P(t_{n-1}\leq t\leq t_{n})+Nn_{1} \nonumber \\
+\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\left(p^{-1}(\frac{p}{2})\right)^2}{32m^2\sigma^2}\right)\times Ng(n)+Nn_{1} \nonumber 
+\end{align}
+
+If we choose $g(n)=n$ and $\delta_{0}=p^{-1}(\frac{p}{2})$, then we have
+\begin{align}
+\frac{1}{n}<\frac{p}{2} \implies n\geq (\frac{2}{p})+1. \nonumber
+\end{align}
+We know the expected payment is bounded above by:
+\begin{align}
+E[C(T)] \leq 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N(\max\{n_{0},(\frac{2}{p})+1\}). \nonumber
+\end{align}
+
+Since we have $N$ arms in total, we know the $\mathbb{E}[C(T)]=O(N^2)$.\end{proof}
+
+
+Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
+
+\begin{proof}
+For regret occurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRg(n)$.
+
+For regret occurred after the first $n_0$ round, it has two different components: the regret occurred when we let the agents play myopically and the regret occured when we incentivize the agents. For the regret occurred when we let the agents play myopically at time t, it consists of the following two components:
+\begin{itemize}
+\item For those user whose utility difference between their best and the second best arm is greater than $f(t)$: suppose it is at the $n(t)_{th}$ round, the probability of these user making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)$ at time $t$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)\times R$. We denote the regret occured by these agents as $r_1(t)$.
+\item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret occured by these agents as $r_2(t)$.
+\end{itemize}
+
+Thus, the cumulative expected regret occured up to time $T$ when we let the agent play myopically is bounded above by:
+\begin{align}
+&E\left[\sum_{t=1}^{T}r(t)\right] \nonumber \\
+=&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRg(n) + E\left[\sum_{t=t_{n_{0}}}^{T}r_1(t)\right]+ E\left[\sum_{t=t_{n_{0}}}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRg(n) + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}}24Nm\exp\left(-\frac{1.8n f(t)^2}{32 m^2\sigma^2}\right) R\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=n_{0}}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(t_n)^2}{32 m^2\sigma^2}\right)R \times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=1}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)R\times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Ng(n)+ \sum_{t=1}^{T}Mf(t)^2 \nonumber
+\end{align}
+
+The expected regret occurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus if we set $g(n)=n$, the cumulative regret at time $T$ is bounded above by
+\begin{align}
+&\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
++ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N(\max\{n_{0},(\frac{2}{p})+1\}). \nonumber
+\end{align}
+
+For a fixed $T$, we only need to minimizing the following two terms since all others are constant:
+
+\begin{align}
+\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2.
+\end{align}
+
+For a fixed $T$, if we choose $f(n)=n^{-1/2+\frac{1}{2\log(T)}}$, we have
+\begin{align}
+&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{T} 24N^{2} Rmn\exp\left(-\frac{1.8n^{1/\log(T)}}{32 m^2\sigma^2}\right) + \left(\sum_{t=1}^{T} Mn^{-1}\right) \times T^{\frac{1}{\log(T)}} \nonumber \\
+= & + e(\log(T) + 1)
+\end{align}
+
+\end{proof}
+
+
+
+
+
+\section{Lower Bound $O(\log(T))$}
+\label{sec:continuous}
+
+In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide a example to show the best possible lower bound is $O(N\log(T))$.
+
+Suppose you have two arms. Arm $1$ has utility vector $(0,0)$ and arm $2$ has utility vector $(0,1)$. We assume the users' preference are uniformly distributed on the unit circle. If the user knows the true reward for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$.
+
+
+Consider the following algorithm: at each step, let the agents play myopically; however, they are going to see the noisy rewards for both arms.
+
+For simplicity, we assume that the agents already know the true utility vector for arm $1$. Without loss of generality, denote $u_{t} = (0,1)+(z_{t1},z_{t,2}) = (0,1)+ (N(0,1/n),N(0,1/n))$ to be the estimate reward for arm $2$ (I assume the variance for the noise is $1$). 
+
+
+At time $n$, suppose we know arm $1$ has utility vector $(0,0)$ and arm $2$ has utility vector $u_n\sim (N(0,\frac{1}{n}), N(1,\frac{1}{n}))$. Since we know $(z_{t,1}, z_{t,2})$ is symmetric around $(0,0)$, we know 
+
+\begin{align}
+&E[r_n] \nonumber \\
+= &E[r_n | z_{n,1}>0,z_{n,2}>0] \times P(z_{n,1}>0,z_{n,2}>0) + E[r_n |z_{n,1}>0,z_{n,2}<0] \times P(z_{n,1}>0,z_{n,2}<0) \nonumber \\
+= &E[r_n | z_{n,1}<0,z_{n,2}>0] \times P(z_{n,1}<0,z_{n,2}>0) + E[r_n |z_{n,1}<0,z_{n,2}<0] \times P(z_{n,1}<0,z_{n,2}<0) \nonumber \\
+\geq & 0.25 \times E[r_n | z_{n,1}>0, z_{n,2}>0]. \nonumber
+\end{align}
+
+Given $z_{n,1}>0$ and $z_{n,2}>0$, we know the user between $(-1,0)$ and $(\frac{-1-z_{n,2}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}}, \frac{z_{n,1}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}})$ and the user between $(1,0)$ to $(\frac{1+z_{n,2}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}}, \frac{-z_{n,1}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}})$ will make a mistake. And the regret is the absolute value of the second coordinate of the user's preference vector. Thus, we know
+
+\begin{align}
+&E[r_n| z_{n,1}>0, z_{n,2}>0] \nonumber \\
+=& 4\times 2 \int_{0}^{\infty} \int_{0}^{\infty} \int_{0}^{\arctan(\frac{z_{n,1}}{1+z_{n,2}})}\frac{\sin(\theta)}{2\pi}d(\theta)\frac{e^{-\frac{n \times z_{n,1}^2}{2}}\sqrt{n}}{\sqrt{2\pi}}d(z_{n,1})\frac{e^{-\frac{n \times z_{n,2}^2}{2}}\sqrt{n}}{\sqrt{2\pi}}d(z_{n,2}) \nonumber \\
+=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}n\times [1-\frac{1+z_{n,2}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}}]e^{-\frac{n \times z_{n,1}^2}{2}}e^{-\frac{n \times z_{n,2}^2}{2}}d(z_{n,1})d(z_{n,2}) \nonumber \\
+=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty} \left[1-\frac{\sqrt{n}+z_{n,2}}{\sqrt{z_{n,1}^2+(\sqrt{n}+z_{n,2})^2}}\right]e^{-\frac{z_{n,1}^2}{2}}e^{-\frac{z_{n,2}^2}{2}}d(z_{n,1})d(z_{n,2}) \nonumber 
+\end{align}
+
+Below, we want to show 
+\begin{align}
+\lim_{n\rightarrow}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} = O(1). \nonumber
+\end{align}
+
+Denote $d(n)=n\left[1-\frac{\sqrt{n}+z_{n,2}}{\sqrt{z_{n,1}^2+(\sqrt{n}+z_{n,2})^2}}\right]$.
+Since
+\begin{align}
+d^{'}(n)=\frac{-z_{n,1}^2(2z_{n,2}+3\sqrt{n})-2(z_{n,2}+\sqrt{n})^3}{2(z_{n,1}^2+(z_{n,2}+\sqrt{n})^2)^{3/2}}+1. \nonumber
+\end{align}
+
+and $\lim_{n\rightarrow \infty}d^{'}(n)=2$, we know for $n$ large enough, $d(n)$ is a increasing function in terms of n. Thus, based on the Monotone Convergence Theorem, we have
+
+\begin{align}
+&\lim_{n\rightarrow \infty}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} \nonumber \\
+=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{n\rightarrow \infty}\left[ \left[1-\frac{\sqrt{n}+z_{n,2}}{\sqrt{z_{n,1}^2+(\sqrt{n}+z_{n,2})^2}}\right]e^{-\frac{z_{n,1}^2}{2}}e^{-\frac{z_{n,2}^2}{2}}\right]d(z_{n,1})d(z_{n,2}) \nonumber  
+\end{align}
+
+
+Based on Wolframalpha, we know
+
+\begin{align}
+\lim_{n\rightarrow \infty} d(n)=\frac{z_{n,1}^2}{2}. \nonumber
+\end{align}
+Thus,
+\begin{align}
+&\lim_{n\rightarrow \infty}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} \nonumber \\
+=&\frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{n\rightarrow \infty}\left[ \frac{z_{n,1}^2}{2}e^{-\frac{z_{n,1}^2}{2}}e^{-\frac{z_{n,2}^2}{2}}\right]d(z_{n,1})d(z_{n,2}) = \frac{1}{2\pi}. \nonumber
+\end{align}
+
+
+Thus, the cumulative expected regret is at least $O(\log(T))$.
+
+
+\section{Conclusion}
+
+
+\bibliography{reference}{}
+\bibliographystyle{plain}
+
+
+\end{document}
+
