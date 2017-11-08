@@ -456,11 +456,23 @@ For a fixed $T$, we only need to minimizing the following two terms since all ot
 \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2.
 \end{align}
 
-For a fixed $T$, if we choose $f(n)=n^{-1/2+\frac{1}{2\log(T)}}$, we have
+
+Basically, we need to choose $a$ to bound
 \begin{align}
-&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{T} 24N^{2} Rmn\exp\left(-\frac{1.8n^{1/\log(T)}}{32 m^2\sigma^2}\right) + \left(\sum_{t=1}^{T} Mn^{-1}\right) \times T^{\frac{1}{\log(T)}} \nonumber \\
-= & + e(\log(T) + 1)
+\sum_{t=1}^{T}\left[n\times exp(-n^a) + n^{-1+a}\right] \nonumber
+\end{align}
+
+\begin{align}
+\int_{0}^{T}n^{-1+a}dn = \frac{T^{a}}{a} \nonumber 
+\end{align}
+
+If $a=\frac{1}{\log(T)}$, then
+
+\begin{align}
+&\sum_{t=1}^{T}\left[n\times exp(-n^a) + n^{-1+a}\right] \nonumber \\
+= & \sum_{t=1}^{T} n\times exp(-n^a) + \frac{T^{a}}{a} \nonumber \\
+\geq & \sum_{t=1}^{T} n\times exp(-T^a) + e\log(T) \nonumber \\
+\geq & \sum_{t=1}^{T} n\times e^{-e} + e\log(T) \nonumber
 \end{align}
 
 \end{proof}
