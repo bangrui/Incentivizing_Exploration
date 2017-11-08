@@ -23,6 +23,7 @@
 \usepackage{bbm}
 
 \newcommand{\IE}{IE} 
+\newcommand{\argmax}{\mathop{\mathrm{argmax}}}
 
 
 
@@ -82,47 +83,26 @@ Here are a few applications where we can apply our framework:
 \section{Problem Setting}
 \label{sec:prob}
 
-Suppose we have $N$ arms. For the $i^{th}$ arm, it has a latent utility vector $u_i\in \mathbb{R}^{m}$. 
-A stream of agents come to our system and we use $\theta\in \mathbb{R}^{m}$ to denote the agent's preference. We assume $\theta\sim F(\cdot)$.
-Each agent would pull one arm based on his/her preference and provides the feedback before he/she leaves.
-As the principal, we hope to learn each arm's latent utility vector $u_i$ through the interaction with the agents. We denote $u_{i,t}$ as our estimation for $u_i$ at time t. 
+We have $N$ arms. Arm $i$ has a fixed but unknown attribute vector $u_i\in \mathbb{R}^{m}$. 
 
-Throughout this paper, we abbreviate ``agent with preference vector $\theta$'' as just ``$\theta$''. We denote the agent comes to the system at time $t$ as $\theta_{t}$. We denote agent $\theta$'s best arm index as $B(\theta)$ (break ties randomly). 
+A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn iid from a known distribution $F$.  We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
 
-At each time $t$, an agent comes to the system and can observe our current estimation $u_{i,t}$ for all arms. As the principal, we know $F(\cdot)$ from the prior knowledge. However, we do not know each agent's preference vector $\theta_t$.
+Each agent $t$ chooses an arm to pull $A_t$, according to a process described below, and obtains utility $\theta_t \cdot u_{A_{t}}$.  The principal and all agents then see a noisy observation of the attribute vector of the pulled arm of the form $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is independent normally distributed noise, and $I_m$ denotes an $m$-dimensional identity matrix.  Although we assume a common variance across attributes for simplicity of presentation, our theoretical results hold if the variance differs.
 
-Without incentive, each agent pulls the arm myopically, i.e. agent with $\theta_t$ will choose arm $A_t=\arg\max_{i}\{\theta_t\cdot u_{i,t}\}$. \bccomment{We focus on the linear utility function in the current writeup} To balance the exploration and exploitation, at time $t$, we (the principal) offer each arm an non-negative payment $c_{i,t}\geq 0$. In this case, we assume the agent with $\theta_t$ will pull the arm $A_t=\arg\max_{i}\{\theta_t\cdot u_{i,t}+c_{i,t}\}$, breaking tie in favor of the principal's incentive. We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$.
+At each time $t$, for each arm $i$, we (the principal) offer a non-negative payment $c_{i,t}\geq 0$ based on previous observations.
+We assume that agent $t$ chooses to pull the arm that myopically maximizes the sum of this payment and an estimate of the utility obtained $\theta_t \cdot u_{i,t}$ where $u_{i,t}$ denotes the simple average of $O_s$ over all previous pulls of arm $i$ if it has been pulled at least once, or a default value of $0$ if not.  That is, $u_{i,t} = \sum_{s<t} O_s 1\{A_s = i\} / \sum_{s<t} 1\{A_s = i\}$ if the denominator is strictly positive and $0$ otherwise; and $A_t=\argmax_{i}\{\theta_t\cdot u_{i,t}\}$, breaking ties in favor of the arm with the highest incentive.  We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$.  \pfcomment{Bangrui, I assumed that $u(i,t)$ starts from $0$.  Do you want to do this, or do you want to assume that every arm is pulled at least once?  Or do you want to assume that they start from some general starting value?  We could perhaps do the analysis assuming they start from $0$, but then comment that the proofs all carry through if they start from some other value.}
 
-After the agent pulls an arm $A_t$, the principal can observe a noisy observation of $u_{A_{t}}$ in the form of $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is a $m$ dimensional white noise. Here, we use $I_m$ to denote a $m$ dimensional identity matrix. For simplicity, we assume the noise has the same variance across different dimensions, but same proof holds true even we assume different variance for each component.
+This behavior may be recovered if agents are Bayesian and share a common non-informative prior distribution that is constant over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the posterior distribution on $u_{i}$ at time $t$ is multivariate normal with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$ under this posterior conditioned on $\theta_t$ is $\theta_t \cdot u_{i,t}$ \cite[equation 2.13 in section 2.5]{Ge04}.  Alternatively, one may simply take our assumption that agents use the average as their estimate of an attribute value directly without such a Bayesian justification.
 
+We define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_t\cdot u_{A_t}$, and the cumulative regret up to time T as $R(T)=\sum_{t=1}^{T}r(t)$. Define the cumulative payment up to time T similarly as $C(t)=\sum_{t=1}^{T}c(t)$. 
+As the principal, we want to find a strategy $\mathcal{A}$ under which both the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$ are small.
 
-We use $\tau(i,t)$ to denote the set of times which arm i was pulled up to time $t$. At each time $t$, $\tau(i,t)$ is updated as
-\[ \tau(i,t) =
-\begin{cases}
-\tau(i,t-1) \cup \{t\}       & \text{if } i = A_t, \\
-\tau(i,t-1)  & \text{if } i \neq A_t. \\
-\end{cases}
-\]
-
-We use $N(i,t)$ to denote the total number of pulls for the $i_{th}$ arm up to time $t$, which is updated at each time $t$ as follows:
-\[ N(i,t) =
-\begin{cases}
-N(i,t-1) + 1       & \text{if } i = A_t, \\
-N(i,t-1)  & \text{if } i \neq A_t. \\
-\end{cases}
-\]
-
-As the principal, we use the average of all previous observation for an arm as its estimation, i.e. $u_{i,t}=\frac{1}{N(i,t)}\sum_{k\in \tau(i,t)}O_{k}$. So after observing $O_t$, we update estimation for $u_{i,t}$ as follows:
-\[ u_{i,t} =
-\begin{cases}
-u_{i,t-1}+\frac{O_t-u_{i,t-1}}{N(i,t)} & \text{if } i \neq A_t, \\
-u_{i,t-1}  & \text{if } i \neq A_t. \\
-\end{cases}
-\]
-
-Define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_t\cdot u_{A_t}$. Denote the cumulative regret up to time T as $R(T)=\sum_{t=1}^{T}r(t)$. Denote the cumulative payment upto time T as $C(t)=\sum_{t=1}^{T}c(t)$. 
-
-As the principal, we want to find a strategy $\mathcal{A}$ which (1) minimizes the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and (2) minimizes the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$.
+To support later development, we define three additional pieces of notation.
+We let $B(\theta)$ refer to the index of the arm that is best for an agent with preference vector $\theta$, $B(\theta) \in \argmax_i \theta \cdot u_i$, breaking ties uniformly at random. 
+We use $\tau(i,t)$ to denote the set of times at which arm i was pulled up to time $t$,
+$\tau(i,t) = \{ s : 1 \le s \le t, A_s = i \}$.
+We let $N(i,t)$ denote the cardinality of $A_t$, i.e., the number of pulls of arm $i$ at times up to and including $t$.
+\pfcomment{Bangrui, if we don't use $\tau(i,t)$ or $N(i,t)$ later, we can drop them here.}
 
 \section{Upper Bound}
 \label{sec:ub}
