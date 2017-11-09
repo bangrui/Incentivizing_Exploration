@@ -54,23 +54,23 @@ In this paper, we study a variant of incentivizing exploration with heterogeneou
 
 In our setting we have arms that have unknown multivariate attributes, and agents have heterogeneous utility functions that map these attribute vectors onto utilities. All agents see the attribute outcomes from previous agents. We study a simple policy that mostly exploits, and occasionally incentivizes exploration when an arm would be unpulled by all agent types given the current posterior.  
 
-The intuition behind is that heterogeneity of a certain kind reduces but doesn't eliminate the need for incentivizing exploration --- basically that you get a certain amount of exploration for free via heterogeneity.
+The intuition behind is that heterogeneity of a certain kind reduces but doesn't eliminate the need for incentivizing exploration --- you get a certain amount of exploration for free via heterogeneity.
 
-We structure our paper as follows: In Section~\ref{sec:prob}, we state our problem formulation; In Section~\ref{sec:ub}, we state our algorithm and prove a upper bound for both the payment budget as well as the regret; In Section~\ref{sec:lb}, we construct an example to show that the regret bound is at least $O(\log(T))$ in the worst case example, regardless the payment budget.
-
+We structure our paper as follows: In Section~\ref{sec:prob}, we state our problem formulation; In Section~\ref{sec:ub}, we state our algorithm and prove with $O(N^3)$ payment budget, we can achieve $O(N^2+(\log(T))^2)$ regret; In Section~\ref{sec:lb}, we construct an example to show that the regret bound is at least $O(\log(T))$ in the worst case example, regardless the payment budget.
 
 
 \subsection{Related Work}
 
-With money transfer: \cite{frazier2014incentivizing} considers a problem setting where the principal pays the agents extra money in order to incentivize them to explore. In their paper, they assume all agents have equal value of money and provide a complete characterization of achievable reward with a fixed budget. \cite{han2015incentivizing} generalizes this framework to allow agents have heterogeneous value of money. Further, it assumes there is a external signal scheme which provides partial information about each agent. Under this setting, they proved a similar bound as in \cite{frazier2014incentivizing} which depends on the signal scheme.
+We broadly categorize the literature into two categories based on whether there is money transfer.
 
-Without money transfer but using information asymmetry:
-\cite{kremer2014implementing} considers a simple model where agents arrive to the principal one by one and there are only two actions at each time. \cite{mansour2015bayesian} generalizes \cite{kremer2014implementing} by allowing finite number of actions at each time. \cite{mansour2016bayesian} considers a problem setting where there are multiple agents at each time and allow agents to interact with each other. At each time, the principal provides each agent an recommendation, which is Bayesian incentive-compatible. They prove principal can achieve constant regret when utilities are deterministic and logarithmic regret when utilities are stochastic.
+\begin{itemize}
+\item With money transfer: \cite{frazier2014incentivizing} considers a problem setting where the principal pays the agents extra money in order to incentivize them to explore. In their paper, they assume all agents have equal value of money and provide a complete characterization of achievable reward with a fixed budget. \cite{han2015incentivizing} generalizes this framework to allow agents have heterogeneous value of money. Further, it assumes there is a external signal scheme which provides partial information about each agent. Under this setting, they proved a similar bound as in \cite{frazier2014incentivizing} which depends on the signal scheme.
+\item Without money transfer but using information asymmetry: \cite{kremer2014implementing} considers a simple model where agents arrive to the principal one by one and there are only two actions at each time. \cite{mansour2015bayesian} generalizes \cite{kremer2014implementing} by allowing finite number of actions at each time. \cite{mansour2016bayesian} considers a problem setting where there are multiple agents at each time and allow agents to interact with each other. In these papers, the principal provides each agent an recommendation at each time, which is Bayesian incentive-compatible. They prove principal can achieve constant regret when utilities are deterministic and logarithmic regret when utilities are stochastic.
+\end{itemize}
 
 \subsection{Applications}
 
-The motivation of this project is to build a recommender system. Agent arrives to the system one at a time. Upon arrival, he/she receives a recommendation from the system and chooses a product based on the recommendation. At the end, the agent provides some feedback about the product when he/she leaves the system.
-Here are a few applications where we can apply our framework:
+The motivation of this project is to build a recommender system. Agents arrive to the system one at a time. Upon arrival, he/she receives a recommendation from the system and chooses a product based on the recommendation. At the end, the agent provides some feedback about the product when he/she leaves the system. Here are a few applications where we can apply our framework:
 
 \begin{itemize}
 \item \textit{Recommender systems/Online Retailers}: For recommender systems such as Yelp, they want to find the best restaurants based on the user's review. As the system, it wants all restaurants to have as many reviews as possible so that it knows which restaurants are good. However, as a user, he/she may only want to try the restaurants with a large number of positive reviews. In this case, the system may incentivize the user to review the new restaurants by offering them extra money as a reward. As for users, they may have different utilities vectors about the restaurant's location, environment, service, queueing time etc, which could be the restaurant's attribute vector. This is also the case for online retailers such as Amazon. In this case, the attribute vector could be each item's quality, design and price etc.
@@ -85,34 +85,58 @@ Here are a few applications where we can apply our framework:
 
 We have $N$ arms. Arm $i$ has a fixed but unknown attribute vector $u_i\in \mathbb{R}^{m}$. 
 
-A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn iid from a known distribution $F$.  We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
+A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn i.i.d. from a known distribution $F(\cdot)$. We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
 
 Each agent $t$ chooses an arm to pull $A_t$, according to a process described below, and obtains utility $\theta_t \cdot u_{A_{t}}$.  The principal and all agents then see a noisy observation of the attribute vector of the pulled arm of the form $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is independent normally distributed noise, and $I_m$ denotes an $m$-dimensional identity matrix.  Although we assume a common variance across attributes for simplicity of presentation, our theoretical results hold if the variance differs.
 
 At each time $t$, for each arm $i$, we (the principal) offer a non-negative payment $c_{i,t}\geq 0$ based on previous observations.
-We assume that agent $t$ chooses to pull the arm that myopically maximizes the sum of this payment and an estimate of the utility obtained $\theta_t \cdot u_{i,t}$ where $u_{i,t}$ denotes the simple average of $O_s$ over all previous pulls of arm $i$ if it has been pulled at least once, or a default value of $0$ if not.  That is, $u_{i,t} = \sum_{s<t} O_s 1\{A_s = i\} / \sum_{s<t} 1\{A_s = i\}$ if the denominator is strictly positive and $0$ otherwise; and $A_t=\argmax_{i}\{\theta_t\cdot u_{i,t}\}$, breaking ties in favor of the arm with the highest incentive.  We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$.  \pfcomment{Bangrui, I assumed that $u(i,t)$ starts from $0$.  Do you want to do this, or do you want to assume that every arm is pulled at least once?  Or do you want to assume that they start from some general starting value?  We could perhaps do the analysis assuming they start from $0$, but then comment that the proofs all carry through if they start from some other value.}
+We assume that agent $t$ chooses to pull the arm that myopically maximizes the sum of this payment and an estimate of the utility obtained $\theta_t \cdot u_{i,t}$ where $u_{i,t}$ denotes the simple average of $O_s$ over all previous pulls of arm $i$ if it has been pulled at least once, or a default value of $0$ if not.  That is, $u_{i,t} = \sum_{s<t} O_s 1\{A_s = i\} / \sum_{s<t} 1\{A_s = i\}$ if the denominator is strictly positive and $0$ otherwise; and $A_t=\argmax_{i}\{\theta_t\cdot u_{i,t}+c_{i,t}\}$, breaking ties in favor of the arm with the highest incentive.  We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$. For simplicity, we assume all arms have been pulled once at time $t=1$ in this paper (we can offer a large payment at the beginning to make this happen). \pfcomment{Bangrui, I assumed that $u(i,t)$ starts from $0$.  Do you want to do this, or do you want to assume that every arm is pulled at least once?  Or do you want to assume that they start from some general starting value?  We could perhaps do the analysis assuming they start from $0$, but then comment that the proofs all carry through if they start from some other value.}
 
-This behavior may be recovered if agents are Bayesian and share a common non-informative prior distribution that is constant over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the posterior distribution on $u_{i}$ at time $t$ is multivariate normal with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$ under this posterior conditioned on $\theta_t$ is $\theta_t \cdot u_{i,t}$ \cite[equation 2.13 in section 2.5]{Ge04}.  Alternatively, one may simply take our assumption that agents use the average as their estimate of an attribute value directly without such a Bayesian justification.
+This behavior may be recovered if agents are Bayesian and share a common non-informative prior distribution that is constant over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the posterior distribution on $u_{i}$ at time $t$ is multivariate normal with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$ under this posterior conditioned on $\theta_t$ is $\theta_t \cdot u_{i,t}$ (see equation $2.13$ in section $2.5$, \cite{Ge04}).  Alternatively, one may simply take our assumption that agents use the average as their estimate of an attribute value directly without such a Bayesian justification.
 
 We define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_t\cdot u_{A_t}$, and the cumulative regret up to time T as $R(T)=\sum_{t=1}^{T}r(t)$. Define the cumulative payment up to time T similarly as $C(t)=\sum_{t=1}^{T}c(t)$. 
 As the principal, we want to find a strategy $\mathcal{A}$ under which both the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$ are small.
 
 To support later development, we define three additional pieces of notation.
-We let $B(\theta)$ refer to the index of the arm that is best for an agent with preference vector $\theta$, $B(\theta) \in \argmax_i \theta \cdot u_i$, breaking ties uniformly at random. 
-We use $\tau(i,t)$ to denote the set of times at which arm i was pulled up to time $t$,
-$\tau(i,t) = \{ s : 1 \le s \le t, A_s = i \}$.
-We let $N(i,t)$ denote the cardinality of $A_t$, i.e., the number of pulls of arm $i$ at times up to and including $t$.
-\pfcomment{Bangrui, if we don't use $\tau(i,t)$ or $N(i,t)$ later, we can drop them here.}
+We let $B(\theta)$ and $\hat{B}(\theta)$ refer to the index of the arm that is best and second best for an agent with preference vector $\theta$, $B(\theta) \in \argmax_i \theta \cdot u_i$ and $\hat{B}(\theta)=\argmax_{i\neq B(\theta)}\theta\cdot u_{i}$, breaking ties uniformly at random. We let $N(i,t)$ denote the cardinality of $A_t$, i.e., the number of pulls of arm $i$ at times up to and including $t$.
 
 \section{Upper Bound}
 \label{sec:ub}
 
 In this section, we propose a simple policy that mostly exploits, and occasionally incentivizes exploration when an arm would be unpulled by all agent types given the current posterior. We prove that with the help of heterogeneous preferences, we can get a certain amount of exploration for free via heterogeneity. 
 
+\subsection{Our Algorithm}
+Before we introduce our algorithm, we need to use the following definition:
+
+\begin{definition}
+We call time $t_{n}$ as the starting point of the $n^{th}$ round if $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$. We call the time period from $t_{n}$ to $t_{n+1}$ as the $n^{th}$ round.
+\end{definition}
+
+We consider an algorithm that offers incentive to an arm $i$ if and only if both of the following criterias are met:
+\begin{itemize}
+\item the myopic probability of pulling arm $i$ is low; 
+\item arm $i$ has not been played or incentivized before in this round.
+\end{itemize}
+We break ties randomly. If we decides to incentivize an arm, we use ``pay whatever it takes'' strategy (We use ``pay whatever it takes'' strategy mainly because of its simplicity. In Section~\ref{sec:pi}, we provide a more realistic algorithm which has the same payment budget bound and regret bound). This algorithm does not need to know $T$ in advance. The detailed algorithm is as follows:
+
+\begin{algorithm}
+\caption{Algorithm: Upper Bound}
+\label{Alg1}
+\begin{algorithmic}
+\STATE Set n = 1 to denote the round number;
+\FOR{ $t = 1, 2, 3, \cdots$}{
+	\IF{the myopic probability of pulling an arm is less than $n^{-1}$ and we haven’t pulled that arm in this round}
+	\STATE{ we pay whatever it takes to incentivize that arm}\ELSE 
+		\STATE {let the agents play myopically}\ENDIF
+		\STATE $n = min_{i} N(i,t)$
+}\ENDFOR
+
+\end{algorithmic}
+\end{algorithm}
 
 
 \subsection{Assumptions}
-Throughout this section, we use $F(\cdot)$ to denote the agent's preference distribution, which could either be a continuous distribution or a discrete distribution. Denote
+In this secion, we discuss several assumptions that we need to acheive our results. Throughout this paper, we use $F(\cdot)$ to denote the agent's preference distribution, which could either be a continuous distribution or a discrete distribution. Denote
 
 \begin{align}
 \Omega_{i,j}=\{\theta:B(\theta)=i, \hat{B}(\theta)=j\}, \nonumber 
@@ -139,41 +163,15 @@ Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$. Throughout this paper, we assume 
 
 Assumption~\ref{A3} means for each arm $i$, there exist a positive proportion of users whose best arm is $i$. 
 
-\subsection{Our Algorithm}
-Before we introduce our algorithm, we need to use the following definition:
-
-\begin{definition}
-We call time $t_{n}$ as the starting point of the $n_{th}$ round if $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$. We call the time period from $t_{n}$ to $t_{n+1}$ as the $n_{th}$ round.
-\end{definition}
-
-In this setting, we consider an algorithm that offers incentive to an arm if and only if 
-\begin{itemize}
-\item there is no agents will play it anymore;
-\item this arm has not been played or incentivized before in this round.
-\end{itemize}
-We break ties randomly. If we decides to incentivize an arm, we use ``pay what it takes strategy''. This algorithm does not need to know $T$ in advance. The detailed algorithm is as follows:
-
-\begin{algorithm}
-\caption{Algorithm: Upper Bound}
-\label{Alg1}
-\begin{algorithmic}
-\STATE Set n = 1 to denote the round number;
-\FOR{ $t = 1, 2, 3, \cdots$}{
-	\IF{the myopic probability of pulling an arm is less than $n^{-1}$ and we haven’t pulled that arm in this round}
-	\STATE{ we pay whatever it takes to incentivize that arm}\ELSE 
-		\STATE {let the agents play myopically}\ENDIF
-		\STATE $n = min_{i} N(i,t)$
-}\ENDFOR
-
-\end{algorithmic}
-\end{algorithm}
 
 
 \subsection{General Results}
 
-Now we analyze the regret occurred by Algorithm~\ref{Alg1} and its payment budget. Before we start our analysis, we need the following notations. Denote $\hat{B}(\theta)=\arg\max_{i\neq B(\theta)}\{\theta\cdot u_{i}\}$ to the $\theta$'s second best arm. We use $S(\delta)$ to denote the proportion of user whose utility difference between their best arm and the second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Denote $\lambda(\delta)=\frac{\delta}{2m}$.  Denote $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$ and we know $p(0)=p$. 
+In this section, we prove using Algorithm~\ref{Alg1}, we can achieve $O(N^2+(\log(T))^2)$ regret bound with $O(N^3)$ payment budget.
 
-With the help of our assumptions and the above notations, we can prove the following main results:
+Before we start our analysis, we need the following notations. Denote $S(\delta)$ as the proportion of user whose utility difference between their best arm and the second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Denote $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$. Based on $p(\delta)$'s definition, we know $p(0)=p$. 
+
+With the help of our assumptions and the above notations, we now state our main results:
 
 \begin{theorem}
 The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N^3)$.
@@ -202,10 +200,10 @@ S(\delta)&=\sum_{B(\theta)=i}\sum_{\hat{B}(\theta)=j}P(\{\theta(u_{i}-u_{j})<\de
 \end{align}
 \end{proof}
 
-The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n_{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant.
+The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n^{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant.
 
 \begin{lemma}
-For those user whose utility difference between their best arm and the second best arm is at least $2m\lambda$, the probability that myopic action can incur regret at any time $t\in [t_{n-1},t_{n}-1]$ in the $n_{th}$ round is bounded above by $24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right)$, for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
+For those user whose utility difference between their best arm and the second best arm is at least $2m\lambda$, the probability that myopic action can incur regret at any time $t\in [t_{n-1},t_{n}-1]$ in the $n^{th}$ round is bounded above by $24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right)$, for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
 \label{round:prob}
 \end{lemma}
 
@@ -268,7 +266,7 @@ Pr[S_{J}\geq f(J)]\leq 12e^{-1.8b}. \nonumber
 Now we can get back to prove Lemma~\ref{round:prob}.
 
 \begin{proof}
-In the $n_{th}$ round, we know all arms have been pulled at least $n$ times. Thus, the probability that myopic action can occur regret is bounded by
+In the $n^{th}$ round, we know all arms have been pulled at least $n$ times. Thus, the probability that myopic action can occur regret is bounded by
 \begin{align}
 &P(\text{myopic action incurs regret})\nonumber \\
 \leq &P(\exists i, \exists j, |u_{i,t}^{j}-u_{i}^{j}|>\lambda) \nonumber \\
@@ -318,16 +316,16 @@ Using our algorithm, we have $\mathbb{E}[t_{n}-t_{n-1}]\leq Nn$, $\forall n\geq 
 
 
 \begin{proof}
-In each round, each arm needs to be pulled at least once. Denote $X_{i}$ to be the number of agents come to the system between $i-1$ different arms were pulled and the $i_{th}$ different arm was pulled. Then we know 
+In each round, each arm needs to be pulled at least once. Denote $X_{i}$ to be the number of agents come to the system between $i-1$ different arms were pulled and the $i^{th}$ different arm was pulled. Then we know 
 \begin{align}
 \mathbb{E}[t_{n}-t_{n-1}]=\sum_{i=1}^{N}E[X_{i}]. \nonumber
 \end{align}
 
 
-Denote $t^{0}=t_{n-1}+\sum_{j=1}^{i-1}X_{j}$, then $X_{i}$ follows a ``geometric distribution'', which counts the total number of trials before the $i_{th}$ different arm were pulled at time $t=t^{0},t^{0}+1,\cdots$. At each time $t=t^{0}, t^{0}+1,\cdots$, there are two possibilities for a success trial:
+Denote $t^{0}=t_{n-1}+\sum_{j=1}^{i-1}X_{j}$, then $X_{i}$ follows a ``geometric distribution'', which counts the total number of trials before the $i^{th}$ different arm were pulled at time $t=t^{0},t^{0}+1,\cdots$. At each time $t=t^{0}, t^{0}+1,\cdots$, there are two possibilities for a success trial:
 \begin{itemize}
-\item If there exists an arm has not been pulled and the proportion of agents who would pull this arm is less than $n^{-1}$, then based on our algorithm, the principal will offer an payment for that arm and it will be pulled. In this case, the probability that the $i_{th}$ different arm will be pulled is 1.  
-\item There exists at least $n^{-1}$ proportion of agents who will choose an un-pulled arm as his/her myopic action. In this case, we know each type of agent shows up with probability at least $p$. Thus, the probability that the $i_{th}$ different arm will be pulled is at least $n^{-1}$.
+\item If there exists an arm has not been pulled and the proportion of agents who would pull this arm is less than $n^{-1}$, then based on our algorithm, the principal will offer an payment for that arm and it will be pulled. In this case, the probability that the $i^{th}$ different arm will be pulled is 1.  
+\item There exists at least $n^{-1}$ proportion of agents who will choose an un-pulled arm as his/her myopic action. In this case, we know each type of agent shows up with probability at least $p$. Thus, the probability that the $i^{th}$ different arm will be pulled is at least $n^{-1}$.
 \end{itemize}
 
 Since $X_{i}$ follows a ``geometric distribution'' with success probability at least $n^{-1}$ at each time, we know 
@@ -341,7 +339,7 @@ For $t\in[t_n,t_{n+1}]$, the expected incentive payment $E[c(t)]$ is bounded abo
 \end{lemma}
 
 \begin{proof}
-Denote $\Delta=\sup_{\theta}\max_{i}\{\theta\cdot u_{B(\theta)}-\theta\cdot u_{i}\}$ to be the theoretical maximum payment with no noisy. We consider the expected payment in the $n_{th}$ round. Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$.
+Denote $\Delta=\sup_{\theta}\max_{i}\{\theta\cdot u_{B(\theta)}-\theta\cdot u_{i}\}$ to be the theoretical maximum payment with no noisy. We consider the expected payment in the $n^{th}$ round. Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$.
 
 \begin{align}
 &E[c(t)] \nonumber \\
@@ -360,55 +358,43 @@ Denote $\Delta=\sup_{\theta}\max_{i}\{\theta\cdot u_{B(\theta)}-\theta\cdot u_{i
 Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
 
 \begin{proof}
-If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $n^{-1}<p/2$, we do not need to incentivize any arms.
-
-Denote 
+If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $n^{-1}<p/2$, we do not need to incentivize any arms. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Denote 
 \begin{align}
 n_{1}=\max\bigg\{50, \frac{23.04\sigma^4}{\lambda\left(p^{-1}(\frac{p}{2})\right)^4},\min_{n}\{n:n^{-1}<\frac{p}{2}\}\bigg\}. \nonumber
 \end{align}
-
-The cumulative payment is bounded above by:
-
+Denote $\delta_{0}=p^{-1}(\frac{p}{2})>0$ (because of Assumption~\ref{A1}).The cumulative payment is bounded above by:
 \begin{align}
 &E[C(T)] \nonumber \\
 = & \sum_{t=1}^{\infty}E[c(t)\mathbbm{1}\{\text{need to offer payment to an arm}\}] \nonumber \\
 \leq &\sum_{n=1}^{\infty}\sum_{t=1}^{\infty}E[c(t)\mathbbm{1}\{t_{n-1}\leq t\leq t_{n}: \text{myopic action occurs regret for agents with } \nonumber \\
 &\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}(n^{-1})\}\}] \nonumber \\
 \leq &\sum_{n=n_{1}}^{\infty}\sum_{t=1}^{\infty}\left(\Delta+Nm\sqrt{\frac{2}{n\pi}}\right)P(\text{myopic action occurs regret for agents with }\nonumber \\
-&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}\left(\frac{p}{2}\right)\}|t_{n-1}\leq t\leq t_{n})P(t_{n-1}\leq t\leq t_{n})+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right) \nonumber \\
-\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\left(p^{-1}(\frac{p}{2})\right)^2}{32m^2\sigma^2}\right)\times Nn\left(\Delta+Nm\sqrt{\frac{2}{n_1\pi}}\right)+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right) \nonumber 
+&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq \delta_{0}\}|t_{n-1}\leq t\leq t_{n})P(t_{n-1}\leq t\leq t_{n})+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right) \nonumber \\
+\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right)\times Nn\left(\Delta+Nm\sqrt{\frac{2}{n_1\pi}}\right)+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right) \nonumber 
 \end{align}
 
-Denote $\delta_{0}=p^{-1}(\frac{p}{2})$, then we have
-\begin{align}
-\frac{1}{n}<\frac{p}{2} \implies n\geq (\frac{2}{p})+1. \nonumber
-\end{align}
-Thus, $n_1=\max\{n_{0}, \frac{2}{p}+1\}$. We know the expected payment is bounded above by:
+We know the expected payment is bounded above by:
 \begin{align}
 E[C(T)] \leq 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}\left(\Delta+Nm\sqrt{\frac{2}{n_1\pi}}\right)+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right). \nonumber
 \end{align}
 
 Since we have $N$ arms in total, we know the $\mathbb{E}[C(T)]=O(N^3)$.
-
-Based on this analysis, we know the expected number of payments we need to make is less than
-\begin{align}
-&\sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\left(p^{-1}(\frac{p}{2})\right)^2}{32m^2\sigma^2}\right)\times Nn+Nn_{1} \nonumber \\
-=&24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2} + Nn_1, \nonumber
-\end{align}
-
-which we will use in the proof of Theorem~\ref{rst:regret}.
-
 \end{proof}
 
 
-Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
+Based on the proof of Theorem~\ref{rst:budget}, we know the expected number of payments we need to make is less than
+\begin{align}
+&\sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right)\times Nn+Nn_{1} \nonumber \\
+=&24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2} + Nn_1, \nonumber
+\end{align}
+which we will use in the proof of Theorem~\ref{rst:regret}. Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
 
 \begin{proof}
 For regret occurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.
 
 For regret occurred after the first $n_0$ round, it has two different components: the regret occurred when we let the agents play myopically and the regret occured when we incentivize the agents. For the regret occurred when we let the agents play myopically at time t, it consists of the following two components:
 \begin{itemize}
-\item For those user whose utility difference between their best and the second best arm is greater than $f(t)$: suppose it is at the $n(t)_{th}$ round, the probability of these user making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)$ at time $t$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)\times R$. We denote the regret occured by these agents as $r_1(t)$.
+\item For those user whose utility difference between their best and the second best arm is greater than $f(t)$: suppose it is at the $n(t)^{th}$ round, the probability of these user making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)$ at time $t$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)\times R$. We denote the regret occured by these agents as $r_1(t)$.
 \item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret occured by these agents as $r_2(t)$.
 \end{itemize}
 
@@ -427,7 +413,7 @@ Thus, the cumulative expected regret occured up to time $T$ when we let the agen
 The expected regret occurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
 &\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-+ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N(\max\{n_{0},(\frac{2}{p})+1\}). \nonumber
++ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N(\max\{n_{0},\frac{2}{p}\}). \nonumber
 \end{align}
 
 For a fixed $T$, we only need to minimizing the following two terms since all others are constant:
@@ -454,12 +440,13 @@ Thus, the cumulative expected regret is bounded by $O(N^2 m + M m^2\log(T))$.
 In this section, we consider a special case of our problem, in which the agent's preference distribution $F(\cdot)$ satisfies $S(\delta)=0$ for $\delta<\delta^{'}$. The proof is similar to the proof of Theorem~\ref{rst:regret}, but for $t$ large enough, $S(f(t))=0$. In this case, with $O(N^3)$ payment budget, we can achieve $O(N^2)$ regret.
 
 \subsection{Practical Issues}
+\label{sec:pi}
 
 In our algorithm, we take ``pay whatever it takes'' strategy when we decided to incentivize the agent. In our proof, the only time we used ''pay whatever it takes'' is in Lemma~\ref{round:length}. Without loss of generality, suppose we want to incentivize arm $i$ at time $t$ at the $n^{th}$ round. Based on the proof of Lemma~\ref{round:length}, as long as we offer a payment $c_{i,t}$ such that arm $i$ will have at least $n^{-1}$ probability being pulled at time $t$, our results still hold true. We could compute this $c_{i,t}$ dynamically based on $F(\cdot)$ as well as our current estimate $u_{i,t}$. Here is the revised algorithm which would work well in practice:
 
 \begin{algorithm}
 \caption{Algorithm: Upper Bound}
-\label{Alg1}
+\label{Alg2}
 \begin{algorithmic}
 \STATE Set n = 1 to denote the round number;
 \FOR{ $t = 1, 2, 3, \cdots$}{
@@ -508,7 +495,7 @@ Given $z_{n,1}>0$ and $z_{n,2}>0$, we know the user between $(-1,0)$ and $(\frac
 
 Below, we want to show 
 \begin{align}
-\lim_{n\rightarrow}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} = O(1). \nonumber
+\lim_{n\rightarrow\infty}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} = O(1). \nonumber
 \end{align}
 
 Denote $d(n)=n\left[1-\frac{\sqrt{n}+z_{n,2}}{\sqrt{z_{n,1}^2+(\sqrt{n}+z_{n,2})^2}}\right]$.
@@ -525,7 +512,7 @@ and $\lim_{n\rightarrow \infty}d^{'}(n)=2$, we know for $n$ large enough, $d(n)$
 \end{align}
 
 
-Based on Wolframalpha, we know
+Based on Wolframalpha \bccomment{still not sure how to compute this by hand}, we know
 
 \begin{align}
 \lim_{n\rightarrow \infty} d(n)=\frac{z_{n,1}^2}{2}. \nonumber
