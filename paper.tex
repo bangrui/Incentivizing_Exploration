@@ -120,7 +120,7 @@ We consider an algorithm that offers incentive to an arm $i$ if and only if both
 We break ties randomly. If we decides to incentivize an arm, we use ``pay whatever it takes'' strategy (We use ``pay whatever it takes'' strategy mainly because of its simplicity. In Section~\ref{sec:pi}, we provide a more realistic algorithm which has the same payment budget bound and regret bound). This algorithm does not need to know $T$ in advance. The detailed algorithm is as follows:
 
 \begin{algorithm}
-\caption{Algorithm: Upper Bound}
+\caption{Algorithm: Incentivizing Exploration}
 \label{Alg1}
 \begin{algorithmic}
 \STATE Set n = 1 to denote the round number;
@@ -336,6 +336,7 @@ E[t_{n}-t_{n-1}]\leq Nn. \nonumber
 
 \begin{lemma}
 For $t\in[t_n,t_{n+1}]$, the expected incentive payment $E[c(t)]$ is bounded above by $\Delta + Nm \sqrt{\frac{2}{n\pi}}$. 
+\label{lemma:payment}
 \end{lemma}
 
 \begin{proof}
@@ -355,14 +356,10 @@ Denote $\Delta=\sup_{\theta}\max_{i}\{\theta\cdot u_{B(\theta)}-\theta\cdot u_{i
 
 
 
-Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
+Now we are ready to prove our first main result, Theorem~\ref{rst:budget}. \bccomment{Not sure if I used Lemma~\ref{lemma:payment} correctly.}
 
 \begin{proof}
-If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $n^{-1}<p/2$, we do not need to incentivize any arms. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Denote 
-\begin{align}
-n_{1}=\max\bigg\{50, \frac{23.04\sigma^4}{\lambda\left(p^{-1}(\frac{p}{2})\right)^4},\min_{n}\{n:n^{-1}<\frac{p}{2}\}\bigg\}. \nonumber
-\end{align}
-Denote $\delta_{0}=p^{-1}(\frac{p}{2})>0$ (because of Assumption~\ref{A1}).The cumulative payment is bounded above by:
+If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $n^{-1}\leq p/2$, we do not need to incentivize any arms. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Denote $\delta_{0}=p^{-1}(\frac{p}{2})>0$ (because of Assumption~\ref{A1}).The cumulative payment is bounded above by:
 \begin{align}
 &E[C(T)] \nonumber \\
 = & \sum_{t=1}^{\infty}E[c(t)\mathbbm{1}\{\text{need to offer payment to an arm}\}] \nonumber \\
@@ -413,7 +410,7 @@ Thus, the cumulative expected regret occured up to time $T$ when we let the agen
 The expected regret occurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
 &\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-+ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N(\max\{n_{0},\frac{2}{p}\}). \nonumber
++ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N\left(\max\left\{n_{0},\frac{2}{p}\right\}\right). \nonumber
 \end{align}
 
 For a fixed $T$, we only need to minimizing the following two terms since all others are constant:
@@ -445,7 +442,7 @@ In this section, we consider a special case of our problem, in which the agent's
 In our algorithm, we take ``pay whatever it takes'' strategy when we decided to incentivize the agent. In our proof, the only time we used ''pay whatever it takes'' is in Lemma~\ref{round:length}. Without loss of generality, suppose we want to incentivize arm $i$ at time $t$ at the $n^{th}$ round. Based on the proof of Lemma~\ref{round:length}, as long as we offer a payment $c_{i,t}$ such that arm $i$ will have at least $n^{-1}$ probability being pulled at time $t$, our results still hold true. We could compute this $c_{i,t}$ dynamically based on $F(\cdot)$ as well as our current estimate $u_{i,t}$. Here is the revised algorithm which would work well in practice:
 
 \begin{algorithm}
-\caption{Algorithm: Upper Bound}
+\caption{Algorithm: Incentivizing Exploration Revised}
 \label{Alg2}
 \begin{algorithmic}
 \STATE Set n = 1 to denote the round number;
@@ -469,58 +466,56 @@ In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$
 
 Suppose you have two arms. Arm $1$ has utility vector $(0,0)$ and arm $2$ has utility vector $(0,1)$. We assume the users' preference are uniformly distributed on the unit circle. If the user knows the true reward for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$.
 
-
 Consider the following algorithm: at each step, let the agents play myopically; however, they are going to see the noisy rewards for both arms.
 
-For simplicity, we assume that the agents already know the true utility vector for arm $1$. Without loss of generality, denote $u_{t} = (0,1)+(z_{t1},z_{t,2}) = (0,1)+ (N(0,1/n),N(0,1/n))$ to be the estimate reward for arm $2$ (I assume the variance for the noise is $1$). 
+For simplicity, we assume that the agents already know the true utility vector for arm $1$. Without loss of generality, denote $u_{t} = (0,1)+(z_{t1},z_{t,2}) = (0,1)+ (N(0,1/t),N(0,1/t))$ to be the estimate reward for arm $2$ (Without loss of generality, we assume the variance for the noise is $1$). 
 
-
-At time $n$, suppose we know arm $1$ has utility vector $(0,0)$ and arm $2$ has utility vector $u_n\sim (N(0,\frac{1}{n}), N(1,\frac{1}{n}))$. Since we know $(z_{t,1}, z_{t,2})$ is symmetric around $(0,0)$, we know 
+At time $t$, suppose we know arm $1$ has utility vector $(0,0)$ and arm $2$ has utility vector $u_t\sim (N(0,\frac{1}{t}), N(1,\frac{1}{t}))$. Since we know $(z_{t,1}, z_{t,2})$ is symmetric around $(0,0)$, we know 
 
 \begin{align}
-&E[r_n] \nonumber \\
-= &E[r_n | z_{n,1}>0,z_{n,2}>0] \times P(z_{n,1}>0,z_{n,2}>0) + E[r_n |z_{n,1}>0,z_{n,2}<0] \times P(z_{n,1}>0,z_{n,2}<0) \nonumber \\
-= &E[r_n | z_{n,1}<0,z_{n,2}>0] \times P(z_{n,1}<0,z_{n,2}>0) + E[r_n |z_{n,1}<0,z_{n,2}<0] \times P(z_{n,1}<0,z_{n,2}<0) \nonumber \\
-\geq & 0.25 \times E[r_n | z_{n,1}>0, z_{n,2}>0]. \nonumber
+&E[r_t] \nonumber \\
+= &E[r_t | z_{t,1}>0,z_{t,2}>0] \times P(z_{t,1}>0,z_{t,2}>0) + E[r_t |z_{t,1}>0,z_{t,2}<0] \times P(z_{t,1}>0,z_{t,2}<0) \nonumber \\
+= &E[r_t | z_{t,1}<0,z_{t,2}>0] \times P(z_{t,1}<0,z_{n,2}>0) + E[r_t |z_{t,1}<0,z_{t,2}<0] \times P(z_{t,1}<0,z_{t,2}<0) \nonumber \\
+\geq & 0.25 \times E[r_t | z_{t,1}>0, z_{t,2}>0]. \nonumber
 \end{align}
 
-Given $z_{n,1}>0$ and $z_{n,2}>0$, we know the user between $(-1,0)$ and $(\frac{-1-z_{n,2}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}}, \frac{z_{n,1}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}})$ and the user between $(1,0)$ to $(\frac{1+z_{n,2}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}}, \frac{-z_{n,1}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}})$ will make a mistake. And the regret is the absolute value of the second coordinate of the user's preference vector. Thus, we know
+Given $z_{t,1}>0$ and $z_{t,2}>0$, we know the user between $(-1,0)$ and $\left(\frac{-1-z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ and the user between $(1,0)$ to $\left(\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{-z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ will make a mistake. And the regret is the absolute value of the second coordinate of the user's preference vector. Thus, we know
 
 \begin{align}
-&E[r_n| z_{n,1}>0, z_{n,2}>0] \nonumber \\
-=& 4\times 2 \int_{0}^{\infty} \int_{0}^{\infty} \int_{0}^{\arctan(\frac{z_{n,1}}{1+z_{n,2}})}\frac{\sin(\theta)}{2\pi}d(\theta)\frac{e^{-\frac{n \times z_{n,1}^2}{2}}\sqrt{n}}{\sqrt{2\pi}}d(z_{n,1})\frac{e^{-\frac{n \times z_{n,2}^2}{2}}\sqrt{n}}{\sqrt{2\pi}}d(z_{n,2}) \nonumber \\
-=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}n\times [1-\frac{1+z_{n,2}}{\sqrt{z_{n,1}^2+(1+z_{n,2})^2}}]e^{-\frac{n \times z_{n,1}^2}{2}}e^{-\frac{n \times z_{n,2}^2}{2}}d(z_{n,1})d(z_{n,2}) \nonumber \\
-=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty} \left[1-\frac{\sqrt{n}+z_{n,2}}{\sqrt{z_{n,1}^2+(\sqrt{n}+z_{n,2})^2}}\right]e^{-\frac{z_{n,1}^2}{2}}e^{-\frac{z_{n,2}^2}{2}}d(z_{n,1})d(z_{n,2}) \nonumber 
+&E[r_t| z_{t,1}>0, z_{t,2}>0] \nonumber \\
+=& 4\times 2 \int_{0}^{\infty} \int_{0}^{\infty} \int_{0}^{\arctan\left(\frac{z_{t,1}}{1+z_{t,2}}\right)}\frac{\sin(\theta)}{2\pi}d(\theta)\frac{e^{-\frac{t \times z_{t,1}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(z_{t,1})\frac{e^{-\frac{t \times z_{t,2}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(z_{t,2}) \nonumber \\
+=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}t\times \left[1-\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right]e^{-\frac{t \times z_{t,1}^2}{2}}e^{-\frac{t \times z_{t,2}^2}{2}}d(z_{t,1})d(z_{t,2}) \nonumber \\
+=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty} \left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}d(z_{t,1})d(z_{t,2}) \nonumber 
 \end{align}
 
 Below, we want to show 
 \begin{align}
-\lim_{n\rightarrow\infty}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} = O(1). \nonumber
+\lim_{t\rightarrow\infty}\frac{E[r_t| z_{t,1}>0, z_{t,2}>0]}{t} = O(1). \nonumber
 \end{align}
 
-Denote $d(n)=n\left[1-\frac{\sqrt{n}+z_{n,2}}{\sqrt{z_{n,1}^2+(\sqrt{n}+z_{n,2})^2}}\right]$.
+Denote $d(t)=t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]$.
 Since
 \begin{align}
-d^{'}(n)=\frac{-z_{n,1}^2(2z_{n,2}+3\sqrt{n})-2(z_{n,2}+\sqrt{n})^3}{2(z_{n,1}^2+(z_{n,2}+\sqrt{n})^2)^{3/2}}+1. \nonumber
+d^{'}(t)=\frac{-z_{t,1}^2(2z_{t,2}+3\sqrt{t})-2(z_{t,2}+\sqrt{t})^3}{2(z_{t,1}^2+(z_{t,2}+\sqrt{t})^2)^{3/2}}+1. \nonumber
 \end{align}
 
-and $\lim_{n\rightarrow \infty}d^{'}(n)=2$, we know for $n$ large enough, $d(n)$ is a increasing function in terms of n. Thus, based on the Monotone Convergence Theorem, we have
+and $\lim_{t\rightarrow \infty}d^{'}(t)=2$, we know for $n$ large enough, $d(t)$ is a increasing function in terms of t. Thus, based on the Monotone Convergence Theorem, we have
 
 \begin{align}
-&\lim_{n\rightarrow \infty}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} \nonumber \\
-=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{n\rightarrow \infty}\left[ \left[1-\frac{\sqrt{n}+z_{n,2}}{\sqrt{z_{n,1}^2+(\sqrt{n}+z_{n,2})^2}}\right]e^{-\frac{z_{n,1}^2}{2}}e^{-\frac{z_{n,2}^2}{2}}\right]d(z_{n,1})d(z_{n,2}) \nonumber  
+&\lim_{t\rightarrow \infty}\frac{E[r_t| z_{t,1}>0, z_{t,2}>0]}{t} \nonumber \\
+=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ \left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}\right]d(z_{t,1})d(z_{t,2}) \nonumber  
 \end{align}
 
 
 Based on Wolframalpha \bccomment{still not sure how to compute this by hand}, we know
 
 \begin{align}
-\lim_{n\rightarrow \infty} d(n)=\frac{z_{n,1}^2}{2}. \nonumber
+\lim_{t\rightarrow \infty} d(t)=\frac{z_{t,1}^2}{2}. \nonumber
 \end{align}
 Thus,
 \begin{align}
-&\lim_{n\rightarrow \infty}\frac{E[r_n| z_{n,1}>0, z_{n,2}>0]}{n} \nonumber \\
-=&\frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{n\rightarrow \infty}\left[ \frac{z_{n,1}^2}{2}e^{-\frac{z_{n,1}^2}{2}}e^{-\frac{z_{n,2}^2}{2}}\right]d(z_{n,1})d(z_{n,2}) = \frac{1}{2\pi}. \nonumber
+&\lim_{t\rightarrow \infty}\frac{E[r_t| z_{t,1}>0, z_{t,2}>0]}{t} \nonumber \\
+=&\frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ \frac{z_{t,1}^2}{2}e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}\right]d(z_{t,1})d(z_{t,2}) = \frac{1}{2\pi}. \nonumber
 \end{align}
 
 
