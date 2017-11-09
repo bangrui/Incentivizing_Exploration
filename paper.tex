@@ -157,9 +157,9 @@ We break ties randomly. If we decides to incentivize an arm, we use ``pay what i
 \caption{Algorithm: Upper Bound}
 \label{Alg1}
 \begin{algorithmic}
-\STATE Set n = 1 to denote the round number; g(n) to be a increasing function which we choose later;
+\STATE Set n = 1 to denote the round number;
 \FOR{ $t = 1, 2, 3, \cdots$}{
-	\IF{the myopic probability of pulling an arm is less than $g(n)^{-1}$ and we haven’t pulled that arm in this round}
+	\IF{the myopic probability of pulling an arm is less than $n^{-1}$ and we haven’t pulled that arm in this round}
 	\STATE{ we pay whatever it takes to incentivize that arm}\ELSE 
 		\STATE {let the agents play myopically}\ENDIF
 		\STATE $n = min_{i} N(i,t)$
@@ -176,13 +176,13 @@ Now we analyze the regret occurred by Algorithm~\ref{Alg1} and its payment budge
 With the help of our assumptions and the above notations, we can prove the following main results:
 
 \begin{theorem}
-The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N^2)$.
+The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N^3)$.
 \label{rst:budget}
 \end{theorem}
 
 
 \begin{theorem}
-The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2) + O(N \sum_{n=1}^{T}n^{\alpha})$ for $-1<\alpha<0$.
+The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2 m + M m^2\log(T))$.
 \label{rst:regret}
 \end{theorem}
 
@@ -309,14 +309,10 @@ Thus, we know
 
 \end{proof}
 
-
-
-
-
 Before we start analyzing the cumulative regret, we first prove the following lemma which bounds the expected length of each round.
 
 \begin{lemma}
-Using our algorithm, we have $\mathbb{E}[t_{n}-t_{n-1}]\leq Ng(n)$, $\forall n\geq 1$.
+Using our algorithm, we have $\mathbb{E}[t_{n}-t_{n-1}]\leq Nn$, $\forall n\geq 1$.
 \label{round:length}
 \end{lemma}
 
@@ -330,37 +326,31 @@ In each round, each arm needs to be pulled at least once. Denote $X_{i}$ to be t
 
 Denote $t^{0}=t_{n-1}+\sum_{j=1}^{i-1}X_{j}$, then $X_{i}$ follows a ``geometric distribution'', which counts the total number of trials before the $i_{th}$ different arm were pulled at time $t=t^{0},t^{0}+1,\cdots$. At each time $t=t^{0}, t^{0}+1,\cdots$, there are two possibilities for a success trial:
 \begin{itemize}
-\item If there exists an arm has not been pulled and the proportion of agents who would pull this arm is less than $\frac{1}{g(n)}$, then based on our algorithm, the principal will offer an payment for that arm and it will be pulled. In this case, the probability that the $i_{th}$ different arm will be pulled is 1.  
-\item There exists at least $\frac{1}{g(n)}$ proportion of agents who will choose an un-pulled arm as his/her myopic action. In this case, we know each type of agent shows up with probability at least $p$. Thus, the probability that the $i_{th}$ different arm will be pulled is at least $\frac{1}{g(n)}$.
+\item If there exists an arm has not been pulled and the proportion of agents who would pull this arm is less than $n^{-1}$, then based on our algorithm, the principal will offer an payment for that arm and it will be pulled. In this case, the probability that the $i_{th}$ different arm will be pulled is 1.  
+\item There exists at least $n^{-1}$ proportion of agents who will choose an un-pulled arm as his/her myopic action. In this case, we know each type of agent shows up with probability at least $p$. Thus, the probability that the $i_{th}$ different arm will be pulled is at least $n^{-1}$.
 \end{itemize}
 
-Since $X_{i}$ follows a ``geometric distribution'' with success probability at least $\frac{1}{g(n)}$ at each time, we know 
+Since $X_{i}$ follows a ``geometric distribution'' with success probability at least $n^{-1}$ at each time, we know 
 \begin{align}
-E[t_{n}-t_{n-1}]\leq Ng(n). \nonumber
+E[t_{n}-t_{n-1}]\leq Nn. \nonumber
 \end{align}
 \end{proof}
 
 \begin{lemma}
-The expected incentive payment at round $n$ is bounded above by \bccomment{How to bound this conditional expectation?}
+For $t\in[t_n,t_{n+1}]$, the expected incentive payment $E[c(t)]$ is bounded above by $\Delta + Nm \sqrt{\frac{2}{n\pi}}$. 
 \end{lemma}
 
 \begin{proof}
-Denote $\Delta=\sup_{\theta}\max_{i}\{\theta\cdot u_{B(\theta)}-\theta\cdot u_{i}\}$ to be the theoretical maximum payment with no noisy. We first consider the expected payment for arm $1$ in the $n_{th}$ round. Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$.
+Denote $\Delta=\sup_{\theta}\max_{i}\{\theta\cdot u_{B(\theta)}-\theta\cdot u_{i}\}$ to be the theoretical maximum payment with no noisy. We consider the expected payment in the $n_{th}$ round. Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$.
 
 \begin{align}
-&E[\max_{i}\theta_t\cdot u_{i,t}-\theta_t\cdot u_{1,t}|\text{agents pull arm $1$ with prob less than $g(n)^{-1}$}] \nonumber \\
-\leq & \Delta + E[\max_{i}\theta_t\cdot \epsilon_{i,t}-\theta_t\cdot \epsilon_{B(\theta_t),t}|\text{agents pull arm $1$ with prob less than $g(n)^{-1}$}] \nonumber 
-\end{align}
-
-Denote $p_1=P_{\theta\sim F}(B(\theta)=1)$. 
-
-
-If in the $n_{th}$ round we have $g(n)^{-1}>p_1$:
-
-
-If in the $n_{th}$ round we have $g(n)^{-1}<\frac{p}{2}$:
-\begin{align}
-E[\max_{i}\theta_t\cdot \epsilon_{i,t}-\theta_t\cdot \epsilon_{B(\theta_t),t}|\text{agents pull arm $1$ with prob less than $g(n)^{-1}$}]  \nonumber 
+&E[c(t)] \nonumber \\
+\leq & \Delta \times P(c(t)>0) + E[\max_{i}\theta_t\cdot \epsilon_{i,t}-\theta_t\cdot \epsilon_{B(\theta_t),t}1\{c(t)>0\}] \nonumber \\
+\leq & \Delta + E[\max_{i}\theta_t\cdot \epsilon_{i,t}-\theta_t\cdot \epsilon_{B(\theta_t),t}] \nonumber \\
+\leq & \Delta + \sum_{j=1}^{m}E[\max_{i}|\epsilon_{i,t}^{j}|] \nonumber \\
+\leq & \Delta + \sum_{j=1}^{m}E\left[\sum_{i=1}^{N}|\epsilon_{i,t}^{j}|\right] \nonumber \\
+\leq & \Delta + Nm E[|\epsilon_{1,t}^{1}|] \nonumber \\
+\leq & \Delta + Nm \sqrt{\frac{2}{n\pi}} \nonumber
 \end{align}
 
 \end{proof}
@@ -370,41 +360,51 @@ E[\max_{i}\theta_t\cdot \epsilon_{i,t}-\theta_t\cdot \epsilon_{B(\theta_t),t}|\t
 Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
 
 \begin{proof}
-If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $1/g(n)<p/2$, we do not need to incentivize any arms.
+If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $n^{-1}<p/2$, we do not need to incentivize any arms.
 
 Denote 
 \begin{align}
-n_{1}=\max\bigg\{50, \frac{23.04\sigma^4}{\lambda\left(p^{-1}(\frac{p}{2})\right)^4},\min_{n}\{n:1/g(n)<\frac{p}{2}\}\bigg\}. \nonumber
+n_{1}=\max\bigg\{50, \frac{23.04\sigma^4}{\lambda\left(p^{-1}(\frac{p}{2})\right)^4},\min_{n}\{n:n^{-1}<\frac{p}{2}\}\bigg\}. \nonumber
 \end{align}
 
 The cumulative payment is bounded above by:
 
 \begin{align}
 &E[C(T)] \nonumber \\
-= & \sum_{t=1}^{\infty}E[\mathbbm{1}\{\text{need to offer payment to an arm}\}] \nonumber \\
-\leq &\sum_{n=1}^{\infty}\sum_{t=1}^{\infty}E[\mathbbm{1}\{t_{n-1}\leq t\leq t_{n}: \text{myopic action occurs regret for agents with } \nonumber \\
-&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}(1/g(n))\}\}] \nonumber \\
-\leq &\sum_{n=n_{1}}^{\infty}\sum_{t=1}^{\infty}P(\text{myopic action occurs regret for agents with }\nonumber \\
-&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}\left(\frac{p}{2}\right)\}|t_{n-1}\leq t\leq t_{n})P(t_{n-1}\leq t\leq t_{n})+Nn_{1} \nonumber \\
-\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\left(p^{-1}(\frac{p}{2})\right)^2}{32m^2\sigma^2}\right)\times Ng(n)+Nn_{1} \nonumber 
+= & \sum_{t=1}^{\infty}E[c(t)\mathbbm{1}\{\text{need to offer payment to an arm}\}] \nonumber \\
+\leq &\sum_{n=1}^{\infty}\sum_{t=1}^{\infty}E[c(t)\mathbbm{1}\{t_{n-1}\leq t\leq t_{n}: \text{myopic action occurs regret for agents with } \nonumber \\
+&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}(n^{-1})\}\}] \nonumber \\
+\leq &\sum_{n=n_{1}}^{\infty}\sum_{t=1}^{\infty}\left(\Delta+Nm\sqrt{\frac{2}{n\pi}}\right)P(\text{myopic action occurs regret for agents with }\nonumber \\
+&\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq p^{-1}\left(\frac{p}{2}\right)\}|t_{n-1}\leq t\leq t_{n})P(t_{n-1}\leq t\leq t_{n})+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right) \nonumber \\
+\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\left(p^{-1}(\frac{p}{2})\right)^2}{32m^2\sigma^2}\right)\times Nn\left(\Delta+Nm\sqrt{\frac{2}{n_1\pi}}\right)+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right) \nonumber 
 \end{align}
 
-If we choose $g(n)=n$ and $\delta_{0}=p^{-1}(\frac{p}{2})$, then we have
+Denote $\delta_{0}=p^{-1}(\frac{p}{2})$, then we have
 \begin{align}
 \frac{1}{n}<\frac{p}{2} \implies n\geq (\frac{2}{p})+1. \nonumber
 \end{align}
-We know the expected payment is bounded above by:
+Thus, $n_1=\max\{n_{0}, \frac{2}{p}+1\}$. We know the expected payment is bounded above by:
 \begin{align}
-E[C(T)] \leq 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N(\max\{n_{0},(\frac{2}{p})+1\}). \nonumber
+E[C(T)] \leq 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}\left(\Delta+Nm\sqrt{\frac{2}{n_1\pi}}\right)+\sum_{n=1}^{n_1}N\left(\Delta+\sqrt{\frac{2}{n\pi}}\right). \nonumber
 \end{align}
 
-Since we have $N$ arms in total, we know the $\mathbb{E}[C(T)]=O(N^2)$.\end{proof}
+Since we have $N$ arms in total, we know the $\mathbb{E}[C(T)]=O(N^3)$.
+
+Based on this analysis, we know the expected number of payments we need to make is less than
+\begin{align}
+&\sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\left(p^{-1}(\frac{p}{2})\right)^2}{32m^2\sigma^2}\right)\times Nn+Nn_{1} \nonumber \\
+=&24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2} + Nn_1, \nonumber
+\end{align}
+
+which we will use in the proof of Theorem~\ref{rst:regret}.
+
+\end{proof}
 
 
 Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
 
 \begin{proof}
-For regret occurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRg(n)$.
+For regret occurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.
 
 For regret occurred after the first $n_0$ round, it has two different components: the regret occurred when we let the agents play myopically and the regret occured when we incentivize the agents. For the regret occurred when we let the agents play myopically at time t, it consists of the following two components:
 \begin{itemize}
@@ -416,15 +416,15 @@ Thus, the cumulative expected regret occured up to time $T$ when we let the agen
 \begin{align}
 &E\left[\sum_{t=1}^{T}r(t)\right] \nonumber \\
 =&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRg(n) + E\left[\sum_{t=t_{n_{0}}}^{T}r_1(t)\right]+ E\left[\sum_{t=t_{n_{0}}}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRg(n) + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}}24Nm\exp\left(-\frac{1.8n f(t)^2}{32 m^2\sigma^2}\right) R\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=n_{0}}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(t_n)^2}{32 m^2\sigma^2}\right)R \times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=1}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)R\times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRg(n) + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Ng(n)+ \sum_{t=1}^{T}Mf(t)^2 \nonumber
+\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{t=t_{n_{0}}}^{T}r_1(t)\right]+ E\left[\sum_{t=t_{n_{0}}}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}}24Nm\exp\left(-\frac{1.8n f(t)^2}{32 m^2\sigma^2}\right) R\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(t_n)^2}{32 m^2\sigma^2}\right)R \times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)R\times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber
 \end{align}
 
-The expected regret occurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus if we set $g(n)=n$, the cumulative regret at time $T$ is bounded above by
+The expected regret occurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
 &\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
 + & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}+N(\max\{n_{0},(\frac{2}{p})+1\}). \nonumber
@@ -437,34 +437,43 @@ For a fixed $T$, we only need to minimizing the following two terms since all ot
 \end{align}
 
 
-Basically, we need to choose $a$ to bound
+If we set $f^2(t)=\frac{2\log(T)\times 32m^2\sigma^2}{1.8n}$, then
 \begin{align}
-\sum_{t=1}^{T}\left[n\times exp(-n^a) + n^{-1+a}\right] \nonumber
+&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\ 
+\leq & \sum_{n=1}^{T} 24N^2 mnR \exp\left(-2\log(T)\right)  + \frac{64m^2\sigma^2 M\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{n} \nonumber \\
+\leq &  24N^2 m R\frac{T(T-1)}{2T^2}  + 35.56 m^2\sigma^2 M\log(T)(\log(T)+1) \nonumber \\
+\leq &  12 N^2 m R  + 35.56 m^2\sigma^2 M\log(T)(\log(T)+1). \nonumber
 \end{align}
 
-\begin{align}
-\int_{0}^{T}n^{-1+a}dn = \frac{T^{a}}{a} \nonumber 
-\end{align}
-
-If $a=\frac{1}{\log(T)}$, then
-
-\begin{align}
-&\sum_{t=1}^{T}\left[n\times exp(-n^a) + n^{-1+a}\right] \nonumber \\
-= & \sum_{t=1}^{T} n\times exp(-n^a) + \frac{T^{a}}{a} \nonumber \\
-\geq & \sum_{t=1}^{T} n\times exp(-T^a) + e\log(T) \nonumber \\
-\geq & \sum_{t=1}^{T} n\times e^{-e} + e\log(T) \nonumber
-\end{align}
-
+Thus, the cumulative expected regret is bounded by $O(N^2 m + M m^2\log(T))$.
 \end{proof}
 
 
 \subsection{Special Case}
 
-In this section, we consider a special case of our problem, in which the agent's preference distribution $F(\cdot)$ satisfies $S(\delta)=0$ for $\delta<\delta^{'}$. Under this assumption, we still have $O(N^2)$ budget bound, however we get a better regret bound. The proof is similar to the proof of Theorem~\ref{rst:regret}, but for $t$ large enough, $S(f(t))=0$. Thus,
+In this section, we consider a special case of our problem, in which the agent's preference distribution $F(\cdot)$ satisfies $S(\delta)=0$ for $\delta<\delta^{'}$. The proof is similar to the proof of Theorem~\ref{rst:regret}, but for $t$ large enough, $S(f(t))=0$. In this case, with $O(N^3)$ payment budget, we can achieve $O(N^2)$ regret.
 
 \subsection{Practical Issues}
 
-In our algorithm, we take ``pay what it takes'' strategy when we decided to incentivize the agent. However, as long as 
+In our algorithm, we take ``pay whatever it takes'' strategy when we decided to incentivize the agent. In our proof, the only time we used ''pay whatever it takes'' is in Lemma~\ref{round:length}. Without loss of generality, suppose we want to incentivize arm $i$ at time $t$ at the $n^{th}$ round. Based on the proof of Lemma~\ref{round:length}, as long as we offer a payment $c_{i,t}$ such that arm $i$ will have at least $n^{-1}$ probability being pulled at time $t$, our results still hold true. We could compute this $c_{i,t}$ dynamically based on $F(\cdot)$ as well as our current estimate $u_{i,t}$. Here is the revised algorithm which would work well in practice:
+
+\begin{algorithm}
+\caption{Algorithm: Upper Bound}
+\label{Alg1}
+\begin{algorithmic}
+\STATE Set n = 1 to denote the round number;
+\FOR{ $t = 1, 2, 3, \cdots$}{
+	\IF{the myopic probability of pulling an arm $i$ is less than $n^{-1}$ and we haven’t pulled that arm $i$ in this round (if there are multiple such arms, pick one randomly)}
+	\STATE{Offer payment $c_{i,t}=\inf\{c: P(\theta\sim F: \theta\cdot u_{i,t}+c>max_{j}\theta\cdot u_{j,t})>n^{-1}\}$}\ELSE 
+		\STATE {let the agents play myopically}\ENDIF
+		\STATE $n = min_{i} N(i,t)$
+}\ENDFOR
+
+\end{algorithmic}
+\end{algorithm}
+
+
+The same proof would work and we can get the exact same results as ``pay whatever it takes'' strategy. 
 
 \section{Lower Bound $O(\log(T))$}
 \label{sec:lb}
