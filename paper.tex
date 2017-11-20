@@ -125,7 +125,7 @@ We break ties randomly. If we decides to incentivize an arm, we use ``pay whatev
 \begin{algorithmic}
 \STATE Set n = 1 to denote the round number;
 \FOR{ $t = 1, 2, 3, \cdots$}{
-	\IF{the myopic probability of pulling an arm is less than $n^{-1}$ and we haven’t pulled that arm in this round}
+	\IF{the myopic probability of pulling an arm is less than $n^{-1}$ and no agents have pulled that arm in this round (break ties randomly)}
 	\STATE{ we pay whatever it takes to incentivize that arm}\ELSE 
 		\STATE {let the agents play myopically}\ENDIF
 		\STATE $n = min_{i} N(i,t)$
@@ -180,7 +180,7 @@ The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N^3)$. \bccom
 
 
 \begin{theorem}
-The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2 m + M m^2\log(T))$.
+The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2 m + M m^2(\log(T))^2)$.
 \label{rst:regret}
 \end{theorem}
 
@@ -447,7 +447,7 @@ In our algorithm, we take ``pay whatever it takes'' strategy when we decided to 
 \begin{algorithmic}
 \STATE Set n = 1 to denote the round number;
 \FOR{ $t = 1, 2, 3, \cdots$}{
-	\IF{the myopic probability of pulling an arm $i$ is less than $n^{-1}$ and we haven’t pulled that arm $i$ in this round (if there are multiple such arms, pick one randomly)}
+	\IF{the probability of pulling an arm $i$ is less than $n^{-1}$ and no agents have pulled that arm in this round (break ties randomly)}
 	\STATE{Offer payment $c_{i,t}=\inf\{c: P(\theta\sim F: \theta\cdot u_{i,t}+c>max_{j}\theta\cdot u_{j,t})>n^{-1}\}$}\ELSE 
 		\STATE {let the agents play myopically}\ENDIF
 		\STATE $n = min_{i} N(i,t)$
