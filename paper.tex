@@ -50,10 +50,14 @@
 
 
 \section{Introduction}
-In this paper, we study a variant of incentivizing exploration with heterogeneous agents' preferences, that generalizes \cite{frazier2014incentivizing} and \cite{han2015incentivizing}. 
+In this paper, we study incentivizing exploration with heterogeneous agents' preferences.
+Arms have unknown multivariate attributes, and agents have heterogeneous linear utility functions drawn from a known probability distribution that map these attribute vectors onto utilities. Agents see noisy observations of the attributes of arms pulled by all previous agents, and estimate an arms' attribute vector by the simple average of these observations.  Agents are selfish, and pull the arm with the largest estimated utility summed with an optional arm-specific incentivizing payment chosen by the principle.
 
-In our setting we have arms that have unknown multivariate attributes, and agents have heterogeneous utility functions that map these attribute vectors onto utilities. All agents see the attribute outcomes from previous agents. We study a simple policy that mostly exploits, and occasionally incentivizes exploration when an arm would be unpulled by all agent types given the current posterior.  
+\pfcomment{Talk about application settings that are similar to our model.  You can take portions of your dissertation chapter.}
 
+We study a simple policy that usually exploits, incentivizing agents to pull an arm only when the set of agent utility functions that would pull this arm under current attribute estimates without incentives has probability below a time-varying threshold.  \pfcomment{Say something about what we show for this policy.}
+
+\pfcomment{Talk about how our regret bounds compare to what our regret bounds would be in a homogenous preference setting, to clarify the following sentences.}
 The intuition behind is that heterogeneity of a certain kind reduces but doesn't eliminate the need for incentivizing exploration --- you get a certain amount of exploration for free via heterogeneity.
 
 We structure our paper as follows: In Section~\ref{sec:prob}, we state our problem formulation; In Section~\ref{sec:ub}, we state our algorithm and prove with $O(N^3)$ payment budget, we can achieve $O(N^2+(\log(T))^2)$ regret; In Section~\ref{sec:lb}, we construct an example to show that the regret bound is at least $O(\log(T))$ in the worst case example, regardless the payment budget.
