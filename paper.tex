@@ -50,38 +50,37 @@
 
 
 \section{Introduction}
-In this paper, we study incentivizing exploration with heterogeneous agents' preferences.
-Arms have unknown multivariate attributes, and agents have heterogeneous linear utility functions drawn from a known probability distribution that map these attribute vectors onto utilities. Agents see noisy observations of the attributes of arms pulled by all previous agents, and estimate an arms' attribute vector by the simple average of these observations.  Agents are selfish, and pull the arm with the largest estimated utility summed with an optional arm-specific incentivizing payment chosen by the principle.
+In this paper, we study incentivizing exploration with heterogeneous agent preferences.
+In this problem,   
+arms have unknown multivariate attributes, and agents have heterogeneous linear utility functions that map these attribute vectors onto utilities. Agents see noisy observations of attributes of arms pulled by all previous agents, and estimate an arms' attribute vector by the simple average of these observations.  Agents are selfish, and pull the arm with the largest estimated utility summed with an optional arm-specific incentivizing payment chosen by the principle.
+We study strategies for choosing such incentive payments that seek to maximize the total utility derived by agents, subject to a limitation on the total incentive payment.  To accomplish this goal, a strategy must induce sufficient exploration to reveal arms' attributes, while still letting agents select myopically and according to their preferences sufficiently often that high-utility arms are chosen and incentive payments are kept small.
 
-\pfcomment{Talk about application settings that are similar to our model.  You can take portions of your dissertation chapter.}
+Our problem setting models online review aggregators like Amazon, Yelp, and Tripadvisor that host crowdsourced reviews that users use when selecting products, restaurants, and vacation destinations.  Users of these websites wish to choose the product / restaurant / vacation (item) that is best according to their preference over attributes, and rely on previous users' reviews to estimate these attributes.  These reviews provide not just cardinal feedback, but also a description of attributes that a user with different preferences may use to select their preferred item.  An item with only a small number of reviews might have inaccurate attribute estimates, leading users to choose not to try it even though it may actually be the best choice for some subset of those users.  Without incentives, this situation may persist and decrease welfare for the platform's user base.  By offering incentives, either through price reductions by Amazon or coupons from Yelp or Tripadvisor, a platform may induce more reviews of unexplored items and provide more value over the long term.
 
-We study a simple policy that usually exploits, incentivizing agents to pull an arm only when the set of agent utility functions that would pull this arm under current attribute estimates without incentives has probability below a time-varying threshold.  \pfcomment{Say something about what we show for this policy.}
+\pfcomment{Banguri, I'm a bit confused about the citizen science application --- let's leave it out of the dissertation, but leave it in the paper.  Can you add some more detail?  For example, with Galaxy Zoo, my understanding is that you are looking at galaxies on a computer screen and so there is no weather.  Maybe you are talking about e-bird?  Can you write something that clarifies this and then we can talk more?}
+
+% \item \textit{Citizen Science}:  \cite{frazier2014incentivizing} mentioned for scientific organizations like Galaxy Zoo, they will guide the enthusiasts to explore the less-explored parts of domain. For each enthusiast, he/she may have different preference towards the location's sight-seeing, weather, distance and safety etc. Thus, as the organization, it needs to incentivize each person differently. 
+
+\pfcomment{Bangrui, if you can come up with an example of an application with implicit attribute feedback, include it here.}
+
+% Something interesting to study would be to alter the search rankings to influence people
+% Also which items to spam people about reviewing
+
+In this problem context, we study a simple policy that usually exploits, incentivizing agents to pull an arm only when the set of agent utility functions that would pull this arm without incentives has probability below a time-varying threshold.  \pfcomment{Say something about what we show for this policy.}
 
 \pfcomment{Talk about how our regret bounds compare to what our regret bounds would be in a homogenous preference setting, to clarify the following sentences.}
-The intuition behind is that heterogeneity of a certain kind reduces but doesn't eliminate the need for incentivizing exploration --- you get a certain amount of exploration for free via heterogeneity.
+These results suggest that heterogeneous agent preferences reduces but does not eliminate the need to incentive exploration, in relation to single-preference settings.  Essentially, heterogeneity provides a certain amount of exploration for free.
 
-We structure our paper as follows: In Section~\ref{sec:prob}, we state our problem formulation; In Section~\ref{sec:ub}, we state our algorithm and prove with $O(N^3)$ payment budget, we can achieve $O(N^2+(\log(T))^2)$ regret; In Section~\ref{sec:lb}, we construct an example to show that the regret bound is at least $O(\log(T))$ in the worst case example, regardless the payment budget.
+We structure our paper as follows: Section~\ref{sec:prob} formulates our problem; Section~\ref{sec:ub} states our algorithm and proves that we can achieve $O(N^2+(\log(T))^2)$ regret with $O(N^3)$ incentive budget; Section~\ref{sec:lb} constructs an example showing regret is at least $\Omega(\log(T))$ in the worst case, regardless of incentive budget.
 
 
-\subsection{Related Work}
+\section{Related Work}
 
 We broadly categorize the literature into two categories based on whether there is money transfer.
 
-\begin{itemize}
-\item With money transfer: \cite{frazier2014incentivizing} considers a problem setting where the principal pays the agents extra money in order to incentivize them to explore. In their paper, they assume all agents have equal value of money and provide a complete characterization of achievable reward with a fixed budget. \cite{han2015incentivizing} generalizes this framework to allow agents have heterogeneous value of money. Further, it assumes there is a external signal scheme which provides partial information about each agent. Under this setting, they proved a similar bound as in \cite{frazier2014incentivizing} which depends on the signal scheme.
-\item Without money transfer but using information asymmetry: \cite{kremer2014implementing} considers a simple model where agents arrive to the principal one by one and there are only two actions at each time. \cite{mansour2015bayesian} generalizes \cite{kremer2014implementing} by allowing finite number of actions at each time. \cite{mansour2016bayesian} considers a problem setting where there are multiple agents at each time and allow agents to interact with each other. In these papers, the principal provides each agent an recommendation at each time, which is Bayesian incentive-compatible. They prove principal can achieve constant regret when utilities are deterministic and logarithmic regret when utilities are stochastic.
-\end{itemize}
+With money transfer: \cite{frazier2014incentivizing} considers a problem setting where the principal pays the agents extra money in order to incentivize them to explore. In their paper, they assume all agents have equal value of money and provide a complete characterization of achievable reward with a fixed budget. \cite{han2015incentivizing} generalizes this framework to allow agents have heterogeneous value of money. Further, it assumes there is a external signal scheme which provides partial information about each agent. Under this setting, they proved a similar bound as in \cite{frazier2014incentivizing} which depends on the signal scheme.
 
-\subsection{Applications}
-
-The motivation of this project is to build a recommender system. Agents arrive to the system one at a time. Upon arrival, he/she receives a recommendation from the system and chooses a product based on the recommendation. At the end, the agent provides some feedback about the product when he/she leaves the system. Here are a few applications where we can apply our framework:
-
-\begin{itemize}
-\item \textit{Recommender systems/Online Retailers}: For recommender systems such as Yelp, they want to find the best restaurants based on the user's review. As the system, it wants all restaurants to have as many reviews as possible so that it knows which restaurants are good. However, as a user, he/she may only want to try the restaurants with a large number of positive reviews. In this case, the system may incentivize the user to review the new restaurants by offering them extra money as a reward. As for users, they may have different utilities vectors about the restaurant's location, environment, service, queueing time etc, which could be the restaurant's attribute vector. This is also the case for online retailers such as Amazon. In this case, the attribute vector could be each item's quality, design and price etc.
-\item \textit{Citizen Science}:  \cite{frazier2014incentivizing} mentioned for scientific organizations like Galaxy Zoo, they will guide the enthusiasts to explore the less-explored parts of domain. For each enthusiast, he/she may have different preference towards the location's sight-seeing, weather, distance and safety etc. Thus, as the organization, it needs to incentivize each person differently. 
-\end{itemize}
-
-
+Without money transfer but using information asymmetry: \cite{kremer2014implementing} considers a simple model where agents arrive to the principal one by one and there are only two actions at each time. \cite{mansour2015bayesian} generalizes \cite{kremer2014implementing} by allowing finite number of actions at each time. \cite{mansour2016bayesian} considers a problem setting where there are multiple agents at each time and allow agents to interact with each other. In these papers, the principal provides each agent an recommendation at each time, which is Bayesian incentive-compatible. They prove principal can achieve constant regret when utilities are deterministic and logarithmic regret when utilities are stochastic.
 
 
 \section{Problem Setting}
