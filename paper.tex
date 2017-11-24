@@ -110,7 +110,7 @@ Our algorithm incentivizes pulling an arm $i$ at a time $t$ in round $n$ if and 
 \end{itemize}
 Ties are broken randomly.  This algorithm does not need to know the horizon $T$ in advance. 
 
-If our algorithm decides to incentivize an arm $i$, it uses the ``pay whatever it takes'' strategy in which the payment offered is $\max_{\theta,j} \theta \cdot (u_j - u_i)$. This maximum over $\theta$ is taken over the support of $F$, which we recall is assumed compact.  (We use this ``pay whatever it takes'' strategy for its simplicity, and in Section~\ref{sec:pi} we provide an alternate and smaller incentive payment that achieves the same payment budget bound and regret bound). 
+If our algorithm decides to incentivize an arm $i$, it uses the ``pay whatever it takes'' strategy in which the payment offered is $\max_{\theta,j} \theta \cdot (u_{j,t} - u_{i,t})$. This maximum over $\theta$ is taken over the support of $F$, which we recall is assumed compact.  (We use this ``pay whatever it takes'' strategy for its simplicity, and in Section~\ref{sec:pi} we provide an alternate and smaller incentive payment that achieves the same payment budget bound and regret bound). 
 
 We describe our algorithm in detail as follows:
 
@@ -147,8 +147,7 @@ which is the set of agent preferences whose best arm is arm $i$ and second best 
 \label{A1}
 \end{assumption}
 
-Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. For simplicity in our analysis, we use a slightly stronger condition below: $M=\max_{i,j}sup_{y\in R^{+}}f_{i,j}(y) <\infty$.  \pfcomment{Let's state the assumption in terms of $M$, which is what our proof uses, and then if you want to say that we can also show similar results for $M'$ we can say that informally here.}
-
+Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. 
 
 \begin{assumption} We assume $F$ has a compact support set. Without loss of generality, we assume $\theta\in [0,W]^m$.
 \label{A2}
