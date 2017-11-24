@@ -80,7 +80,7 @@ We structure our paper as follows: Section~\ref{sec:prob} formulates our problem
 \label{sec:prob}
 
 We have $N$ arms. Arm $i$ has a fixed but unknown attribute vector $u_i\in \mathbb{R}^{m}$. 
-A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn i.i.d. from a known distribution $F(\cdot)$. We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
+A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn i.i.d. from a known distribution $F(\cdot)$ with compact support. We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
 
 Each agent $t$ chooses an arm to pull $A_t$, according to a process described below, and obtains utility $\theta_t \cdot u_{A_{t}}$.  The principal and all agents then see a noisy observation of the attribute vector of the pulled arm of the form $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is independent normally distributed noise, and $I_m$ denotes an $m$-dimensional identity matrix.  Although we assume a common variance across attributes for simplicity of presentation, our theoretical results hold if the variance differs.
 
@@ -92,27 +92,27 @@ This behavior may be recovered if agents are Bayesian and share a common non-inf
 We define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_t\cdot u_{A_t}$, and the cumulative regret up to time T as $R(T)=\sum_{t=1}^{T}r(t)$. Define the cumulative payment up to time T similarly as $C(t)=\sum_{t=1}^{T}c(t)$. 
 As the principal, we want to find a strategy $\mathcal{A}$ under which both the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$ are small.
 
-To support later development, we define three additional pieces of notation.
+To support later development, we define some additional notation.
 We let $B(\theta)$ and $\hat{B}(\theta)$ refer to the index of the arm that is best and second best for an agent with preference vector $\theta$, $B(\theta) \in \argmax_i \theta \cdot u_i$ and $\hat{B}(\theta)=\argmax_{i\neq B(\theta)}\theta\cdot u_{i}$, breaking ties uniformly at random. We let $N(i,t)$ denote the cardinality of $A_t$, i.e., the number of pulls of arm $i$ at times up to and including $t$.
+We call time $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$ the {\it starting point of the $n^{th}$ round}. We call the set of times $[t_{n}, t_{n+1})$ the {\it $n^{th}$ round}.
 
-\section{Upper Bound}
+
+\section{Algorithm and Upper Bound}
 \label{sec:ub}
 
 In this section, we propose a simple policy that mostly exploits, and occasionally incentivizes exploration when an arm would be unpulled by all agent types given the current posterior. We prove that with the help of heterogeneous preferences, we can get a certain amount of exploration for free via heterogeneity. 
 
 \subsection{Our Algorithm}
-Before we introduce our algorithm, we need to use the following definition:
-
-\begin{definition}
-We call time $t_{n}$ as the starting point of the $n^{th}$ round if $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$. We call the time period from $t_{n}$ to $t_{n+1}$ as the $n^{th}$ round.
-\end{definition}
-
-We consider an algorithm that offers incentive to an arm $i$ if and only if both of the following criterias are met:
+Our algorithm incentivizes pulling an arm $i$ at a time $t$ in round $n$ if and only if both of the following criteria are met:
 \begin{itemize}
-\item the myopic probability of pulling arm $i$ is low; 
-\item arm $i$ has not been played or incentivized before in this round.
+\item the probability of pulling arm $i$ would be below $n^{-1}$ without incentives; 
+\item arm $i$ has not been played previously in the current round.
 \end{itemize}
-We break ties randomly. If we decides to incentivize an arm, we use ``pay whatever it takes'' strategy (We use ``pay whatever it takes'' strategy mainly because of its simplicity. In Section~\ref{sec:pi}, we provide a more realistic algorithm which has the same payment budget bound and regret bound). This algorithm does not need to know $T$ in advance. The detailed algorithm is as follows:
+Ties are broken randomly.  This algorithm does not need to know the horizon $T$ in advance. 
+
+If our algorithm decides to incentivize an arm $i$, it uses the ``pay whatever it takes'' strategy in which the payment offered is $\max_{\theta,j} \theta \cdot (u_j - u_i)$. This maximum over $\theta$ is taken over the support of $F$, which we recall is assumed compact.  (We use this ``pay whatever it takes'' strategy for its simplicity, and in Section~\ref{sec:pi} we provide an alternate and smaller incentive payment that achieves the same payment budget bound and regret bound). 
+
+We describe our algorithm in detail as follows:
 
 \begin{algorithm}
 \caption{Algorithm: Incentivizing Exploration}
@@ -120,10 +120,16 @@ We break ties randomly. If we decides to incentivize an arm, we use ``pay whatev
 \begin{algorithmic}
 \STATE Set n = 1 to denote the round number;
 \FOR{ $t = 1, 2, 3, \cdots$}{
-	\IF{the myopic probability of pulling an arm is less than $n^{-1}$ and no agents have pulled that arm in this round (break ties randomly)}
-	\STATE{ we pay whatever it takes to incentivize that arm}\ELSE 
-		\STATE {let the agents play myopically}\ENDIF
-		\STATE $n = min_{i} N(i,t)$
+	\STATE Let $S = \{ i : P( \theta \cdot u_{i,t} > \theta \cdot u_{j,t}\ \forall j\ne i | u_{j,t}\ \forall j) < n^{-1}\}$ be the set of arms with unincentivized probability of being pulled below $n^{-1}$.
+  \IF {$S$ is non-empty}
+    \STATE{Choose an arm $i$ uniformly at random from $S$}
+    \STATE{Pay whatever it takes to incentivize pulling arm $i$, i.e., offer payment 
+    $c_{i,t} = \max_{\theta,j} \theta \cdot (u_{j,t} - u_{i,t})$ and $c_{j,t} = 0$ for $j \ne i$.}
+  \ELSE
+  \STATE {Let agents play myopically, i.e., offer payment $c_{j,t} = 0$ for all $j$}
+  \ENDIF
+  \STATE Update $u_{i,t}$ and $N(i,t)$ for the pulled arm
+  \STATE Update the round number, $n = \min_{i} N(i,t)$
 }\ENDFOR
 
 \end{algorithmic}
@@ -131,7 +137,7 @@ We break ties randomly. If we decides to incentivize an arm, we use ``pay whatev
 
 
 \subsection{Assumptions}
-In this secion, we discuss several assumptions that we need to acheive our results. Throughout this paper, we use $F(\cdot)$ to denote the agent's preference distribution, which could either be a continuous distribution or a discrete distribution. Denote
+In this secion, we discuss several assumptions that we need to acheive our results.  Denote
 
 \begin{align}
 \Omega_{i,j}=\{\theta:B(\theta)=i, \hat{B}(\theta)=j\}, \nonumber 
@@ -152,7 +158,7 @@ Intuitively, assumption~\ref{A1} states that there are not many agents who are i
 Throughout this write up, we use $R$ to denote the maximum regret it can occur at each time. We know $R<\infty$ due to Assumption~\ref{A2}. 
 
 \begin{assumption}
-Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$. Throughout this paper, we assume $p>0$.
+Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$. We assume $p>0$.
 \label{A3}
 \end{assumption}
 
