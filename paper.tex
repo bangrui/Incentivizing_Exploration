@@ -80,7 +80,6 @@ We structure our paper as follows: Section~\ref{sec:prob} formulates our problem
 \label{sec:prob}
 
 We have $N$ arms. Arm $i$ has a fixed but unknown attribute vector $u_i\in \mathbb{R}^{m}$. 
-
 A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn i.i.d. from a known distribution $F(\cdot)$. We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
 
 Each agent $t$ chooses an arm to pull $A_t$, according to a process described below, and obtains utility $\theta_t \cdot u_{A_{t}}$.  The principal and all agents then see a noisy observation of the attribute vector of the pulled arm of the form $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is independent normally distributed noise, and $I_m$ denotes an $m$-dimensional identity matrix.  Although we assume a common variance across attributes for simplicity of presentation, our theoretical results hold if the variance differs.
