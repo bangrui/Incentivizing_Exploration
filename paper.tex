@@ -137,33 +137,31 @@ We describe our algorithm in detail as follows:
 
 
 \subsection{Assumptions}
-In this secion, we discuss several assumptions that we need to acheive our results.  Denote
-
+In this secion, we state several assumptions assumed by our analysis.  First define
 \begin{align}
 \Omega_{i,j}=\{\theta:B(\theta)=i, \hat{B}(\theta)=j\}, \nonumber 
 \end{align}
-which is the users whose best arm is arm $i$ and the second best arm is arm $j$. We need the following assumptions in our analysis:
+which is the set of agent preferences whose best arm is arm $i$ and second best arm is arm $j$. With this definition, our analysis makes the following assumptions:
 
 \begin{assumption} Let $f_{i,j}(y)$ be the marginal probability density function (or marginal probability mass function if $F(\cdot)$ is a discrete distribution) of $(u_i-u_j)\cdot\theta$ conditioned on $\theta \in \Omega_{i,j}$. We assume $M^{'}=\max_{i,j}\limsup_{y\rightarrow 0^{+}}f_{i,j}(y) <\infty$.
 \label{A1}
 \end{assumption}
 
-Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. For simplicity in our analysis, we use a slightly stronger condition below: $M=\max_{i,j}sup_{y\in R^{+}}f_{i,j}(y) <\infty$.
+Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. For simplicity in our analysis, we use a slightly stronger condition below: $M=\max_{i,j}sup_{y\in R^{+}}f_{i,j}(y) <\infty$.  \pfcomment{Let's state the assumption in terms of $M$, which is what our proof uses, and then if you want to say that we can also show similar results for $M'$ we can say that informally here.}
 
 
 \begin{assumption} We assume $F$ has a compact support set. Without loss of generality, we assume $\theta\in [0,W]^m$.
 \label{A2}
 \end{assumption}
 
-Throughout this write up, we use $R$ to denote the maximum regret it can occur at each time. We know $R<\infty$ due to Assumption~\ref{A2}. 
+We use $R = \max_{\theta, i,j} \theta \cdot (u_i - u_j)$ to denote the maximum regret that can be incurred at each time.  Assumption~\ref{A2} shows that $R<\infty$.
 
 \begin{assumption}
 Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$. We assume $p>0$.
 \label{A3}
 \end{assumption}
 
-Assumption~\ref{A3} means for each arm $i$, there exist a positive proportion of users whose best arm is $i$. 
-
+Assumption~\ref{A3} means each arm $i$ has a strictly positive proportion of users for which that arm is best. 
 
 
 \subsection{General Results}
