@@ -168,7 +168,7 @@ Assumption~\ref{A3} means each arm $i$ has a strictly positive proportion of use
 
 \subsection{General Results}
 
-In this section, we prove using Algorithm~\ref{Alg1}, we can achieve $O(N^2+(\log(T))^2)$ regret bound with $O(N^3)$ payment budget.
+In this section, we prove using Algorithm~\ref{Alg1}, we can achieve $O(N^2+M(\log(T))^2)$ regret bound with $O(N)$ payment budget, where $M$ bounds the density of agents who are indifferent between their best and second best arm.
 
 Before we start our analysis, we need the following notations. Denote $S(\delta)$ as the proportion of user whose utility difference between their best arm and the second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Denote $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$. Based on $p(\delta)$'s definition, we know $p(0)=p$. 
 
@@ -341,9 +341,11 @@ Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
 \begin{proof}
 Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$ to be the estimation error for the attribute vector $u_i$ at time $t$. Denote $\epsilon_{i,t}^{j}$ to be the $j^{th}$ component of $\epsilon_{i,t}$. Define
 \begin{align}
-W^{'}[l] = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n,l), \forall i,t,j\}\nonumber
+W^{'}[l] = \{\omega_t:|\epsilon_{i,t}^{j}(\omega)|\leq g(n,l), \forall i,j\}\nonumber
 \end{align}
-where $g(n,l)$ is a function which we will define later. Define $W[1] = W^{'}[1]$ and $W[i] = W^{'}[i]\setminus W^{'}[i-1]$ for $i\geq 2$. Based on the definition of $W[l]$, we know if $\omega\in W[l]$, the maximum payment we need to offer is bounded above by $R+2Wmg(n,l)$. Thus,
+where $g(n,l)$ is a function which we will define later. Define $W[1] = W^{'}[1]$ and $W[i] = W^{'}[i]\setminus W^{'}[i-1]$ for $i\geq 2$. We call $W[l]$ the $l^{th}$ envelope. 
+
+Based on the definition of $W[l]$, we know if $\omega_t\in W[l]$, the maximum payment we need to offer at time $t$ is bounded above by $R+2Wmg(n,l)$. Thus,
 
 \begin{align}
 &\sum_{t=1}^{\infty}c(t) \nonumber \\
@@ -351,7 +353,7 @@ where $g(n,l)$ is a function which we will define later. Define $W[1] = W^{'}[1]
 =&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\infty}c(t)\mathbbm{1}\{\omega_{t}\in w[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
 \end{align}
 
-Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, and $n^{-1}\leq p/2$, we do not need to incentivize any arms. Denote $a_0=\frac{2m}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2m}$, we need $n\geq \lceil a_{0} l\rceil$. In order to hvae $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Thus, we know we can only occur regret in the $l^{th}$ envelope in the first $\max\{n_1,\lceil a_0 l\rceil\}$ rounds.
+Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, then for each arm, at least $\frac{p}{2}$ agents would pull that arm. Further, if our time-varying threshold $n^{-1}\leq p/2$, we do not need to incentivize any arms. Denote $a_0=\frac{2m}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2m}$, we need $n\geq \lceil a_{0} l\rceil$. In order to hvae $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Thus, we know we can only occur regret in the $l^{th}$ envelope in the first $\max\{n_1,\lceil a_0 l\rceil\}$ rounds.
 
 Thus,
 \begin{align}
@@ -374,7 +376,7 @@ We now bound $P(\omega\in W[l]|t\in[t_{n},t_{n+1}))$. \bccomment{Is my calculati
 =&P(|\epsilon_{i,t}^{j}|<\frac{l}{n}, \forall i,j|t\in[t_n,t_{n+1}))-P(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}, \forall i,j|t\in[t_n,t_{n+1})) \nonumber \\
 =&\Pi_{i=1}^{N}\Pi_{j=1}^{m}P\left(|\epsilon_{i,t}^{j}|<\frac{l}{n}|t\in[t_n,t_{n+1})\right)-\Pi_{i=1}^{N}\Pi_{j=1}^{m}P\left(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}|t\in[t_n,t_{n+1})\right). \label{prob:upper}
 \end{align}
-Since we are at round $n$, we know there exists at least one arm, which has been pulled exactly $n$ times. Without loss of generality, we assume it to be arm $1$. Then we know 
+Since we are at round $n$, we know there exists at least one arm, which has been pulled exactly $n$ times. Without loss of generality, we assume it to be arm $1$. Since $P\left(|\epsilon_{i,t}^{j}|<\frac{l}{n}|t\in[t_n,t_{n+1})\right)> P\left(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}|t\in[t_n,t_{n+1})\right)$ for all $i,j$, we know
 
 \begin{align}
 \eqref{prob:upper}&\leq P\left(|\epsilon_{1,t}^{1}|<\frac{l}{n}|t\in[t_n,t_{n+1})\right)-P\left(|\epsilon_{1,t}^{1}|<\frac{l-1}{n}|t\in[t_n,t_{n+1})\right) \nonumber \\
@@ -395,7 +397,7 @@ Denote $k_n=\max\{n_1, \lceil a_0 l \rceil\}$. Then we know
 \begin{align}
 &E\left[\sum_{t=1}^{\infty}c(t)\right] \nonumber\\
 \leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}\left[R+2Wml\right]exp\left(-\frac{(l-1)^2}{2k_n}\right)\sqrt{k_n} \nonumber \\
-\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\left[R+2Wml\right]exp\left(-\frac{(l-1)^2}{2k_n}\right)(k_n)^{3/2}. \nonumber
+\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\left[R+2Wml\right]exp\left(-\frac{(l-1)^2}{2k_n}\right)(k_n)^{3/2}=O(N). \nonumber
 \end{align}
 
 
@@ -515,27 +517,27 @@ The same proof would work and we can get the exact same results as ``pay whateve
 \section{Lower Bound $O(\log(T))$}
 \label{sec:lb}
 
-In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide a example to show the best possible lower bound is $O(N\log(T))$ regardless of the incentivizing strategy.
+In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide a example to show the best possible lower bound is $O(\log(T))$ regardless of the incentivizing strategy.
 
-Suppose you have two arms. Arm $1$ has utility vector $(0,0)$ and arm $2$ has utility vector $(0,1)$. We assume the users' preference are uniformly distributed on the unit circle. If the user knows the true reward for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$.
+Suppose we have two arms. Arm $1$ has attribute vector $(0,0)$ and arm $2$ has attribute vector $(0,1)$. We assume the users' preference are uniformly distributed on the unit circle. If the user knows the true reward for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$.
 
 Consider the following algorithm: at each step, let the agents play myopically; however, they are going to see the noisy rewards for both arms.
 
-For simplicity, we assume that the agents already know the true utility vector for arm $1$. Without loss of generality, denote $u_{t} = (0,1)+(z_{t1},z_{t,2}) = (0,1)+ (N(0,1/t),N(0,1/t))$ to be the estimate reward for arm $2$ (Without loss of generality, we assume the variance for the noise is $1$). 
+To lower bound the regret, we assume that the agents already know the true utility vector for arm $1$. Without loss of generality, denote $u_{2,t} = (0,1)+(z_{t,1},z_{t,2}) = (0,1)+ (N(0,1/t),N(0,1/t))$ to be the estimate reward for arm $2$ (Without loss of generality, we assume the variance for the noise is $1$). 
 
-At time $t$, suppose we know arm $1$ has utility vector $(0,0)$ and arm $2$ has utility vector $u_t\sim (N(0,\frac{1}{t}), N(1,\frac{1}{t}))$. Since we know $(z_{t,1}, z_{t,2})$ is symmetric around $(0,0)$, we know 
+Since $(z_{t,1}, z_{t,2})$ is symmetric around $(0,0)$, we know 
 
 \begin{align}
-&E[r_t] \nonumber \\
-= &E[r_t | z_{t,1}>0,z_{t,2}>0] \times P(z_{t,1}>0,z_{t,2}>0) + E[r_t |z_{t,1}>0,z_{t,2}<0] \times P(z_{t,1}>0,z_{t,2}<0) \nonumber \\
-= &E[r_t | z_{t,1}<0,z_{t,2}>0] \times P(z_{t,1}<0,z_{n,2}>0) + E[r_t |z_{t,1}<0,z_{t,2}<0] \times P(z_{t,1}<0,z_{t,2}<0) \nonumber \\
-\geq & 0.25 \times E[r_t | z_{t,1}>0, z_{t,2}>0]. \nonumber
+&E[r(t)] \nonumber \\
+= &E[r(t) | z_{t,1}>0,z_{t,2}>0] \times P(z_{t,1}>0,z_{t,2}>0) + E[r(t) |z_{t,1}>0,z_{t,2}<0] \times P(z_{t,1}>0,z_{t,2}<0) \nonumber \\
+= &E[r(t) | z_{t,1}<0,z_{t,2}>0] \times P(z_{t,1}<0,z_{n,2}>0) + E[r(t) |z_{t,1}<0,z_{t,2}<0] \times P(z_{t,1}<0,z_{t,2}<0) \nonumber \\
+\geq & 0.25 \times E[r(t) | z_{t,1}>0, z_{t,2}>0]. \nonumber
 \end{align}
 
 Given $z_{t,1}>0$ and $z_{t,2}>0$, we know the user between $(-1,0)$ and $\left(\frac{-1-z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ and the user between $(1,0)$ to $\left(\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{-z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ will make a mistake. And the regret is the absolute value of the second coordinate of the user's preference vector. Thus, we know
 
 \begin{align}
-&E[r_t| z_{t,1}>0, z_{t,2}>0] \nonumber \\
+&E[r(t)| z_{t,1}>0, z_{t,2}>0] \nonumber \\
 =& 4\times 2 \int_{0}^{\infty} \int_{0}^{\infty} \int_{0}^{\arctan\left(\frac{z_{t,1}}{1+z_{t,2}}\right)}\frac{\sin(\theta)}{2\pi}d(\theta)\frac{e^{-\frac{t \times z_{t,1}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(z_{t,1})\frac{e^{-\frac{t \times z_{t,2}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(z_{t,2}) \nonumber \\
 =& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}t\times \left[1-\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right]e^{-\frac{t \times z_{t,1}^2}{2}}e^{-\frac{t \times z_{t,2}^2}{2}}d(z_{t,1})d(z_{t,2}) \nonumber \\
 =& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty} \left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}d(z_{t,1})d(z_{t,2}) \nonumber 
@@ -543,7 +545,7 @@ Given $z_{t,1}>0$ and $z_{t,2}>0$, we know the user between $(-1,0)$ and $\left(
 
 Below, we want to show 
 \begin{align}
-\lim_{t\rightarrow\infty}\frac{E[r_t| z_{t,1}>0, z_{t,2}>0]}{t} = O(1). \nonumber
+\lim_{t\rightarrow\infty}\frac{E[r(t)| z_{t,1}>0, z_{t,2}>0]}{t} = O(1). \nonumber
 \end{align}
 
 Denote $d(t)=t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]$.
@@ -552,10 +554,10 @@ Since
 d^{'}(t)=\frac{-z_{t,1}^2(2z_{t,2}+3\sqrt{t})-2(z_{t,2}+\sqrt{t})^3}{2(z_{t,1}^2+(z_{t,2}+\sqrt{t})^2)^{3/2}}+1. \nonumber
 \end{align}
 
-and $\lim_{t\rightarrow \infty}d^{'}(t)=2$, we know for $n$ large enough, $d(t)$ is a increasing function in terms of t. Thus, based on the Monotone Convergence Theorem, we have
+and $\lim_{t\rightarrow \infty}d^{'}(t)=2$, we know for $t$ large enough, $d(t)$ is a increasing function in terms of t. Thus, based on the Monotone Convergence Theorem, we have
 
 \begin{align}
-&\lim_{t\rightarrow \infty}\frac{E[r_t| z_{t,1}>0, z_{t,2}>0]}{t} \nonumber \\
+&\lim_{t\rightarrow \infty}\frac{E[r(t)| z_{t,1}>0, z_{t,2}>0]}{t} \nonumber \\
 =& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ \left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}\right]d(z_{t,1})d(z_{t,2}) \nonumber  
 \end{align}
 
@@ -567,7 +569,7 @@ Based on Wolframalpha \bccomment{still not sure how to compute this by hand}, we
 \end{align}
 Thus,
 \begin{align}
-&\lim_{t\rightarrow \infty}\frac{E[r_t| z_{t,1}>0, z_{t,2}>0]}{t} \nonumber \\
+&\lim_{t\rightarrow \infty}\frac{E[r(t)| z_{t,1}>0, z_{t,2}>0]}{t} \nonumber \\
 =&\frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ \frac{z_{t,1}^2}{2}e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}\right]d(z_{t,1})d(z_{t,2}) = \frac{1}{2\pi}. \nonumber
 \end{align}
 
