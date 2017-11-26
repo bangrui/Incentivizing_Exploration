@@ -62,7 +62,7 @@ Our problem setting also applies to crowd science platforms like eBird \cite{fra
 % Something interesting to study would be to alter the search rankings to influence people
 % Also which items to spam people about reviewing
 
-In this problem context, we study a simple policy that usually exploits, incentivizing agents to pull an arm only when the set of agent utility functions that would pull this arm without incentives has probability below a time-varying threshold. In our paper, we assume all arms are some agents' best arm. Under this assumption, we prove that with $O(N^2)$ payment budget, this policy has $O(N^2+M(\log(T))^2)$ cumulative expected regret where $M$ is an upper bound on the limiting marginal probability density of agent utilities that are nearly indifferent between their best and the second best arm. If $M=0$, which typically happens when the agent utility distribution is discrete, this policy achieve constant cumulative expected regret $O(N^2)$. The key difference between our problem setting and both the homogenous preference setting and the traditional multi-armed bandits setting is that we must incentivize agents to try suboptimal arms much less often, since all arms are some agents' best arm.  Essentially, heterogeneity provides free exploration.  These results suggest that heterogeneous agent preferences reduce but do not eliminate the need to incentive exploration, in relation to single-preference settings. 
+In this problem context, we study a simple policy that usually exploits, incentivizing agents to pull an arm only when the set of agent utility functions that would pull this arm without incentives has probability below a time-varying threshold. In our paper, we assume all arms are some agents' best arm. Under this assumption, we prove that with $O(N)$ payment budget, this policy has $O(N^2+M(\log(T))^2)$ cumulative expected regret where $M$ is an upper bound on the limiting marginal probability density of agent utilities that are nearly indifferent between their best and the second best arm. \bccomment{We need a stronger condition, see corralary 1} If $M=0$, which typically happens when the agent utility distribution is discrete, this policy achieve constant cumulative expected regret $O(N^2)$. The key difference between our problem setting and both the homogenous preference setting and the traditional multi-armed bandits setting is that we must incentivize agents to try suboptimal arms much less often, since all arms are some agents' best arm.  Essentially, heterogeneity provides free exploration.  These results suggest that heterogeneous agent preferences reduce but do not eliminate the need to incentive exploration, in relation to single-preference settings. 
 
 We broadly categorize the relevant previous literature into two categories based on whether there is money transfer.
 With money transfer, \cite{frazier2014incentivizing} considers a problem setting where the principal pays agents money to explore. This work assumes all agents have equal value for money and provide a complete characterization of achievable reward with a fixed budget. \cite{han2015incentivizing} generalizes this framework to include agents with heterogeneous value for money, and to allow an external signal to provide partial information about this valuation. Under this setting, this work proves a bound on achievable reward as a function of the budget and the signal scheme.
@@ -71,7 +71,7 @@ Without money transfer but using information asymmetry, \cite{kremer2014implemen
 
 
 
-We structure our paper as follows: Section~\ref{sec:prob} formulates our problem; Section~\ref{sec:ub} states our algorithm and proves that we can achieve $O(N^2+M(\log(T))^2)$ regret with $O(N^2)$ incentive budget; Section~\ref{sec:lb} constructs an example showing regret is $\Omega(\log(T))$ in the worst case, regardless of incentive budget.
+We structure our paper as follows: Section~\ref{sec:prob} formulates our problem; Section~\ref{sec:ub} states our algorithm and proves that we can achieve $O(N^2+M(\log(T))^2)$ regret with $O(N)$ incentive budget; Section~\ref{sec:lb} constructs an example showing regret is $\Omega(\log(T))$ in the worst case, regardless of incentive budget.
 
 
 
@@ -175,7 +175,7 @@ Before we start our analysis, we need the following notations. Denote $S(\delta)
 With the help of our assumptions and the above notations, we now state our main results:
 
 \begin{theorem}
-The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N^3)$. 
+The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N)$. 
 \label{rst:budget}
 \end{theorem}
 
