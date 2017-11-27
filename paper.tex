@@ -203,7 +203,7 @@ S(\delta)
 The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n^{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant.
 
 \begin{lemma}
-For those user whose utility difference between their best arm and the second best arm is at least $2m\lambda$, the probability that myopic action can incur regret at any time $t\in [t_{n-1},t_{n}-1]$ in the $n^{th}$ round is bounded above by $24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right)$, for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
+$P(A_t\neq B(\theta_t)|t\in [t_n, t_{n+1}-1],\theta_t\cdot(u_{B(\theta_t)}-u_{\hat{B}(\theta_t)})\geq 2m\lambda)\leq 24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right)$, for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
 \label{round:prob}
 \end{lemma}
 
