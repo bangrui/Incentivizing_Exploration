@@ -140,7 +140,7 @@ We describe our algorithm in detail as follows:
 
 
 \subsection{Assumptions}
-In this secion, we state several assumptions assumed by our analysis.  First define
+In this section, we state several assumptions assumed by our analysis.  First define
 \begin{align}
 \Omega_{i,j}=\{\theta:B(\theta)=i, \hat{B}(\theta)=j\}, \nonumber 
 \end{align}
@@ -168,11 +168,7 @@ Assumption~\ref{A3} means each arm $i$ has a strictly positive proportion of use
 
 \subsection{General Results}
 
-In this section, we prove using Algorithm~\ref{Alg1}, we can achieve $O(N^2+M(\log(T))^2)$ regret bound with $O(N)$ payment budget, where $M$ bounds the density of agents who are indifferent between their best and second best arm.
-
-Before we start our analysis, we need the following notations. Denote $S(\delta)$ as the proportion of user whose utility difference between their best arm and the second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Denote $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$. Based on $p(\delta)$'s definition, we know $p(0)=p$. 
-
-With the help of our assumptions and the above notations, we now state our main results:
+In this section, we prove Algorithm~\ref{Alg1} achieves $O(N^2+M(\log(T))^2)$ cumulative regret with $O(N)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
 
 \begin{theorem}
 The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N)$. 
@@ -185,7 +181,10 @@ The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2 m + M 
 \label{rst:regret}
 \end{theorem}
 
-Before we prove our main results, we need to prove several lemmas. First, based on Assumption~\ref{A1}, we can get the following bound for $S(\delta)$.
+Before we prove these two theorems, we must first introduce two additional pieces of notation, which will be used in preliminary lemmas.  Let $S(\delta)$ be the proportion of users whose utility difference between their best and second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Then, let $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$. We know $p(0)=p$. 
+
+With this additional notation, we now prove several lemmas.
+First, based on Assumption~\ref{A1}, we have the following bound for $S(\delta)$.
 
 \begin{lemma}
 $S(\delta)\leq M\delta$.
@@ -193,12 +192,12 @@ $S(\delta)\leq M\delta$.
 \end{lemma}
 
 \begin{proof}
-\begin{align}
-S(\delta)&=\sum_{B(\theta)=i}\sum_{\hat{B}(\theta)=j}P(\{\theta(u_{i}-u_{j})<\delta\}) \nonumber \\
-&=\sum_{B(\theta)=i}\sum_{\hat{B}(\theta)=j}P(\{\theta(u_{i}-u_{j})<\delta|\theta\in \Omega_{i,j}\})P(\theta\in \Omega_{i,j}) \nonumber \\
-&\leq \sum_{B(\theta)=i}\sum_{\hat{B}(\theta)=j}M\delta \times P(\theta\in \Omega_{i,j}) \nonumber \\
-&=M\delta \nonumber 
-\end{align}
+\begin{align*}
+S(\delta)
+&=\sum_{i,j}P(\theta\cdot(u_{i}-u_{j})<\delta|\theta\in \Omega_{i,j})P(\theta\in \Omega_{i,j}) \\
+&\leq \sum_{i,j}M\delta \times P(\theta\in \Omega_{i,j}) \\
+&=M\delta.
+\end{align*}
 \end{proof}
 
 The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n^{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant.
