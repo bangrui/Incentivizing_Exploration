@@ -203,7 +203,7 @@ S(\delta)
 The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n^{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant. 
 
 \begin{lemma}
-Define $\tau$ to be any random variable that is almost surely between $t_n$ and $t_{n+1}-1$, we have 
+Define $\tau$ to be any stopping time that is almost surely between $t_n$ and $t_{n+1}-1$ with respect to the filteration $\mathcal{F}_{t}=\sigma(A_1,\cdots,A_t,c_1,\cdots,c_t,O_1,\cdots,O_t)$, we have 
 \begin{align}
 P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right), \nonumber
 \end{align}
@@ -260,13 +260,13 @@ Thus, we know our lemma is true.
 To prove Lemma~\ref{round:prob}, we also need to use an adaptive concentration inequality due to \cite{zhao2016adaptive}. For reference, we state it here as a Lemma.
 
 \begin{lemma}[Corollary 1 in \cite{zhao2016adaptive}]
-Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any random variable taking values in $\mathbb{N}$. If
+Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any stopping time with respect to $\{X_1,X_2,\cdots\}$. We let $J$ take a special value $\infty$ where $P(J=\infty)=1-\lim_{n\rightarrow \infty}P(J\leq n)$. If
 \begin{align}
 f(n)=\sqrt{0.6n\log(\log_{1.1}(n)+1)+bn}, \nonumber
 \end{align}
 then
 \begin{align}
-Pr[S_{J}\geq f(J)]\leq 12e^{-1.8b}. \nonumber
+Pr[\{S_{J}\geq f(J)\}\cap \{J<\infty\}]\leq 12e^{-1.8b}. \nonumber
 \end{align}
 \label{ACI-inequality}
 \end{lemma}
