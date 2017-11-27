@@ -316,19 +316,21 @@ Using our algorithm, we have $\mathbb{E}[t_{n}-t_{n-1}]\leq Nn$, $\forall n\geq 
 
 
 \begin{proof}
-In each round, each arm needs to be pulled at least once. Denote $X_{i}$ to be the number of agents come to the system between $i-1$ different arms were pulled and the $i^{th}$ different arm was pulled. Then we know 
-\begin{align}
-\mathbb{E}[t_{n}-t_{n-1}]=\sum_{i=1}^{N}E[X_{i}]. \nonumber
-\end{align}
+	A round completes when each arm is pulled at least once in that round. Let $X_{i}$ be the number of agents who come to the system between the time after the $i-1^{th}$ unique arm was pulled, up to and including the time when the $i^{th}$ unique arm was pulled. Then we know 
+\begin{equation*}
+\mathbb{E}[t_{n}-t_{n-1}]=\sum_{i=1}^{N}E[X_{i}].
+\end{equation*}
 
 
-Denote $t^{0}=t_{n-1}+\sum_{j=1}^{i-1}X_{j}$, then $X_{i}$ follows a ``geometric distribution'', which counts the total number of trials before the $i^{th}$ different arm were pulled at time $t=t^{0},t^{0}+1,\cdots$. At each time $t=t^{0}, t^{0}+1,\cdots$, there are two possibilities for a success trial:
+Fix $i$.
+% and let $t^{0}=t_{n-1}+\sum_{j=1}^{i-1}X_{j}$. $X_{i}$ is a random variable that counts the number of trials before the $i^{th}$ unique arm is pulled, with trials occuring at times $t=t^{0},t^{0}+1,\cdots$. 
+In bounding $X_i$, we think of agents as ``trials'', where each trial can result in a new unique arm being pulled (which we call a ``successful'' trial), or not.  There are two ways a trial can be successful:
 \begin{itemize}
-\item If there exists an arm has not been pulled and the proportion of agents who would pull this arm is less than $n^{-1}$, then based on our algorithm, the principal will offer an payment for that arm and it will be pulled. In this case, the probability that the $i^{th}$ different arm will be pulled is 1.  
-\item There exists at least $n^{-1}$ proportion of agents who will choose an un-pulled arm as his/her myopic action. In this case, the probability that the $i^{th}$ different arm will be pulled is at least $n^{-1}$.
+\item If there is at least one arm that has not been pulled and the probability of an agent utility function that would pull this arm without incentives is less than $n^{-1}$, then the principal will offer an incentive that causes this arm to be pulled (or one of these arms if there is more than one). In this case, the probability that the trial is succesful is $1$.  
+\item The probability of an agent utility function that would pull each un-pulled arm without incentives is at least $n^{-1}$. In this case, the probability that the trial is successful is at least $n^{-1}$.
 \end{itemize}
 
-Since $X_{i}$ follows a ``geometric distribution'' with success probability at least $n^{-1}$ at each time, we know 
+Thus, $X_{i}$ is stochastically dominated below by a geometric random variable with success probability $n^{-1}$, the expected number of trials up to and including the first success, $E[X_i]$, is bounded above by $n$.  Thus,
 \begin{align}
 E[t_{n}-t_{n-1}]\leq Nn. \nonumber
 \end{align}
@@ -344,13 +346,14 @@ W^{'}[l] = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n(t,\omega),l), \forall i
 \end{align}
 where $g(n,l)$ is a function which we will define later. Define $W[1] = W^{'}[1]$ and $W[i] = W^{'}[i]\setminus W^{'}[i-1]$ for $i\geq 2$. We call $W[l]$ the $l^{th}$ envelope. 
 
-Based on the definition of $W[l]$, we know if $\omega_t\in W[l]$, the maximum payment we need to offer at time $t$ is bounded above by $R+2Wmg(n,l)$. Thus,
+Based on the definition of $W[l]$, we know if $\omega_t\in W[l]$, the maximum payment we need to offer at time $t$ is bounded above by $R+2Wmg(n,l)$.  \pfcomment{Do we need the $W$ here?  Can we drop it?} Thus,
 
 \begin{align}
 &\sum_{t=1}^{\infty}c(t) \nonumber \\
 =&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}c(t)\mathbbm{1}\{\omega_{t}\in w[l]\} \nonumber \\
 =&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\infty}c(t)\mathbbm{1}\{\omega_{t}\in w[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
 \end{align}
+\pfcomment{Above, should $w$ be $W$?}
 
 Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, then for each arm, at least $\frac{p}{2}$ agents would pull that arm. Further, if our time-varying threshold $n^{-1}\leq p/2$, we do not need to incentivize any arms. Denote $a_0=\frac{2m}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2m}$, we need $n\geq \lceil a_{0} l\rceil$. In order to hvae $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Thus, we know we can only incur regret in the $l^{th}$ envelope in the first $\max\{n_1,\lceil a_0 l\rceil\}$ rounds.
 
