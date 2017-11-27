@@ -203,7 +203,7 @@ S(\delta)
 The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n^{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant.
 
 \begin{lemma}
-For those user whose utility difference between their best arm and the second best arm is at least $2m\lambda$, the probability that myopic action can incur regret at any time $t\in [t_{n-1},t_{n}-1]$ in the $n^{th}$ round is bounded above by $24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right)$, for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
+For those users whose utility difference between their best arm and the second best arm is at least $2m\lambda$, the probability that a myopic action can incur regret at any time $t\in [t_{n-1},t_{n}-1]$ in the $n^{th}$ round is bounded above by $24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right)$, for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
 \label{round:prob}
 \end{lemma}
 
@@ -234,21 +234,21 @@ Thus, we know
 \frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{n}{3+\log(n)}. \nonumber 
 \end{align}
 
-In order to prove the original lemma, we just need to show for $n\geq n_{0}$, we have
+To prove the lemma, we just need to show for $n\geq n_{0}$, we have
 \begin{align}
 \frac{n}{3+\log(n)}\geq \frac{4.8\sigma^2}{\lambda^2}. \label{n0-equ}
 \end{align}
-Inequality~(\ref{n0-equ}) is true because the following two observations:
+Inequality~(\ref{n0-equ}) is true because of the following two observations:
 \begin{itemize}
 \item for $n\geq 50$, we have $\frac{n}{3+\log(n)}\geq n^{0.5}$;
-\item $n\geq \frac{23.04\sigma^4}{\lambda^4}$ we have $n^{0.5}\geq {4.8\sigma^{2}}{\lambda^{2}}$.
+\item for $n\geq \frac{23.04\sigma^4}{\lambda^4}$, we have $n^{0.5}\geq {4.8\sigma^{2}}{\lambda^{2}}$.
 \end{itemize}
 
 Thus, we know our lemma is true.
 
 \end{proof}
 
-We also need to use an adaptive concentration inequality, which is introduce in \cite{zhao2016adaptive}. For reference, we state it as a Lemma.
+To prove Lemma~\ref{round:prob}, we also need to use an adaptive concentration inequality due to \cite{zhao2016adaptive}. For reference, we state it here as a Lemma.
 
 \begin{lemma}[Corollary 1 in \cite{zhao2016adaptive}]
 Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any random variable taking value in $\mathbb{N}$. If
@@ -263,9 +263,9 @@ Pr[S_{J}\geq f(J)]\leq 12e^{-1.8b}. \nonumber
 \end{lemma}
 
 
-Now we can get back to prove Lemma~\ref{round:prob}.
+We now prove Lemma~\ref{round:prob}.
 
-\begin{proof}
+\begin{proof}[Proof of Lemma~\ref{round:prob}]
 In the $n^{th}$ round, we know all arms have been pulled at least $n$ times. Thus, the probability that myopic action can occur regret is bounded by
 \begin{align}
 &P(\text{myopic action incurs regret})\nonumber \\
