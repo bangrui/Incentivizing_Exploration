@@ -251,7 +251,7 @@ Thus, we know our lemma is true.
 To prove Lemma~\ref{round:prob}, we also need to use an adaptive concentration inequality due to \cite{zhao2016adaptive}. For reference, we state it here as a Lemma.
 
 \begin{lemma}[Corollary 1 in \cite{zhao2016adaptive}]
-Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any random variable taking value in $\mathbb{N}$. If
+Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any random variable taking values in $\mathbb{N}$. If
 \begin{align}
 f(n)=\sqrt{0.6n\log(\log_{1.1}(n)+1)+bn}, \nonumber
 \end{align}
@@ -266,7 +266,7 @@ Pr[S_{J}\geq f(J)]\leq 12e^{-1.8b}. \nonumber
 We now prove Lemma~\ref{round:prob}.
 
 \begin{proof}[Proof of Lemma~\ref{round:prob}]
-In the $n^{th}$ round, we know all arms have been pulled at least $n$ times. Thus, the probability that myopic action can occur regret is bounded by
+In the $n^{th}$ round, we know all arms have been pulled at least $n$ times. Thus, the probability that a myopic action can incur regret is bounded by
 \begin{align}
 &P(\text{myopic action incurs regret})\nonumber \\
 \leq &P(\exists i, \exists j, |u_{i,t}^{j}-u_{i}^{j}|>\lambda) \nonumber \\
@@ -352,7 +352,7 @@ Based on the definition of $W[l]$, we know if $\omega_t\in W[l]$, the maximum pa
 =&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\infty}c(t)\mathbbm{1}\{\omega_{t}\in w[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
 \end{align}
 
-Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, then for each arm, at least $\frac{p}{2}$ agents would pull that arm. Further, if our time-varying threshold $n^{-1}\leq p/2$, we do not need to incentivize any arms. Denote $a_0=\frac{2m}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2m}$, we need $n\geq \lceil a_{0} l\rceil$. In order to hvae $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Thus, we know we can only occur regret in the $l^{th}$ envelope in the first $\max\{n_1,\lceil a_0 l\rceil\}$ rounds.
+Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, then for each arm, at least $\frac{p}{2}$ agents would pull that arm. Further, if our time-varying threshold $n^{-1}\leq p/2$, we do not need to incentivize any arms. Denote $a_0=\frac{2m}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2m}$, we need $n\geq \lceil a_{0} l\rceil$. In order to hvae $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Thus, we know we can only incur regret in the $l^{th}$ envelope in the first $\max\{n_1,\lceil a_0 l\rceil\}$ rounds.
 
 Thus,
 \begin{align}
@@ -424,15 +424,15 @@ Thus, we know the expected number of payments is bounded above by $O(N^2)$.
 Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
 
 \begin{proof}
-For regret occurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.
+For regret incurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.
 
-For regret occurred after the first $n_0$ round, it has two different components: the regret occurred when we let the agents play myopically and the regret occured when we incentivize the agents. For the regret occurred when we let the agents play myopically at time t, it consists of the following two components:
+For regret incurred after the first $n_0$ round, it has two different components: the regret incurred when we let the agents play myopically and the regret incurred when we incentivize the agents. For the regret incurred when we let the agents play myopically at time t, it consists of the following two components:
 \begin{itemize}
-\item For those user whose utility difference between their best and the second best arm is greater than $f(t)$: suppose it is at the $n(t)^{th}$ round, the probability of these user making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)$ at time $t$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)\times R$. We denote the regret occured by these agents as $r_1(t)$.
-\item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret occured by these agents as $r_2(t)$.
+\item For those user whose utility difference between their best and the second best arm is greater than $f(t)$: suppose it is at the $n(t)^{th}$ round, the probability of these user making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)$ at time $t$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(t)$.
+\item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
-Thus, the cumulative expected regret occured up to time $T$ when we let the agent play myopically is bounded above by:
+Thus, the cumulative expected regret incurred up to time $T$ when we let the agent play myopically is bounded above by:
 \begin{align}
 &E\left[\sum_{t=1}^{T}r(t)\right] \nonumber \\
 =&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
@@ -444,7 +444,7 @@ Thus, the cumulative expected regret occured up to time $T$ when we let the agen
 \leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \label{equ:regret}
 \end{align}
 
-The expected regret occurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus the cumulative regret at time $T$ is bounded above by
+The expected regret incurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
 &\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
 + & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}R+N\left(\max\left\{n_{0},\frac{2}{p}\right\}\right)R. \nonumber
