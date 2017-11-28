@@ -281,13 +281,14 @@ In the $n^{th}$ round, we know all arms have been pulled at least $n$ times. For
 \geq & \theta\cdot(u_{B(\theta),t}-u_{B(\theta)}) + \theta\cdot(u_{K(\theta)}-u_{K(\theta),t}) + \theta\cdot(u_{B(\theta)}-u_{K(\theta)}) \nonumber \\
 \geq & -Wm\lambda - Wm\lambda + 2Wm\lambda = 0,\nonumber
 \end{align}
-which means their myopic action would occur no regret.
+which means their myopic action would incur no regret.
+\pfcomment{If all of these are equality, can the agent choose a regret-incurring option?  Do we need strict inequalities?}
 
 
 Thus, we have
 \begin{align}
 &P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\nonumber \\
-\leq &P(\exists i, \exists j, |u_{i,\tau}^{j}-u_{i}^{j}|>\lambda)|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda \nonumber \\
+\leq &P(\exists i, \exists j, |u_{i,\tau}^{j}-u_{i}^{j}|>\lambda |\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda \nonumber \\
 \leq & \sum_{i}\sum_{j} P(|u_{i,\tau}^{j}-u_{i}^{j}|>\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
 = &  \sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda). \label{ACI}
 \end{align}
