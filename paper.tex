@@ -361,7 +361,7 @@ L^{'}[l](t) = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n(t,\omega),l), \foral
 \end{align}
 where $g(n,l)$ is a function which we will define later. Define $L[1](t) = L^{'}[1](t)$ and $L[i](t) = L^{'}[i](t)\setminus L^{'}[i-1](t)$ for $i\geq 2$. We call $L[l](t)$ the $l^{th}$ envelope at time $t$. We often simplify the notation and use $L[l]$ instead of $L[l](t)$ without confusion.
 
-In the calculation below, we omit the dependency on $\omega$ when refering to variables $c(t)$ and $t_n$. Based on the definition of $L[l]$, we know if $\omega\in L[l]$, the maximum payment we need to offer at time $t$ is bounded above by 
+In the calculation below, we omit the dependency on $\omega$ when refering to variables $c(t)$, $\epsilon_{i,t}^{j}$ and $t_n$. Based on the definition of $L[l]$, we know if $\omega\in L[l]$, the maximum payment we need to offer at time $t$ is bounded above by 
 \begin{align}
 &\max_{i}\theta_t\cdot u_{i,t} - \min_{j}\theta_t\cdot u_{j,t} \nonumber \\
 = &\max_{i}\theta_t\cdot (\epsilon_{i,t}+u_i) - \min_{j}\theta_t\cdot (\epsilon_{j,t}+u_j) \nonumber \\
@@ -389,17 +389,19 @@ Therefore,
 \begin{align}
 &E\left[\sum_{t=1}^{\infty}c(t)\right] \nonumber\\
 =&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}E[c(t)|\omega \in L[l],t\in [t_n,t_{n+1}))P(\omega\in L[l],t\in [t_n,t_{n+1})) \nonumber \\
-=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})) \nonumber \\
-=&\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))Nn. \nonumber
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})). \nonumber
 \end{align}
 
-We now bound $P(\omega\in L[l]|t\in[t_{n},t_{n+1}))$. \bccomment{Is my calculation to bound this probability correct?}
+We now bound $P(\omega\in L[l]|t\in[t_{n},t_{n+1}))$.
 \begin{align}
 &P(\omega\in L[l]|t\in[t_{n},t_{n+1})) \nonumber \\
 =&P(\omega\in L^{'}[l]|t\in[t_{n},t_{n+1}))- P(\omega\in L^{'}[l-1]|t\in[t_{n},t_{n+1})) \nonumber \\
-=&P(|\epsilon_{i,t}^{j}|<\frac{l}{n}, \forall i,j|t\in[t_n,t_{n+1}))-P(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}, \forall i,j|t\in[t_n,t_{n+1})) \nonumber \\
-=&\Pi_{i=1}^{N}\Pi_{j=1}^{m}P\left(|\epsilon_{i,t}^{j}|<\frac{l}{n}|t\in[t_n,t_{n+1})\right)-\Pi_{i=1}^{N}\Pi_{j=1}^{m}P\left(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}|t\in[t_n,t_{n+1})\right). \label{prob:upper}
+\leq & 1-P(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}, \forall i,j|t\in[t_n,t_{n+1})) \nonumber \\
+=&P(\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{l-1}{n}|t\in[t_n,t_{n+1})) \nonumber  \\
+=&\sum_{i,j}P(|\epsilon_{i,t}^{j}|\geq \frac{l-1}{n}|t\in[t_n,t_{n+1})) \nonumber \\
+=&\sum_{i,j}P(|S_{i,t}^{j}|\geq \frac{N(i,t)(l-1)}{n}|t\in[t_n,t_{n+1})) \nonumber 
 \end{align}
+
 Since we are at round $n$, we know there exists at least one arm, which has been pulled exactly $n$ times. Without loss of generality, we assume it to be arm $1$. Since $P\left(|\epsilon_{i,t}^{j}|<\frac{l}{n}|t\in[t_n,t_{n+1})\right)> P\left(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}|t\in[t_n,t_{n+1})\right)$ for all $i,j$, we know
 
 \begin{align}
