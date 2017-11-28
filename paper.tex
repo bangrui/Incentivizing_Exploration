@@ -203,7 +203,7 @@ S(\delta)
 The following lemma bounds the probability of making a mistake if we let the agents play myopically in the $n^{th}$ round, given that the utility difference between his/her best and second best arm is bounded below by a constant. 
 
 \begin{lemma}
-Define $\tau$ to be any stopping time that is almost surely between $t_n$ and $t_{n+1}-1$ with respect to the filteration $\mathcal{F}_{t}=\sigma(A_1,\cdots,A_t,c_1,\cdots,c_t,O_1,\cdots,O_t)$, we have 
+Define $\tau$ to be any stopping time that is almost surely between $t_n$ and $t_{n+1}-1$ with respect to the filtration $\mathcal{F}_{t}=\sigma(A_1,\cdots,A_t,c_1,\cdots,c_t,O_1,\cdots,O_t)$, we have 
 \begin{align}
 P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right), \nonumber
 \end{align}
@@ -211,11 +211,12 @@ for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
 \label{round:prob}
 \end{lemma}
 
-Denote $n(\tau)$ to be the round number of $\tau$, then we can restate the above lemma as
-\begin{align}
-P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n(\tau)\lambda^2}{8\sigma^2}\right), \nonumber
-\end{align}
-for $n(\tau)\geq n_{0}$. For simplicity, we use $n=n(\tau)$.
+% We don't need this
+% Denote $n(\tau)$ to be the round number of $\tau$, then we can restate the above lemma as
+%\begin{align}
+%P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n(\tau)\lambda^2}{8\sigma^2}\right), \nonumber
+%\end{align}
+%for $n(\tau)\geq n_{0}$. For simplicity, we use $n=n(\tau)$.
 
 We need the following lemma in order to prove Lemma~\ref{round:prob}.
 
@@ -260,7 +261,7 @@ Thus, we know our lemma is true.
 To prove Lemma~\ref{round:prob}, we also need to use an adaptive concentration inequality due to \cite{zhao2016adaptive}. For reference, we state it here as a Lemma.
 
 \begin{lemma}[Corollary 1 in \cite{zhao2016adaptive}]
-Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any stopping time with respect to $\{X_1,X_2,\cdots\}$. We let $J$ take a special value $\infty$ where $P(J=\infty)=1-\lim_{n\rightarrow \infty}P(J\leq n)$. If
+Let $X_{i}$ be zero mean $1/2$-subgaussian random variables. $\{S_{n}=\sum_{i=1}^{n}X_{i},n\geq 1\}$ be a random walk. Let $J$ be any stopping time with respect to $\{X_1,X_2,\cdots\}$. We allow $J$ to take the value of $\infty$ where $P(J=\infty)=1-\lim_{n\rightarrow \infty}P(J\leq n)$. If
 \begin{align}
 f(n)=\sqrt{0.6n\log(\log_{1.1}(n)+1)+bn}, \nonumber
 \end{align}
@@ -288,17 +289,19 @@ which means their myopic action would incur no regret.
 Thus, we have
 \begin{align}
 &P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\nonumber \\
-\leq &P(\exists i, \exists j, |u_{i,\tau}^{j}-u_{i}^{j}|>\lambda |\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda \nonumber \\
+\leq &P(\exists i, \exists j, |u_{i,\tau}^{j}-u_{i}^{j}|>\lambda |\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
 \leq & \sum_{i}\sum_{j} P(|u_{i,\tau}^{j}-u_{i}^{j}|>\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
-= &  \sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda). \label{ACI}
+= &  \sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,\tau)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda). \label{ACI}
 \end{align}
 
-To bound equation~(\ref{ACI}), we need to use Lemma~\ref{ACI-inequality}. Similar to Lemma~\ref{ACI-inequality}, we define
+\pfcomment{where is $\epsilon^j_{i,\tau}$ defined?  has it been defined yet?}
+
+To bound equation~(\ref{ACI}), we use Lemma~\ref{ACI-inequality}. Similar to Lemma~\ref{ACI-inequality}, we define
 \begin{align}
 S_{N(i,\tau)}^{i,j}=\frac{\epsilon_{i,\tau}^{j}}{\sqrt{2}\sigma}. \nonumber
 \end{align}
 
-Based on Lemma~\ref{n0-inequality}, we know there exists a $n_{0}=\max\{50, \frac{23.04\sigma^2}{\lambda^2}\}$ such that for $n\geq n_{0}$, we have
+Based on Lemma~\ref{n0-inequality}, for $n_{0}=\max\{50, \frac{23.04\sigma^2}{\lambda^2}\}$ and $n\geq n_{0}$, we have
 \begin{align}
 \frac{n\lambda}{2\sqrt{2}\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)}. \nonumber
 \end{align}
