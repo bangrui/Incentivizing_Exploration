@@ -146,11 +146,11 @@ In this section, we state several assumptions assumed by our analysis.  First de
 \end{align}
 which is the set of agent preferences whose best arm is arm $i$ and second best arm is arm $j$. With this definition, our analysis makes the following assumptions:
 
-\begin{assumption} Let $f_{i,j}(y)$ be the marginal probability density function (or marginal probability mass function if $F(\cdot)$ is a discrete distribution) of $(u_i-u_j)\cdot\theta$ conditioned on $\theta \in \Omega_{i,j}$. We assume $\max_{i,j}\sup_{y}f_{i,j}(y)\leq M$. 
+\begin{assumption} Let $F_{i,j}(y)$ be the marginal cumulative density function (or cumulative mass function if $F(\cdot)$ is a discrete distribution) of $(u_i-u_j)\cdot\theta$ conditioned on $\theta \in \Omega_{i,j}$. We assume $F_{i,j}(y)\leq My$ for all $y\in R^{+}$, $\forall i,j$. 
 \label{A1}
 \end{assumption}
 
-As we can see later in our proof, we only need $\max_{i,j}\limsup_{y\rightarrow 0^{+}}f_{i,j}(y)$ to be finite. Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. 
+As we can see later in our proof, we only need $\max_{i,j}\limsup_{y\rightarrow 0^{+}}\frac{F_{i,j}(y)}{y}$ to be finite. Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. 
 
 \begin{assumption} We assume $F$ has a compact support set. Without loss of generality, we assume $\theta\in [0,W]^m$.
 \label{A2}
@@ -494,7 +494,7 @@ Thus, the cumulative expected regret is bounded by $O(N^2 m + M m^2\log(T))$.
 \end{proof}
 
 \begin{corollary}
-If $\exists \delta>0$ such that $f_{i,j}(y)=0$ for all $i,j$ and $y\in [0,\delta]$, then the cumulative expected regret is bounded by $O(N^2)$.
+If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumulative expected regret is bounded by $O(N^2)$.
 \end{corollary}
 
 \begin{proof}
