@@ -205,18 +205,12 @@ The following lemma bounds the probability of making a mistake if we let the age
 \begin{lemma}
 Define $\tau$ to be any stopping time that is almost surely between $t_n$ and $t_{n+1}-1$ with respect to the filtration $\mathcal{F}_{t}=\sigma(A_1,\cdots,A_t,c_1,\cdots,c_t,O_1,\cdots,O_t)$, we have 
 \begin{align}
-P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right), \nonumber
+P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right), \nonumber
 \end{align}
 for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
 \label{round:prob}
 \end{lemma}
 
-% We don't need this
-% Denote $n(\tau)$ to be the round number of $\tau$, then we can restate the above lemma as
-%\begin{align}
-%P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n(\tau)\lambda^2}{8\sigma^2}\right), \nonumber
-%\end{align}
-%for $n(\tau)\geq n_{0}$. For simplicity, we use $n=n(\tau)$.
 
 We need the following lemma in order to prove Lemma~\ref{round:prob}.
 
@@ -280,21 +274,18 @@ In the $n^{th}$ round, we know all arms have been pulled at least $n$ times. For
 \begin{align}
 &\theta\cdot(u_{B(\theta),t}-u_{K(\theta),t}) \nonumber \\
 \geq & \theta\cdot(u_{B(\theta),t}-u_{B(\theta)}) + \theta\cdot(u_{K(\theta)}-u_{K(\theta),t}) + \theta\cdot(u_{B(\theta)}-u_{K(\theta)}) \nonumber \\
-\geq & -Wm\lambda - Wm\lambda + 2Wm\lambda = 0,\nonumber
+> & -Wm\lambda - Wm\lambda + 2Wm\lambda = 0,\nonumber
 \end{align}
 which means their myopic action would incur no regret.
-\pfcomment{If all of these are equality, can the agent choose a regret-incurring option?  Do we need strict inequalities?}
 
 
-Thus, we have
+Define $\epsilon_{i,\tau}=u_{i,\tau}-u_i$ and $\epsilon_{i,\tau}^{j}$ to be the $j^{th}$ component of $\epsilon_{i,\tau}$. Thus, we have
 \begin{align}
-&P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)\nonumber \\
-\leq &P(\exists i, \exists j, |u_{i,\tau}^{j}-u_{i}^{j}|>\lambda |\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
-\leq & \sum_{i}\sum_{j} P(|u_{i,\tau}^{j}-u_{i}^{j}|>\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
-= &  \sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,\tau)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda). \label{ACI}
+&P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)\nonumber \\
+\leq &P(\exists i, \exists j, |u_{i,\tau}^{j}-u_{i}^{j}|>\lambda |\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+\leq & \sum_{i}\sum_{j} P(|u_{i,\tau}^{j}-u_{i}^{j}|>\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+= &  \sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,\tau)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda). \label{ACI}
 \end{align}
-
-\pfcomment{where is $\epsilon^j_{i,\tau}$ defined?  has it been defined yet?}
 
 To bound equation~(\ref{ACI}), we use Lemma~\ref{ACI-inequality}. Similar to Lemma~\ref{ACI-inequality}, we define
 \begin{align}
@@ -313,17 +304,21 @@ Thus, if we set $b=\frac{n\lambda^2}{8\sigma^2}$ in Lemma~\ref{ACI-inequality}, 
 \end{align}
 where the last inequality is because $\sqrt{x}+\sqrt{y}\geq \sqrt{x+y}$. Thus, we have
 \begin{align}
-&P(|\epsilon_{i,\tau}^{j}|>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
-=&2P\left(S_{N(i,\tau)}^{i,j}>\frac{N(i,\tau)\lambda}{\sqrt{2}\sigma}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
-\leq & 2P\left(S_{N(i,\tau)}^{i,j}> \sqrt{0.6 N_{i,\tau}\log(\log_{1.1}(N(i,\tau))+1)+b N(i,\tau)}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda) \nonumber \\
-\leq & 24\exp( -1.8b) \nonumber \\
-= & 24\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber
+&P(\epsilon_{i,\tau}^{j}>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+=&P\left(S_{N(i,\tau)}^{i,j}>\frac{N(i,\tau)\lambda}{\sqrt{2}\sigma}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+\leq & P\left(S_{N(i,\tau)}^{i,j}> \sqrt{0.6 N_{i,\tau}\log(\log_{1.1}(N(i,\tau))+1)+b N(i,\tau)}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+\leq & 12\exp( -1.8b) = 12\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber
+\end{align}
+Similarily, we can bound 
+\begin{align}
+&P(\epsilon_{i,\tau}^{j}<-N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+=&P(-\epsilon_{i,\tau}^{j}>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+\leq & 12\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber 
 \end{align}
 
-
-Thus, we know
+Therefore, we know $P(\epsilon_{i,\tau}^{j}>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)\leq 24\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right)$. Thus, we know
 \begin{align}
-&\sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})\geq 2Wm\lambda)  \nonumber \\
+&\sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)  \nonumber \\
 \leq& 24Nm \exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber
 \end{align}
 
@@ -344,9 +339,7 @@ Using our algorithm, we have $\mathbb{E}[t_{n}-t_{n-1}]\leq Nn$, $\forall n\geq 
 \end{equation*}
 
 
-Fix $i$.
-% and let $t^{0}=t_{n-1}+\sum_{j=1}^{i-1}X_{j}$. $X_{i}$ is a random variable that counts the number of trials before the $i^{th}$ unique arm is pulled, with trials occuring at times $t=t^{0},t^{0}+1,\cdots$. 
-In bounding $X_i$, we think of agents as ``trials'', where each trial can result in a new unique arm being pulled (which we call a ``successful'' trial), or not.  There are two ways a trial can be successful:
+Fix $i$. In bounding $X_i$, we think of agents as ``trials'', where each trial can result in a new unique arm being pulled (which we call a ``successful'' trial), or not.  There are two ways a trial can be successful:
 \begin{itemize}
 \item If there is at least one arm that has not been pulled and the probability of an agent utility function that would pull this arm without incentives is less than $n^{-1}$, then the principal will offer an incentive that causes this arm to be pulled (or one of these arms if there is more than one). In this case, the probability that the trial is succesful is $1$.  
 \item The probability of an agent utility function that would pull each un-pulled arm without incentives is at least $n^{-1}$. In this case, the probability that the trial is successful is at least $n^{-1}$.
@@ -368,7 +361,15 @@ W^{'}[l] = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n(t,\omega),l), \forall i
 \end{align}
 where $g(n,l)$ is a function which we will define later. Define $W[1] = W^{'}[1]$ and $W[i] = W^{'}[i]\setminus W^{'}[i-1]$ for $i\geq 2$. We call $W[l]$ the $l^{th}$ envelope. 
 
-Based on the definition of $W[l]$, we know if $\omega_t\in W[l]$, the maximum payment we need to offer at time $t$ is bounded above by $R+2Wmg(n,l)$.  \pfcomment{Do we need the $W$ here?  Can we drop it?} Thus,
+Based on the definition of $W[l]$, we know if $\omega_t\in W[l]$, the maximum payment we need to offer at time $t$ is bounded above by 
+\begin{align}
+&\max_{i}\theta_t\cdot u_{i,t} - \min_{j}\theta_t\cdot u_{j,t} \nonumber \\
+= &\max_{i}\theta_t\cdot (\epsilon_{i,t}+u_i) - \min_{j}\theta_t\cdot (\epsilon_{j,t}+u_j) \nonumber \\
+\leq &\max_{i}\theta_t\cdot u_i - \min_{j}\theta_t\cdot u_j +\max_{i}\theta_t\cdot \epsilon_{i,t} - \min_{j}\theta_t\cdot \epsilon_{j,t}\nonumber \\
+\leq & R + 2Wmg(n,l). \nonumber
+\end{align}
+
+Thus,
 
 \begin{align}
 &\sum_{t=1}^{\infty}c(t) \nonumber \\
