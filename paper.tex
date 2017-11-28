@@ -357,11 +357,11 @@ Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
 \begin{proof}
 Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$ to be the estimation error for the attribute vector $u_i$ at time $t$. Denote $\epsilon_{i,t}^{j}$ to be the $j^{th}$ component of $\epsilon_{i,t}$. Denote $\omega$ to be a sample path and $n(t,\omega)$ to be the round number for sample path $\omega$ at time $t$. For a fixed time $t$, define
 \begin{align}
-W^{'}[l](t) = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n(t,\omega),l), \forall i,j\}\nonumber
+L^{'}[l](t) = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n(t,\omega),l), \forall i,j\}\nonumber
 \end{align}
-where $g(n,l)$ is a function which we will define later. Define $W[1](t) = W^{'}[1](t)$ and $W[i](t) = W^{'}[i](t)\setminus W^{'}[i-1](t)$ for $i\geq 2$. We call $W[l](t)$ the $l^{th}$ envelope at time $t$. We often simplify the notation and use $W[l]$ instead of $W[l](t)$ without confusion.
+where $g(n,l)$ is a function which we will define later. Define $L[1](t) = L^{'}[1](t)$ and $L[i](t) = L^{'}[i](t)\setminus L^{'}[i-1](t)$ for $i\geq 2$. We call $L[l](t)$ the $l^{th}$ envelope at time $t$. We often simplify the notation and use $L[l]$ instead of $L[l](t)$ without confusion.
 
-Based on the definition of $W[l]$, we know if $\omega\in W[l]$, the maximum payment we need to offer at time $t$ is bounded above by 
+In the calculation below, we omit the dependency on $\omega$ when refering to variables $c(t)$ and $t_n$. Based on the definition of $L[l]$, we know if $\omega\in L[l]$, the maximum payment we need to offer at time $t$ is bounded above by 
 \begin{align}
 &\max_{i}\theta_t\cdot u_{i,t} - \min_{j}\theta_t\cdot u_{j,t} \nonumber \\
 = &\max_{i}\theta_t\cdot (\epsilon_{i,t}+u_i) - \min_{j}\theta_t\cdot (\epsilon_{j,t}+u_j) \nonumber \\
@@ -373,31 +373,30 @@ Thus,
 
 \begin{align}
 &\sum_{t=1}^{\infty}c(t) \nonumber \\
-=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}c(t)\mathbbm{1}\{\omega\in w[l]\} \nonumber \\
-=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\infty}c(t)\mathbbm{1}\{\omega\in w[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}c(t)\mathbbm{1}\{\omega\in L[l]\} \nonumber \\
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\infty}c(t)\mathbbm{1}\{\omega\in L[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
 \end{align}
-\pfcomment{Above, should $w$ be $W$?}
 
-Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2m\lambda\}$, they will correctly identify their best arm. Thus, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2m}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a round $n$ that satisfies $n^{-1}\leq p/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{2m}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2m}$, it is sufficient to have $n\geq \lceil a_{0} l\rceil$. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $l^{th}$ envelope in the first $\max\{n_1,\lceil a_0 l\rceil\}$ rounds.
+Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}> 2Wm\lambda\}$, they will correctly identify their best arm. Thus, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a round $n$ that satisfies $n^{-1}\leq p/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{2Wm}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$, it is sufficient to have $n\geq \lceil a_{0} l\rceil$. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_2=\frac{2}{p}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $l^{th}$ envelope in the first $\max\{n_2,\lceil a_0 l\rceil\}$ rounds.
 
 Thus,
 \begin{align}
-\sum_{t=1}^{\infty}c(t)=\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}c(t)\mathbbm{1}\{\omega\in w[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
+\sum_{t=1}^{\infty}c(t)=\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}c(t)\mathbbm{1}\{\omega\in L[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
 \end{align}
 
 Therefore,
 
 \begin{align}
 &E\left[\sum_{t=1}^{\infty}c(t)\right] \nonumber\\
-=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}E[c(t)|\omega \in w[l],t\in [t_n,t_{n+1}))P(\omega\in w[l],t\in [t_n,t_{n+1})) \nonumber \\
-=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}\left[r+2Wm\frac{l}{n}\right]P(\omega\in w[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})) \nonumber \\
-=&\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}\left[r+2Wm\frac{l}{n}\right]P(\omega\in w[l]|t\in [t_n,t_{n+1}))Nn. \nonumber
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}E[c(t)|\omega \in L[l],t\in [t_n,t_{n+1}))P(\omega\in L[l],t\in [t_n,t_{n+1})) \nonumber \\
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})) \nonumber \\
+=&\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))Nn. \nonumber
 \end{align}
 
-We now bound $P(\omega\in W[l]|t\in[t_{n},t_{n+1}))$. \bccomment{Is my calculation to bound this probability correct?}
+We now bound $P(\omega\in L[l]|t\in[t_{n},t_{n+1}))$. \bccomment{Is my calculation to bound this probability correct?}
 \begin{align}
-&P(\omega\in W[l]|t\in[t_{n},t_{n+1})) \nonumber \\
-=&P(\omega\in W^{'}[l]|t\in[t_{n},t_{n+1}))- P(\omega\in W^{'}[l-1]|t\in[t_{n},t_{n+1})) \nonumber \\
+&P(\omega\in L[l]|t\in[t_{n},t_{n+1})) \nonumber \\
+=&P(\omega\in L^{'}[l]|t\in[t_{n},t_{n+1}))- P(\omega\in L^{'}[l-1]|t\in[t_{n},t_{n+1})) \nonumber \\
 =&P(|\epsilon_{i,t}^{j}|<\frac{l}{n}, \forall i,j|t\in[t_n,t_{n+1}))-P(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}, \forall i,j|t\in[t_n,t_{n+1})) \nonumber \\
 =&\Pi_{i=1}^{N}\Pi_{j=1}^{m}P\left(|\epsilon_{i,t}^{j}|<\frac{l}{n}|t\in[t_n,t_{n+1})\right)-\Pi_{i=1}^{N}\Pi_{j=1}^{m}P\left(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}|t\in[t_n,t_{n+1})\right). \label{prob:upper}
 \end{align}
@@ -414,15 +413,15 @@ Since we are at round $n$, we know there exists at least one arm, which has been
 Thus,
 \begin{align}
 &E\left[\sum_{t=1}^{\infty}c(t)\right] \nonumber\\
-\leq & \sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]\times 2 \frac{1}{\sqrt{2\pi}}exp\left(-\frac{(l-1)^2}{2n}\right)\times (\sqrt{n})^{-1}Nn. \nonumber \\
-\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}\left[R+2Wml\right]exp\left(-\frac{(l-1)^2}{2n}\right)\sqrt{n}. \nonumber
+\leq & \sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]\times 2 \frac{1}{\sqrt{2\pi}}exp\left(-\frac{(l-1)^2}{2n}\right)\times (\sqrt{n})^{-1}Nn. \nonumber \\
+\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wml\right]exp\left(-\frac{(l-1)^2}{2n}\right)\sqrt{n}. \nonumber
 \end{align}
 
-Denote $k_n=\max\{n_1, \lceil a_0 l \rceil\}$. Then we know
+Denote $k_n=\max\{n_2, \lceil a_0 l \rceil\}$. Then we know
 \begin{align}
 &E\left[\sum_{t=1}^{\infty}c(t)\right] \nonumber\\
-\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}\left[R+2Wml\right]exp\left(-\frac{(l-1)^2}{2k_n}\right)\sqrt{k_n} \nonumber \\
-\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\left[R+2Wml\right]exp\left(-\frac{(l-1)^2}{2k_n}\right)(k_n)^{3/2}=O(N). \nonumber
+\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\sum_{n=1}^{\max\{n_1,\lceil a_0 l\rceil\}}\left[R+2Wml\right]\exp\left(-\frac{(l-1)^2}{2k_n}\right)\sqrt{k_n} \nonumber \\
+\leq & \frac{2N}{\sqrt{2\pi}}\sum_{l=1}^{\infty}\left[R+2Wml\right]\exp\left(-\frac{(l-1)^2}{2k_n}\right)(k_n)^{3/2}=O(N). \nonumber
 \end{align}
 
 
