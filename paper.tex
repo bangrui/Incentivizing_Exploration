@@ -181,7 +181,7 @@ The cumulative regret for Algorithm~\ref{Alg1} is bounded above by $O(N^2 m + M 
 \label{rst:regret}
 \end{theorem}
 
-Before we prove these two theorems, we must first introduce two additional pieces of notation, which will be used in preliminary lemmas.  Let $S(\delta)$ be the proportion of users whose utility difference between their best and second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Then, let $p(\delta)=\min_{i}P(\{\theta:\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$. We know $p(0)=p$. 
+Before we prove these two theorems, we must first introduce two additional pieces of notation, which will be used in preliminary lemmas.  Let $S(\delta)$ be the proportion of users whose utility difference between their best and second best arm is less than $\delta$. Formally, $S(\delta)=P(\theta: \theta \cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}\leq \delta)$. Then, let $p(\delta)=\min_{i}P(\{\theta:B(\theta)=i,\theta\cdot u_{B(\theta)}-\theta\cdot u_{\hat{B}(\theta)}>\delta\})$. We know $p(0)=p$. 
 
 With this additional notation, we now prove several lemmas.
 First, based on Assumption~\ref{A1}, we have the following bound for $S(\delta)$.
