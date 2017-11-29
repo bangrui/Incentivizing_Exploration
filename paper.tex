@@ -205,9 +205,9 @@ The following lemma bounds the probability of making a mistake if we let the age
 \begin{lemma}
 Define $\tau$ to be any stopping time that is almost surely between $t_n$ and $t_{n+1}-1$ with respect to the filtration $\mathcal{F}_{t}=\sigma(A_1,\cdots,A_t,c_1,\cdots,c_t,O_1,\cdots,O_t)$, we have 
 \begin{align}
-P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n\lambda^2}{8\sigma^2}\right), \nonumber
+P(\arg\max\{\theta_{\tau}\cdot u_{i,\tau}\}\neq B(\theta_{\tau})|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)\leq 24Nm\exp\left(-\frac{1.8n\lambda^2}{16\sigma^2}\right), \nonumber
 \end{align}
-for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
+for $n\geq n_{0}=\max\{50, \frac{92.16\sigma^4}{\lambda^4}\}$.
 \label{round:prob}
 \end{lemma}
 
@@ -215,9 +215,9 @@ for $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$.
 We need the following lemma in order to prove Lemma~\ref{round:prob}.
 
 \begin{lemma}
-For $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$, we have
+For $n\geq n_{0}=\max\{50, \frac{92.16\sigma^4}{\lambda^4}\}$, we have
 \begin{align}
-\frac{n\lambda}{2\sqrt{2}\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)}. \nonumber
+\frac{n\lambda}{4\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)}. \nonumber
 \end{align}
 \label{n0-inequality}
 \end{lemma}
@@ -225,8 +225,8 @@ For $n\geq n_{0}=\max\{50, \frac{23.04\sigma^4}{\lambda^4}\}$, we have
 \begin{proof}
 First, we observe that
 \begin{align}
-&\frac{n\lambda}{2\sqrt{2}\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)} \nonumber \\
-\iff &\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{4.8\sigma^2}{\lambda^2}. \nonumber 
+&\frac{n\lambda}{4\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)} \nonumber \\
+\iff &\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{9.6\sigma^2}{\lambda^2}. \nonumber 
 \end{align}
 Since $\log(x)\leq x-1$ for $x>0$, we know 
 \begin{align}
@@ -240,12 +240,12 @@ Thus, we know
 
 To prove the lemma, we just need to show for $n\geq n_{0}$, we have
 \begin{align}
-\frac{n}{3+\log(n)}\geq \frac{4.8\sigma^2}{\lambda^2}. \label{n0-equ}
+\frac{n}{3+\log(n)}\geq \frac{9.6\sigma^2}{\lambda^2}. \label{n0-equ}
 \end{align}
 Inequality~(\ref{n0-equ}) is true because of the following two observations:
 \begin{itemize}
 \item for $n\geq 50$, we have $\frac{n}{3+\log(n)}\geq n^{0.5}$;
-\item for $n\geq \frac{23.04\sigma^4}{\lambda^4}$, we have $n^{0.5}\geq {4.8\sigma^{2}}{\lambda^{2}}$.
+\item for $n\geq \frac{92.16\sigma^4}{\lambda^4}$, we have $n^{0.5}\geq {9.6\sigma^{2}}{\lambda^{2}}$.
 \end{itemize}
 
 Thus, we know our lemma is true.
@@ -289,37 +289,37 @@ Define $\epsilon_{i,\tau}=u_{i,\tau}-u_i$ and $\epsilon_{i,\tau}^{j}$ to be the 
 
 To bound equation~(\ref{ACI}), we use Lemma~\ref{ACI-inequality}. Similar to Lemma~\ref{ACI-inequality}, we define
 \begin{align}
-S_{N(i,\tau)}^{i,j}=\frac{\epsilon_{i,\tau}^{j}}{\sqrt{2}\sigma}. \nonumber
+S_{N(i,\tau)}^{i,j}=\frac{\epsilon_{i,\tau}^{j}}{2\sigma}. \nonumber
 \end{align}
 
-Based on Lemma~\ref{n0-inequality}, for $n_{0}=\max\{50, \frac{23.04\sigma^2}{\lambda^2}\}$ and $n\geq n_{0}$, we have
+Based on Lemma~\ref{n0-inequality}, for $n_{0}=\max\{50, \frac{92.16\sigma^2}{\lambda^2}\}$ and $n\geq n_{0}$, we have
 \begin{align}
-\frac{n\lambda}{2\sqrt{2}\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)}. \nonumber
+\frac{n\lambda}{4\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)}. \nonumber
 \end{align}
 
-Thus, if we set $b=\frac{n\lambda^2}{8\sigma^2}$ in Lemma~\ref{ACI-inequality}, for any $N(i,\tau)\geq n\geq n_{0}$, we have
+Thus, if we set $b=\frac{n\lambda^2}{16\sigma^2}$ in Lemma~\ref{ACI-inequality}, for any $N(i,\tau)\geq n\geq n_{0}$, we have
 \begin{align}
-\frac{N(i,\tau)\lambda}{\sqrt{2}\sigma}\geq & \sqrt{0.6N(i,\tau)\log(\log_{1.1}(N(i,\tau))+1)}+\frac{\lambda}{2\sqrt{2}\sigma}\sqrt{n N(i,\tau)} \nonumber \\
+\frac{N(i,\tau)\lambda}{2\sigma}\geq & \sqrt{0.6N(i,\tau)\log(\log_{1.1}(N(i,\tau))+1)}+\frac{\lambda}{4\sigma}\sqrt{n N(i,\tau)} \nonumber \\
 \geq & \sqrt{0.6N(i,\tau)\log(\log_{1.1}(N(i,\tau))+1)+bN(i,\tau)}, \nonumber 
 \end{align}
 where the last inequality is because $\sqrt{x}+\sqrt{y}\geq \sqrt{x+y}$. Thus, we have
 \begin{align}
 &P(\epsilon_{i,\tau}^{j}>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
-=&P\left(S_{N(i,\tau)}^{i,j}>\frac{N(i,\tau)\lambda}{\sqrt{2}\sigma}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+=&P\left(S_{N(i,\tau)}^{i,j}>\frac{N(i,\tau)\lambda}{2\sigma}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
 \leq & P\left(S_{N(i,\tau)}^{i,j}> \sqrt{0.6 N_{i,\tau}\log(\log_{1.1}(N(i,\tau))+1)+b N(i,\tau)}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
-\leq & 12\exp( -1.8b) = 12\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber
+\leq & 12\exp( -1.8b) = 12\exp\left(\frac{-1.8 n\lambda^2}{16\sigma^2}\right). \nonumber
 \end{align}
 Similarily, we can bound 
 \begin{align}
 &P(\epsilon_{i,\tau}^{j}<-N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
 =&P(-\epsilon_{i,\tau}^{j}>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
-\leq & 12\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber 
+\leq & 12\exp\left(\frac{-1.8 n\lambda^2}{16\sigma^2}\right). \nonumber 
 \end{align}
 
-Therefore, we know $P(\epsilon_{i,\tau}^{j}>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)\leq 24\exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right)$. Thus, we know
+Therefore, we know $P(\epsilon_{i,\tau}^{j}>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)\leq 24\exp\left(\frac{-1.8 n\lambda^2}{16\sigma^2}\right)$. Thus, we know
 \begin{align}
 &\sum_{i}\sum_{j} P(|\epsilon_{i,\tau}^{j}|>N(i,t)\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda)  \nonumber \\
-\leq& 24Nm \exp\left(\frac{-1.8 n\lambda^2}{8\sigma^2}\right). \nonumber
+\leq& 24Nm \exp\left(\frac{-1.8 n\lambda^2}{16\sigma^2}\right). \nonumber
 \end{align}
 
 \end{proof}
@@ -351,6 +351,22 @@ E[t_{n}-t_{n-1}]\leq Nn. \nonumber
 \end{align}
 \end{proof}
 
+We also need the following lemma in part of the proof of Theorem~\ref{rst:budget}.
+\begin{lemma}
+For all $n\geq 1$ and $l\geq 2$, we have
+\begin{align}
+0.9n^{5/6} \geq \sqrt{0.6n \log(\log_{1.1}(n)+1)}. \nonumber
+\end{align}
+\label{lemma:cal2}
+\end{lemma}
+\begin{proof}
+\begin{align}
+&0.9n^{5/6} \geq \sqrt{0.6n \log(\log_{1.1}(n)+1)} \nonumber \\
+\iff & 0.81 n^{5/3} \geq 0.6n \log(\log_{1.1}(n)+1) \nonumber \\
+\Longleftarrow &  1.3 n^{2/3} \geq  \log(\log_{1.1}(n)+1) \nonumber
+\end{align}
+\end{proof}
+
 
 Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
 
@@ -369,37 +385,71 @@ In the calculation below, we omit the dependency on $\omega$ when refering to va
 \leq & R + 2Wmg(n,l). \nonumber
 \end{align}
 
-Thus,
-
+We know
 \begin{align}
 &\sum_{t=1}^{\infty}c(t) \nonumber \\
 =&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}c(t)\mathbbm{1}\{\omega\in L[l]\} \nonumber \\
 =&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\infty}c(t)\mathbbm{1}\{\omega\in L[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
 \end{align}
 
-Set $g(n,l)$ to be $\frac{l}{n}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}> 2Wm\lambda\}$, they will correctly identify their best arm. Thus, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{l}{n} \leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a round $n$ that satisfies $n^{-1}\leq p/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{2Wm}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{l}{n}\leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$, it is sufficient to have $n\geq \lceil a_{0} l\rceil$. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_2=\frac{2}{p}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $l^{th}$ envelope in the first $\max\{n_2,\lceil a_0 l\rceil\}$ rounds.
+Set $g(n,l)$ to be $\frac{2\sigma l}{n^{1/6}}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}> 2Wm\lambda\}$, they will correctly identify their best arm. Thus, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{2\sigma l}{n^{1/6}} \leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a round $n$ that satisfies $n^{-1}\leq p/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{4Wm\sigma}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{2\sigma l}{n^{1/6}}\leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$, it is sufficient to have $n\geq \lceil (a_{0} l)^6 \rceil$. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_2=\frac{2}{p}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $l^{th}$ envelope in the first $\max\{n_2,\lceil (a_0 l)^6 \rceil\}$ rounds.
 
 Thus,
 \begin{align}
-\sum_{t=1}^{\infty}c(t)=\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}c(t)\mathbbm{1}\{\omega\in L[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
+\sum_{t=1}^{\infty}c(t)=\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}c(t)\mathbbm{1}\{\omega\in L[l]\}\mathbbm{1}\{t\in [t_n,t_{n+1})\}. \nonumber
 \end{align}
 
 Therefore,
 
 \begin{align}
 &E\left[\sum_{t=1}^{\infty}c(t)\right] \nonumber\\
-=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}E[c(t)|\omega \in L[l],t\in [t_n,t_{n+1}))P(\omega\in L[l],t\in [t_n,t_{n+1})) \nonumber \\
-=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil a_0 l\rceil\}}\left[R+2Wm\frac{l}{n}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})). \nonumber
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}E[c(t)|\omega \in L[l],t\in [t_n,t_{n+1}))P(\omega\in L[l],t\in [t_n,t_{n+1})) \nonumber \\
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}\left[R+2Wm\frac{2\sigma l}{n^{1/6}}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})) \nonumber \\
+=&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}\left[R+4Wm\sigma l\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})). \nonumber
 \end{align}
 
-We now bound $P(\omega\in L[l]|t\in[t_{n},t_{n+1}))$.
+We now bound $P(\omega\in L[l]|t\in[t_{n},t_{n+1}))$ for $n\geq n_0$ and $l\geq 2$.
 \begin{align}
 &P(\omega\in L[l]|t\in[t_{n},t_{n+1})) \nonumber \\
 =&P(\omega\in L^{'}[l]|t\in[t_{n},t_{n+1}))- P(\omega\in L^{'}[l-1]|t\in[t_{n},t_{n+1})) \nonumber \\
-\leq & 1-P(|\epsilon_{i,t}^{j}|<\frac{l-1}{n}, \forall i,j|t\in[t_n,t_{n+1})) \nonumber \\
-=&P(\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{l-1}{n}|t\in[t_n,t_{n+1})) \nonumber  \\
-=&\sum_{i,j}P(|\epsilon_{i,t}^{j}|\geq \frac{l-1}{n}|t\in[t_n,t_{n+1})) \nonumber \\
-=&\sum_{i,j}P(|S_{i,t}^{j}|\geq \frac{N(i,t)(l-1)}{n}|t\in[t_n,t_{n+1})) \nonumber 
+\leq & 1-P(|\epsilon_{i,t}^{j}|<\frac{2\sigma (l-1)}{n^{1/6}}, \forall i,j|t\in[t_n,t_{n+1})) \nonumber \\
+=&P(\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{2\sigma (l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})) \nonumber  \\
+=&\sum_{i,j}P(|\epsilon_{i,t}^{j}|\geq \frac{2\sigma (l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})) \nonumber
+\end{align}
+
+Define $S_{i,t}^{j}=\frac{N(i,t)\epsilon_{i,t}^{j}}{2\sigma}$, then we know $S_{i,t}^{j}$ is a summation of $1/2$ gaussian random numbers. Therefore,
+
+\begin{align}
+&\sum_{i,j}P(|\epsilon_{i,t}^{j}|\geq \frac{l-1}{n^{1/6}}|t\in[t_n,t_{n+1})) \nonumber \\ 
+=&\sum_{i,j}P(|S_{i,t}^{j}|\geq \frac{N(i,t)(l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})). \nonumber \\
+\leq &\sum_{i,j}P(|S_{i,t}^{j}|\geq N(i,t)^{5/6}(l-1)|t\in[t_n,t_{n+1})). \nonumber
+\end{align}
+
+Based on Lemma~\ref{lemma:cal2}, we know
+\begin{align}
+&N(i,t)^{5/6}(l-1) \nonumber \\
+=& 0.9N(i,t)^{5/6} + N(i,t)^{5/6}(l-1.9) \nonumber \\
+\geq & \sqrt{0.6N(i,t)\log(\log_{1.1}(N(i,t))+1)} + \sqrt{(l-1.9)^2 N(i,t)} \nonumber \\
+\geq & \sqrt{0.6N(i,t)\log(\log_{1.1}(N(i,t))+1)+(l-1.9)^2 N(i,t)}. \nonumber
+\end{align}
+
+Based on Lemma~\ref{ACI-inequality}, we know
+\begin{align}
+&\sum_{i,j}P(|S_{i,t}^{j}|\geq N(i,t)^{5/6}(l-1)|t\in[t_n,t_{n+1})) \nonumber \\
+\leq & \sum_{i,j}24e^{-1.8(l-1.9)^2} = 24Nme^{-1.8(l-1.9)^2}. \nonumber
+\end{align}
+
+Thus,
+\begin{align}
+&\sum_{t=1}^{\infty}c(t) \nonumber \\
+\leq&\sum_{l=1}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}\left[R+2Wm\frac{2\sigma l}{n^{1/6}}\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})) \nonumber \\
+\leq& \sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0)^6 \rceil\}}\left[R+4Wm\sigma \right]P(\omega\in L[1]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})) \nonumber \\
++&\sum_{l=2}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}\left[R+4Wm\sigma l\right]P(\omega\in L[l]|t\in [t_n,t_{n+1}))P(t\in [t_n,t_{n+1})) \nonumber \\
+\leq& \sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0)^6 \rceil\}}\left[R+4Wm\sigma \right]P(t\in [t_n,t_{n+1})) \nonumber \\
++&\sum_{l=2}^{\infty}\sum_{t=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}\left[R+4Wm\sigma l\right]24Nme^{-1.8(l-1.9)^2}P(t\in [t_n,t_{n+1})) \nonumber \\
+\leq& \sum_{n=1}^{\max\{n_2,\lceil (a_0)^6 \rceil\}}\left[R+4Wm\sigma \right]Nn +\sum_{l=2}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 l)^6 \rceil\}}\left[R+4Wm\sigma l\right]24Nme^{-1.8(l-1.9)^2}Nn \nonumber \\
+\leq & \left[R+4Wm\sigma \right]N (\max\{n_2,\lceil (a_0)^6 \rceil\})^2+\sum_{l=2}^{\infty}24N^2 m[R+4Wml\sigma](\max\{n_2,\lceil (a_0 l)^6 \rceil\})^2 e^{-1.8(l-1.9)^2} \nonumber \\
+=& O(N^2). \nonumber
 \end{align}
 
 \end{proof}
@@ -407,10 +457,11 @@ We now bound $P(\omega\in L[l]|t\in[t_{n},t_{n+1}))$.
 
 \begin{lemma}
 Under our algorithm, the expected number of payments is bounded above by $O(N^2)$.
+\label{lemma:numP}
 \end{lemma}
 
 \begin{proof}
-If $|u_{i}^{j}-u_{i,t}^{j}|< \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2mW\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|< \frac{p^{-1}(\frac{p}{2})}{2Wm}$ $\forall i$ and $\forall j$, and $n^{-1}\leq p/2$, we do not need to incentivize any arms. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Denote $\delta_{0}=p^{-1}(\frac{p}{2})>0$ (because of Assumption~\ref{A1}).The cumulative expected number of payments is bounded above by:
+If $|u_{i}^{j}-u_{i,t}^{j}|< \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}> 2mW\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|< \frac{p^{-1}(\frac{p}{2})}{2Wm}$ $\forall i$ and $\forall j$, and $n^{-1}\leq p/2$, we do not need to incentivize any arms. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Denote $\delta_{0}=p^{-1}(\frac{p}{2})>0$ (because of Assumption~\ref{A1}).The cumulative expected number of payments is bounded above by:
 
 Define $\tau_{n}^{i}$ to be the first time we pull arm $i$ in the $n^{th}$ round. Then
 \begin{align}
@@ -421,10 +472,10 @@ Thus, we know
 \begin{align}
 &E[\sum_{t=1}^{\infty}\mathbbm{1}\{c(t)>0\}] \nonumber \\
 =&\sum_{n=1}^{\infty}\sum_{i=1}^{N}P(c(\tau_{n}^{i})>0) \nonumber \\
-\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}P\left(\exists i,j:|u_{i}^{j}-u_{i,\tau_{n}^{k}}^{j}|>\frac{p^{-1}(\frac{p}{2})}{2Wm}\right)+\sum_{n=1}^{n_1}N \nonumber \\
-\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right) +\sum_{n=1}^{n_1}N \nonumber \\
-\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right)\times N+\sum_{n=1}^{n_1}N \nonumber  \\
-=&24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2} + Nn_1, \nonumber
+\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}P\left(\exists i,j:|u_{i}^{j}-u_{i,\tau_{n}^{i}}^{j}|>\frac{p^{-1}(\frac{p}{2})}{2Wm}\right)+\sum_{n=1}^{n_1}N \nonumber \\
+\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{64W^2 m^2\sigma^2}\right) +\sum_{n=1}^{n_1}N \nonumber \\
+\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{64W^2 m^2\sigma^2}\right)\times N+\sum_{n=1}^{n_1}N \nonumber  \\
+\leq&24N^2 m \frac{1}{\exp(\frac{1.8\delta_{0}}{64W^2 m^2\sigma^2})-1} + Nn_1, \nonumber
 \end{align}
 
 Thus, we know the expected number of payments is bounded above by $O(N^2)$.
@@ -437,9 +488,11 @@ Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
 \begin{proof}
 For regret incurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.
 
-For regret incurred after the first $n_0$ round, it has two different components: the regret incurred when we let the agents play myopically and the regret incurred when we incentivize the agents. For the regret incurred when we let the agents play myopically at time t, it consists of the following two components:
+For regret incurred after the first $n_0$ round, it has two different components: the regret incurred when we let the agents play myopically and the regret incurred when we incentivize the agents. Using Lemma~\ref{lemma:numP}, the expected regret incurred when we incentivize the agents is bounded above by: $\left[24N^2 m \frac{1}{\exp(\frac{1.8\delta_{0}}{32W^2 m^2\sigma^2})-1} + Nn_1\right]R$.
+
+For the regret incurred when we let the agents play myopically at time $t\geq t_{n_0}$, it consists of the following two components:
 \begin{itemize}
-\item For those user whose utility difference between their best and the second best arm is greater than $f(t)$: suppose it is at the $n(t)^{th}$ round, the probability of these user making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)$ at time $t$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n(t) f(t)^2}{32 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(t)$.
+\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: we define a sequence of stopping time $\tau_{n}^{k}=t_n+k$.  For the regret occurred at each stopping time $\tau(k)$,  the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{32 W^2 m^2\sigma^2}\right)$ at stopping time $\tau(k)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{32 W^2 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(\tau(k))$.
 \item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
@@ -447,15 +500,15 @@ Thus, the cumulative expected regret incurred up to time $T$ when we let the age
 \begin{align}
 &E\left[\sum_{t=1}^{T}r(t)\right] \nonumber \\
 =&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{t=t_{n_{0}}}^{T}r_1(t)\right]+ E\left[\sum_{t=t_{n_{0}}}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}}24Nm\exp\left(-\frac{1.8n f(t)^2}{32 m^2\sigma^2}\right) R\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}-1}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}r_1(\tau_{n}^{k})\mathbbm{1}\{k\leq t_{n+1}-t_n\}\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}-1}24Nm\exp\left(-\frac{1.8n f(t)^2}{32 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(t_n)^2}{32 m^2\sigma^2}\right)R \times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)R\times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \label{equ:regret}
 \end{align}
 
-The expected regret incurred when we incentivize the agents is calculated in Theorem~\ref{rst:budget}. Thus the cumulative regret at time $T$ is bounded above by
+ Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
 &\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
 + & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}R+N\left(\max\left\{n_{0},\frac{2}{p}\right\}\right)R. \nonumber
