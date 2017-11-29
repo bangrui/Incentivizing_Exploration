@@ -353,7 +353,7 @@ E[t_{n}-t_{n-1}]\leq Nn. \nonumber
 
 We also need the following lemma in part of the proof of Theorem~\ref{rst:budget}.
 \begin{lemma}
-For all $n\geq 1$ and $l\geq 2$, we have
+For all $n\geq 1$, we have
 \begin{align}
 0.9n^{5/6} \geq \sqrt{0.6n \log(\log_{1.1}(n)+1)}. \nonumber
 \end{align}
@@ -363,8 +363,10 @@ For all $n\geq 1$ and $l\geq 2$, we have
 \begin{align}
 &0.9n^{5/6} \geq \sqrt{0.6n \log(\log_{1.1}(n)+1)} \nonumber \\
 \iff & 0.81 n^{5/3} \geq 0.6n \log(\log_{1.1}(n)+1) \nonumber \\
-\Longleftarrow &  1.3 n^{2/3} \geq  \log(\log_{1.1}(n)+1) \nonumber
+\iff &  \frac{81}{60} n^{2/3} \geq  \log(\log_{1.1}(n)+1) \nonumber
 \end{align}
+
+Denote $f(x) = \frac{81}{60}x^{2/3} - \log(\log_{1.1}(x)+1)$. It's easy to compute $f^{'}(x)=0$ has a unique solution $x_{0}=e^{2/3w(\frac{20e^{20000/314763}}{27})-\frac{10000}{104921}}$ (here $w(\cdot)$ is the Lambert W-Function) and it is the global minimum. Since $f(x_{0})\approx 0.0252 >0$, we know $f(x)>0$ for all $x\geq 1$. Thus, our lemma holds true.
 \end{proof}
 
 
@@ -488,11 +490,11 @@ Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
 \begin{proof}
 For regret incurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.
 
-For regret incurred after the first $n_0$ round, it has two different components: the regret incurred when we let the agents play myopically and the regret incurred when we incentivize the agents. Using Lemma~\ref{lemma:numP}, the expected regret incurred when we incentivize the agents is bounded above by: $\left[24N^2 m \frac{1}{\exp(\frac{1.8\delta_{0}}{32W^2 m^2\sigma^2})-1} + Nn_1\right]R$.
+For regret incurred after the first $n_0$ round, it has two different components: the regret incurred when we let the agents play myopically and the regret incurred when we incentivize the agents. Using Lemma~\ref{lemma:numP}, the expected regret incurred when we incentivize the agents is bounded above by: $\left[24N^2 m \frac{1}{\exp(\frac{1.8\delta_{0}}{64W^2 m^2\sigma^2})-1} + Nn_1\right]R$.
 
 For the regret incurred when we let the agents play myopically at time $t\geq t_{n_0}$, it consists of the following two components:
 \begin{itemize}
-\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: we define a sequence of stopping time $\tau_{n}^{k}=t_n+k$.  For the regret occurred at each stopping time $\tau(k)$,  the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{32 W^2 m^2\sigma^2}\right)$ at stopping time $\tau(k)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{32 W^2 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(\tau(k))$.
+\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: we define a sequence of stopping time $\tau_{n}^{k}=t_n+k$.  For the regret occurred at each stopping time $\tau(k)$,  the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{64 W^2 m^2\sigma^2}\right)$ at stopping time $\tau(k)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{64 W^2 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(\tau(k))$.
 \item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
@@ -502,28 +504,28 @@ Thus, the cumulative expected regret incurred up to time $T$ when we let the age
 =&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}-1}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}r_1(\tau_{n}^{k})\mathbbm{1}\{k\leq t_{n+1}-t_n\}\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}-1}24Nm\exp\left(-\frac{1.8n f(t)^2}{32 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(t_n)^2}{32 m^2\sigma^2}\right)R \times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)R\times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \label{equ:regret}
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}-1}24Nm\exp\left(-\frac{1.8n f(t)^2}{64 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(t_n)^2}{64 m^2\sigma^2}\right)R \times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)R\times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \label{equ:regret}
 \end{align}
 
  Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
-&\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-+ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2}R+N\left(\max\left\{n_{0},\frac{2}{p}\right\}\right)R. \nonumber
+&\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
++ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{64 m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{64m^2\sigma^2}}-1)^2}R+N\left(\max\left\{n_{0},\frac{2}{p}\right\}\right)R. \nonumber
 \end{align}
 
 For a fixed $T$, we only need to minimizing the following two terms since all others are constant:
 
 \begin{align}
-\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2.
+\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2.
 \end{align}
 
 
-If we set $f^2(t)=\frac{2\log(T)\times 32m^2\sigma^2}{1.8t}$, then
+If we set $f^2(t)=\frac{2\log(T)\times 64m^2\sigma^2}{1.8t}$, then
 \begin{align}
-&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\ 
+&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\ 
 \leq & \sum_{n=1}^{T} 24N^2 mnR \exp\left(-2\log(T)\right)  + \frac{64m^2\sigma^2 M\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{n} \nonumber \\
 \leq &  24N^2 m R\frac{T(T-1)}{2T^2}  + 35.56 m^2\sigma^2 M\log(T)(\log(T)+1) \nonumber \\
 \leq &  12 N^2 m R  + 35.56 m^2\sigma^2 M\log(T)(\log(T)+1). \nonumber
@@ -537,9 +539,9 @@ If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumu
 \end{corollary}
 
 \begin{proof}
-The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $f^2(t)=\frac{2\log(T)\times 32m^2\sigma^2}{1.8t}$, then there exists a $t_{0}$ such that for $t>t_{0}$, $S(f(t))=0$. Thus, similar to equation~\eqref{equ:regret}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
+The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $f^2(t)=\frac{2\log(T)\times 64m^2\sigma^2}{1.8t}$, then there exists a $t_{0}$ such that for $t>t_{0}$, $S(f(t))=0$. Thus, similar to equation~\eqref{equ:regret}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
 \begin{align}
-\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{32 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{t_{0}}Mf(t)^2 \nonumber
+\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{t_{0}}Mf(t)^2 \nonumber
 \end{align}
 Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the cumulative regret is bounded by $O(N^2)$.
 \end{proof}
