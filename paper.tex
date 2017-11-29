@@ -412,18 +412,18 @@ Under our algorithm, the expected number of payments is bounded above by $O(N^2)
 \begin{proof}
 If $|u_{i}^{j}-u_{i,t}^{j}|< \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}\geq 2mW\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|< \frac{p^{-1}(\frac{p}{2})}{2Wm}$ $\forall i$ and $\forall j$, and $n^{-1}\leq p/2$, we do not need to incentivize any arms. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Denote $\delta_{0}=p^{-1}(\frac{p}{2})>0$ (because of Assumption~\ref{A1}).The cumulative expected number of payments is bounded above by:
 
-Define $\tau_{n}^{k}$ to be a stopping time which equals to the $k_{th}$ time period in the $n^{th}$ round. Then
+Define $\tau_{n}^{i}$ to be the first time we pull arm $i$ in the $n^{th}$ round. Then
 \begin{align}
-&\sum_{t=1}^{\infty}\mathbbm{1}\{c(t)>0\} \nonumber \\
-=&\sum_{t=1}^{\infty}\sum_{n=1}^{\infty}\sum_{t=k}^{\infty}\mathbbm{1}\{c(t)>0\}\mathbbm{1}\{t=\tau_{n}^{k}\} \nonumber 
+\sum_{t=1}^{\infty}\mathbbm{1}\{c(t)>0\} =\sum_{n=1}^{\infty}\sum_{i=1}^{N}\mathbbm{1}\{c(\tau_{n}^{i})>0\}. \nonumber
 \end{align}
 
 Thus, we know
 \begin{align}
 &E[\sum_{t=1}^{\infty}\mathbbm{1}\{c(t)>0\}] \nonumber \\
-\leq &\sum_{n=n_{1}}^{\infty}\sum_{t=1}^{\infty}\sum_{k=1}^{\infty}P\left(\exists i,j:|u_{i}^{j}-u_{i,\tau_{n}^{k}}^{j}|>\frac{p^{-1}(\frac{p}{2})}{2Wm}\right)P(t=\tau_{n}^{k})+\sum_{n=1}^{n_1}N \nonumber \\
-\leq &\sum_{n=n_{1}}^{\infty}\sum_{t=1}^{\infty}\sum_{k=1}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right)\times P(t=\tau_{n}^{k})+\sum_{n=1}^{n_1}N \nonumber \\
-\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right)\times Nn+\sum_{n=1}^{n_1}N \nonumber  \\
+=&\sum_{n=1}^{\infty}\sum_{i=1}^{N}P(c(\tau_{n}^{i})>0) \nonumber \\
+\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}P\left(\exists i,j:|u_{i}^{j}-u_{i,\tau_{n}^{k}}^{j}|>\frac{p^{-1}(\frac{p}{2})}{2Wm}\right)+\sum_{n=1}^{n_1}N \nonumber \\
+\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right) +\sum_{n=1}^{n_1}N \nonumber \\
+\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{32m^2\sigma^2}\right)\times N+\sum_{n=1}^{n_1}N \nonumber  \\
 =&24N^2 m \frac{e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{32m^2\sigma^2}}-1)^2} + Nn_1, \nonumber
 \end{align}
 
