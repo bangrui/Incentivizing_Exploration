@@ -494,7 +494,7 @@ For regret incurred after the first $n_0$ round, it has two different components
 
 For the regret incurred when we let the agents play myopically at time $t\geq t_{n_0}$, it consists of the following two components:
 \begin{itemize}
-\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: condition on $t\in [t_n,t_{n+1})$, the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(t)^2}{64 W^2 m^2\sigma^2}\right)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(t)^2}{64 W^2 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(t)$.
+\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: we define a sequence of stopping time $\tau_{n}^{k}$ to be the $k^{th}$ time period in the $n^{th}$ round. For $\tau_{n}^{k}=t$, the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau_{n}^{k})^2}{64 W^2 m^2\sigma^2}\right)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau_{n}^{k})^2}{64 W^2 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(\tau_{n}^{k})$.
 \item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
@@ -503,9 +503,10 @@ Thus, the cumulative expected regret incurred up to time $T$ when we let the age
 &E\left[\sum_{t=1}^{T}r(t)\right] \nonumber \\
 =&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}-1}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-&\bccomment{\text{is the following conditional expectation correct?}} \nonumber \\
-= & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}-1}E[r_1(t)|t\in [t_n,t_{n+1}-1)]\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}-1}24Nm\exp\left(-\frac{1.8n f(t)^2}{64 W^2 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
+&\bccomment{\text{is the following proof correct?}} \nonumber \\
+= & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{k=1}^{t_{n+1}-t_{n}}r_1(\tau_{n}^{k})\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{k=1}^{t_{n+1}-t_n}24Nm\exp\left(-\frac{1.8n f(\tau_{n}^{k})^2}{64 W^2 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{k=1}^{t_{n+1}-t_n}24Nm\exp\left(-\frac{1.8n f(n)^2}{64 W^2 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 W^2 m^2\sigma^2}\right) R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \label{equ:regret}
 \end{align}
 
