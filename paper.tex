@@ -62,7 +62,7 @@ Our problem setting also applies to crowd science platforms like eBird \cite{fra
 % Something interesting to study would be to alter the search rankings to influence people
 % Also which items to spam people about reviewing
 
-In this problem context, we study a simple policy that usually exploits, incentivizing agents to pull an arm only when the set of agent utility functions that would pull this arm without incentives has probability below a time-varying threshold. In our paper, we assume all arms are some agents' best arm. Under this assumption, we prove that with $O(N)$ payment budget, this policy has $O(N^2+M(\log(T))^2)$ cumulative expected regret where $M$ is an upper bound on the limiting marginal probability density of agent utilities that are nearly indifferent between their best and the second best arm. \bccomment{We need a stronger condition, see corralary 1} If $M=0$, which typically happens when the agent utility distribution is discrete, this policy achieve constant cumulative expected regret $O(N^2)$. The key difference between our problem setting and both the homogenous preference setting and the traditional multi-armed bandits setting is that we must incentivize agents to try suboptimal arms much less often, since all arms are some agents' best arm.  Essentially, heterogeneity provides free exploration.  These results suggest that heterogeneous agent preferences reduce but do not eliminate the need to incentive exploration, in relation to single-preference settings. 
+In this problem context, we study a simple policy that usually exploits, incentivizing agents to pull an arm only when the set of agent utility functions that would pull this arm without incentives has probability below a time-varying threshold. In our paper, we assume all arms are some agents' best arm. Under this assumption, we prove that with $O(N^2)$ payment budget, this policy has $O(N^2+M(\log(T))^2)$ cumulative expected regret where $M$ is an upper bound on the limiting marginal probability density of agent utilities that are nearly indifferent between their best and the second best arm. \bccomment{We need a stronger condition, see corralary 1} If $M=0$, which typically happens when the agent utility distribution is discrete, this policy achieve constant cumulative expected regret $O(N^2)$. The key difference between our problem setting and both the homogenous preference setting and the traditional multi-armed bandits setting is that we must incentivize agents to try suboptimal arms much less often, since all arms are some agents' best arm.  Essentially, heterogeneity provides free exploration.  These results suggest that heterogeneous agent preferences reduce but do not eliminate the need to incentive exploration, in relation to single-preference settings. 
 
 We broadly categorize the relevant previous literature into two categories based on whether there is money transfer.
 With money transfer, \cite{frazier2014incentivizing} considers a problem setting where the principal pays agents money to explore. This work assumes all agents have equal value for money and provide a complete characterization of achievable reward with a fixed budget. \cite{han2015incentivizing} generalizes this framework to include agents with heterogeneous value for money, and to allow an external signal to provide partial information about this valuation. Under this setting, this work proves a bound on achievable reward as a function of the budget and the signal scheme.
@@ -71,7 +71,7 @@ Without money transfer but using information asymmetry, \cite{kremer2014implemen
 
 
 
-We structure our paper as follows: Section~\ref{sec:prob} formulates our problem; Section~\ref{sec:ub} states our algorithm and proves that we can achieve $O(N^2+M(\log(T))^2)$ regret with $O(N)$ incentive budget; Section~\ref{sec:lb} constructs an example showing regret is $\Omega(\log(T))$ in the worst case, regardless of incentive budget.
+We structure our paper as follows: Section~\ref{sec:prob} formulates our problem; Section~\ref{sec:ub} states our algorithm and proves that we can achieve $O(N^2+M(\log(T))^2)$ regret with $O(N^2)$ incentive budget; Section~\ref{sec:lb} constructs an example showing regret is $\Omega(\log(T))$ in the worst case, regardless of incentive budget.
 
 
 
@@ -168,10 +168,10 @@ Assumption~\ref{A3} means each arm $i$ has a strictly positive proportion of use
 
 \subsection{General Results}
 
-In this section, we prove Algorithm~\ref{Alg1} achieves $O(N^2+M(\log(T))^2)$ cumulative regret with $O(N)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
+In this section, we prove Algorithm~\ref{Alg1} achieves $O(N^2+M(\log(T))^2)$ cumulative regret with $O(N^2)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
 
 \begin{theorem}
-The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N)$. 
+The payment budget for Algorithm~\ref{Alg1} is bounded above by $O(N^2)$. 
 \label{rst:budget}
 \end{theorem}
 
@@ -494,7 +494,7 @@ For regret incurred after the first $n_0$ round, it has two different components
 
 For the regret incurred when we let the agents play myopically at time $t\geq t_{n_0}$, it consists of the following two components:
 \begin{itemize}
-\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: we define a sequence of stopping time $\tau_{n}^{k}=t_n+k$.  For the regret occurred at each stopping time $\tau(k)$,  the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{64 W^2 m^2\sigma^2}\right)$ at stopping time $\tau(k)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau(k))^2}{64 W^2 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(\tau(k))$.
+\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: condition on $t\in [t_n,t_{n+1})$, the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(t)^2}{64 W^2 m^2\sigma^2}\right)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(t)^2}{64 W^2 m^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(t)$.
 \item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
@@ -503,32 +503,31 @@ Thus, the cumulative expected regret incurred up to time $T$ when we let the age
 &E\left[\sum_{t=1}^{T}r(t)\right] \nonumber \\
 =&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
 \leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}-1}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}r_1(\tau_{n}^{k})\mathbbm{1}\{k\leq t_{n+1}-t_n\}\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}-1}24Nm\exp\left(-\frac{1.8n f(t)^2}{64 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(t_n)^2}{64 m^2\sigma^2}\right)R \times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T}E\left[24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)R\times (t_{n+1}-t_{n})\right]+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \label{equ:regret}
+&\bccomment{\text{is the following conditional expectation correct?}} \nonumber \\
+= & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}-1}E[r_1(t)|t\in [t_n,t_{n+1}-1)]\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}E\left[\sum_{t=t_{n}}^{t_{n+1}-1}24Nm\exp\left(-\frac{1.8n f(t)^2}{64 W^2 m^2\sigma^2}\right) R\right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
+\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 W^2 m^2\sigma^2}\right) R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \label{equ:regret}
 \end{align}
 
  Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
-&\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-+ & 24N^2 m \frac{e^{\frac{1.8\delta_{0}}{64 m^2\sigma^2}}}{(e^{\frac{1.8\delta_{0}}{64m^2\sigma^2}}-1)^2}R+N\left(\max\left\{n_{0},\frac{2}{p}\right\}\right)R. \nonumber
+&\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 W^2 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
++ & 24N^2 m \frac{1}{e^{\frac{1.8\delta_{0}}{64W^2 m^2\sigma^2}}-1}R+N\left(\max\left\{n_{0},\frac{2}{p}\right\}\right)R. \nonumber
 \end{align}
 
 For a fixed $T$, we only need to minimizing the following two terms since all others are constant:
 
 \begin{align}
-\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2.
+\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 W^2 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2.
 \end{align}
 
 
-If we set $f^2(t)=\frac{2\log(T)\times 64m^2\sigma^2}{1.8t}$, then
+If we set $f^2(t)=\frac{2\log(T)\times 64W^2 m^2\sigma^2}{1.8t}$, then
 \begin{align}
-&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\ 
-\leq & \sum_{n=1}^{T} 24N^2 mnR \exp\left(-2\log(T)\right)  + \frac{64m^2\sigma^2 M\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{n} \nonumber \\
-\leq &  24N^2 m R\frac{T(T-1)}{2T^2}  + 35.56 m^2\sigma^2 M\log(T)(\log(T)+1) \nonumber \\
-\leq &  12 N^2 m R  + 35.56 m^2\sigma^2 M\log(T)(\log(T)+1). \nonumber
+&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 W^2 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\ 
+\leq & \sum_{n=1}^{T} 24N^2 mnR \exp\left(-2\log(T)\right)  + \frac{128W^2 m^2\sigma^2 M\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{n} \nonumber \\
+\leq &  24N^2 m R\frac{T(T-1)}{2T^2}  + 71.12 W^2 m^2\sigma^2 M\log(T)(\log(T)+1) \nonumber \\
+\leq &  12 N^2 m R  + 71.12 W^2 m^2\sigma^2 M\log(T)(\log(T)+1). \nonumber
 \end{align}
 
 Thus, the cumulative expected regret is bounded by $O(N^2 m + M m^2\log(T))$.
@@ -539,9 +538,9 @@ If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumu
 \end{corollary}
 
 \begin{proof}
-The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $f^2(t)=\frac{2\log(T)\times 64m^2\sigma^2}{1.8t}$, then there exists a $t_{0}$ such that for $t>t_{0}$, $S(f(t))=0$. Thus, similar to equation~\eqref{equ:regret}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
+The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $f^2(t)=\frac{2\log(T)\times 64W^2 m^2\sigma^2}{1.8t}$, then there exists a $t_{0}$ such that for $t>t_{0}$, $S(f(t))=0$. Thus, similar to equation~\eqref{equ:regret}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
 \begin{align}
-\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{t_{0}}Mf(t)^2 \nonumber
+\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 W^2 m^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{t_{0}}Mf(t)^2 \nonumber
 \end{align}
 Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the cumulative regret is bounded by $O(N^2)$.
 \end{proof}
@@ -626,8 +625,7 @@ and $\lim_{t\rightarrow \infty}d^{'}(t)=2$, we know for $t$ large enough, $d(t)$
 =& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ \left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}\right]d(z_{t,1})d(z_{t,2}) \nonumber  
 \end{align}
 
-
-Based on Wolframalpha \bccomment{still not sure how to compute this by hand}, we know
+Based on our calculation, we know
 
 \begin{align}
 \lim_{t\rightarrow \infty} d(t)=\frac{z_{t,1}^2}{2}. \nonumber
