@@ -305,8 +305,8 @@ Thus, if we set $b=\frac{n\lambda^2}{16\sigma^2}$ in Lemma~\ref{ACI-inequality},
 where the last inequality is because $\sqrt{x}+\sqrt{y}\geq \sqrt{x+y}$. Thus, we have
 \begin{align}
 &P(\epsilon_{i,\tau}^{j}\geq\lambda|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
-=&P\left(S_{N(i,\tau)}^{i,j}\geq \frac{N(i,\tau)\lambda}{2\sigma}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
-\leq & P\left(S_{N(i,\tau)}^{i,j}\geq \sqrt{0.6 N_{i,\tau}\log(\log_{1.1}(N(i,\tau))+1)+b N(i,\tau)}\right|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda) \nonumber \\
+=&P\left(S_{N(i,\tau)}^{i,j}\geq \frac{N(i,\tau)\lambda}{2\sigma}\bigg|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda\right) \nonumber \\
+\leq & P\left(S_{N(i,\tau)}^{i,j}\geq \sqrt{0.6 N_{i,\tau}\log(\log_{1.1}(N(i,\tau))+1)+b N(i,\tau)}\bigg|\theta_{\tau}\cdot(u_{B(\theta_{\tau})}-u_{\hat{B}(\theta_{\tau})})> 2Wm\lambda\right) \nonumber \\
 \leq & 12\exp( -1.8b) = 12\exp\left(\frac{-1.8 n\lambda^2}{16\sigma^2}\right). \nonumber
 \end{align}
 Similarily, we can bound 
@@ -414,16 +414,16 @@ We now bound $P(\omega\in L[l]|t\in[t_{n},t_{n+1}))$ for $n\geq n_0$ and $l\geq 
 \begin{align}
 &P(\omega\in L[l]|t\in[t_{n},t_{n+1})) \nonumber \\
 =&P(\omega\in L^{'}[l]|t\in[t_{n},t_{n+1}))- P(\omega\in L^{'}[l-1]|t\in[t_{n},t_{n+1})) \nonumber \\
-\leq & 1-P(|\epsilon_{i,t}^{j}|<\frac{2\sigma (l-1)}{n^{1/6}}, \forall i,j|t\in[t_n,t_{n+1})) \nonumber \\
-=&P(\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{2\sigma (l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})) \nonumber  \\
-\leq &\sum_{i,j}P(|\epsilon_{i,t}^{j}|\geq \frac{2\sigma (l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})) \nonumber
+\leq & 1-P\left(|\epsilon_{i,t}^{j}|<\frac{2\sigma (l-1)}{n^{1/6}}, \forall i,j|t\in[t_n,t_{n+1})\right) \nonumber \\
+=&P\left(\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{2\sigma (l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})\right) \nonumber  \\
+\leq &\sum_{i,j}P\left(|\epsilon_{i,t}^{j}|\geq \frac{2\sigma (l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})\right) \nonumber
 \end{align}
 
 Define $S_{i,t}^{j}=\frac{N(i,t)\epsilon_{i,t}^{j}}{2\sigma}$, then we know $S_{i,t}^{j}$ is a summation of $1/2$ gaussian random numbers. Therefore,
 
 \begin{align}
-&\sum_{i,j}P(|\epsilon_{i,t}^{j}|\geq \frac{2\sigma(l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})) \nonumber \\ 
-=&\sum_{i,j}P(|S_{i,t}^{j}|\geq \frac{N(i,t)(l-1)}{n^{1/6}}|t\in[t_n,t_{n+1})). \nonumber \\
+&\sum_{i,j}P\left(|\epsilon_{i,t}^{j}|\geq \frac{2\sigma(l-1)}{n^{1/6}}\bigg|t\in[t_n,t_{n+1})\right) \nonumber \\ 
+=&\sum_{i,j}P\left(|S_{i,t}^{j}|\geq \frac{N(i,t)(l-1)}{n^{1/6}}\bigg|t\in[t_n,t_{n+1})\right) \nonumber \\
 \leq &\sum_{i,j}P(|S_{i,t}^{j}|\geq N(i,t)^{5/6}(l-1)|t\in[t_n,t_{n+1})). \nonumber
 \end{align}
 
@@ -579,7 +579,7 @@ In our algorithm, we take ``pay whatever it takes'' strategy when we decided to 
 
 The same proof would work and we can get the exact same results as ``pay whatever it takes'' strategy. 
 
-\section{Lower Bound $O(\log(T))$}
+\section{Lower Bound $\Omega(\log(T))$}
 \label{sec:lb}
 
 In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide a example to show the best possible lower bound is $O(\log(T))$ regardless of the incentivizing strategy.
