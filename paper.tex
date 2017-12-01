@@ -550,7 +550,7 @@ Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the c
 \subsection{Practical Issues}
 \label{sec:pi}
 
-In our algorithm, we take ``pay whatever it takes'' strategy when we decided to incentivize the agent. In our proof, the only time we used ''pay whatever it takes'' is in Lemma~\ref{round:length}. Without loss of generality, suppose we want to incentivize arm $i$ at time $t$ at the $n^{th}$ round. Based on the proof of Lemma~\ref{round:length}, as long as we offer a payment $c_{i,t}$ such that arm $i$ will have at least $n^{-1}$ probability being pulled at time $t$, our results still hold true. We could compute this $c_{i,t}$ dynamically based on $F(\cdot)$ as well as our current estimate $u_{i,t}$. Here is the revised algorithm which would work well in practice:
+In Algorithm~\ref{chap5:Alg1}, we use ``pay whatever it takes'' strategy when we decide to incentivize the agent. However, ''pay whatever it takes'' only shows up in the proof of Lemma~\ref{chap5:round:length}. Without loss of generality, suppose we want to incentivize arm $i$ at time $t$ at the $n^{th}$ round. Based on the proof of Lemma~\ref{chap5:round:length}, as long as we offer a payment $c_{i,t}$ such that arm $i$ has at least $n^{-1}$ probability being pulled at time $t$, our results still hold true. We could compute this $c_{i,t}$ dynamically based on $F(\cdot)$ as well as our current estimate $u_{i,t}$. Here is the revised algorithm which would work well in practice:
 
 
 \begin{algorithm}
@@ -577,29 +577,29 @@ In our algorithm, we take ``pay whatever it takes'' strategy when we decided to 
 \end{algorithm}
 
 
-The same proof would work and we can get the exact same results as ``pay whatever it takes'' strategy. 
+The same proof would work and we can get the exact same results as Algorithm~\ref{chap5:Alg1}. 
 
 \section{Lower Bound $\Omega(\log(T))$}
 \label{sec:lb}
 
-In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide a example to show the best possible lower bound is $O(\log(T))$ regardless of the incentivizing strategy.
+In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide an example to show the best possible lower bound is $\Omega(\log(T))$ regardless of the incentivizing strategy.
 
-Suppose we have two arms. Arm $1$ has attribute vector $(0,0)$ and arm $2$ has attribute vector $(0,1)$. We assume the users' preference are uniformly distributed on the unit circle. If the user knows the true reward for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$.
+Suppose we have two arms. Arm $1$ has attribute vector $(0,0)$ and arm $2$ has attribute vector $(0,1)$. We assume the users' preference are uniformly distributed on the unit circle. If the user knows the exact attribute vectors for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$.
 
 Consider the following algorithm: at each step, let the agents play myopically; however, they are going to see the noisy rewards for both arms.
 
-To lower bound the regret, we assume that the agents already know the true utility vector for arm $1$. Without loss of generality, denote $u_{2,t} = (0,1)+(z_{t,1},z_{t,2}) = (0,1)+ (N(0,1/t),N(0,1/t))$ to be the estimate reward for arm $2$ (Without loss of generality, we assume the variance for the noise is $1$). 
+To lower bound the regret, we assume that the agents already know the true attribute vector for arm $1$. Without loss of generality, denote $u_{2,t} = (0,1)+(z_{t,1},z_{t,2}) = (0,1)+ (N(0,1/t),N(0,1/t))$ to be the estimate attribute vector for arm $2$ (Without loss of generality, we assume the variance for the noise is $1$). 
 
 Since $(z_{t,1}, z_{t,2})$ is symmetric around $(0,0)$, we know 
 
 \begin{align}
 &E[r(t)] \nonumber \\
 = &E[r(t) | z_{t,1}>0,z_{t,2}>0] \times P(z_{t,1}>0,z_{t,2}>0) + E[r(t) |z_{t,1}>0,z_{t,2}<0] \times P(z_{t,1}>0,z_{t,2}<0) \nonumber \\
-= &E[r(t) | z_{t,1}<0,z_{t,2}>0] \times P(z_{t,1}<0,z_{n,2}>0) + E[r(t) |z_{t,1}<0,z_{t,2}<0] \times P(z_{t,1}<0,z_{t,2}<0) \nonumber \\
+&+E[r(t) | z_{t,1}<0,z_{t,2}>0] \times P(z_{t,1}<0,z_{n,2}>0) + E[r(t) |z_{t,1}<0,z_{t,2}<0] \times P(z_{t,1}<0,z_{t,2}<0) \nonumber \\
 \geq & 0.25 \times E[r(t) | z_{t,1}>0, z_{t,2}>0]. \nonumber
 \end{align}
 
-Given $z_{t,1}>0$ and $z_{t,2}>0$, we know the user between $(-1,0)$ and $\left(\frac{-1-z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ and the user between $(1,0)$ to $\left(\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{-z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ will make a mistake. And the regret is the absolute value of the second coordinate of the user's preference vector. Thus, we know
+Given $z_{t,1}>0$ and $z_{t,2}>0$, we know users whose preference vector between $(-1,0)$ and $\left(\frac{-1-z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ as well as users whose preference vector between $(1,0)$ and $\left(\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{-z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ will make a mistake. The regret is the absolute value of the second coordinate of the user's preference vector. Thus, we know
 
 \begin{align}
 &E[r(t)| z_{t,1}>0, z_{t,2}>0] \nonumber \\
@@ -610,8 +610,9 @@ Given $z_{t,1}>0$ and $z_{t,2}>0$, we know the user between $(-1,0)$ and $\left(
 
 Below, we want to show 
 \begin{align}
-\lim_{t\rightarrow\infty}\frac{E[r(t)| z_{t,1}>0, z_{t,2}>0]}{t} = O(1). \nonumber
+\lim_{t\rightarrow\infty}\frac{E[r(t)| z_{t,1}>0, z_{t,2}>0]}{t} = O(1), \nonumber
 \end{align}
+and use the fact that $\sum_{n=1}^{T}\frac{1}{n}=O(\log(T))$ to show the regret is at least $\Omega(\log(T))$.
 
 Denote $d(t)=t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]$.
 Since
@@ -638,11 +639,11 @@ Thus,
 \end{align}
 
 
-Thus, the cumulative expected regret is at least $O(\log(T))$.
+Thus, the cumulative expected regret is at least $\Omega(\log(T))$.
 
 
 \section{Conclusion}
-
+In this paper, we study the incentivizing exploration problem with heterogeneous user preferences, which generalize the problem setting studied by \citet{frazier2014incentivizing} and \citet{han2015incentivizing}. We propose a simple policy that mostly exploits and occasionally incentivizing exploration, which can achieve $O(N^2+M(\log(T))^2)$ cumulative expected regret with $O(N^2)$ payment budget.
 
 \bibliography{reference}{}
 \bibliographystyle{plain}
