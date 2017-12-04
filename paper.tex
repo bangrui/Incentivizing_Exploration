@@ -550,7 +550,7 @@ Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the c
 \subsection{Practical Issues}
 \label{sec:pi}
 
-In Algorithm~\ref{chap5:Alg1}, we use ``pay whatever it takes'' strategy when we decide to incentivize the agent. However, ''pay whatever it takes'' only shows up in the proof of Lemma~\ref{chap5:round:length}. Without loss of generality, suppose we want to incentivize arm $i$ at time $t$ at the $n^{th}$ round. Based on the proof of Lemma~\ref{chap5:round:length}, as long as we offer a payment $c_{i,t}$ such that arm $i$ has at least $n^{-1}$ probability being pulled at time $t$, our results still hold true. We could compute this $c_{i,t}$ dynamically based on $F(\cdot)$ as well as our current estimate $u_{i,t}$. Here is the revised algorithm which would work well in practice:
+In Algorithm~\ref{Alg1}, we use ``pay whatever it takes'' strategy when we decide to incentivize the agent. However, ''pay whatever it takes'' only shows up in the proof of Lemma~\ref{round:length}. Without loss of generality, suppose we want to incentivize arm $i$ at time $t$ at the $n^{th}$ round. Based on the proof of Lemma~\ref{round:length}, as long as we offer a payment $c_{i,t}$ such that arm $i$ has at least $n^{-1}$ probability being pulled at time $t$, our results still hold true. We could compute this $c_{i,t}$ dynamically based on $F(\cdot)$ as well as our current estimate $u_{i,t}$. Here is the revised algorithm which would work well in practice:
 
 
 \begin{algorithm}
@@ -577,7 +577,7 @@ In Algorithm~\ref{chap5:Alg1}, we use ``pay whatever it takes'' strategy when we
 \end{algorithm}
 
 
-The same proof would work and we can get the exact same results as Algorithm~\ref{chap5:Alg1}. 
+The same proof would work and we can get the exact same results as Algorithm~\ref{Alg1}. 
 
 \section{Lower Bound $\Omega(\log(T))$}
 \label{sec:lb}
