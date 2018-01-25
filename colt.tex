@@ -567,20 +567,7 @@ Below, we want to show
 \end{align}
 and use the fact that $\sum_{n=1}^{T}\frac{1}{n}=O(\log(T))$ to show the regret is at least $\Omega(\log(T))$.
 
-Denote $d(t)=t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]$.
-Since
-\begin{align}
-d^{'}(t)=\frac{-z_{t,1}^2(2z_{t,2}+3\sqrt{t})-2(z_{t,2}+\sqrt{t})^3}{2(z_{t,1}^2+(z_{t,2}+\sqrt{t})^2)^{3/2}}+1. \nonumber
-\end{align}
-
-and $\lim_{t\rightarrow \infty}d^{'}(t)=2$, we know for $t$ large enough, $d(t)$ is a increasing function in terms of t. Thus, based on the Monotone Convergence Theorem, we have
-
-\begin{align}
-&\lim_{t\rightarrow \infty}\frac{E[r(t)| z_{t,1}>0, z_{t,2}>0]}{\frac{1}{t}} \nonumber \\
-=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}\right]d(z_{t,1})d(z_{t,2}) \nonumber  
-\end{align}
-
-Based on our calculation, we know
+Denote $d(t)=t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]$. Based on our calculation (see appendix for details), we know
 
 \begin{align}
 \lim_{t\rightarrow \infty} d(t)=\frac{z_{t,1}^2}{2}. \label{ex:limit}
@@ -772,7 +759,20 @@ Thus,
 \section*{Calculation for Equation~\eqref{ex:limit}}
 
 In this section, we prove
+\begin{align}
+\lim_{t\rightarrow\infty} t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]=\frac{z_{t,1}^2}{2}. \nonumber 
+\end{align}
 
+Denote $w(x)=\sqrt{x}$. Then $w(x+y)=\sqrt{x} + y\frac{1}{2\sqrt{x}}+O(x^{-3/2})$. Thus, we know
+
+\begin{align}
+&\lim_{t\rightarrow\infty} t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right] \nonumber \\
+=& \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
+= & \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{t}+z_{t,2}+z_{t,1}^{2}\frac{1}{2\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}+O((z_{t,1}^2+(\sqrt{t}+z_{t,2})^2)^{-3/2})-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
+= & \lim_{t\rightarrow\infty} t \times \frac{z_{t,1}^2}{2(z_{t,1}^2+(\sqrt{t}+z_{t,2})^2)} \rightarrow \frac{z_{t,1}^2}{2}. \nonumber 
+\end{align}
+
+Therefore, we know Equation~\eqref{ex:limit} holds true.
 
 
 \vskip 0.2in
