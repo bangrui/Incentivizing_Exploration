@@ -1,0 +1,21 @@
+\section{Problem Setting}
+\label{sec:prob}
+
+We have $N$ arms. Arm $i$ has a fixed but unknown attribute vector $u_i\in \mathbb{R}^{m}$. 
+A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn i.i.d. from a known distribution $F(\cdot)$ with compact support. We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
+
+Each agent $t$ chooses an arm to pull $A_t$, according to a process described below, and obtains utility $\theta_t \cdot u_{A_{t}}$.  The principal and all agents then see a noisy observation of the attribute vector of the pulled arm of the form $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is independent normally distributed noise, and $I_m$ denotes an $m$-dimensional identity matrix.  Although we assume a common variance across attributes for simplicity of presentation, our theoretical results hold if the variance differs.
+
+At each time $t$, for each arm $i$, we (the principal) offer a non-negative payment $c_{i,t}\geq 0$ based on previous observations.
+We assume that agent $t$ chooses to pull the arm that myopically maximizes the sum of this payment and an estimate of the utility obtained $\theta_t \cdot u_{i,t}$ where $u_{i,t}$ denotes the simple average of $O_s$ over all previous pulls of arm $i$. In this paper, we assume all arms have been pulled once at time $t=0$ and $u_{i,0}$ denotes a random draw from the arm attribute vector. For $t>0$, denote $u_{i,t} = \frac{\sum_{s<t} O_s 1\{A_s = i\} + u_{i,0}}{\sum_{s<t} 1\{A_s = i\}+1}$ and $A_t=\argmax_{i}\{\theta_t\cdot u_{i,t}+c_{i,t}\}$, breaking ties in favor of the arm with the highest incentive.  We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$.
+
+This behavior may be recovered if agents are Bayesian and share a common non-informative prior distribution that is constant over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the posterior distribution on $u_{i}$ at time $t$ is multivariate normal with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$ under this posterior conditioned on $\theta_t$ is $\theta_t \cdot u_{i,t}$ (see equation $2.13$ in section $2.5$, \cite{Ge04}).  Alternatively, one may simply take our assumption that agents use the average as their estimate of an attribute value directly without such a Bayesian justification.
+
+We define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_t\cdot u_{A_t}$, and the cumulative regret up to time T as $R(T)=\sum_{t=1}^{T}r(t)$. Define the cumulative payment up to time T similarly as $C(t)=\sum_{t=1}^{T}c(t)$. 
+As the principal, we want to find a strategy $\mathcal{A}$ under which both the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$ are small.
+
+To support later development, we define some additional notation.
+We let $B(\theta)$ and $\hat{B}(\theta)$ refer to the index of the arm that is best and second best for an agent with preference vector $\theta$, $B(\theta) \in \argmax_i \theta \cdot u_i$ and $\hat{B}(\theta)=\argmax_{i\neq B(\theta)}\theta\cdot u_{i}$, breaking ties uniformly at random. We let $N(i,t)$ denote the number of pulls of arm $i$ at times up to and including $t$ plus $1$ (because of the initial pull), i.e. $N(i,t)=\sum_{s<t} 1\{A_s = i\}+1$.
+We call time $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$ the {\it starting point of the $n^{th}$ round}. We call the set of times $[t_{n}, t_{n+1})$ the {\it $n^{th}$ round}.
+
+
