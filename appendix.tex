@@ -165,20 +165,21 @@ Denote $\mathcal{F}_t$ as the filtration up to time $t$. Based on our algorithm,
 
             \section*{Calculation for Equation~\eqref{ex:limit}}
 
-            In this section, we prove
-            \begin{align}
-            \lim_{t\rightarrow\infty} t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]=\frac{z_{t,1}^2}{2}. \nonumber 
-            \end{align}
-
-            Denote $w(x)=\sqrt{x}$. Then $w(x+y)=\sqrt{x} + y\frac{1}{2\sqrt{x}}+O(x^{-3/2})$. Thus, we know
+            In this section, we prove $d(t)\leq \frac{z_{t,1}^{2}}{2}$ and $\lim_{t\rightarrow\infty}d(t)=\frac{z_{t,1}^2}{2}$. Denote $w(x)=\sqrt{x}$. Then we know $w(x+y)\leq \sqrt{x} + y\frac{1}{2\sqrt{x}}$ and $w(x+y)\geq \sqrt{x} + y\frac{1}{2\sqrt{x+y}}$ for $y\geq 0$. Thus, we know
 
             \begin{align}
             &\lim_{t\rightarrow\infty} t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right] \nonumber \\
             =& \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
-            = & \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{t}+z_{t,2}+z_{t,1}^{2}\frac{1}{2\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}+O((z_{t,1}^2+(\sqrt{t}+z_{t,2})^2)^{-3/2})-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
+            \geq & \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{t}+z_{t,2}+z_{t,1}^{2}\frac{1}{2\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
             = & \lim_{t\rightarrow\infty} t \times \frac{z_{t,1}^2}{2(z_{t,1}^2+(\sqrt{t}+z_{t,2})^2)} \rightarrow \frac{z_{t,1}^2}{2}. \nonumber 
             \end{align}
-
-            Therefore, we know Equation~\eqref{ex:limit} holds true.
+and
+            \begin{align}
+            &\lim_{t\rightarrow\infty} t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right] \nonumber \\
+            =& \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
+            \leq & \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{t}+z_{t,2}+z_{t,1}^{2}\frac{1}{2\sqrt{(\sqrt{t}+z_{t,2})^2}}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
+            = & \lim_{t\rightarrow\infty} t \times \frac{z_{t,1}^2}{2\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}(\sqrt{t}+z_{t,2})} \rightarrow \frac{z_{t,1}^2}{2}. \label{inequ:dct}
+            \end{align}   
+Based on inequality~\eqref{inequ:dct}, we know $d(t)\leq \frac{z_{t,1}^{2}}{2}$ and $\lim_{t\rightarrow\infty}d(t)=\frac{z_{t,1}^2}{2}$.
 
 

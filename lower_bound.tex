@@ -4,7 +4,7 @@
 
 In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide an example to show the best possible lower bound is $\Omega(\log(T))$ regardless of the incentivizing strategy.
 
-Suppose we have two arms. Arm $1$ has attribute vector $(0,0)$ and arm $2$ has attribute vector $(0,1)$. We assume the users' preference are uniformly distributed on the unit circle. If the user knows the exact attribute vectors for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$.
+Suppose we have two arms. Arm $1$ has attribute vector $(0,0)$ and arm $2$ has attribute vector $(0,1)$. We assume the users' preference are uniformly distributed on the two dimensional unit circle. If the user knows the exact attribute vectors for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$. It is easy to check that all our assumptions hold true in this example.
 
 Consider the following algorithm: at each step, let the agents play myopically; however, they are going to see the noisy rewards for both arms.
 
@@ -25,7 +25,7 @@ Given $z_{t,1}>0$ and $z_{t,2}>0$, we know users whose preference vector between
 &E[r(t)| z_{t,1}>0, z_{t,2}>0] \nonumber \\
 =& 4\times 2 \int_{0}^{\infty} \int_{0}^{\infty} \int_{0}^{\arctan\left(\frac{z_{t,1}}{1+z_{t,2}}\right)}\frac{\sin(\theta)}{2\pi}d(\theta)\frac{e^{-\frac{t \times z_{t,1}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(z_{t,1})\frac{e^{-\frac{t \times z_{t,2}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(z_{t,2}) \nonumber \\
 =& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}t\times \left[1-\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right]e^{-\frac{t \times z_{t,1}^2}{2}}e^{-\frac{t \times z_{t,2}^2}{2}}d(z_{t,1})d(z_{t,2}) \nonumber \\
-=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty} \left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}d(z_{t,1})d(z_{t,2}) \nonumber 
+=& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty} \left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}d(z_{t,1})d(z_{t,2}). \nonumber 
 \end{align}
 
 Below, we want to show 
@@ -34,12 +34,12 @@ Below, we want to show
 \end{align}
 and use the fact that $\sum_{n=1}^{T}\frac{1}{n}=O(\log(T))$ to show the regret is at least $\Omega(\log(T))$.
 
-Denote $d(t)=t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]$. Based on our calculation (see appendix for details), we know
+Denote $d(t)=t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]$. Based on our calculation (see appendix for details), we know $d(t)\leq \frac{z_{t,1}^2}{2}$ and
 
 \begin{align}
 \lim_{t\rightarrow \infty} d(t)=\frac{z_{t,1}^2}{2}. \label{ex:limit}
 \end{align}
-Thus,
+Based on the dominated convergence theorem, we know
 \begin{align}
 &\lim_{t\rightarrow \infty}\frac{E[r(t)| z_{t,1}>0, z_{t,2}>0]}{\frac{1}{t}} \nonumber \\
 =& \frac{2}{\pi^2}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]e^{-\frac{z_{t,1}^2}{2}}e^{-\frac{z_{t,2}^2}{2}}\right]d(z_{t,1})d(z_{t,2}) \nonumber  \\
