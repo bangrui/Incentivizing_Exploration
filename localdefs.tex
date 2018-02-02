@@ -1,0 +1,120 @@
+\newcommand{\vc}[1]{\bm{#1}} % vectors
+
+\newcommand{\Normal}[2]{\ensuremath{{\mathcal N}(#1,#2)}\xspace}
+% normal distribution
+
+\newcommand{\dataset}{{\cal D}} % used anywhere?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Agreed upon symbols without macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% dimension for attribute vector: d
+% stopping time: \tau
+% phase of the algorithm: s
+
+
+% To define and add in appropriate spots
+
+% \Delta for utility difference
+% \bar{\zeta} for error in utility difference
+% q_{\delta} for mass of users
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stuff related to Arms and Arm Pulls
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ARMNUM}{\ensuremath{N}\xspace} % number of arms
+\newcommand{\ArmV}[1]{\ensuremath{\vc{\mu}_{#1}}\xspace}
+% vector for location of an arm
+
+\newcommand{\Arm}[2]{\ensuremath{\mu_{#1,#2}}\xspace}
+% individual entries of the ith arm's location vector
+
+\newcommand{\NoiseV}[1][]{\ensuremath{\vc{\zeta}_{#1}}\xspace}
+% vector of noise added to arm
+
+\newcommand{\Noise}[2][]{\ensuremath{%
+\ifthenelse{\equal{#1}{}}{\epsilon_{#2}}{\zeta_{#1,#2}}\xspace}}
+% individual entries of noise vector
+
+\newcommand{\ObsV}[1]{\ensuremath{\vc{y}_{#1}}\xspace}
+% observation of an arm: location plus noise
+
+\newcommand{\ArmEV}[2]{\ensuremath{\hat{mu}_{#1,#2}}\xspace} 
+% empirical estimator of the arm location based on samples
+% Argument 1: time step
+% Argument 2: arm
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stuff related to agents
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\AgentV}[1]{\ensuremath{\vc{\theta}_{#1}}\xspace}
+% vector for location of an agent
+
+\newcommand{\Agent}[2]{\ensuremath{\theta_{#1,#2}}\xspace}
+% individual entries of the agent location vector
+
+\newcommand{\Best}[1]{\ensuremath{B_{#1}}\xspace}
+% Best arm for a given agent
+
+\newcommand{\Second}[1]{\ensuremath{B'_{#1}}\xspace}
+% Second-best arm for a given agent
+
+\newcommand{\FirstTwo}[2]{\ensuremath{\Omega_{#1,#2}}\xspace}
+% Set of agents who have i as their first choice and i' as their second
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stuff related to agent distribution
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\AgentDist}{\ensuremath{f}\xspace}
+% distribution of locations for agents
+
+\newcommand{\Diam}{\ensuremath{D}\xspace}
+% "diameter" of support of agent distribution, [0,D]^d
+
+\newcommand{\MinProb}{\ensuremath{p}\xspace}
+% minimum probability of support for any arm
+
+\newcommand{\TieDensity}{\ensuremath{L}\xspace}
+% upper bound on the derivative of the density of near-ties
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stuff related to policies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\POLICY}{\ensuremath{\mathcal A}\xspace} % algorithm/policy
+\newcommand{\Pay}[2]{\ensuremath{c_{#1,#2}}\xspace}
+% payment offered for arms:
+% Argument 1: time step
+% Argument 2: arm
+
+\newcommand{\PayA}[1]{\ensuremath{c_{#1}}\xspace}
+% payment actually made in step t, i.e., c_{t,\Pull{t}}
+
+\newcommand{\TotalPay}[1]{\ensuremath{C_{#1}}\xspace}
+% cumulative payment made up to and including step t.
+
+\newcommand{\Pull}[1]{\ensuremath{i_{#1}}\xspace}
+% arm that was actually pulled at time step t
+
+\newcommand{\NumPull}[2]{\ensuremath{m_{#1,#2}}\xspace}
+% number of pulls of arm i up to time t:
+% Argument 1: time step
+% Argument 2: arm
+
+\newcommand{\Regret}[1]{\ensuremath{r_{#1}}\xspace}
+% regret incurred in time step t
+
+\newcommand{\TotalRegret}[1]{\ensuremath{R_{#1}}\xspace}
+% total regret incurred up to and including time step t
+

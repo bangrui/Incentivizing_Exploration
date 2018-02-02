@@ -1,4 +1,3 @@
-
 \section{Algorithm and Upper Bound}
 \label{sec:ub}
 
@@ -41,32 +40,15 @@ We describe our algorithm in detail as follows:
 \end{algorithmic}
 \end{algorithm}
 
+\dkcomment{I moved the assumptions to an earlier section.
+I am saving here some text that was in that subsection.}
 
-\subsection{Assumptions}
-In this section, we state several assumptions assumed by our analysis.  First define
-\begin{align}
-\Omega_{i,j}=\{\theta:B(\theta)=i, \hat{B}(\theta)=j\}, \nonumber 
-\end{align}
-which is the set of agent preferences whose best arm is arm $i$ and second best arm is arm $j$. With this definition, our analysis makes the following assumptions:
-
-\begin{assumption} Let $F_{i,j}(y)$ be the marginal cumulative density function (or cumulative mass function if $F(\cdot)$ is a discrete distribution) of $(u_i-u_j)\cdot\theta$ conditioned on $\theta \in \Omega_{i,j}$. We assume $F_{i,j}(y)\leq My$ for all $y\in R^{+}$, $\forall i,j$. 
-\label{A1}
-\end{assumption}
+We use $R = \max_{\theta, i,j} \theta \cdot (u_i - u_j)$ to denote the
+maximum regret that can be incurred at each time.
+Assumption~\ref{A2} implies that the maximum regret or payment
+incurred in any one round is finite.
 
 As we can see later in our proof, we only need $\max_{i,j}\limsup_{y\rightarrow 0^{+}}\frac{F_{i,j}(y)}{y}$ to be finite. Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. 
-
-\begin{assumption} We assume $F$ has a compact support set. Without loss of generality, we assume $\theta\in [0,W]^m$.
-\label{A2}
-\end{assumption}
-
-We use $R = \max_{\theta, i,j} \theta \cdot (u_i - u_j)$ to denote the maximum regret that can be incurred at each time.  Assumption~\ref{A2} shows that $R<\infty$.
-
-\begin{assumption}
-Denote $p=\min_{i}P(\{\theta: B(\theta)=i\})$. We assume $p>0$.
-\label{A3}
-\end{assumption}
-
-Assumption~\ref{A3} means each arm $i$ has a strictly positive proportion of users for which that arm is best. 
 
 \subsection{General Results}
 

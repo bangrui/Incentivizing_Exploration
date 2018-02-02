@@ -1,21 +1,148 @@
-\section{Problem Setting}
+\section{Preliminaries}
 \label{sec:prob}
 
-We have $N$ arms. Arm $i$ has a fixed but unknown attribute vector $u_i\in \mathbb{R}^{m}$. 
-A stream of myopic selfish agents come to our system.  Agent $t$ has linear preferences over attributes described by a vector $\theta_t \in \mathbb{R}^m$ that is unknown to the principal and drawn i.i.d. from a known distribution $F(\cdot)$ with compact support. We refer synonomously to an agent and that agent's preference vector: when we say ``an agent $\theta$'', we mean ``an agent with preference vector $\theta$.''
+We consider a MAB setting with \ARMNUM arms.
+Arm payoffs are determined by $d$ \emph{attributes} or \emph{features};
+hence, arms can be identified with vectors $\ArmV{i} \in \R^d$.
+The \ArmV{i} are (adversarially) fixed, but unknown to the agents
+or the principal.
+Whenever arm $i$ is pulled, its current utility-relevant features are
+determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero
+Gaussian%
+\footnote{For simplicity of notation, we assume that the variance
+  $\sigma^2$ is uniform across time steps. This is not material for
+  the analysis.}
+noise vector $\NoiseV \sim \Normal{\vc{0}}{\sigma^2 I_{d}}$.
+\dkcomment{Clarify if we can handle more general noise.}
+Here, $I_d$ denotes the $d \times d$ identity matrix.
 
-Each agent $t$ chooses an arm to pull $A_t$, according to a process described below, and obtains utility $\theta_t \cdot u_{A_{t}}$.  The principal and all agents then see a noisy observation of the attribute vector of the pulled arm of the form $O_t=u_{A_{t}}+\epsilon_{t}$, where $\epsilon_t\sim N(0, \sigma^2 I_{m})$ is independent normally distributed noise, and $I_m$ denotes an $m$-dimensional identity matrix.  Although we assume a common variance across attributes for simplicity of presentation, our theoretical results hold if the variance differs.
+At each time $t$, a new user (or \emph{agent}) arrives,
+whose feature vector (which we also call his%
+\footnote{We use male pronouns to refer to users and female pronouns
+  to refer to the principal. 
+  \dkcomment{Feel free to switch if you prefer it the other way.}}
+\emph{type}) $\AgentV{t} \in \R^d$ is drawn from a known distribution
+\AgentDist.
+Depending on context, we will identify a agents with their arrival time
+$t$ or their type \AgentV{t}.
+When agent $t$ pulls arm $\Pull{t} := i$,
+he and all future agents observe a vector
+$\ObsV{t} = \ArmV{i} + \NoiseV[t]$ for arm $i$,
+and his reward is $\AgentV{t} \cdot \ObsV{t}$,
+i.e., agents have linear preferences.
 
-At each time $t$, for each arm $i$, we (the principal) offer a non-negative payment $c_{i,t}\geq 0$ based on previous observations.
-We assume that agent $t$ chooses to pull the arm that myopically maximizes the sum of this payment and an estimate of the utility obtained $\theta_t \cdot u_{i,t}$ where $u_{i,t}$ denotes the simple average of $O_s$ over all previous pulls of arm $i$. In this paper, we assume all arms have been pulled once at time $t=0$ and $u_{i,0}$ denotes a random draw from the arm attribute vector. For $t>0$, denote $u_{i,t} = \frac{\sum_{s<t} O_s 1\{A_s = i\} + u_{i,0}}{\sum_{s<t} 1\{A_s = i\}+1}$ and $A_t=\argmax_{i}\{\theta_t\cdot u_{i,t}+c_{i,t}\}$, breaking ties in favor of the arm with the highest incentive.  We use $c_t=c_{A_{t},t}$ to denote the actual incentive payment at time $t$.
+For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
+times that arm $i$ has been pulled (strictly) before time $t$.
+An agent at time $t$ estimates arm $i$'s attribute vector as the
+average of vectors observed during past pulls of the arm:
+$\ArmEV{t}{i} = \frac{1}{\NumPull{t}{i}+1} \cdot
+(\ArmEV{0}{i} + \sum_{t'<t: \Pull{t'} = i} \ObsV{t'})$;
+here, \ArmEV{i}{0} is a single draw $\ArmV{i} + \NoiseV$ for arm $i$.
+(In other words, we assume that each arm is pulled once for free at time 0.)
 
-This behavior may be recovered if agents are Bayesian and share a common non-informative prior distribution that is constant over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the posterior distribution on $u_{i}$ at time $t$ is multivariate normal with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$ under this posterior conditioned on $\theta_t$ is $\theta_t \cdot u_{i,t}$ (see equation $2.13$ in section $2.5$, \cite{Ge04}).  Alternatively, one may simply take our assumption that agents use the average as their estimate of an attribute value directly without such a Bayesian justification.
+Since each user only pulls an arm once, users are \emph{myopic}:
+in the absence of incentives, user $t$ will pull an arm from
+$\argmax_i \AgentV{t} \cdot \ArmEV{t}{i}$.
+To incentivize users to explore more, the principal can offer
+\emph{payments} $\Pay{t}{i}$ to user $t$ for pulling arm $i$.
+Then, user $t$ will pull an\footnote{We assume that ties are broken in
+  favor of an arm with largest payment \Pay{t}{i}; this assumption is
+  only for notational convenience, and can of course be avoided by
+  raising payments infinitesimally.} arm $i$ maximizing
+$\argmax_i (\Pay{t}{i} + \AgentV{t} \cdot \ArmEV{t}{i})$.
+The principal cannot observe \AgentV{t},
+and only knows the distribution \AgentDist from which it is drawn.
+Her goal is to achieve a good tradeoff between the cumulative
+\emph{regret} experienced by all users up to time $T$,
+and the total \emph{payment} she makes to the users.
 
-We define the regret at time $t$ as $r(t)=\max_{i}\{\theta_{t}\cdot u_{i}\}-\theta_t\cdot u_{A_t}$, and the cumulative regret up to time T as $R(T)=\sum_{t=1}^{T}r(t)$. Define the cumulative payment up to time T similarly as $C(t)=\sum_{t=1}^{T}c(t)$. 
-As the principal, we want to find a strategy $\mathcal{A}$ under which both the cumulative expected regret $\mathbb{E}_{\mathcal{A}}[R(T)]$ and the cumulative expected payment $\mathbb{E}_{\mathcal{A}}[C(T)]$ are small.
+We define the regret at time $t$ as
+$\Regret{t} = (\max_{i} \AgentV{t} \cdot \ArmV{i}) - \AgentV{t} \cdot \ArmV{\Pull{t}}$,
+and the cumulative regret up to time $T$ as
+$\TotalRegret{T} = \sum_{t=1}^{T} \Regret{t}$.
+Similarly, $\PayA{t} = \Pay{t}{\Pull{t}}$ is the actual incentive
+payment at time $t$,
+and the cumulative payment up to time $T$ is
+$\TotalPay{T} = \sum_{t=1}^{T} \PayA{t}$.
+More formally, the principal's goal is to find a policy
+\POLICY for offering payments under which both the cumulative expected
+regret
+$\Expect[\POLICY]{\TotalRegret{T}}$ the cumulative expected payment
+$\Expect[\POLICY]{\TotalPay{T}}$ are small.
 
-To support later development, we define some additional notation.
-We let $B(\theta)$ and $\hat{B}(\theta)$ refer to the index of the arm that is best and second best for an agent with preference vector $\theta$, $B(\theta) \in \argmax_i \theta \cdot u_i$ and $\hat{B}(\theta)=\argmax_{i\neq B(\theta)}\theta\cdot u_{i}$, breaking ties uniformly at random. We let $N(i,t)$ denote the number of pulls of arm $i$ at times up to and including $t$ plus $1$ (because of the initial pull), i.e. $N(i,t)=\sum_{s<t} 1\{A_s = i\}+1$.
-We call time $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$ the {\it starting point of the $n^{th}$ round}. We call the set of times $[t_{n}, t_{n+1})$ the {\it $n^{th}$ round}.
+To support the formulation of our results and the analysis,
+we define the following additional notation.
+We let
+$\Best{\AgentV{}} \in \argmax_i \AgentV{} \cdot \ArmV{i}$
+and
+$ \Second{\AgentV{}} \in \argmax_{i \neq \Best{\AgentV{}}} \AgentV{} \cdot \ArmV{i}$
+denote the (indices of) the best and second-best arms for an agent
+with attribute vector \AgentV{};
+\dkdelete{breaking ties uniformly at random}.
+\dkcomment{What would it mean to break ties at random in a
+  definition?}
+
+\dkcomment{Do we need this definition here?}
+We call time $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$ the
+\emph{starting point of the $n^{th}$ round}.
+We call the set of times $[t_{n}, t_{n+1})$ the
+\emph{$n^{th}$ round}.
+
+
+\dkdelete{This behavior may be recovered if agents are Bayesian and
+  share a common non-informative prior distribution that is constant
+  over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the
+  posterior distribution on $u_{i}$ at time $t$ is multivariate normal
+  with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$
+  under this posterior conditioned on $\theta_t$ is $\theta_t \cdot
+  u_{i,t}$ (see Equation 2.13 in Section 2.5, \cite{Ge04}).
+  Alternatively, one may simply take our assumption that agents use
+  the average as their estimate of an attribute value directly without
+  such a Bayesian justification.}
+\dkcomment{I wonder what's the best way to discuss this.}
+
+
+\subsection{Properties of \AgentDist}
+Our algorithms rely on a few assumptions about the agent distribution
+\AgentDist.
+
+\begin{assumption}[Compact Support] \label{A2}
+\AgentDist has a compact support set contained in $[0,\Diam]^d$.
+\end{assumption}
+
+Let $\MinProb = \min_{i} \Prob[\AgentDist]{\Set{\AgentV{}}{\Best{\AgentV{}} = i}}$
+denote the minimum (over all arms) fraction of users that prefer any
+particular arm.
+
+\begin{assumption}[Every arm is someone's best] \label{A3}
+Each arm $i$ has a strictly positive proportion of users for whom $i$
+is the best arm; that is, $\MinProb > 0$.
+\end{assumption}
+
+Let 
+\begin{align*}
+\FirstTwo{i}{i'}
+  & = \Set{\AgentV{}}{\Best{\AgentV{}} = i, \Second{\AgentV{}} = i'}
+\end{align*}
+be the set of agent attribute vectors whose best arm is $i$ and
+second-best arm is $i'$.
+Let $F_{i,i'}$ be the marginal cumulative density function
+(or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
+of $(\ArmV{i}-\ArmV{i'}) \cdot AgentV{}$,
+conditioned on $\theta \in \Omega_{i,j}$.
+In words, $F_{i,i'}$ is the distribution of the \emph{strength} of the
+preference of a random agent for arm $i$ over arm $i'$, given that
+$i$ and $i'$ are the agent's first and second choices.
+
+\begin{assumption}[Not too many near-ties] \label{A1}
+Near-ties have vanishing probability; 
+that is, there exists a constant \TieDensity such that
+for all pairs $i,i$ of arms and all $z \in \R^+$,
+we have $F_{i,i'}(z) \leq \TieDensity \cdot z$.
+\end{assumption}
+
+
+
+
 
 

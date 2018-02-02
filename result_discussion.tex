@@ -1,0 +1,54 @@
+\section{Problem Setup and Overview of Results}
+\dkcomment{I envision this section doing the following:
+\begin{enumerate}
+\item State the main theorem(s) formally.
+\item Discuss lower bounds or impossibility results.
+\item Discuss extensions.
+\item Discuss the justification or comparison to standard bandits.
+\item Discuss the comparison in the 2x2 square.
+\end{enumerate}
+}
+
+\dkcomment{For now, I am just copying over material from various other
+  parts that Bangrui/Peter wrote or I had written in earlier
+  iterations.}
+
+\begin{theorem} \label{thm:main-intro}
+Under some technical assumptions, 
+there exists a policy which pays at most $O(\ARMNUM^2)$ in expectation,
+and achieves regret at most $O(\ARMNUM^2 + \log^2(T))$.
+\dkcomment{Omitting the density here.}
+\end{theorem}
+
+
+As we discuss in more detail in Section~\ref{sec:main-discussion},
+the reason we obtain stronger regret bounds than in the standard bandit
+setting is that the agents' heterogeneity in preferences will
+naturally lead to exploration.
+
+Here we pursue an alternate direction to our analysis of incentivizing exploration with heterogeneous preferences: we consider approximation-style results comparing achievable algorithm performance across four different problem settings, described in the table below.
+
+\begin{center}
+\begin{tabular}{ c|c|c| } 
+ \hline
+     & Pulls arms directly & Needs to incentivize \\ 
+\hline
+ Perfect Info on Preferences & $C11$: The ``God'' Policy & $C12$ \\ 
+ Partial Info on Preferences & $C21$ & $C22$: actual algorithm \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+Columns indicate whether the principal pulls arms directly (left column) or incentivizes agents who in turn actually pull the arms. Rows indicate whether the principal knows the preferences of the agents (top row) or not (bottom row).   Problem settings correspond to cells and are described by the names C11, C12, and so on. An optimal algorithm for problem setting C11 has the best performance possible.
+
+We wish to make two high-level points through this analysis:
+
+\begin{itemize}
+\item First, better performance is possible in setting C22 than in setting C21, in the sense we can find tight approximation guarantees relative to C11 that are better for C22 than for C21.  This is achieved by setting up incentives in C22 that still allow agents to select arms aligned with their preferences, providing selections of arms that contain more information than in C21.
+\item Second, heterogeneity in preferences improves performance over what can be achieved in a setting with homogeneous preferences.  This would be in the spirit of David K.'s results that heterogeneity in preference for money can be exploited to reduce the budget required.
+\end{itemize}
+
+
+
+Section~\ref{sec:lb} constructs an example showing regret is $\Omega(\log(T))$ in the worst case, regardless of incentive budget.
+
