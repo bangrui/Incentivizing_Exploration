@@ -26,11 +26,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newcommand{\ARMNUM}{\ensuremath{N}\xspace} % number of arms
+
 \newcommand{\ArmV}[1]{\ensuremath{\vc{\mu}_{#1}}\xspace}
 % vector for location of an arm
 
-\newcommand{\Arm}[2]{\ensuremath{\mu_{#1,#2}}\xspace}
+\newcommand{\Arm}[2]{\ensuremath{\mu_{#1}^{(#2)}}\xspace}
 % individual entries of the ith arm's location vector
+% Argument 1: arm index
+% Argument 2: coordinate
 
 \newcommand{\NoiseV}[1][]{\ensuremath{\vc{\zeta}_{#1}}\xspace}
 % vector of noise added to arm
@@ -42,19 +45,33 @@
 \newcommand{\ObsV}[1]{\ensuremath{\vc{y}_{#1}}\xspace}
 % observation of an arm: location plus noise
 
-\newcommand{\ArmEV}[2]{\ensuremath{\hat{mu}_{#1,#2}}\xspace} 
+\newcommand{\ArmEV}[2]{\ensuremath{\vc{\hat{\mu}}_{#1,#2}}\xspace} 
 % empirical estimator of the arm location based on samples
 % Argument 1: time step
 % Argument 2: arm
 
+\newcommand{\ArmE}[3]{\ensuremath{\hat{\mu}_{#1,#2}^{(#3)}}\xspace}
+% coordinates of empirical estimater of the arm location
+% Argument 1: time step
+% Argument 2: arm
+% Argument 3: coordinate/attribute
+
+\newcommand{\PullProb}[2]{\ensuremath{\phi_{#1,#2}}\xspace}
+% probability that a random myopic agent will pull the arm
+% Argument 1: time step
+% Argument 2: arm
+% \phi is a placeholder for now.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % Stuff related to agents
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newcommand{\AgentV}[1]{\ensuremath{\vc{\theta}_{#1}}\xspace}
-% vector for location of an agent
+\newcommand{\AgV}{\ensuremath{\vc{\theta}}\xspace}
+% vector for location of an agent, without subscript
+
+\newcommand{\AgentV}[1]{\ensuremath{\AgV_{#1}}\xspace}
+% vector for location of an agent, subscripted by time of arrival
 
 \newcommand{\Agent}[2]{\ensuremath{\theta_{#1,#2}}\xspace}
 % individual entries of the agent location vector
@@ -85,6 +102,13 @@
 
 \newcommand{\TieDensity}{\ensuremath{L}\xspace}
 % upper bound on the derivative of the density of near-ties
+
+\newcommand{\AlmostTied}[1]{\ensuremath{q(#1)}\xspace}
+% probability mass of almost tied agents across all arms
+
+\newcommand{\ClearPref}[1]{\ensuremath{p(#1)}\xspace}
+% probability mass of agents with a clear preference for their first choice,
+% minimized over all arms.
 
 
 
@@ -118,3 +142,9 @@
 \newcommand{\TotalRegret}[1]{\ensuremath{R_{#1}}\xspace}
 % total regret incurred up to and including time step t
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stuff related to policies
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\LatePhase}{\ensuremath{s_0}\xspace}
