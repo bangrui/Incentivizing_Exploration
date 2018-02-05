@@ -65,6 +65,18 @@
 \left[#2\right]}\xspace}
 \providecommand{\ExpectC}[3][]{\Expect[#1]{#2\;|\;#3}}
 
+\newcommand{\e}{\mathrm{e}}
+\providecommand{\Kth}[1]{\ensuremath{{#1}^{\rm th}}}
+
+\def\QED{{\phantom{x}} \hfill \ensuremath{\rule{1.3ex}{1.3ex}}}
+
+\newcommand{\extraproof}[1]{\rm \trivlist \item[\hskip \labelsep{\bf Proof of #1. }]}
+\def\endextraproof{\QED \endtrivlist}
+
+\def\emptyproof{\rm \trivlist \item[\hskip \labelsep{\bf Proof. }]}
+\def\endemptyproof{\endtrivlist}
+
+
 \newcommand{\argmax}{\mathop{\mathrm{argmax}}}
 \newcommand\floor[1]{\lfloor#1\rfloor}
 \newcommand\ceil[1]{\lceil#1\rceil}

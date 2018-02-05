@@ -1,16 +1,3 @@
-% move to colt.tex eventually
-
-\newcommand{\e}{\mathrm{e}}
-\providecommand{\Kth}[1]{\ensuremath{{#1}^{\rm th}}}
-
-\def\QED{{\phantom{x}} \hfill \ensuremath{\rule{1.3ex}{1.3ex}}}
-
-\newcommand{\extraproof}[1]{\rm \trivlist \item[\hskip \labelsep{\bf Proof of #1. }]}
-\def\endextraproof{\QED \endtrivlist}
-
-\def\emptyproof{\rm \trivlist \item[\hskip \labelsep{\bf Proof. }]}
-\def\endemptyproof{\endtrivlist}
-
 \section{Main Algorithm and Analysis}
 \label{sec:ub}
 
@@ -125,17 +112,6 @@ Also notice that $\ClearPref{0} = \MinProb$.
   have measure 0.}
 
 
-\dkcomment{I moved the assumptions to an earlier section.
-I am saving here some text that was in that subsection.}
-
-We use $R = \max_{\AgV, i,j} \AgV \cdot (u_i - u_j)$ to denote the
-maximum regret that can be incurred at each time.
-Assumption~\ref{A2} implies that the maximum regret or payment
-incurred in any one round is finite.
-
-As we can see later in our proof, we only need $\max_{i,j}\limsup_{y\rightarrow 0^{+}}\frac{F_{i,j}(y)}{y}$ to be finite. Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. 
-
-
 In this section, we prove Algorithm~\ref{alg:basic-incentivizing} achieves $O(\ARMNUM^2+\TieDensity(\log(T))^2)$ cumulative regret with $O(\ARMNUM^2)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
 
 \begin{theorem}
@@ -211,10 +187,9 @@ $\ARMNUM \cdot s$.
   coupon collector argument. But it would look uglier.}
 \end{proof}
                   
-The key technical lemma bounds the probability of mistakes in myopic play.
-Intuitively, because estimates of the arms' attribute vectors become
-exponentially more accurate with increasing phases $s$,
-errors from myopic play should decrease exponentially.
+The key technical lemma captures the intuition that
+the estimates of the arms' attribute vectors become
+exponentially more accurate with increasing phases $s$.
 That intuition is captured by the following lemma.
 
 \begin{lemma} \label{lem:round-prob}
@@ -229,14 +204,14 @@ with respect to the filtration
 $\mathcal{F}_{t} = \sigma (\Pull{1}, \ldots, \Pull{t},
                           \PayA{1}, \ldots, \PayA{t},
                           \ObsV{1}, \ldots, \ObsV{t})$.
-Then, for all $s \geq \LatePhase$,
-\begin{align*}
-  \ProbC[\AgV \sim \AgentDist]{%
-  \argmax \SET{\AgentV{\tau} \cdot \ArmEV{\tau}{i}} \neq \Best{\AgentV{\tau}}}{%
-  \AgentV{\tau} \cdot (\ArmV{\Best{\AgentV{\tau}}} - \ArmV{\Second{\AgentV{\tau}}})
-  > 2\Diam d x}
-& \leq 24 \ARMNUM d \exp\left(-\frac{1.8 s x^2}{16 \sigma^2} \right).
-\end{align*}
+Then, for all phases $s \geq \LatePhase$,
+with probability at least 
+$1- 24 \ARMNUM d \exp\left(-\frac{1.8 s x^2}{16 \sigma^2} \right)$,
+the following holds for all arms $i$ and attributes $j$
+simultaneously:
+$|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq x$.
+\dkcomment{We should clarify what the probability is over. It seems to
+  be over the entire past history, but not the current type.}
 \end{lemma}
 
 The proof of Lemma~\ref{lem:round-prob} is based on an adaptive
@@ -262,49 +237,8 @@ Then,
 \end{lemma}
 
 \begin{extraproof}{Lemma~\ref{lem:round-prob}}
-Consider any agent type \AgentV{\tau} at the (random) time $\tau$ such that
-$\AgentV{\tau} \cdot (\ArmV{\Best{\AgentV{\tau}}} - \ArmV{\Second{\AgentV{\tau}}})
-> 2\Diam d x$.
-We will use Lemma~\ref{lem:ACI-inequality} to show that
-for any arm $i$ and attribute $j = 1, \ldots, d$,
-with probability at least
-$1 - 24 \exp \left( \frac{-1.8 s x^2}{16\sigma^2} \right)$,
-the estimated attribute $j$ for arm $i$ is close enough to the true attribute: 
-$|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq x$.
-By a union bound over all $i, j$, this bound holds simultaneously for all
-arms and coordinates with probability at least
-$1 - 24 \ARMNUM d \cdot \exp \left( \frac{-1.8 s x^2}{16\sigma^2} \right)$.
-
-Then, consider any type $\AgV = \AgentV{\tau}$ in the high-probability event,
-and let $i \neq \Best{\AgentV{\tau}}$ be any other arm.
-By the conditioning of \AgentV{\tau}, the true reward from arm $i$ is
-much smaller than from the best arm:
-$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
-Because each coordinate of \ArmEV{\tau}{\Best{\AgV}} and of
-\ArmEV{\tau}{i} is estimated accurately to within $x$, 
-we get that 
-$\AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
-\geq - \Diam d x$
-and
-$\AgV \cdot (\ArmEV{\tau}{i} - \ArmV{i}) \leq \Diam d x$.
-Hence, 
-
-\begin{align*}
-\AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmEV{\tau}{i})
-& =
-\AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
-+ \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i})
-+ \AgV \cdot (\ArmV{i} - \ArmEV{\tau}{i})\\
-& > -\Diam d x + 2 \Diam d x - \Diam d x
-\; = \; 0,
-\end{align*}
-which means that the agent with type \AgV will in fact choose
-the optimal arm in the high-probability event.
-
-It remains to prove that with high probability, all arms' coordinates
-are estimated sufficiently accurately for type \AgentV{\tau}.
-Thereto, fix an arm $i$ and attribute $j$.
-For any $n \geq 1$, let $k_s$ be the time step right after arm $i$ has
+Fix an arm $i$ and attribute $j$.
+For any $n \geq 1$, let $k_n$ be the time step right after arm $i$ has
 been pulled for the \Kth{n} time.
 \dkcomment{I'm writing $n$ instead of $s$ here because $S_s$ would
   look ugly, and $n$ is consistent with the lemma.
@@ -380,41 +314,184 @@ Finally, this choice of $J$ ensures that
 $\ArmE{k_J}{i}{j} = \ArmE{\tau}{i}{j}$,
 and we have thus shown that
 $|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq x$ for all $i,j$.
+The lemma now follows by a union bound over all \ARMNUM arms and $d$
+attributes.
 \end{extraproof}
+
+
+Lemma~\ref{lem:round-prob} implies that errors from myopic play
+decrease exponentially in the phase number $s$.
+
+\begin{corollary} \label{cor:right-choice}
+Let $x > 0$ be arbitrary.
+Let $\LatePhase \geq \max (50, \frac{92.16 \sigma^4}{x^4})$.
+
+Let $\tau$ be any stopping time that is almost surely \dkcomment{What
+  exactly do we mean by this here?} in phase $s$,
+with respect to the filtration
+$\mathcal{F}_{t} = \sigma (\Pull{1}, \ldots, \Pull{t},
+                          \PayA{1}, \ldots, \PayA{t},
+                          \ObsV{1}, \ldots, \ObsV{t})$.
+Then, for all $s \geq \LatePhase$,
+with probability (over the past history) at least 
+$1 - 24 \ARMNUM d \exp\left(-\frac{1.8 s x^2}{16 \sigma^2} \right)$,
+\dkcomment{We should clarify what the probability is over. It seems to
+  be over the past history, but not the current agent.}
+all agent types $\AgV = \AgentV{\tau}$ with
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) > 2\Diam d x$
+will pull their best arm, i.e.,
+$\argmax \SET{\AgV \cdot \ArmEV{\tau}{i}} = \Best{\AgV}$
+\end{corollary}
+
+\begin{proof}
+Let $\tau$ be a (random) time.
+By Lemma~\ref{lem:round-prob},
+with probability at least
+$1 - 24 \ARMNUM d \cdot \exp \left( \frac{-1.8 s x^2}{16\sigma^2} \right)$,
+for all arms $i$ and attributes $j = 1, \ldots, d$ simultaneously,
+the estimated attribute $j$ for arm $i$ is close enough to the true attribute: 
+$|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq x$.
+Condition on this high-probability event.
+
+Consider any agent type $\AgV = \AgentV{\tau}$ at the (random) time
+$\tau$ such that
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) > 2\Diam d x$.
+Let $i \neq \Best{\AgV}$ be any other arm;
+its true reward is much smaller than from the best arm:
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
+Because each coordinate of \ArmEV{\tau}{\Best{\AgV}} and of
+\ArmEV{\tau}{i} is estimated accurately to within $x$, 
+we get that 
+$\AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
+\geq - \Diam d x$
+and
+$\AgV \cdot (\ArmEV{\tau}{i} - \ArmV{i}) \leq \Diam d x$.
+Hence, 
+
+\begin{align*}
+\AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmEV{\tau}{i})
+& =
+\AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
++ \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i})
++ \AgV \cdot (\ArmV{i} - \ArmEV{\tau}{i})\\
+& > -\Diam d x + 2 \Diam d x - \Diam d x
+\; = \; 0,
+\end{align*}
+which means that the agent with type \AgV will in fact choose
+the optimal arm in the high-probability event.
+\end{proof}
 
 \subsection{Bounding the Total Payment}
 
-Using the above lemmas, we are ready to prove Theorem~\ref{rst:budget}. We include the proof of Theorem~\ref{rst:budget} in the appendix. Below, we bound the expected number of payments for our algorithm.
-\begin{lemma}
-The expected number of payments for Algorithm~\ref{Alg1} is bounded above by $O(\ARMNUM^2)$.
-\label{lemma:numP}
+Towards bounding the algorithm's total payment, we first bound the
+\emph{number} of rounds in which the algorithm makes a payment by a
+constant.
+This bound also turns out to be useful for bounding the total regret.
+
+\begin{lemma} \label{lem:numP}
+The expected number of time steps in which
+Algorithm~\ref{alg:basic-incentivizing}
+makes any payment is at most $O(\ARMNUM^2)$.
 \end{lemma}
+
 \begin{proof}
-If $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot u_{B(\AgV)}-\max_{j\neq B(\AgV)}\{\AgV \cdot u_{j}\}> 2mW\lambda\}$, they will correctly identify their best arm. Thus we know, in the $n^{th}$ round, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{p^{-1}(\frac{p}{2})}{2 \Diam d}$ $\forall i$ and $\forall j$, and $n^{-1}\leq p/2$, we do not need to incentivize any arms. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_1=\max\{n_{0}, \frac{2}{p}\}$. Denote $\delta_{0}=p^{-1}(\frac{p}{2})>0$ (because of Assumption~\ref{A1}).
+We partition phases into early and late phases.
+For each of the early phases,
+we crudely bound the number of payments by \ARMNUM,
+using that each arm is incentivized at most once per phase.
+For later phases,
+we use that arms are payment-eligible only if their myopic pulling
+probability is less than $1/s$.
+Since at least a \MinProb fraction of agents would prefer arm $i$ if
+given accurate estimates, this would require misestimates that make a
+significant fraction of agents pull the wrong arm.
+But in later phases, such misestimates are unlikely by
+Corollary~\ref{cor:right-choice}.
 
-Define $\tau_{n}^{i}$ to be the first time we pull arm $i$ in the $n^{th}$ round. Then
-\begin{align}
-\sum_{t=1}^{\infty}\mathbbm{1}\{c(t)>0\} =\sum_{n=1}^{\infty}\sum_{i=1}^{N}\mathbbm{1}\{c(\tau_{n}^{i})>0\}. \nonumber
-\end{align}
+To make this intuition precise, we set
+$\delta = \frac{\MinProb}{2 \TieDensity}$,
+and $x = \frac{\delta}{2 \Diam d}$.
+The cutoff point between early and late phases is now set to
+$\EvenLaterPhase = \max(50, \frac{92.16 \sigma^4}{x^4}, \frac{2}{\MinProb})$.
+Consider the \Kth{s} pull of an arm $i$, for $s \geq \EvenLaterPhase$.
+If this pull occurs before phase $s$, it was definitely not incentivized.
+So we condition on the pull occurring in phase $s$,
+and let $\tau$ be the time step when this pull occurred; notice that
+this means that this must be the first pull of arm $i$ in phase $s$.
+We can now apply Corollary~\ref{cor:right-choice}
+with this choice of $x$,
+and obtain that with probability at least 
+$1 - 24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s x^2}{16 \sigma^2} \right)$,
+all agent types \AgV with
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}})
+> 2\Diam d x = \delta$
+will pull their best arm \Best{\AgV}.
+\dkcomment{We are losing a factor \ARMNUM here.
+We already took a union bound over all arms in the lemma, and
+we now apply it only to one arm, then sum over all arms.}
 
-The cumulative expected number of payments is bounded above by:
-\begin{align}
-&E\left[\sum_{t=1}^{\infty}\mathbbm{1}\{c(t)>0\}\right] \nonumber \\
-=&\sum_{n=1}^{\infty}\sum_{i=1}^{N}P(c(\tau_{n}^{i})>0) \nonumber \\
-\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}P\left(\exists i,j:|u_{i}^{j}-u_{i,\tau_{n}^{i}}^{j}|>\frac{p^{-1}(\frac{p}{2})}{2 \Diam d}\right)+\sum_{n=1}^{n_1}\ARMNUM \nonumber \\
-\leq &\sum_{n=n_{1}}^{\infty}\sum_{i=1}^{N}24 \ARMNUM d
-       \exp\left(\frac{-1.8 n\delta_{0}^2}{64 \Diam^2 d^2\sigma^2}\right) +\sum_{n=1}^{n_1}\ARMNUM \nonumber \\
-\leq & \sum_{n=n_{1}}^{\infty}24Nm \exp\left(\frac{-1.8 n\delta_{0}^2}{64\Diam^2 d^2\sigma^2}\right)\times \ARMNUM+\sum_{n=1}^{n_1}\ARMNUM \nonumber  \\
-\leq&24 \ARMNUM^2 d \frac{1}{\exp(\frac{1.8\delta_{0}}{64\Diam^2 d^2\sigma^2})-1} + Nn_1, \nonumber
-\end{align}
+By Lemma~\ref{lem:sdelta}, the \emph{total} measure of agents (across
+all arms) whose best and second-best arm differ in utility by less
+than $\delta$ is at most $\TieDensity \delta = \frac{\MinProb}{2}$.
+In particular, this bound holds for agents whose best arm is $i$.
+By Assumption~\ref{A3}, at least a measure \MinProb of agents has $i$
+as their best arm, and thus, at least a measure $\frac{\MinProb}{2}$
+has arm $i$ as their preferred arm by at least $\delta$ over any other
+arm $i'$.
+In the high-probability event, all such agents would myopically pull
+the arm $i$, and as a result, in the high-probability event,
+arm $i$ is not payment-eligible.
 
-Thus, we know the expected number of payments is bounded above by $O(\ARMNUM^2)$.
-
+Thus, for any phase $s \geq \EvenLaterPhase$
+Algorithm~\ref{alg:basic-incentivizing} incentivizes any given arm $i$
+with probability at most
+$24 \ARMNUM d \cdot \exp \left(
+  -\frac{1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+\right)$.
+Summing over all arms and phases $s$,
+and adding the at most $\ARMNUM \EvenLaterPhase$ incentivizations in
+the first \EvenLaterPhase phases, 
+the expected total number of arm incentivizations is at most
+\begin{align*}
+\ARMNUM \EvenLaterPhase
+  + 24 \ARMNUM^2 d \cdot \frac{1}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)}
+& = O\left( \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right).
+\end{align*}
+\dkcomment{It seems like with our choice of $x$ (which may be
+  unavoidable), we get quite large factors, in particular with the
+  fourth power.
+  Also, it would be nice if we could simplify the $\frac{1}{1-\exp()}$
+  term. Unfortunately, I think that the inequality goes the wrong way
+  for applying the standard $\exp(-x) \geq 1-x$ bound.}
 \end{proof}
 
+It would be desirable to simply identify a constant upper bound on the
+payment made each time.
+Unfortunately, while the agent types are drawn from a bounded support,
+the noise in arm locations is not;
+hence, with small probability, arm locations may be grossly
+misestimated, resulting in high incentive payments.
+As a result, the actual analysis of the total payment is significantly more
+intricate, and hence,
+the proof of Theorem~\ref{rst:budget} is given in the appendix.
+
 \subsection{Bounding the Total Regret}
+\dkcomment{Edited up to here so far.}
 
 Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
+
+We use $R = \max_{\AgV, i,j} \AgV \cdot (u_i - u_j)$ to denote the
+maximum regret that can be incurred at each time.
+Assumption~\ref{A2} implies that the maximum regret or payment
+incurred in any one round is finite.
+
+As we can see later in our proof, we only need $\max_{i,j}\limsup_{y\rightarrow 0^{+}}\frac{F_{i,j}(y)}{y}$ to be finite. Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. 
+
 
 \begin{proof}
 For regret incurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.

@@ -73,11 +73,11 @@ $\Expect[\POLICY]{\TotalPay{T}}$ are small.
 To support the formulation of our results and the analysis,
 we define the following additional notation.
 We let
-$\Best{\AgentV{}} \in \argmax_i \AgentV{} \cdot \ArmV{i}$
+$\Best{\AgV} \in \argmax_i \AgV \cdot \ArmV{i}$
 and
-$ \Second{\AgentV{}} \in \argmax_{i \neq \Best{\AgentV{}}} \AgentV{} \cdot \ArmV{i}$
+$ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
 denote the (indices of) the best and second-best arms for an agent
-with attribute vector \AgentV{};
+with attribute vector \AgV;
 \dkdelete{breaking ties uniformly at random}.
 \dkcomment{What would it mean to break ties at random in a
   definition?}
@@ -110,7 +110,7 @@ Our algorithms rely on a few assumptions about the agent distribution
 \AgentDist has a compact support set contained in $[0,\Diam]^d$.
 \end{assumption}
 
-Let $\MinProb = \min_{i} \Prob[\AgentDist]{\Set{\AgentV{}}{\Best{\AgentV{}} = i}}$
+Let $\MinProb = \min_{i} \Prob[\AgentDist]{\Set{\AgV}{\Best{\AgV} = i}}$
 denote the minimum (over all arms) fraction of users that prefer any
 particular arm.
 
@@ -119,17 +119,13 @@ Each arm $i$ has a strictly positive proportion of users for whom $i$
 is the best arm; that is, $\MinProb > 0$.
 \end{assumption}
 
-Let 
-\begin{align*}
-\FirstTwo{i}{i'}
-  & = \Set{\AgentV{}}{\Best{\AgentV{}} = i, \Second{\AgentV{}} = i'}
-\end{align*}
+Let $\FirstTwo{i}{i'} = \Set{\AgV}{\Best{\AgV} = i, \Second{\AgV} = i'}$
 be the set of agent attribute vectors whose best arm is $i$ and
 second-best arm is $i'$.
 Let $F_{i,i'}$ be the marginal cumulative density function
 (or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
-of $(\ArmV{i}-\ArmV{i'}) \cdot AgentV{}$,
-conditioned on $\theta \in \Omega_{i,j}$.
+of $(\ArmV{i}-\ArmV{i'}) \cdot \AgV$,
+conditioned on $\AgV \in \Omega_{i,j}$.
 In words, $F_{i,i'}$ is the distribution of the \emph{strength} of the
 preference of a random agent for arm $i$ over arm $i'$, given that
 $i$ and $i'$ are the agent's first and second choices.
@@ -137,7 +133,7 @@ $i$ and $i'$ are the agent's first and second choices.
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 
 that is, there exists a constant \TieDensity such that
-for all pairs $i,i$ of arms and all $z \in \R^+$,
+for all pairs $i,i'$ of arms and all $z \in \R^+$,
 we have $F_{i,i'}(z) \leq \TieDensity \cdot z$.
 \end{assumption}
 
