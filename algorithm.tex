@@ -127,10 +127,7 @@ is bounded above by $O(\ARMNUM^2 d + \TieDensity d^2(\log(T))^2)$.
 \end{theorem}
 
 
-With this additional notation, we now prove several lemmas.
-First, based on Assumption~\ref{A1}, we have the following bound for $S(\delta)$.
-
-
+\dkcomment{Keeping this around for now.}
 Notation: $t_s$ is end time for phase $s$.
 
 \subsection{General Lemmas}
@@ -468,6 +465,10 @@ the expected total number of arm incentivizations is at most
   Also, it would be nice if we could simplify the $\frac{1}{1-\exp()}$
   term. Unfortunately, I think that the inequality goes the wrong way
   for applying the standard $\exp(-x) \geq 1-x$ bound.}
+
+\dkcomment{I'm leaving in all the dependencies on ``constant''
+  parameters for now. We can decide later which ones to absorb into
+  big-$O$.}
 \end{proof}
 
 It would be desirable to simply identify a constant upper bound on the
@@ -480,36 +481,93 @@ As a result, the actual analysis of the total payment is significantly more
 intricate, and hence,
 the proof of Theorem~\ref{rst:budget} is given in the appendix.
 
+
 \subsection{Bounding the Total Regret}
-\dkcomment{Edited up to here so far.}
+In bounding the total regret, because agents' types are from a compact
+set by Assumption~\ref{A2}, the maximum regret in any one round is
+bounded by a constant.
+We use $\MAXR = \max_{\AgV, i,i'} \AgV \cdot (\ArmV{i} - \ArmV{i'})$
+to denote this constant upper bound on the maximum regret that can be
+incurred in any one time step. 
 
-Now we are ready to prove our second main result, Theorem~\ref{rst:regret}.
 
-We use $R = \max_{\AgV, i,j} \AgV \cdot (u_i - u_j)$ to denote the
-maximum regret that can be incurred at each time.
-Assumption~\ref{A2} implies that the maximum regret or payment
-incurred in any one round is finite.
 
 As we can see later in our proof, we only need $\max_{i,j}\limsup_{y\rightarrow 0^{+}}\frac{F_{i,j}(y)}{y}$ to be finite. Intuitively, assumption~\ref{A1} states that there are not many agents who are indifferent between their best arm and the second best arm. 
 
 
 \begin{proof}
-For regret incurred in the first $n_0$ round, it is bounded above by $\sum_{n=1}^{n_{0}}NRn$.
+As before, let $\LatePhase = \max (50, \frac{92.16 \sigma^4}{x^4})$.
+By Lemma~\ref{lem:phase-length}, each phase $s = 1, \ldots, \LatePhase$
+in expectation lasts at most $\ARMNUM s$ steps,
+so the total expected regret incurred in these phases is at most
+$\sum_{s=1}^{\LatePhase} \ARMNUM \MAXR s = O(\ARMNUM \MAXR \LatePhase^2)$.
 
-For regret incurred after the first $n_0$ round, it has two different components: the regret incurred when we let the agents play myopically and the regret incurred when we incentivize the agents. Using Lemma~\ref{lemma:numP}, the expected regret incurred when we incentivize the agents is bounded above by: $\left[24\ARMNUM^2 d \frac{1}{\exp(\frac{1.8\delta_{0}}{64\Diam^2 d^2\sigma^2})-1} + Nn_1\right]R$.
+Regret incurred after the first \LatePhase phases can arise in two ways:
+(1) an agent was incentivized to pull a suboptimal arm, or
+(2) an agent myopically pulled a suboptimal arm.
+By Lemma~\ref{lem:numP}, Algorithm~\ref{alg:basic-incentivizing}
+incentivizes agents at most 
+$O \left( \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right)$
+times in expectation, each time causing regret at most \MAXR,
+for a total expected regret of at most
+$O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right)$.
+For the rest of the proof, we focus on the regret incurred when agents
+pull arms myopically and make mistakes.
+
+We distinguish two types of agents, based on whether their preference
+for their best arm over the second-best arm is ``large'' or ``small''.
+To be more precise, we will define (with hindsight) a phase-dependent
+cutoff $g(s)$, and for any agent type $\AgV \in \FirstTwo{i}{i'}$,
+distinguish whether $\AgV \cdot (\ArmV{i} - \ArmV{i'}) \geq g(s)$ or not.
+
+By Lemma~\ref{lem:sdelta}, the total measure of agents whose
+preference is ``small'' in this sense is at most
+$\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$ for all $\delta$.
+\dkcomment{Put here whatever upper bound we use for these agents.}
+
+\dkcomment{I edited up to this point. Some notation has been replaced
+  below with query-replace, but not all of it.}
 
 For the regret incurred when we let the agents play myopically at time $t\geq t_{n_0}$, it consists of the following two components:
 \begin{itemize}
-\item For those users whose utility difference between their best and the second best arm is greater than $f(t)$: we define a sequence of stopping time $\tau_{n}^{k}$ to be the $k^{th}$ time period in the $n^{th}$ round. For $k>t_{n+1}-t_{n}$, we define $\tau_{n}^{k}=\infty$. For $\tau_{n}^{k}=t$, the probability of these users making a mistake is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau_{n}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)$ and the expected regret is bounded above by $24Nm\exp\left(-\frac{1.8n f(\tau_{n}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)\times R$. We denote the regret incurred by these agents as $r_1(\tau_{n}^{k})$. For $k>t_{n+1}-t_{n}$, we define $r_1(\tau_{n}^{k})=0$.
-\item For those user whose utility difference between their best and the second best arm is smaller than $f(t)$: this happens with probability $S(f(t))$ at each time and regret is bounded above by $S(f(t)) \times f(t)=Mf(t)^2$. We denote the regret incurred by these agents as $r_2(t)$.
+\item For those users whose utility difference between their best and
+the second best arm is greater than $g(t)$:
+we define a sequence of stopping time $\tau_{s}^{k}$ to be the \Kth{k}
+time period in the \Kth{s} phase.
+For $k > t_{s+1}-t_{s}$, we define $\tau_{s}^{k}=\infty$.
+For $\tau_{s}^{k}=t$, the probability of these users making a mistake
+is bounded above by
+$24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)$,
+and the expected regret is bounded above by
+$24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR$.
+We denote the regret incurred by these agents by $r_1(\tau_{s}^{k})$.
+For $k > t_{s+1}-t_{s}$, we define $r_1(\tau_{s}^{k})=0$.
+
+\item For those user whose utility difference between their best and
+the second best arm is smaller than $g(t)$:
+this happens with probability \AlmostTied{g(t)} at each time,
+and the regret is bounded above by
+$\AlmostTied{g(t)} \cdot f(t) \leq \TieDensity f(t)^2$.
+We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
-Thus, the cumulative expected regret incurred up to time $T$ when we let the agent play myopically is bounded above by:
+Thus, the cumulative expected regret incurred up to time $T$ when we
+let the agent play myopically is bounded above by:
 \begin{align}
-&E\left[\sum_{t=1}^{T}r(t)\right] \nonumber \\
-=&E\left[\sum_{t=1}^{t_{n_{0}}} r(t) + \sum_{t=t_{n_{0}}}^{T}(r_1(t)+r_2(t))\right]  \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{t=t_{n}}^{t_{n+1}-1}r_1(t)\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-=& \sum_{n=1}^{n_{0}}NRn + E\left[\sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}r_1(\tau_{n}^{k})\right]+ E\left[\sum_{t=1}^{T}r_2(t)\right]. \label{chap5:equ:r1}
+\Expect{\sum_{t=1}^{T}r(t)} 
+& = \Expect{\sum_{t=1}^{t_{\LatePhase}} r(t) + \sum_{t=t_{\LatePhase}}^{T}(r_1(t)+r_2(t))}  \nonumber \\
+& \leq \sum_{s=1}^{\LatePhase} \ARMNUM \MAXR s
+     + \Expect{\sum_{s=\LatePhase}^{T}\sum_{t=t_{s}}^{t_{s+1}-1}r_1(t)}
+     + \Expect{\sum_{t=1}^{T}r_2(t)} \nonumber \\
+& = \sum_{s=1}^{\LatePhase} \ARMNUM \MAXR s
+     + \Expect{\sum_{s=\LatePhase}^{T} \sum_{k=1}^{\infty}r_1(\tau_{s}^{k})}
+     + \Expect{\sum_{t=1}^{T}r_2(t)}. \label{chap5:equ:r1}
 \end{align}
 Since
 \begin{align}
