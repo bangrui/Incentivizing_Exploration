@@ -365,15 +365,15 @@ and
 $\AgV \cdot (\ArmEV{\tau}{i} - \ArmV{i}) \leq \Diam d x$.
 Hence, 
 
-\begin{align*}
+\begin{align}
 \AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmEV{\tau}{i})
 & =
 \AgV \cdot (\ArmEV{\tau}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
 + \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i})
-+ \AgV \cdot (\ArmV{i} - \ArmEV{\tau}{i})\\
++ \AgV \cdot (\ArmV{i} - \ArmEV{\tau}{i}) \nonumber\\
 & > -\Diam d x + 2 \Diam d x - \Diam d x
-\; = \; 0,
-\end{align*}
+\; = \; 0, \label{equ:choice}
+\end{align}
 which means that the agent with type \AgV will in fact choose
 the optimal arm in the high-probability event.
 \end{proof}
@@ -536,24 +536,19 @@ $\AlmostTied{g(t)} \leq \TieDensity \cdot g(t)$ for all $t$.
 
 For the regret incurred when we let the agents play myopically at time $t$ in the $s\geq s_0$ phase, it consists of the following two components:
 \begin{itemize}
-\item For those users whose utility difference between their best and
-the second best arm is greater than $g(t)$:
-we define a sequence of stopping time $\tau_{s}^{k}$ to be the \Kth{k}
+\item For those user who will pull an arm that occurs regret greater than $g(t)$: if all arms estimation errors are within $\frac{g(t)}{2\Diam d}$, then based on the same argument as \eqref{equ:choice}, this will never happen. We define a sequence of stopping time $\tau_{s}^{k}$ to be the \Kth{k}
 time period in the \Kth{s} phase.
 For $k > t_{s}-t_{s-1}$, we define $\tau_{s}^{k}=\infty$.
-For $\tau_{s}^{k}=t$, the probability of these users making a mistake
-is bounded above by
+For $\tau_{s}^{k}=t$, the probability of users occur regret greater than $g(t)$ is bounded above by
 $24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)$,
 and the expected regret is bounded above by
 $24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR$.
 We denote the regret incurred by these agents by $r_1(\tau_{s}^{k})$.
 For $k > t_{s}-t_{s-1}$, we define $r_1(\tau_{s}^{k})=0$.
 
-\item For those user whose utility difference between their best and
-the second best arm is smaller than $g(t)$:
-this happens with probability \AlmostTied{g(t)} at each time,
+\item For those user who will pull an arm that occurs regret smaller than $g(t)$: if the user pulls his/her best arm, no regret occurs. Otherwise, we know his/her utility difference between best and second best arm is smaller than $g(t)$. Further, we know this happens with probability \AlmostTied{g(t)} at each time,
 and the regret is bounded above by
-$\AlmostTied{g(t)} \cdot \MAXR \leq \TieDensity\MAXR\cdot f(t)$.
+$\AlmostTied{g(t)} \cdot g(t) \leq \TieDensity \cdot (g(t))^2$.
 We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
@@ -580,13 +575,13 @@ Since
 we have
 \begin{align}
 \eqref{chap5:equ:r1}= & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=\LatePhase}^{T}\sum_{k=1}^{\infty}E[r_1(\tau_{s}^{k})|\tau_{s}^{k}<\infty]\times P(\tau_{s}^{k}<\infty) + E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=\LatePhase}^{T}\left[\sum_{k=1}^{\infty}24\ARMNUM d\exp\left(-\frac{1.8s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right) R\times P(\tau_{s}^{k}<\infty) \right]+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t) \nonumber \\
-\leq & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24 \ARMNUM  d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right) \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR\cdot f(t). \label{chap5:equ:regret}
+\leq & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=\LatePhase}^{T}\left[\sum_{k=1}^{\infty}24\ARMNUM d\exp\left(-\frac{1.8s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right) R\times P(\tau_{s}^{k}<\infty) \right]+ \sum_{t=1}^{T}\TieDensity\cdot (g(t))^2 \nonumber \\
+\leq & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24 \ARMNUM  d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right) \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\cdot (g(t))^2. \label{chap5:equ:regret}
 \end{align}
 
 Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
-&\sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t)  +\nonumber \\
+&\sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity \cdot (g(t))^2  +\nonumber \\
 &O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
   + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
@@ -596,12 +591,12 @@ Thus the cumulative regret at time $T$ is bounded above by
 For a fixed $T$, we only need to minimize the following two terms since all others are constant:
 
 \begin{align}
-\sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t). \label{equ:regret}
+\sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity \cdot (g(t))^2. \label{equ:regret}
 \end{align}
 
-If we set $f^2(t)=\frac{2\log(T)\times 64\Diam^2 d^2\sigma^2}{1.8t}$, then
+If we set $g^2(t)=\frac{2\log(T)\times 64\Diam^2 d^2\sigma^2}{1.8t}$, then
 \begin{align}
-&\sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t) \nonumber \\ 
+&\sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\cdot (g(t))^2 \nonumber \\ 
 \leq & \sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)  + \frac{128\Diam^2 d^2\sigma^2 \TieDensity\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{t} \nonumber \\
 \leq &  24\ARMNUM^2 d R\frac{T(T-1)}{2T^2}  + 71.12 \Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1) \nonumber \\
 \leq &  12 \ARMNUM^2 d R  + 71.12 \Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1). \nonumber
@@ -615,9 +610,9 @@ If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumu
 \end{corollary}
 
 \begin{proof}
-The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $f^2(t)=\frac{2\log(T)\times 64\Diam^2 d^2\sigma^2}{1.8t}$, then there exists a $t_{0}$ such that for $t>t_{0}$, $S(f(t))=0$. Thus, similar to equation~\eqref{equ:regret}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
+The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $g^2(t)=\frac{2\log(T)\times 64\Diam^2 d^2\sigma^2}{1.8t}$, then there exists a $t^{0}$ such that for $t>t_{0}$, $q(g(t))=0$. Thus, similar to equation~\eqref{equ:regret}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
 \begin{align}
-\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 \Diam^2 d^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{t_{0}}Mf(t)^2 \nonumber
+\sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{t^{0}}\TieDensity g(t)^2 \nonumber
 \end{align}
 Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the cumulative regret is bounded by $O(\ARMNUM^2)$.
 \end{proof}
