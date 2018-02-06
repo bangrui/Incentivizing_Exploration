@@ -83,7 +83,7 @@ with attribute vector \AgV;
   definition?}
 
 \dkcomment{Do we need this definition here?}
-We call time $t_{n}=\min_{t}\{\forall i, N(i,t)\geq n\}$ the
+We call time $t_{n}=\min_{t}\{\forall i, \NumPull{t}{i} \geq n\}$ the
 \emph{starting point of the $n^{th}$ round}.
 We call the set of times $[t_{n}, t_{n+1})$ the
 \emph{$n^{th}$ round}.
@@ -125,7 +125,7 @@ second-best arm is $i'$.
 Let $F_{i,i'}$ be the marginal cumulative density function
 (or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
 of $(\ArmV{i}-\ArmV{i'}) \cdot \AgV$,
-conditioned on $\AgV \in \Omega_{i,j}$.
+conditioned on $\AgV \in \Omega_{i,i^{'}}$.
 In words, $F_{i,i'}$ is the distribution of the \emph{strength} of the
 preference of a random agent for arm $i$ over arm $i'$, given that
 $i$ and $i'$ are the agent's first and second choices.

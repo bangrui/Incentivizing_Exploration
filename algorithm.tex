@@ -522,46 +522,46 @@ pull arms myopically and make mistakes.
 
 We distinguish two types of agents, based on whether their preference
 for their best arm over the second-best arm is ``large'' or ``small''.
-To be more precise, we will define (with hindsight) a phase-dependent
-cutoff $g(s)$, and for any agent type $\AgV \in \FirstTwo{i}{i'}$,
-distinguish whether $\AgV \cdot (\ArmV{i} - \ArmV{i'}) \geq g(s)$ or not.
+To be more precise, we will define (with hindsight) a time-dependent
+cutoff $g(t)$, and for any agent type $\AgV \in \FirstTwo{i}{i'}$,
+distinguish whether $\AgV \cdot (\ArmV{i} - \ArmV{i'}) \geq g(t)$ or not.
 
 By Lemma~\ref{lem:sdelta}, the total measure of agents whose
 preference is ``small'' in this sense is at most
-$\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$ for all $\delta$.
+$\AlmostTied{g(t)} \leq \TieDensity \cdot g(t)$ for all $t$.
 \dkcomment{Put here whatever upper bound we use for these agents.}
 
 \dkcomment{I edited up to this point. Some notation has been replaced
   below with query-replace, but not all of it.}
 
-For the regret incurred when we let the agents play myopically at time $t\geq t_{n_0}$, it consists of the following two components:
+For the regret incurred when we let the agents play myopically at time $t$ in the $s\geq s_0$ phase, it consists of the following two components:
 \begin{itemize}
 \item For those users whose utility difference between their best and
 the second best arm is greater than $g(t)$:
 we define a sequence of stopping time $\tau_{s}^{k}$ to be the \Kth{k}
 time period in the \Kth{s} phase.
-For $k > t_{s+1}-t_{s}$, we define $\tau_{s}^{k}=\infty$.
+For $k > t_{s}-t_{s-1}$, we define $\tau_{s}^{k}=\infty$.
 For $\tau_{s}^{k}=t$, the probability of these users making a mistake
 is bounded above by
 $24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)$,
 and the expected regret is bounded above by
 $24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR$.
 We denote the regret incurred by these agents by $r_1(\tau_{s}^{k})$.
-For $k > t_{s+1}-t_{s}$, we define $r_1(\tau_{s}^{k})=0$.
+For $k > t_{s}-t_{s-1}$, we define $r_1(\tau_{s}^{k})=0$.
 
 \item For those user whose utility difference between their best and
 the second best arm is smaller than $g(t)$:
 this happens with probability \AlmostTied{g(t)} at each time,
 and the regret is bounded above by
-$\AlmostTied{g(t)} \cdot f(t) \leq \TieDensity f(t)^2$.
+$\AlmostTied{g(t)} \cdot \MAXR \leq \TieDensity\MAXR\cdot f(t)$.
 We denote the regret incurred by these agents as $r_2(t)$.
 \end{itemize}
 
 Thus, the cumulative expected regret incurred up to time $T$ when we
 let the agent play myopically is bounded above by:
 \begin{align}
-\Expect{\sum_{t=1}^{T}r(t)} 
-& = \Expect{\sum_{t=1}^{t_{\LatePhase}} r(t) + \sum_{t=t_{\LatePhase}}^{T}(r_1(t)+r_2(t))}  \nonumber \\
+\Expect{\sum_{t=1}^{T}\Regret{t}} 
+& = \Expect{\sum_{t=1}^{t_{\LatePhase}} \Regret{t} + \sum_{t=t_{\LatePhase}}^{T}(r_1(t)+r_2(t))}  \nonumber \\
 & \leq \sum_{s=1}^{\LatePhase} \ARMNUM \MAXR s
      + \Expect{\sum_{s=\LatePhase}^{T}\sum_{t=t_{s}}^{t_{s+1}-1}r_1(t)}
      + \Expect{\sum_{t=1}^{T}r_2(t)} \nonumber \\
@@ -571,35 +571,38 @@ let the agent play myopically is bounded above by:
 \end{align}
 Since
 \begin{align}
-& E\left[\sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}r_1(\tau_{n}^{k})\right] \nonumber\\
-= &  \sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}E[r_1(\tau_{n}^{k})] \nonumber \\
-= &  \sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}(E[r_1(\tau_{n}^{k})|\tau_{n}^{k}<\infty]\times P(\tau_{n}^{k}<\infty)+E[r_1(\tau_{n}^{k})|\tau_{n}^{k}=\infty]\times P(\tau_{n}^{k}=\infty)) \nonumber \\
-= & \sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}E[r_1(\tau_{n}^{k})|\tau_{n}^{k}<\infty]\times P(\tau_{n}^{k}<\infty), \nonumber
+& E\left[\sum_{s=\LatePhase}^{T}\sum_{k=1}^{\infty}r_1(\tau_{n}^{k})\right] \nonumber\\
+= &  \sum_{s=\LatePhase}^{T}\sum_{k=1}^{\infty}E[r_1(\tau_{s}^{k})] \nonumber \\
+= &  \sum_{s=\LatePhase}^{T}\sum_{k=1}^{\infty}(E[r_1(\tau_{s}^{k})|\tau_{s}^{k}<\infty]\times P(\tau_{s}^{k}<\infty)+E[r_1(\tau_{s}^{k})|\tau_{s}^{k}=\infty]\times P(\tau_{s}^{k}=\infty)) \nonumber \\
+= & \sum_{s=\LatePhase}^{T}\sum_{k=1}^{\infty}E[r_1(\tau_{s}^{k})|\tau_{s}^{k}<\infty]\times P(\tau_{s}^{k}<\infty), \nonumber
 \end{align}
 
 we have
 \begin{align}
-\eqref{chap5:equ:r1}= & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}\sum_{k=1}^{\infty}E[r_1(\tau_{n}^{k})|\tau_{n}^{k}<\infty]\times P(\tau_{n}^{k}<\infty) + E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=n_{0}}^{T}\left[\sum_{k=1}^{\infty}24Nm\exp\left(-\frac{1.8n f(\tau_{n}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right) R\times P(\tau_{n}^{k}<\infty) \right]+ \sum_{k=1}^{T}Mf(t)^2 \nonumber \\
-\leq & \sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 \Diam^2 d^2\sigma^2}\right) R \times Nn+ \sum_{t=1}^{T}Mf(t)^2. \label{chap5:equ:regret}
+\eqref{chap5:equ:r1}= & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=\LatePhase}^{T}\sum_{k=1}^{\infty}E[r_1(\tau_{s}^{k})|\tau_{s}^{k}<\infty]\times P(\tau_{s}^{k}<\infty) + E\left[\sum_{t=1}^{T}r_2(t)\right] \nonumber \\
+\leq & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=\LatePhase}^{T}\left[\sum_{k=1}^{\infty}24\ARMNUM d\exp\left(-\frac{1.8s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right) R\times P(\tau_{s}^{k}<\infty) \right]+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t) \nonumber \\
+\leq & \sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24 \ARMNUM  d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right) \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR\cdot f(t). \label{chap5:equ:regret}
 \end{align}
 
 Thus the cumulative regret at time $T$ is bounded above by
 \begin{align}
-&\sum_{n=1}^{n_{0}}NRn + \sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 \Diam^2 d^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\
-+ & 24\ARMNUM^2 d \frac{1}{e^{\frac{1.8\delta_{0}}{64\Diam^2 d^2\sigma^2}}-1}R+\ARMNUM\left(\max\left\{n_{0},\frac{2}{p}\right\}\right)R. \nonumber
+&\sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t)  +\nonumber \\
+&O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right). \nonumber 
 \end{align}
 
 For a fixed $T$, we only need to minimize the following two terms since all others are constant:
 
 \begin{align}
-\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 \Diam^2 d^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2. \label{equ:regret}
+\sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t). \label{equ:regret}
 \end{align}
 
 If we set $f^2(t)=\frac{2\log(T)\times 64\Diam^2 d^2\sigma^2}{1.8t}$, then
 \begin{align}
-&\sum_{n=1}^{T} 24Nm\exp\left(-\frac{1.8n f(n)^2}{64 \Diam^2 d^2\sigma^2}\right)\times R \times Nn+ \sum_{t=1}^{T}Mf(t)^2 \nonumber \\ 
-\leq & \sum_{n=1}^{T} 24\ARMNUM^2 mnR \exp\left(-2\log(T)\right)  + \frac{128\Diam^2 d^2\sigma^2 \TieDensity\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{n} \nonumber \\
+&\sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{T}\TieDensity\MAXR \cdot f(t) \nonumber \\ 
+\leq & \sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)  + \frac{128\Diam^2 d^2\sigma^2 \TieDensity\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{t} \nonumber \\
 \leq &  24\ARMNUM^2 d R\frac{T(T-1)}{2T^2}  + 71.12 \Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1) \nonumber \\
 \leq &  12 \ARMNUM^2 d R  + 71.12 \Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1). \nonumber
 \end{align}
