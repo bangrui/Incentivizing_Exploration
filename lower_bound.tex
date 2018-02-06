@@ -1,9 +1,6 @@
-\newcommand{\dd}{\mathrm{d}}
-\newcommand{\quarter}{\ensuremath{\frac{1}{4}}\xspace}
-
 \section{A Lower Bound of $\Omega(\log(T))$} \label{sec:lb}
 
-We saw in Corollary~\dkcomment{assign a label and insert here} that
+We saw in Corollary~\ref{cor:constant-regret} that
 when agent preferences for their best arm are sufficiently clear,
 in the sense that $\TieDensity = 0$, the regret of
 Algorithm~\ref{alg:basic-incentivizing} is bounded by a constant.
@@ -22,7 +19,6 @@ non-negative, we could simply shift the unit circle.
 The present choice is solely for ease of notation.}  
 $\Set{\AgV}{|| \AgV ||_2 \leq 1}$.
 Because $\AgV \cdot (0,0) = 0$ and $\AgV \cdot (0,1) = \Ag{2}$,
-\dkcomment{modify macro to do this correctly}
 the best choice for agent \AgV is arm $(0,1)$ iff $\Ag{2} > 0$,
 i.e., the top half of the unit circle prefers the arm $(0,1)$,
 and the bottom half prefers the arm $(0,0)$.
@@ -42,10 +38,12 @@ to bound the regret of the myopic algorithm which never incentivizes
 agents. \dkcomment{This feels ``clear'', but is it?}
 
 Because a pull of arm $(0,1)$ is observed in each time step,
-after $t$ rounds, the estimate \ArmEV{t+1}{(0,1)} is of the form
+after $t$ rounds, the estimate \ArmEV{t}{(0,1)} is of the form
 $(0,1) + (\Noise[t]{1}, \Noise[t]{2})$,
-where $\Noise[t]{1} \sim \Normal{0}{1/t}$
-and $\Noise[t]{2} \sim \Normal{0}{1/t})$.
+where $\Noise[t]{1} \sim \Normal{0}{\sqrt{1/t}}$
+and $\Noise[t]{2} \sim \Normal{0}{\sqrt{1/t}})$.
+\dkcomment{I think we define this to be the estimates at the beginning
+  of round $t$, so we may be off by 1 here and in other places.}
 We lower-bound the regret in step $t$ by focusing on the event that
 both normal noise coordinates are non-negative,
 which by symmetry has probability \quarter:
@@ -63,7 +61,7 @@ Then, there are two types of agents who pull the wrong arm and incur
 regret:
 \begin{enumerate}
 \item If $\Ag{2} > 0$ and $\Ag{1} \Noise{1} + \Ag{2} (1+\Noise{2}) < 0$
-then \Ag should pull $(0,1)$,
+then \AgV should pull $(0,1)$,
 but will wrongly pull $(0,0)$ and incur regret \Ag{2}.
 The region
 $\Ag{2} > 0$ and $\Ag{1} < \frac{-(1+\Noise{2})}{\Noise{1}} \cdot \Ag{2}$
@@ -89,10 +87,10 @@ Hence, the expected regret for given \Noise{1}, \Noise{2} is at least
   \left( 1 - \frac{1+\Noise{1}+\Noise{2}}{\Noise{1}} \cdot \Ag{2} \right)
   \cdot \Ag{2} \cdot \frac{1}{\pi} \dd \Ag{2}
 & =
-\frac{1}{\pi} \cdot \left(\frac{1+\Noise{1}+\Noise{2}}{\Noise{1}}\right)^2
-- \frac{2}{3 \pi} \cdot \left(\frac{1+\Noise{1}+\Noise{2}}{\Noise{1}}\right)^2
+\frac{1}{\pi} \cdot \left(\frac{\Noise{1}}{1+\Noise{1}+\Noise{2}}\right)^2
+- \frac{2}{3 \pi} \cdot \left(\frac{\Noise{1}}{1+\Noise{1}+\Noise{2}}\right)^2
 \\ & =
-\frac{1}{3 \pi} \cdot \left(\frac{1+\Noise{1}+\Noise{2}}{\Noise{1}}\right)^2.
+\frac{1}{3 \pi} \cdot \left(\frac{\Noise{1}}{1+\Noise{1}+\Noise{2}}\right)^2.
 \end{align*}
 
 \dkcomment{I edited up to here. Waiting for some feedback about
