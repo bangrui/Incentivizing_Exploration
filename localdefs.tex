@@ -39,7 +39,7 @@
 % vector of noise added to arm
 
 \newcommand{\Noise}[2][]{\ensuremath{%
-\ifthenelse{\equal{#1}{}}{\epsilon_{#2}}{\zeta_{#1,#2}}\xspace}}
+\ifthenelse{\equal{#1}{}}{\zeta_{#2}}{\zeta_{#1,#2}}\xspace}}
 % individual entries of noise vector
 
 \newcommand{\ObsV}[1]{\ensuremath{\vc{y}_{#1}}\xspace}
@@ -69,6 +69,9 @@
 
 \newcommand{\AgV}{\ensuremath{\vc{\theta}}\xspace}
 % vector for location of an agent, without subscript
+
+\newcommand{\Ag}[1]{\ensuremath{\theta_{#1}}\xspace}
+% individual entries of an agent location vector without time step
 
 \newcommand{\AgentV}[1]{\ensuremath{\AgV_{#1}}\xspace}
 % vector for location of an agent, subscripted by time of arrival

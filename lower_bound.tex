@@ -1,24 +1,107 @@
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\quarter}{\ensuremath{\frac{1}{4}}\xspace}
 
-\section{Lower Bound $\Omega(\log(T))$}
-\label{sec:lb}
+\section{A Lower Bound of $\Omega(\log(T))$} \label{sec:lb}
 
-In this section, we assume $\theta$ follows a continuous distribution $F(\cdot)$. We provide an example to show the best possible lower bound is $\Omega(\log(T))$ regardless of the incentivizing strategy.
+We saw in Corollary~\dkcomment{assign a label and insert here} that
+when agent preferences for their best arm are sufficiently clear,
+in the sense that $\TieDensity = 0$, the regret of
+Algorithm~\ref{alg:basic-incentivizing} is bounded by a constant.
+One may conjecture that this should hold more generally,
+in that that regret of the (fewer and fewer) agents on the boundary
+between close arms should go to 0, while their fraction also goes to 0.
+In this section, we establish a lower bound,
+showing that even in very simple settings, a (logarithmic) dependence
+on $T$ is typicaly unavoidable for \emph{any} incentivization strategy.
 
-Suppose we have two arms. Arm $1$ has attribute vector $(0,0)$ and arm $2$ has attribute vector $(0,1)$. We assume the users' preference are uniformly distributed on the two dimensional unit circle. If the user knows the exact attribute vectors for both arms, then the users with preference on the bottom half circle will choose arm $1$ and the users with preference on the top half circle will choose arm $2$. It is easy to check that all our assumptions hold true in this example.
+We consider an instance with two arms,
+whose attribute vectors are $(0,0)$ and $(0,1)$, respectively.
+Agents types are distributed uniformly on the two-dimensional unit circle%
+\footnote{While our model technically assumed that all agent coordinates are
+non-negative, we could simply shift the unit circle.
+The present choice is solely for ease of notation.}  
+$\Set{\AgV}{|| \AgV ||_2 \leq 1}$.
+Because $\AgV \cdot (0,0) = 0$ and $\AgV \cdot (0,1) = \Ag{2}$,
+\dkcomment{modify macro to do this correctly}
+the best choice for agent \AgV is arm $(0,1)$ iff $\Ag{2} > 0$,
+i.e., the top half of the unit circle prefers the arm $(0,1)$,
+and the bottom half prefers the arm $(0,0)$.
 
-Consider the following algorithm: at each step, let the agents play myopically; however, they are going to see the noisy rewards for both arms.
+Since we are proving a lower bound, we give the algorithm the
+following extra two advantages:
+(1) there is no noise in the observations of the arm $(0,0)$,
+and all agents know its location deterministically.
+(2) in each time step, regardless of which arm is pulled, the algorithm
+and all agents observe a pull from arm $(0,1)$.
+For simplicity of notation, we set the standard deviation of the arm
+$(0,1)$ to $\sigma = 1$; different values only lead to a scaling of
+the results.
 
-To lower bound the regret, we assume that the agents already know the true attribute vector for arm $1$. Without loss of generality, denote $u_{2,t} = (0,1)+(z_{t,1},z_{t,2}) = (0,1)+ (N(0,1/t),N(0,1/t))$ to be the estimate attribute vector for arm $2$ (Without loss of generality, we assume the variance for the noise is $1$). 
+Under these advantages, myopic play is clearly optimal, so it suffices
+to bound the regret of the myopic algorithm which never incentivizes
+agents. \dkcomment{This feels ``clear'', but is it?}
 
-Since $(z_{t,1}, z_{t,2})$ is symmetric around $(0,0)$, we know 
+Because a pull of arm $(0,1)$ is observed in each time step,
+after $t$ rounds, the estimate \ArmEV{t+1}{(0,1)} is of the form
+$(0,1) + (\Noise[t]{1}, \Noise[t]{2})$,
+where $\Noise[t]{1} \sim \Normal{0}{1/t}$
+and $\Noise[t]{2} \sim \Normal{0}{1/t})$.
+We lower-bound the regret in step $t$ by focusing on the event that
+both normal noise coordinates are non-negative,
+which by symmetry has probability \quarter:
 
-\begin{align}
-&E[r(t)] \nonumber \\
-= &E[r(t) | z_{t,1}>0,z_{t,2}>0] \times P(z_{t,1}>0,z_{t,2}>0) + E[r(t) |z_{t,1}>0,z_{t,2}<0] \times P(z_{t,1}>0,z_{t,2}<0) \nonumber \\
-&+E[r(t) | z_{t,1}<0,z_{t,2}>0] \times P(z_{t,1}<0,z_{n,2}>0) + E[r(t) |z_{t,1}<0,z_{t,2}<0] \times P(z_{t,1}<0,z_{t,2}<0) \nonumber \\
-\geq & 0.25 \times E[r(t) | z_{t,1}>0, z_{t,2}>0]. \nonumber
-\end{align}
+\begin{align*}
+\Expect{\Regret{t}} 
+  & \geq \ExpectC{\Regret{t}}{\Noise[t]{1} > 0, \Noise[t]{2} > 0}
+         \cdot \Prob{\Noise[t]{1} > 0, \Noise[t]{2} > 0}
+  \; = \; \quarter \ExpectC{\Regret{t}}{\Noise[t]{1} > 0, \Noise[t]{2} > 0}.
+\end{align*}
 
+For the moment, focus on some time step $t$,
+and write $\NoiseV = \NoiseV[t]$.
+Then, there are two types of agents who pull the wrong arm and incur
+regret:
+\begin{enumerate}
+\item If $\Ag{2} > 0$ and $\Ag{1} \Noise{1} + \Ag{2} (1+\Noise{2}) < 0$
+then \Ag should pull $(0,1)$,
+but will wrongly pull $(0,0)$ and incur regret \Ag{2}.
+The region
+$\Ag{2} > 0$ and $\Ag{1} < \frac{-(1+\Noise{2})}{\Noise{1}} \cdot \Ag{2}$
+defines a wedge.
+For any particular value of \Ag{2},
+the length of the interval of corresponding \Ag{1} is
+\begin{align*}
+  \sqrt{1-\Ag{2}^2} - \frac{1+\Noise{2}}{\Noise{1}} \cdot \Ag{2}
+  & \geq 1 - \Ag{2} - \frac{1+\Noise{2}}{\Noise{1}} \cdot \Ag{2}
+  \; = \; 1 - \frac{1+\Noise{1}+\Noise{2}}{\Noise{1}} \cdot \Ag{2}.
+\end{align*}
+
+\item If $\Ag{2} < 0$ and $\Ag{1} \Noise{1} + \Ag{2} (1+\Noise{2}) > 0$,
+then \Ag should pull $(0,0)$,
+but will wrongly pull $(0,1)$ and incur regret $-\Ag{2}$.
+This region and its regret are rotationally symmetric to the previous
+case.
+\end{enumerate}
+
+Hence, the expected regret for given \Noise{1}, \Noise{2} is at least
+\begin{align*}
+  2 \int_0^{\frac{\Noise{1}}{1+\Noise{1}+\Noise{2}}}
+  \left( 1 - \frac{1+\Noise{1}+\Noise{2}}{\Noise{1}} \cdot \Ag{2} \right)
+  \cdot \Ag{2} \cdot \frac{1}{\pi} \dd \Ag{2}
+& =
+\frac{1}{\pi} \cdot \left(\frac{1+\Noise{1}+\Noise{2}}{\Noise{1}}\right)^2
+- \frac{2}{3 \pi} \cdot \left(\frac{1+\Noise{1}+\Noise{2}}{\Noise{1}}\right)^2
+\\ & =
+\frac{1}{3 \pi} \cdot \left(\frac{1+\Noise{1}+\Noise{2}}{\Noise{1}}\right)^2.
+\end{align*}
+
+\dkcomment{I edited up to here. Waiting for some feedback about
+  whether my calculations are way off.
+  I did use one bound of $\sqrt{1-\Ag{2}^2} \geq 1-\Ag{2}$, but since
+  we are looking at small values of \Ag{2}, I cannot imagine that this
+  lost much. One can compute the integral without this simplification,
+  but it will be quite a bit uglier.} 
+  
 Given $z_{t,1}>0$ and $z_{t,2}>0$, we know users whose preference vector between $(-1,0)$ and $\left(\frac{-1-z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ as well as users whose preference vector between $(1,0)$ and $\left(\frac{1+z_{t,2}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}, \frac{-z_{t,1}}{\sqrt{z_{t,1}^2+(1+z_{t,2})^2}}\right)$ will make a mistake. The regret is the absolute value of the second coordinate of the user's preference vector. Thus, we know
 
 \begin{align}
