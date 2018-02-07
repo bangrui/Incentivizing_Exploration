@@ -495,13 +495,7 @@ who are indifferent between their best arm and the second best arm.
 
 
 \begin{proof}
-As before, let $\LatePhase = \max (50, \frac{92.16 \sigma^4}{x^4})$.
-By Lemma~\ref{lem:phase-length}, each phase $s = 1, \ldots, \LatePhase$
-in expectation lasts at most $\ARMNUM s$ steps,
-so the total expected regret incurred in these phases is at most
-$\sum_{s=1}^{\LatePhase} \ARMNUM \MAXR s = O(\ARMNUM \MAXR \LatePhase^2)$.
-
-Regret incurred after the first \LatePhase phases can arise in two ways:
+Regret can arise in two ways:
 (1) an agent was incentivized to pull a suboptimal arm, or
 (2) an agent myopically pulled a suboptimal arm.
 By Lemma~\ref{lem:numP}, Algorithm~\ref{alg:basic-incentivizing}
@@ -525,17 +519,19 @@ such misestimated are exponentially unlikely to occur),
 and agents incurring small positive regret,
 which requires these agents to be almost tied in their preference for
 the best arm.
-To be more precise, we will define (with hindsight) a time-dependent
-cutoff $g(t)$, and consider a regret exceeding $g(t)$ large.
+To be more precise, we will define (with hindsight) a phase-dependent
+cutoff $g(s)$, and consider a regret exceeding $g(s)$ large.
 
-We first consider agents \AgV incurring positive regret less than $g(t)$.
+We first consider agents \AgV incurring positive regret less than $g(s)$.
 The second-best arm \Second{\AgV} of \AgV must satisfy
-$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq g(t)$.
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq g(s)$.
 By Lemma~\ref{lem:sdelta}, the total measure of such agents
-is $\AlmostTied{g(t)} \leq \TieDensity \cdot g(t)$,
-and each incurs regret at most $g(t)$.
-Summing over all time steps, the total regret from such agents is at most
-$\sum_{t = 1}^T \TieDensity \cdot g^2(t)$.
+is $\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$,
+and each incurs regret at most $g(s)$.
+Summing over all time steps, the expected total regret from such agents is at most
+\begin{align}
+&E[\sum_{s=1}^{T}\sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)] \leq \sum_{s=1}^{T}\TieDensity\cdot g^2(s)Ns. \nonumber 
+\end{align}
 
 To bound the regret incurred in time steps with large regret,
 let the random variable $t_s$ be the final time step in phase $s$,
@@ -545,61 +541,71 @@ Define the stopping times $\tau_{s}^{k}$ to be the \Kth{k}
 time step in the \Kth{s} phase,
 with $\tau_{s}^{k} = \infty$ when phase $s$ has fewer than $k$ steps,
 i.e., $k > t_{s}-t_{s-1}$.
-For $t = \tau_{s}^{k}$, by Corollary~\ref{cor:right-choice}
-(applied with $x = \frac{g^2(\tau_s^k)}{4 \Diam^2 d^2}$),
-the probability of incurring regret exceeding $g(t)$ is at most
-$24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(\tau_{s}^{k})^2}{64 \Diam^2 d^2\sigma^2}\right)$.
-Because each arm must have been pulled at least $s$ times by the time
-the algorithm reaches phase $s$,
-\dkcomment{Really only $s-1$; we have to be careful with those $\pm 1$.}
-we can bound $\tau_{s}^{k} \geq s$.
-\dkcomment{We could bound it by $\ARMNUM s$, if that helps get
-  slightly better bounds.}
+For $t = \tau_{s}^{k}$, we know
+\begin{align}
+&\Prob{\text{incur regret exceeding g(s)}} \nonumber \\
+\leq & \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}}.\nonumber 
+\end{align}
+
 Because the regret never exceeds \MAXR,
 the expected (large) regret for the \Kth{k} time step of phase $s$
 is bounded above by
-$24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g(s)^2}{64 \Diam^2 d^2\sigma^2}\right) \cdot \MAXR$.
+$\Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR$.
 Summing over all time steps $t$, we get that the total regret from
 large-regret steps is at most
 
 \begin{align*}
-\lefteqn{\sum_{s = \LatePhase}^T \sum_{t=t_s}^{t_{s+1}-1}
-  24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g^2(s)}{64 \Diam^2 d^2\sigma^2}\right) \cdot \MAXR}
+\lefteqn{\sum_{s = 1}^T \sum_{t=t_s}^{t_{s+1}-1}
+  \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR}
 \\ & =
-\sum_{s = \LatePhase}^T 
-  24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g^2(s)}{64 \Diam^2 d^2\sigma^2}\right) \cdot \MAXR
+\sum_{s = 1}^T 
+  \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
   \cdot \Expect{\mbox{Length of phase } s}
 \\ & \leq
-\sum_{s = \LatePhase}^T 
-  24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g^2(s)}{64 \Diam^2 d^2\sigma^2}\right) \cdot \MAXR
+\sum_{s = 1}^T 
+ \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
   \cdot \ARMNUM s,
 \end{align*}
 where the inequality was an application of Lemma~\ref{lem:phase-length}.
-Adding all four terms, and starting the sum at 1 instead of \LatePhase,
+Adding all three terms,
 the cumulative regret up to time $T$ is at most
 
-\begin{multline*}
-O(\ARMNUM \MAXR \LatePhase^2) + 
-O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+\begin{align*}
+&O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
   + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right) +
+  \right)} \right)
 \\
-+ \sum_{s = 1}^T 
-  24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s g^2(s)}{64 \Diam^2 d^2\sigma^2}\right) \cdot \MAXR
++ & \sum_{s = 1}^T 
+  \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
   \cdot \ARMNUM s,
-+ \sum_{t=1}^{T}\TieDensity \cdot g^2(t).
-\end{multline*}
++ \sum_{s=1}^{T}\TieDensity \cdot g^2(s)\cdot Ns.
+\end{align*}
 
 The first line is independent of $T$, and we now choose
-$g^2(t) = \frac{2\log(T) \cdot 64 \Diam^2 d^2 \sigma^2}{1.8 t}$
+$g^2(s) = \frac{288\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$
 with the goal of minimizing the second line.
-With this choice, the second line becomes
+With this choice and same definition of $S_{s}$ as in the proof of Lemma~\ref{lem:round-prob}, 
+\begin{align*}
+&\Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \\
+\leq &\sum_{i,j}\Prob{|S_s|\geq 3\sqrt{\frac{2}{1.8}s\log(T)}} \\
+\leq &\sum_{i,j}\Prob{|S_s|\geq \sqrt{0.6s\log(\log_{1.1}(s)+1)+\frac{2}{1.8}\log(T)s}} \leq 24\ARMNUM d \cdot \exp(-2\log(T)),
+\end{align*}
+where the second to last inequality is because the following technical inequality, whose proof we include in the appendix.
+
+\begin{lemma} \label{lem:n1-inequality}
+For $2\leq s\leq T$, we have $3\sqrt{\frac{2}{1.8}s\log(T)} \geq \sqrt{0.6s\log(\log_{1.1}(s)+1)+\frac{2}{1.8}\log(T)s}$.
+\end{lemma}
+
+\bccomment{I believe the calculation up to this line should be correct now. The final equation we want to minimize is $\sum_{s=1}^{T}[\exp(-s*g^2(s))+g^2(s)*s]$, what should be our choice of $g(s)$?}
+
+
+Therefore, the second line becomes
 
 \begin{align*}
 \lefteqn{\sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)  +
           \frac{128\Diam^2 d^2\sigma^2
-          \TieDensity\log(T)}{1.8}\sum_{t=1}^{T}\frac{1}{t}}
+          \TieDensity\log(T)}{1.8}\sum_{s=1}^{T}\frac{1}{s}}
 \\ & \leq
 24\ARMNUM^2 d R\frac{T(T-1)}{2T^2}  + 71.12 \Diam^2 d^2\sigma^2
           \TieDensity\log(T)(\log(T)+1)

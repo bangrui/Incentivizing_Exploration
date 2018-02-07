@@ -1,10 +1,10 @@
-\section*{Proof of Lemma~\ref{n0-inequality}}
+\section*{Proof of Lemma~\ref{lem:n0-inequality}}
 
 \begin{proof}
 First, we observe that
 \begin{align}
-&\frac{n\lambda}{4\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)} \nonumber \\
-\iff &\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{9.6\sigma^2}{\lambda^2}. \nonumber 
+&\frac{nx}{4\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)} \nonumber \\
+\iff &\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{9.6\sigma^2}{x^2}. \nonumber 
 \end{align}
 Since $\log(x)\leq x-1$ for $x>0$, we know 
 \begin{align}
@@ -16,14 +16,14 @@ Thus, we know
 \frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{n}{3+\log(n)}. \nonumber 
 \end{align}
 
-To prove the lemma, we just need to show for $n\geq n_{0}$, we have
+To prove the lemma, we just need to show for $n\geq s_{0}$, we have
 \begin{align}
-\frac{n}{3+\log(n)}\geq \frac{9.6\sigma^2}{\lambda^2}. \label{n0-equ}
+\frac{n}{3+\log(n)}\geq \frac{9.6\sigma^2}{x^2}. \label{n0-equ}
 \end{align}
 Inequality~(\ref{n0-equ}) is true because of the following two observations:
 \begin{itemize}
 \item for $n\geq 50$, we have $\frac{n}{3+\log(n)}\geq n^{0.5}$;
-\item for $n\geq \frac{92.16\sigma^4}{\lambda^4}$, we have $n^{0.5}\geq {9.6\sigma^{2}}{\lambda^{2}}$.
+\item for $n\geq \frac{92.16\sigma^4}{x^4}$, we have $n^{0.5}\geq {9.6\sigma^{2}}{x^{2}}$.
 \end{itemize}
 
 Thus, we know our lemma is true.
@@ -63,7 +63,7 @@ Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
 \noindent\textbf{Step 1: Categorize measurement errors into different radius envelopes}
 
 
-Denote $\epsilon_{i,t}=u_{i,t}-u_{i}$ to be the estimation error for the attribute vector $u_i$ at time $t$. Denote $\epsilon_{i,t}^{j}$ to be the $j^{th}$ component of $\epsilon_{i,t}$. Denote $\omega$ to be a sample path and $n(t,\omega)$ to be the round number for sample path $\omega$ at time $t$. For a fixed time $t$, define
+Denote $\epsilon_{i,t}=\ArmEV{t}{i}-\ArmV{i}$ to be the estimation error for the attribute vector $u_i$ at time $t$. Denote $\epsilon_{i,t}^{j}$ to be the $j^{th}$ component of $\epsilon_{i,t}$. Denote $\omega$ to be a sample path and $n(t,\omega)$ to be the round number for sample path $\omega$ at time $t$. For a fixed time $t$, define
 \begin{align}
 L^{'}[\ell](t) = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n(t,\omega),\ell), \forall i,j\}\nonumber
 \end{align}
@@ -71,113 +71,113 @@ where $g(n,\ell)$ is a function which we will define later. Define $L[1](t) = L^
 
 In the calculation below, we omit the dependency on $\omega$ when refering to variables $c(t)$, $\epsilon_{i,t}^{j}$ and $t_n$. Based on the definition of $L[\ell]$, we know if $\omega\in L[\ell]$, the maximum payment we need to offer at time $t$ is bounded above by 
 \begin{align}
-&\max_{i}\theta_t\cdot u_{i,t} - \min_{j}\theta_t\cdot u_{j,t} \nonumber \\
-= &\max_{i}\theta_t\cdot (\epsilon_{i,t}+u_i) - \min_{j}\theta_t\cdot (\epsilon_{j,t}+u_j) \nonumber \\
-\leq &\max_{i}\theta_t\cdot u_i - \min_{j}\theta_t\cdot u_j +\max_{i}\theta_t\cdot \epsilon_{i,t} - \min_{j}\theta_t\cdot \epsilon_{j,t}\nonumber \\
-\leq & R + 2Wmg(n,\ell). \nonumber
+&\max_{i}\AgentV{t}\cdot \ArmEV{t}{i} - \min_{j}\AgentV{t}\cdot \ArmEV{t}{j} \nonumber \\
+= &\max_{i}\AgentV{t}\cdot (\epsilon_{i,t}+\ArmV{i}) - \min_{j}\AgentV{t}\cdot (\epsilon_{j,t}+\ArmV{j}) \nonumber \\
+\leq &\max_{i}\AgentV{t}\cdot \ArmV{i} - \min_{j}\AgentV{t}\cdot \ArmV{j} +\max_{i}\AgentV{t}\cdot \epsilon_{i,t} - \min_{j}\AgentV{t}\cdot \epsilon_{j,t}\nonumber \\
+\leq & R + 2\Diam dg(n,\ell). \nonumber
 \end{align}
 
-We denote $\bar{c}(n,\ell)=R + 2Wmg(n,\ell)$ as the upper bound of payment for round $n$ if our measurement error lie in the $\ell^{th}$ envelope.
+We denote $\bar{c}(n,\ell)=R + 2\Diam dg(n,\ell)$ as the upper bound of payment for round $n$ if our measurement error lie in the $\ell^{th}$ envelope.
 
 
 \noindent\textbf{Step 2: Introduce a new stochastic process which bounds the total payment in a round}
 
 Denote $\mathcal{F}_t$ as the filtration up to time $t$. Based on our algorithm, we know
 
-\[ P(\text{play a new arm}|\mathcal{F}_t) =
+\[ \Prob{\text{play a new arm}|\mathcal{F}_t} =
 \begin{cases}
 1       & \quad \text{if we incentivize}\\
-\sum_{i\notin (V\cup S)} P(\theta \cdot u_{i,t}>\theta\cdot u_{j,t} \forall j\neq i)  & \quad \text{if }  S\setminus V\neq \emptyset 
+\sum_{i\notin (V\cup S)} P(\AgentV{t} \cdot \ArmEV{t}{i}>\AgentV{t}\cdot \ArmEV{t}{j} \forall j\neq i)  & \quad \text{if }  S\setminus V\neq \emptyset 
 \end{cases} \label{dom_stoc}
 \] 
 \hspace{1cm}$\geq (n-|V|)\times \frac{1}{n}=1-\frac{|V|}{n}$.
 
-Let $(Z_{n,v,m}:m\geq 0)$ be a sequence of independent Bernoulli random variable with success probability $(1-\frac{v}{n})$. We will construct an alternative stochastic process for selecting which arm gets played that has the same distribution as the original process, but under which
+Let $(Z_{s,v,m}:m\geq 0)$ be a sequence of independent Bernoulli random variable with success probability $(1-\frac{v}{s})$. We will construct an alternative stochastic process for selecting which arm gets played that has the same distribution as the original process, but under which
 \begin{align}
-t_{n+1}-t_{n}\leq \bar{T}_{n}:=\sum_{v=0}^{N-1}\bar{T}_{n,v}, \nonumber 
+t_{s+1}-t_{s}\leq \bar{T}_{s}:=\sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}, \nonumber 
 \end{align}
-where $\bar{T}_{n,v}:=\inf\{m\geq 0: Z_{n,v,m}=1\}+1$.
+where $\bar{T}_{s,v}:=\inf\{m\geq 0: Z_{s,v,m}=1\}+1$.
 
-The new stochastic process will have the property that whenever $Z_{n,v(n,t),m(n,t)}=1$, we will play a new arm at time t for $t\in [t_{n}, t_{n+1}]$, where $v(n,t)$ is the number of unique arms played in round $n$ strictly before time $t$, and $m(n,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(n,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} and let $q_t$ be the probability computed. Note $q_t\geq 1-\frac{v(n,t)}{n}$.
+The new stochastic process will have the property that whenever $Z_{s,v(s,t),m(s,t)}=1$, we will play a new arm at time t for $t\in [t_{s-1}, t_{s}]$, where $v(s,t)$ is the number of unique arms played in round $s$ strictly before time $t$, and $m(s,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(s,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} and let $q_t$ be the probability computed. Note $q_t\geq 1-\frac{v(s,t)}{s}$.
 
-If $Z_{n,v(n,t),m(n,t)}$ is 1, decide to play a new arm. Otherwise, draw a second Bernoulli random variable with probability $\frac{q_t-(1-\frac{v(n,t)}{n})}{1-(1-\frac{v(n,t)}{n})}$, and if it is 1, decide to play a new arm, and otherwise decide to play an old arm. Note that
-
-\begin{align}
-P(\text{play a new arm}|\mathcal{F}_{t})=\left[1-\frac{v(n,t)}{n}\right]+\left[1-(1-\frac{v(n,t)}{n})\right]\times \frac{q_t-(1-\frac{v(n,t)}{n})}{1-(1-\frac{v(n,t)}{n})}=q_t.
-\end{align}
-
-Since we pull a new arm only when $Z_{n,v(n,t),m(n,t)}=1$, the number of times we pull an arm when $v(n,t)=v$ is bounded above by $\bar{T}_{n,v}$. Thus,
+If $Z_{s,v(s,t),m(s,t)}$ is 1, decide to play a new arm. Otherwise, draw a second Bernoulli random variable with probability $\frac{q_t-(1-\frac{v(s,t)}{s})}{1-(1-\frac{v(s,t)}{s})}$, and if it is 1, decide to play a new arm, and otherwise decide to play an old arm. Note that
 
 \begin{align}
-t_{n+1}-t_{n}\leq \sum_{v=0}^{n-1}\bar{T}_{n,v}=\bar{T}_{n}.
-\end{align}
-Finally, we want to bound $\sum_{t}E[c(t)]$. Let $C(n)$ be the cost incurred in round $n$. Thus $\sum_{t}E[c(t)]=\sum_{n}E[C(n)]$. We know
-\begin{align}
-C(n)&=\sum_{t=t_n}^{t_{n+1}-1}c(t)=\sum_{t=t_{n}}^{t_{n+1}-1}\sum_{\ell}\mathbbm{1}\{\omega\in L(\ell)\}c(t) \nonumber \\
-&\leq \sum_{t=t_{n}}^{t_{n+1}-1}\sum_{l}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(n,\ell) \nonumber \\
-&\leq (t_{n+1}-t_{n})\sum_{\ell} \mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(n,\ell) \nonumber \\
-&\leq \bar{T}_{n}\sum_{l}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(n,\ell). \nonumber
+\Prob{\text{play a new arm}|\mathcal{F}_{t}}=\left[1-\frac{v(s,t)}{s}\right]+\left[1-(1-\frac{v(s,t)}{s})\right]\times \frac{q_t-(1-\frac{v(s,t)}{s})}{1-(1-\frac{v(s,t)}{s})}=q_t.
 \end{align}
 
-Since $\bar{T}_{n}$ is independent of $\omega$, we know
+Since we pull a new arm only when $Z_{s,v(s,t),m(s,t)}=1$, the number of times we pull an arm when $v(s,t)=v$ is bounded above by $\bar{T}_{s,v}$. Thus,
+
 \begin{align}
-E[C(n)]\leq E[\bar{T}_{n}]\sum_{\ell}P(\omega\in L(\ell))\bar{c}(n,\omega). \nonumber
+t_{s+1}-t_{s}\leq \sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}=\bar{T}_{s}.
+\end{align}
+Finally, we want to bound $\sum_{t}E[c(t)]$. Let $C(s)$ be the cost incurred in phase $s$. Thus $\sum_{t}E[c(t)]=\sum_{s}E[C(s)]$. We know
+\begin{align}
+C(s)&=\sum_{t=t_s}^{t_{s+1}-1}c(t)=\sum_{t=t_{s}}^{t_{s+1}-1}\sum_{\ell}\mathbbm{1}\{\omega\in L(\ell)\}c(t) \nonumber \\
+&\leq \sum_{t=t_{s}}^{t_{s+1}-1}\sum_{l}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(n,\ell) \nonumber \\
+&\leq (t_{s+1}-t_{s})\sum_{\ell} \mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell) \nonumber \\
+&\leq \bar{T}_{s}\sum_{l}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell). \nonumber
+\end{align}
+
+Since $\bar{T}_{s}$ is independent of $\omega$, we know
+\begin{align}
+E[C(s)]\leq E[\bar{T}_{s}]\sum_{\ell}\Prob{\omega\in L(\ell)}\bar{c}(s,\omega). \nonumber
 \end{align}
 \noindent\textbf{Step 3: Rewrite the total payment expression}.
 
 Based on the above notations, we can rewrite the cumulative payment as follows:
 \begin{align}
-\sum_{t=1}^{\infty}c(t) =\sum_{n=1}^{\infty}C(n)
-\leq  \sum_{n=1}^{\infty}\sum_{\ell=1}^{\infty}\bar{T}_{n}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(n,\ell). \nonumber
+\sum_{t=1}^{\infty}c(t) =\sum_{s=1}^{\infty}C(s)
+\leq  \sum_{s=1}^{\infty}\sum_{\ell=1}^{\infty}\bar{T}_{s}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell). \nonumber
 \end{align}
 
-Set $g(n,\ell)$ to be $\frac{12\sigma \ell}{n^{2/5}}$. Since if $|u_{i}^{j}-u_{i,t}^{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\theta\in \{\theta:\theta\cdot u_{B(\theta)}-\max_{j\neq B(\theta)}\{\theta \cdot u_{j}\}> 2Wm\lambda\}$, they will correctly identify their best arm. Thus, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{12\sigma l}{n^{2/5}} \leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a round $n$ that satisfies $n^{-1}\leq p/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24Wm\sigma}{p^{-1}(\frac{p}{2})}$. In order to have $\frac{12\sigma l}{n^{2/5}}\leq \frac{p^{-1}(\frac{p}{2})}{2Wm}$, it is sufficient to have $n\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $n^{-1}\leq \frac{p}{2}$, we need $n\geq \frac{2}{p}$. Denote $n_2=\frac{2}{p}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $\ell^{th}$ envelope in the first $\max\{n_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ rounds.
+Set $g(s,\ell)$ to be $\frac{12\sigma \ell}{s^{2/5}}$. Since if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot \ArmV{\Best{\AgV}}-\AgV \cdot \ArmV{\Second{\AgV}}> 2\Diam d\lambda\}$, they will correctly identify their best arm. Thus, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{12\sigma l}{s^{2/5}} \leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a phase $s$ that satisfies $s^{-1}\leq \MinProb/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24\Diam d\sigma}{p^{-1}(\frac{\MinProb}{2})}$. In order to have $\frac{12\sigma l}{s^{2/5}}\leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$, it is sufficient to have $s\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $s^{-1}\leq \frac{\MinProb}{2}$, we need $s\geq \frac{2}{\MinProb}$. Denote $s_2=\frac{2}{\MinProb}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $\ell^{th}$ envelope in the first $\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ rounds.
 
 Thus,
 \begin{align}
-\sum_{t=1}^{\infty}c(t)\leq\sum_{\ell=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(n,\ell)\mathbbm{1}\{\omega\in L[\ell]\}\bar{T}_{n}. \nonumber
+\sum_{t=1}^{\infty}c(t)\leq\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(s,\ell)\mathbbm{1}\{\omega\in L[\ell]\}\bar{T}_{s}. \nonumber
 \end{align}
 
 Therefore,
 
 \begin{align}
 &E\left[\sum_{t=1}^{\infty}c(t)\right] \nonumber\\
-\leq &\sum_{\ell=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(n,\omega)P(\omega \in L(\ell))E[\bar{T}_{n}] \nonumber \\
-=&\sum_{\ell=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[R+2Wm\frac{12\sigma \ell}{n^{2/5}}\right]P(\omega\in L[\ell])E[\bar{T}_{n}] \nonumber \\
-\leq &\sum_{\ell=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[R+24Wm\sigma l\right]P(\omega\in L[\ell])E[\bar{T}_{n}]. \nonumber
+\leq &\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(s,\omega)\Prob{\omega \in L(\ell)}E[\bar{T}_{s}] \nonumber \\
+=&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[\MAXR+2\Diam d\frac{12\sigma \ell}{s^{2/5}}\right]\Prob(\omega\in L[\ell])E[\bar{T}_{s}] \nonumber \\
+\leq &\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[\MAXR+24\Diam d\sigma l\right]\Prob(\omega\in L[\ell])E[\bar{T}_{s}]. \nonumber
 \end{align}
 
-\noindent\textbf{Step 4: Bound $P(\omega\in L(\ell))$}.
+\noindent\textbf{Step 4: Bound $\Prob{\omega\in L(\ell)}$}.
 
-We now bound $P(\omega\in L[\ell])$ for $n\geq n_0$ and $\ell\geq 2$. As a reminder, we omit the dependency between $\epsilon_{i,t}^{j}$, $n$ and $\omega$. We know 
+We now bound $\Prob{\omega\in L[\ell]}$ for $n\geq n_0$ and $\ell\geq 2$. As a reminder, we omit the dependency between $\epsilon_{i,t}^{j}$, $n$ and $\omega$. We know 
 \begin{align}
-&P(\omega\in L[\ell]) \nonumber \\
-=&P(\omega\in L^{'}[\ell])- P(\omega\in L^{'}[\ell-1]) \nonumber \\
-\leq & 1-P\left(|\epsilon_{i,t}^{j}|<\frac{12\sigma (\ell-1)}{n^{2/5}}, \forall i,j\right) \nonumber \\
-=&P\left(\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{n^{2/5}}\right) \nonumber  \\
-\leq &\sum_{i,j}P\left(|\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{n^{2/5}}\right) \nonumber
+&\Prob{\omega\in L[\ell]} \nonumber \\
+=&\Prob{\omega\in L^{'}[\ell]}- \Prob{\omega\in L^{'}[\ell-1]} \nonumber \\
+\leq & 1-\Prob{|\epsilon_{i,t}^{j}|<\frac{12\sigma (\ell-1)}{n^{2/5}}, \forall i,j} \nonumber \\
+=&\Prob{\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{n^{2/5}}} \nonumber  \\
+\leq &\sum_{i,j}\Prob{|\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{n^{2/5}}} \nonumber
 \end{align}
 
-Define $S_{i,t}^{j}=\frac{N(i,t)\epsilon_{i,t}^{j}}{2\sigma}$, then we know $S_{i,t}^{j}$ is a summation of $1/2$ gaussian random numbers. Therefore,
+Define $S_{i,t}^{j}=\frac{\NumPull{t}{i}\epsilon_{i,t}^{j}}{2\sigma}$, then we know $S_{i,t}^{j}$ is a summation of $1/2$ gaussian random numbers. Therefore,
 \begin{align}
-&\sum_{i,j}P\left(|\epsilon_{i,t}^{j}|\geq \frac{12\sigma(\ell-1)}{n^{2/5}}\right) \nonumber \\ 
-=&\sum_{i,j}P\left(|S_{i,t}^{j}|\geq \frac{6N(i,t)(\ell-1)}{n^{2/5}}\right) \nonumber \\
-\leq &\sum_{i,j}P(|S_{i,t}^{j}|\geq 6N(i,t)^{3/5}(\ell-1)). \nonumber
+&\sum_{i,j}\Prob{|\epsilon_{i,t}^{j}|\geq \frac{12\sigma(\ell-1)}{n^{2/5}}} \nonumber \\ 
+=&\sum_{i,j}\Prob{|S_{i,t}^{j}|\geq \frac{6\NumPull{t}{i}(\ell-1)}{n^{2/5}}} \nonumber \\
+\leq &\sum_{i,j}\Prob{|S_{i,t}^{j}|\geq 6\NumPull{t}{i}^{3/5}(\ell-1)}. \nonumber
 \end{align}
 
 Based on Lemma~\ref{lemma:cal2}, we know
 \begin{align}
-&6N(i,t)^{3/5}(\ell-1) \nonumber \\
-=& 5N(i,t)^{3/5} + N(i,t)^{3/5}(\ell-1) \nonumber \\
-\geq & \sqrt{0.6N(i,t)\log(\log_{1.1}(N(i,t))+1)} + \sqrt{(\ell-1)^2 N(i,t)} \nonumber \\
-\geq & \sqrt{0.6N(i,t)\log(\log_{1.1}(N(i,t))+1)+(\ell-1)^2 N(i,t)}. \nonumber
+&6\NumPull{t}{i}^{3/5}(\ell-1) \nonumber \\
+=& 5\NumPull{t}{i}^{3/5} + \NumPull{t}{i}^{3/5}(\ell-1) \nonumber \\
+\geq & \sqrt{0.6\NumPull{t}{i}\log(\log_{1.1}(\NumPull{t}{i})+1)} + \sqrt{(\ell-1)^2 \NumPull{t}{i}} \nonumber \\
+\geq & \sqrt{0.6\NumPull{t}{i}\log(\log_{1.1}(\NumPull{t}{i})+1)+(\ell-1)^2 \NumPull{t}{i}}. \nonumber
 \end{align}
 
-Based on Lemma~\ref{ACI-inequality}, we know
+Based on Lemma~\ref{lem:ACI-inequality}, we know
 \begin{align}
-& P(\omega\in L(\ell) \nonumber \\
-\leq &\sum_{i,j}P(|S_{i,t}^{j}|\geq 6N(i,t)^{3/5}(\ell-1)) \nonumber \\
-\leq & \sum_{i,j}24e^{-1.8(\ell-1)^2} = 24Nme^{-1.8(\ell-1)^2}. \nonumber
+& \Prob{\omega\in L(\ell)} \nonumber \\
+\leq &\sum_{i,j}\Prob{|S_{i,t}^{j}|\geq 6\NumPull{t}{i}^{3/5}(\ell-1)} \nonumber \\
+\leq & \sum_{i,j}24e^{-1.8(\ell-1)^2} = 24\ARMNUM d\exp(-1.8(\ell-1)^2). \nonumber
 \end{align}
 
 \noindent\textbf{Step 5: Final Step}
@@ -185,12 +185,12 @@ Based on Lemma~\ref{ACI-inequality}, we know
 Thus,
 \begin{align}
 &\sum_{t=1}^{\infty}c(t) \nonumber \\
-\leq&\sum_{\ell=1}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[R+24Wm\sigma \ell\right]P(\omega\in L[\ell])E[\bar{T}_{n}] \nonumber \\
-\leq& \sum_{n=1}^{\max\{n_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24Wm\sigma \right]P(\omega\in L[1])E[\bar{T}_{n}] +\sum_{l=2}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[R+24Wm\sigma \ell\right]P(\omega\in L[\ell])E[\bar{T}_{n}] \nonumber \\
-\leq& \sum_{n=1}^{\max\{n_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24Wm\sigma \right]E[\bar{T}_{n}] +\sum_{\ell=2}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[R+24Wm\sigma \ell\right]24Nme^{-1.8(\ell-1.9)^2}E[\bar{T}_{n}]\nonumber \\
-\leq& \sum_{n=1}^{\max\{n_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24Wm\sigma \right]Nn +\sum_{\ell=2}^{\infty}\sum_{n=1}^{\max\{n_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[R+24Wm\sigma \ell\right]24Nme^{-1.8(\ell-1.9)^2}Nn \nonumber \\
-\leq & \left[R+24Wm\sigma \right]N (\max\{n_2,\lceil (a_0)^{5/2} \rceil\})^2+\sum_{\ell=2}^{\infty}24N^2 m[R+24Wm\ell\sigma](\max\{n_2,\lceil (a_0 \ell)^{5/2} \rceil\})^2 e^{-1.8(\ell-1.9)^2} \nonumber \\
-=& O(\frac{N}{p^5}+ \frac{N^2}{p^5}). \nonumber
+\leq&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\omega\in L[\ell])E[\bar{T}_{s}} \nonumber \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\Prob{\omega\in L[1]}E[\bar{T}_{s}] +\sum_{l=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\omega\in L[\ell]}E[\bar{T}_{s}] \nonumber \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24\Diam d\sigma \right]E[\bar{T}_{s}] +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24\ARMNUM d e^{-1.8(\ell-1.9)^2}E[\bar{T}_{s}]\nonumber \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\ARMNUM s +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24 \ARMNUM d e^{-1.8(\ell-1.9)^2}\ARMNUM s \nonumber \\
+\leq & \left[\MAXR+24\Diam d\sigma \right]\ARMNUM (\max\{s_2,\lceil (a_0)^{5/2} \rceil\})^2+\sum_{\ell=2}^{\infty}24\ARMNUM^2 d[\MAXR+24\Diam d\ell\sigma](\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\})^2 e^{-1.8(\ell-1.9)^2} \nonumber \\
+=& O(\frac{N}{\MinProb^5}+ \frac{\ARMNUM^2}{\MinProb^5}). \nonumber
 \end{align}
 
 \end{proof}
@@ -214,4 +214,25 @@ and
 \end{align}   
 Based on inequality~\eqref{inequ:dct}, we know $d(t)\leq \frac{z_{t,1}^{2}}{2}$ and $\lim_{t\rightarrow\infty}d(t)=\frac{z_{t,1}^2}{2}$.
 
+\section*{Proof of Lemma~\ref{lem:n1-inequality}}
 
+\begin{proof}
+We first prove $2\sqrt{\frac{2}{1.8}s\log(T)}\geq \sqrt{0.6s\log(\log_{1.1}(s)+1)}$ for $s\geq 2$. This is true because
+\begin{align}
+&2\sqrt{\frac{2}{1.8}s\log(T)}\geq \sqrt{0.6s\log(\log_{1.1}(s)+1)} \nonumber \\
+\Longleftarrow & 2\sqrt{s\log(T)}\geq \sqrt{s\log(\log_{1.1}(s)+1)} \nonumber \\
+\Longleftarrow & 4\log(T)\geq \log(\log_{1.1}(s)+1) \nonumber \\
+\Longleftarrow & T^4 \geq \log_{1.1}(s)+1 \nonumber \\
+\Longleftarrow & s^4 \geq \log_{1.1}(s)+1, \nonumber
+\end{align}
+the derivative of $s^4-\log_{1.1}(s)-1$ is positive for $s\geq 2$ and $2^4-\log_{1.1}(s)-1>0$. 
+
+Therefore, we know
+\begin{align}
+&3\sqrt{\frac{2}{1.8}s\log(T)} \nonumber \\
+= & 2\sqrt{\frac{2}{1.8}s\log(T)} + \sqrt{\frac{2}{1.8}s\log(T)} \nonumber \\
+\geq & \sqrt{0.6s\log(\log_{1.1}(s)+1)}+\sqrt{\frac{2}{1.8}s\log(T)} \nonumber \\
+\geq & \sqrt{0.6s\log(\log_{1.1}(s)+1)+\frac{2}{1.8}\log(T)s}. \nonumber 
+\end{align}
+
+\end{proof}
