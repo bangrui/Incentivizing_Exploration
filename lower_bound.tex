@@ -93,6 +93,28 @@ Hence, the expected regret for given \Noise{1}, \Noise{2} is at least
 \frac{1}{3 \pi} \cdot \left(\frac{\Noise{1}}{1+\Noise{1}+\Noise{2}}\right)^2.
 \end{align*}
 
+\begin{align}
+&E[r(t)| \Noise{1}>0, \Noise{2}>0] \nonumber \\
+\geq & 4\times \frac{1}{3\pi} \int_{0}^{\infty} \int_{0}^{\infty} (\frac{\Noise{1}}{1+\Noise{1}+\Noise{2}})^2\frac{e^{-\frac{t \times \Noise{1}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(\Noise{1})\frac{e^{-\frac{t \times \Noise{2}^2}{2}}\sqrt{t}}{\sqrt{2\pi}}d(\Noise{2}) \nonumber \\
+= & \frac{1}{3\pi^3} \int_{0}^{\infty} \int_{0}^{\infty} (\frac{\Noise{1}}{\sqrt{t}+\Noise{1}+\Noise{2}})^2e^{-\frac{\Noise{1}^2}{2}}d(\Noise{1})e^{-\frac{\Noise{2}^2}{2}}d(\Noise{2}) \nonumber 
+\end{align}
+
+Below, we want to show 
+\begin{align}
+\lim_{t\rightarrow\infty}\frac{E[r(t)| \Noise{1}>0, \Noise{2}>0]}{\frac{1}{t}} = O(1), \nonumber
+\end{align}
+and use the fact that $\sum_{n=1}^{T}\frac{1}{n}=O(\log(T))$ to show the regret is at least $\Omega(\log(T))$. Since
+\begin{align}
+&\lim_{t\rightarrow \infty}\frac{E[r(t)| \Noise{1}>0, \Noise{2}>0]}{\frac{1}{t}} \nonumber \\
+\geq & \lim_{t\rightarrow \infty}\frac{1}{3\pi^3}\int_{0}^{\infty} \int_{0}^{\infty}\left[ t(\frac{\Noise{1}}{\sqrt{t}+\Noise{1}+\Noise{2}})^2\right]e^{-\frac{\Noise{1}^2}{2}}e^{-\frac{\Noise{2}^2}{2}}d(\Noise{1})d(\Noise{2}) \nonumber  \\
+= & \frac{1}{3\pi^3}\int_{0}^{\infty} \int_{0}^{\infty}\lim_{t\rightarrow \infty}\left[ t(\frac{\Noise{1}}{\sqrt{t}+\Noise{1}+\Noise{2}})^2\right]e^{-\frac{\Noise{1}^2}{2}}e^{-\frac{\Noise{2}^2}{2}}d(\Noise{1})d(\Noise{2}) \nonumber  \\
+=&\frac{1}{3\pi^3}\int_{0}^{\infty} \int_{0}^{\infty}e^{-\frac{\Noise{1}^2}{2}}e^{-\frac{\Noise{2}^2}{2}}d(\Noise{1})d(\Noise{2}) = \frac{1}{3\pi^3}, \nonumber
+\end{align}
+
+where the third line is due to monotone convergence theorem since the derivative of $t(\frac{\Noise{1}}{\sqrt{t}+\Noise{1}+\Noise{2}})^2$ is greater than $0$.
+
+
+
 \dkcomment{I edited up to here. Waiting for some feedback about
   whether my calculations are way off.
   I did use one bound of $\sqrt{1-\Ag{2}^2} \geq 1-\Ag{2}$, but since
