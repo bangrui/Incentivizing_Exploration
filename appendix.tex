@@ -63,42 +63,43 @@ Now we are ready to prove our first main result, Theorem~\ref{rst:budget}.
 \noindent\textbf{Step 1: Categorize measurement errors into different radius envelopes}
 
 
-Denote $\epsilon_{i,t}=\ArmEV{t}{i}-\ArmV{i}$ to be the estimation error for the attribute vector $u_i$ at time $t$. Denote $\epsilon_{i,t}^{j}$ to be the $j^{th}$ component of $\epsilon_{i,t}$. Denote $\omega$ to be a sample path and $n(t,\omega)$ to be the round number for sample path $\omega$ at time $t$. For a fixed time $t$, define
+Denote $\epsilon_{i,t}=\ArmEV{t}{i}-\ArmV{i}$ to be the estimation error for the attribute vector $\ArmV{i}$ at time $t$. Denote $\epsilon_{i,t}^{j}$ to be the $j^{th}$ component of $\epsilon_{i,t}$. Denote $\omega$ to be a sample path and $s(t,\omega)$ to be the phase number for sample path $\omega$ at time $t$. For a fixed time $t$, define
 \begin{align}
-L^{'}[\ell](t) = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(n(t,\omega),\ell), \forall i,j\}\nonumber
+L^{'}[\ell](t) = \{\omega:|\epsilon_{i,t}^{j}(\omega)|\leq g(s(t,\omega),\ell), \forall i,j\}\nonumber
 \end{align}
-where $g(n,\ell)$ is a function which we will define later. Define $L[1](t) = L^{'}[1](t)$ and $L[i](t) = L^{'}[i](t)\setminus L^{'}[i-1](t)$ for $i\geq 2$. We call $L[\ell](t)$ the $\ell^{th}$ envelope at time $t$. We often simplify the notation and use $L[\ell]$ instead of $L[\ell](t)$ without confusion.
+where $g(s,\ell)$ is a function which we will define later. Define $L[1](t) = L^{'}[1](t)$ and $L[i](t) = L^{'}[i](t)\setminus L^{'}[i-1](t)$ for $i\geq 2$. We call $L[\ell](t)$ the $\ell^{th}$ envelope at time $t$. We often simplify the notation and use $L[\ell]$ instead of $L[\ell](t)$ without confusion.
 
-In the calculation below, we omit the dependency on $\omega$ when refering to variables $c(t)$, $\epsilon_{i,t}^{j}$ and $t_n$. Based on the definition of $L[\ell]$, we know if $\omega\in L[\ell]$, the maximum payment we need to offer at time $t$ is bounded above by 
+In the calculation below, we omit the dependency on $\omega$ when refering to variables $c(t)$, $\epsilon_{i,t}^{j}$ and $t_s$. Based on the definition of $L[\ell]$, we know if $\omega\in L[\ell]$, the maximum payment we need to offer at time $t$ is bounded above by 
 \begin{align}
 &\max_{i}\AgentV{t}\cdot \ArmEV{t}{i} - \min_{j}\AgentV{t}\cdot \ArmEV{t}{j} \nonumber \\
 = &\max_{i}\AgentV{t}\cdot (\epsilon_{i,t}+\ArmV{i}) - \min_{j}\AgentV{t}\cdot (\epsilon_{j,t}+\ArmV{j}) \nonumber \\
 \leq &\max_{i}\AgentV{t}\cdot \ArmV{i} - \min_{j}\AgentV{t}\cdot \ArmV{j} +\max_{i}\AgentV{t}\cdot \epsilon_{i,t} - \min_{j}\AgentV{t}\cdot \epsilon_{j,t}\nonumber \\
-\leq & R + 2\Diam dg(n,\ell). \nonumber
+\leq & R + 2\Diam d\cdot g(s,\ell). \nonumber
 \end{align}
 
-We denote $\bar{c}(n,\ell)=R + 2\Diam dg(n,\ell)$ as the upper bound of payment for round $n$ if our measurement error lie in the $\ell^{th}$ envelope.
+We denote $\bar{c}(s,\ell)=R + 2\Diam d\cdot g(s,\ell)$ as the upper bound of payment for phase $s$ if our measurement error lie in the $\ell^{th}$ envelope.
 
 
-\noindent\textbf{Step 2: Introduce a new stochastic process which bounds the total payment in a round}
+\noindent\textbf{Step 2: Introduce a new stochastic process which bounds the total payment in a phase}
 
-Denote $\mathcal{F}_t$ as the filtration up to time $t$. Based on our algorithm, we know
+Denote $\mathcal{F}_t$ as the filtration up to time $t$. Denote $V_t$ as the set of arms that we need to pull, but haven't pulled yet in this phase. Based on our algorithm, we know
 
 \[ \Prob{\text{play a new arm}|\mathcal{F}_t} =
 \begin{cases}
 1       & \quad \text{if we incentivize}\\
-\sum_{i\notin (V\cup S)} P(\AgentV{t} \cdot \ArmEV{t}{i}>\AgentV{t}\cdot \ArmEV{t}{j} \forall j\neq i)  & \quad \text{if }  S\setminus V\neq \emptyset 
+\sum_{i\in V} P(\AgentV{t} \cdot \ArmEV{t}{i}>\AgentV{t}\cdot \ArmEV{t}{j} \forall j\neq i)  & \quad \text{otherwise}  
 \end{cases} \label{dom_stoc}
 \] 
 \hspace{1cm}$\geq (n-|V|)\times \frac{1}{n}=1-\frac{|V|}{n}$.
+\bccomment{Wait for Peter to address this}
 
 Let $(Z_{s,v,m}:m\geq 0)$ be a sequence of independent Bernoulli random variable with success probability $(1-\frac{v}{s})$. We will construct an alternative stochastic process for selecting which arm gets played that has the same distribution as the original process, but under which
 \begin{align}
-t_{s+1}-t_{s}\leq \bar{T}_{s}:=\sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}, \nonumber 
+t_{s}-t_{s-1}\leq \bar{T}_{s}:=\sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}, \nonumber 
 \end{align}
 where $\bar{T}_{s,v}:=\inf\{m\geq 0: Z_{s,v,m}=1\}+1$.
 
-The new stochastic process will have the property that whenever $Z_{s,v(s,t),m(s,t)}=1$, we will play a new arm at time t for $t\in [t_{s-1}, t_{s}]$, where $v(s,t)$ is the number of unique arms played in round $s$ strictly before time $t$, and $m(s,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(s,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} and let $q_t$ be the probability computed. Note $q_t\geq 1-\frac{v(s,t)}{s}$.
+The new stochastic process will have the property that whenever $Z_{s,v(s,t),m(s,t)}=1$, we will play a new arm at time t for $t\in [t_{s-1}, t_{s}]$, where $v(s,t)$ is the number of unique arms played in phase $s$ strictly before time $t$, and $m(s,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(s,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} and let $q_t$ be the probability computed. Note $q_t\geq 1-\frac{v(s,t)}{s}$.
 
 If $Z_{s,v(s,t),m(s,t)}$ is 1, decide to play a new arm. Otherwise, draw a second Bernoulli random variable with probability $\frac{q_t-(1-\frac{v(s,t)}{s})}{1-(1-\frac{v(s,t)}{s})}$, and if it is 1, decide to play a new arm, and otherwise decide to play an old arm. Note that
 
@@ -109,13 +110,13 @@ If $Z_{s,v(s,t),m(s,t)}$ is 1, decide to play a new arm. Otherwise, draw a secon
 Since we pull a new arm only when $Z_{s,v(s,t),m(s,t)}=1$, the number of times we pull an arm when $v(s,t)=v$ is bounded above by $\bar{T}_{s,v}$. Thus,
 
 \begin{align}
-t_{s+1}-t_{s}\leq \sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}=\bar{T}_{s}.
+t_{s}-t_{s-1}\leq \sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}=\bar{T}_{s}.
 \end{align}
 Finally, we want to bound $\sum_{t}E[c(t)]$. Let $C(s)$ be the cost incurred in phase $s$. Thus $\sum_{t}E[c(t)]=\sum_{s}E[C(s)]$. We know
 \begin{align}
-C(s)&=\sum_{t=t_s}^{t_{s+1}-1}c(t)=\sum_{t=t_{s}}^{t_{s+1}-1}\sum_{\ell}\mathbbm{1}\{\omega\in L(\ell)\}c(t) \nonumber \\
-&\leq \sum_{t=t_{s}}^{t_{s+1}-1}\sum_{l}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(n,\ell) \nonumber \\
-&\leq (t_{s+1}-t_{s})\sum_{\ell} \mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell) \nonumber \\
+C(s)&=\sum_{t=t_{s-1}+1}^{t_{s}}c(t)=\sum_{t=t_{s-1}+1}^{t_{s}}\sum_{\ell}\mathbbm{1}\{\omega\in L(\ell)\}c(t) \nonumber \\
+&\leq \sum_{t=t_{s-1}+1}^{t_{s}}\sum_{l}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell) \nonumber \\
+&\leq (t_{s}-t_{s-1})\sum_{\ell} \mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell) \nonumber \\
 &\leq \bar{T}_{s}\sum_{l}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell). \nonumber
 \end{align}
 
@@ -131,7 +132,7 @@ Based on the above notations, we can rewrite the cumulative payment as follows:
 \leq  \sum_{s=1}^{\infty}\sum_{\ell=1}^{\infty}\bar{T}_{s}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell). \nonumber
 \end{align}
 
-Set $g(s,\ell)$ to be $\frac{12\sigma \ell}{s^{2/5}}$. Since if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot \ArmV{\Best{\AgV}}-\AgV \cdot \ArmV{\Second{\AgV}}> 2\Diam d\lambda\}$, they will correctly identify their best arm. Thus, if $|u_{i}^{j}-u_{i,t}^{j}|\leq \frac{12\sigma l}{s^{2/5}} \leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a phase $s$ that satisfies $s^{-1}\leq \MinProb/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24\Diam d\sigma}{p^{-1}(\frac{\MinProb}{2})}$. In order to have $\frac{12\sigma l}{s^{2/5}}\leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$, it is sufficient to have $s\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $s^{-1}\leq \frac{\MinProb}{2}$, we need $s\geq \frac{2}{\MinProb}$. Denote $s_2=\frac{2}{\MinProb}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $\ell^{th}$ envelope in the first $\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ rounds.
+Set $g(s,\ell)$ to be $\frac{12\sigma \ell}{s^{2/5}}$. Since if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot \ArmV{\Best{\AgV}}-\AgV \cdot \ArmV{\Second{\AgV}}> 2\Diam d\lambda\}$, they will correctly identify their best arm. Thus, if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \frac{12\sigma l}{s^{2/5}} \leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a phase $s$ that satisfies $s^{-1}\leq \MinProb/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24\Diam d\sigma}{p^{-1}(\frac{\MinProb}{2})}$. In order to have $\frac{12\sigma l}{s^{2/5}}\leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$, it is sufficient to have $s\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $s^{-1}\leq \frac{\MinProb}{2}$, we need $s\geq \frac{2}{\MinProb}$. Denote $s_2=\frac{2}{\MinProb}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $\ell^{th}$ envelope in the first $\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ phases.
 
 Thus,
 \begin{align}
@@ -149,13 +150,13 @@ Therefore,
 
 \noindent\textbf{Step 4: Bound $\Prob{\omega\in L(\ell)}$}.
 
-We now bound $\Prob{\omega\in L[\ell]}$ for $n\geq n_0$ and $\ell\geq 2$. As a reminder, we omit the dependency between $\epsilon_{i,t}^{j}$, $n$ and $\omega$. We know 
+We now bound $\Prob{\omega\in L[\ell]}$ for $\ell\geq 2$. As a reminder, we omit the dependency between $\epsilon_{i,t}^{j}$, $s$ and $\omega$. We know 
 \begin{align}
 &\Prob{\omega\in L[\ell]} \nonumber \\
 =&\Prob{\omega\in L^{'}[\ell]}- \Prob{\omega\in L^{'}[\ell-1]} \nonumber \\
-\leq & 1-\Prob{|\epsilon_{i,t}^{j}|<\frac{12\sigma (\ell-1)}{n^{2/5}}, \forall i,j} \nonumber \\
-=&\Prob{\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{n^{2/5}}} \nonumber  \\
-\leq &\sum_{i,j}\Prob{|\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{n^{2/5}}} \nonumber
+\leq & 1-\Prob{|\epsilon_{i,t}^{j}|<\frac{12\sigma (\ell-1)}{s^{2/5}}, \forall i,j} \nonumber \\
+=&\Prob{\exists i,j, s.t. |\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{s^{2/5}}} \nonumber  \\
+\leq &\sum_{i,j}\Prob{|\epsilon_{i,t}^{j}|\geq \frac{12\sigma (\ell-1)}{s^{2/5}}} \nonumber
 \end{align}
 
 Define $S_{i,t}^{j}=\frac{\NumPull{t}{i}\epsilon_{i,t}^{j}}{2\sigma}$, then we know $S_{i,t}^{j}$ is a summation of $1/2$ gaussian random numbers. Therefore,
@@ -187,9 +188,9 @@ Thus,
 &\sum_{t=1}^{\infty}c(t) \nonumber \\
 \leq&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\omega\in L[\ell])E[\bar{T}_{s}} \nonumber \\
 \leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\Prob{\omega\in L[1]}E[\bar{T}_{s}] +\sum_{l=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\omega\in L[\ell]}E[\bar{T}_{s}] \nonumber \\
-\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24\Diam d\sigma \right]E[\bar{T}_{s}] +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24\ARMNUM d e^{-1.8(\ell-1.9)^2}E[\bar{T}_{s}]\nonumber \\
-\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\ARMNUM s +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24 \ARMNUM d e^{-1.8(\ell-1.9)^2}\ARMNUM s \nonumber \\
-\leq & \left[\MAXR+24\Diam d\sigma \right]\ARMNUM (\max\{s_2,\lceil (a_0)^{5/2} \rceil\})^2+\sum_{\ell=2}^{\infty}24\ARMNUM^2 d[\MAXR+24\Diam d\ell\sigma](\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\})^2 e^{-1.8(\ell-1.9)^2} \nonumber \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24\Diam d\sigma \right]E[\bar{T}_{s}] +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24\ARMNUM d e^{-1.8(\ell-1)^2}E[\bar{T}_{s}]\nonumber \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\ARMNUM s +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24 \ARMNUM d e^{-1.8(\ell-1)^2}\ARMNUM s \nonumber \\
+\leq & \left[\MAXR+24\Diam d\sigma \right]\ARMNUM (\max\{s_2,\lceil (a_0)^{5/2} \rceil\})^2+\sum_{\ell=2}^{\infty}24\ARMNUM^2 d[\MAXR+24\Diam d\ell\sigma](\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\})^2 e^{-1.8(\ell-1)^2} \nonumber \\
 =& O(\frac{N}{\MinProb^5}+ \frac{\ARMNUM^2}{\MinProb^5}). \nonumber
 \end{align}
 
