@@ -90,21 +90,20 @@ Denote $\mathcal{F}_t$ as the filtration up to time $t$. Denote $V_t$ as the set
 \sum_{i\in V} P(\AgentV{t} \cdot \ArmEV{t}{i}>\AgentV{t}\cdot \ArmEV{t}{j} \forall j\neq i)  & \quad \text{otherwise}  
 \end{cases} \label{dom_stoc}
 \] 
-\hspace{1cm}$\geq (n-|V|)\times \frac{1}{n}=1-\frac{|V|}{n}$.
-\bccomment{Wait for Peter to address this}
-
-Let $(Z_{s,v,m}:m\geq 0)$ be a sequence of independent Bernoulli random variable with success probability $(1-\frac{v}{s})$. We will construct an alternative stochastic process for selecting which arm gets played that has the same distribution as the original process, but under which
+\hspace{1cm}$\geq (\ARMNUM-|V_t|)\times \frac{1}{\log(s)}$.
+\bccomment{probably we need to be more careful about $\frac{1}{\log(s)}$}.
+Let $(Z_{s,v,m}:m\geq 0)$ be a sequence of independent Bernoulli random variable with success probability $\frac{\ARMNUM-v}{\log(s)}$. We will construct an alternative stochastic process for selecting which arm gets played that has the same distribution as the original process, but under which
 \begin{align}
 t_{s}-t_{s-1}\leq \bar{T}_{s}:=\sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}, \nonumber 
 \end{align}
 where $\bar{T}_{s,v}:=\inf\{m\geq 0: Z_{s,v,m}=1\}+1$.
 
-The new stochastic process will have the property that whenever $Z_{s,v(s,t),m(s,t)}=1$, we will play a new arm at time t for $t\in [t_{s-1}, t_{s}]$, where $v(s,t)$ is the number of unique arms played in phase $s$ strictly before time $t$, and $m(s,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(s,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} and let $q_t$ be the probability computed. Note $q_t\geq 1-\frac{v(s,t)}{s}$.
+The new stochastic process will have the property that whenever $Z_{s,v(s,t),m(s,t)}=1$, we will play a new arm at time t for $t\in [t_{s-1}, t_{s}]$, where $v(s,t)$ is the number of unique arms played in phase $s$ strictly before time $t$, and $m(s,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(s,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} \bccomment{why this eqref does not work properly? }and let $q_t$ be the probability computed. Note $q_t\geq \frac{\ARMNUM-v(s,t)}{\log(s)}$.
 
 If $Z_{s,v(s,t),m(s,t)}$ is 1, decide to play a new arm. Otherwise, draw a second Bernoulli random variable with probability $\frac{q_t-(1-\frac{v(s,t)}{s})}{1-(1-\frac{v(s,t)}{s})}$, and if it is 1, decide to play a new arm, and otherwise decide to play an old arm. Note that
 
 \begin{align}
-\Prob{\text{play a new arm}|\mathcal{F}_{t}}=\left[1-\frac{v(s,t)}{s}\right]+\left[1-(1-\frac{v(s,t)}{s})\right]\times \frac{q_t-(1-\frac{v(s,t)}{s})}{1-(1-\frac{v(s,t)}{s})}=q_t.
+\Prob{\text{play a new arm}|\mathcal{F}_{t}}=\frac{\ARMNUM-v}{\log(s)}+\left[1-\frac{\ARMNUM-v}{\log(s)}\right]\times \frac{q_t-\frac{\ARMNUM-v}{\log(s)}}{1-\frac{\ARMNUM-v}{\log(s)}}=q_t.
 \end{align}
 
 Since we pull a new arm only when $Z_{s,v(s,t),m(s,t)}=1$, the number of times we pull an arm when $v(s,t)=v$ is bounded above by $\bar{T}_{s,v}$. Thus,
@@ -132,7 +131,7 @@ Based on the above notations, we can rewrite the cumulative payment as follows:
 \leq  \sum_{s=1}^{\infty}\sum_{\ell=1}^{\infty}\bar{T}_{s}\mathbbm{1}\{\omega\in L(\ell)\}\bar{c}(s,\ell). \nonumber
 \end{align}
 
-Set $g(s,\ell)$ to be $\frac{12\sigma \ell}{s^{2/5}}$. Since if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot \ArmV{\Best{\AgV}}-\AgV \cdot \ArmV{\Second{\AgV}}> 2\Diam d\lambda\}$, they will correctly identify their best arm. Thus, if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \frac{12\sigma l}{s^{2/5}} \leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a phase $s$ that satisfies $s^{-1}\leq \MinProb/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24\Diam d\sigma}{p^{-1}(\frac{\MinProb}{2})}$. In order to have $\frac{12\sigma l}{s^{2/5}}\leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$, it is sufficient to have $s\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $s^{-1}\leq \frac{\MinProb}{2}$, we need $s\geq \frac{2}{\MinProb}$. Denote $s_2=\frac{2}{\MinProb}$. Thus, we know we can only incur regret for sample paths $\omega$ in the $\ell^{th}$ envelope in the first $\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ phases.
+Set $g(s,\ell)$ to be $\frac{12\sigma \ell}{s^{2/5}}$. Since if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot \ArmV{\Best{\AgV}}-\AgV \cdot \ArmV{\Second{\AgV}}> 2\Diam d\lambda\}$, they will correctly identify their best arm. Thus, if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \frac{12\sigma l}{s^{2/5}} \leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a phase $s$ that satisfies $1/log(s)\leq \MinProb/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24\Diam d\sigma}{p^{-1}(\frac{\MinProb}{2})}$. In order to have $\frac{12\sigma l}{s^{2/5}}\leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$, it is sufficient to have $s\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $1/\log(s)\leq \frac{\MinProb}{2}$, we need $s\geq \exp(\frac{2}{\MinProb})$. Denote $s_2=\exp(\frac{2}{\MinProb})$. Thus, we know we can only incur regret for sample paths $\omega$ in the $\ell^{th}$ envelope in the first $\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ phases.
 
 Thus,
 \begin{align}
@@ -189,31 +188,13 @@ Thus,
 \leq&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\omega\in L[\ell])E[\bar{T}_{s}} \nonumber \\
 \leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\Prob{\omega\in L[1]}E[\bar{T}_{s}] +\sum_{l=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\omega\in L[\ell]}E[\bar{T}_{s}] \nonumber \\
 \leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24\Diam d\sigma \right]E[\bar{T}_{s}] +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24\ARMNUM d e^{-1.8(\ell-1)^2}E[\bar{T}_{s}]\nonumber \\
-\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\ARMNUM s +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24 \ARMNUM d e^{-1.8(\ell-1)^2}\ARMNUM s \nonumber \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\ARMNUM \log(s) +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24 \ARMNUM d e^{-1.8(\ell-1)^2}\ARMNUM \log(s) \nonumber \\
 \leq & \left[\MAXR+24\Diam d\sigma \right]\ARMNUM (\max\{s_2,\lceil (a_0)^{5/2} \rceil\})^2+\sum_{\ell=2}^{\infty}24\ARMNUM^2 d[\MAXR+24\Diam d\ell\sigma](\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\})^2 e^{-1.8(\ell-1)^2} \nonumber \\
-=& O(\frac{N}{\MinProb^5}+ \frac{\ARMNUM^2}{\MinProb^5}). \nonumber
+=& O(\max\{\frac{\ARMNUM^2}{\MinProb^5},\ARMNUM^2\exp(\frac{4}{\MinProb})\}). \nonumber
 \end{align}
 
+\bccomment{in the second to last inequality, I use $s\leq \log(s)$, probably a very loose bound.}
 \end{proof}
-
-\section*{Calculation for Equation~\eqref{ex:limit}}
-
-In this section, we prove $d(t)\leq \frac{z_{t,1}^{2}}{2}$ and $\lim_{t\rightarrow\infty}d(t)=\frac{z_{t,1}^2}{2}$. Denote $w(x)=\sqrt{x}$. Then we know $w(x+y)\leq \sqrt{x} + y\frac{1}{2\sqrt{x}}$ and $w(x+y)\geq \sqrt{x} + y\frac{1}{2\sqrt{x+y}}$ for $y\geq 0$. Thus, we know
-
-\begin{align}
-&\lim_{t\rightarrow\infty} t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right] \nonumber \\
-=& \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
-\geq & \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{t}+z_{t,2}+z_{t,1}^{2}\frac{1}{2\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
-= & \lim_{t\rightarrow\infty} t \times \frac{z_{t,1}^2}{2(z_{t,1}^2+(\sqrt{t}+z_{t,2})^2)} \rightarrow \frac{z_{t,1}^2}{2}. \nonumber 
-\end{align}
-and
-\begin{align}
-&\lim_{t\rightarrow\infty} t\left[1-\frac{\sqrt{t}+z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right] \nonumber \\
-=& \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
-\leq & \lim_{t\rightarrow\infty} t\left[\frac{\sqrt{t}+z_{t,2}+z_{t,1}^{2}\frac{1}{2\sqrt{(\sqrt{t}+z_{t,2})^2}}-\sqrt{t}-z_{t,2}}{\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}}\right]  \nonumber \\
-= & \lim_{t\rightarrow\infty} t \times \frac{z_{t,1}^2}{2\sqrt{z_{t,1}^2+(\sqrt{t}+z_{t,2})^2}(\sqrt{t}+z_{t,2})} \rightarrow \frac{z_{t,1}^2}{2}. \label{inequ:dct}
-\end{align}   
-Based on inequality~\eqref{inequ:dct}, we know $d(t)\leq \frac{z_{t,1}^{2}}{2}$ and $\lim_{t\rightarrow\infty}d(t)=\frac{z_{t,1}^2}{2}$.
 
 \section*{Proof of Lemma~\ref{lem:n1-inequality}}
 

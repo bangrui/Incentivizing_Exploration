@@ -21,13 +21,13 @@ if both of the following hold:
 \footnote{in fact: exactly, since the algorithm entered phase $s$}
 $s-1$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s-1$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms'
-attribute vectors, the probability of pulling arm $i$ is less than $1/s$.
+attribute vectors, the probability of pulling arm $i$ is less than $1/\log(s)$. \bccomment{Do we need to mention what if $\frac{1}{\log(s)}>1$? }
 Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
   \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
 be the probability that arm $i$ will be pulled
 by the next (random) agent based on the current estimates. 
 Then, the second criterion for payment-eligibility is that
-$\PullProb{t}{i} < 1/s$.
+$\PullProb{t}{i} < 1/\log(s)$.
 \end{itemize}
 
 When multiple arms are payment-eligible, the algorithm picks one
@@ -39,7 +39,7 @@ The maximum for \AgV is taken over the support of \AgentDist;
 recall that we assumed this support to be compact.
 The payment \Pay{t}{i} may appear unnecessarily high.
 Indeed, we show in Section~\ref{sec:pi} that it suffices to
-incentivize only a $1/s$ fraction of the agents.
+incentivize only a $1/\log(s)$ fraction of the agents.
 \dkcomment{Given that we don't prove anything there, is ``show'' the
   right word?}
 Here, we focus on the higher payments for simplicity of analysis.
@@ -169,13 +169,13 @@ and every payment-eligible arm is in $S$.
 In particular, the size of $S$ decreases with probability 1.
 If $S$ contains no payment-eligible arm,
 then by definition of payment-eligibility,
-each arm $i \in S$ has probability at least $1/s$ of being pulled.
-In particular, the size of $S$ decreases with probability at least $1/s$.
+each arm $i \in S$ has probability at least $1/\log(s)$ of being pulled.
+In particular, the size of $S$ decreases with probability at least $1/\log(s)$.
 
 In either case, the expected number of time steps until
 $|S|$ decreases is at most $s$,
 so the expected number of steps until $S$ is empty is at most
-$\ARMNUM \cdot s$.
+$\ARMNUM \cdot \log(s)$.
 \dkcomment{If we wanted, this bound could probably be improved using a
   coupon collector argument. But it would look uglier.}
 \end{proof}
@@ -392,7 +392,7 @@ we crudely bound the number of payments by \ARMNUM,
 using that each arm is incentivized at most once per phase.
 For later phases,
 we use that arms are payment-eligible only if their myopic pulling
-probability is less than $1/s$.
+probability is less than $1/\log(s)$.
 Since at least a \MinProb fraction of agents would prefer arm $i$ if
 given accurate estimates, this would require misestimates that make a
 significant fraction of agents pull the wrong arm.
@@ -403,7 +403,7 @@ To make this intuition precise, we set
 $\delta = \frac{\MinProb}{2 \TieDensity}$,
 and $x = \frac{\delta}{2 \Diam d}$.
 The cutoff point between early and late phases is now set to
-$\EvenLaterPhase = \max(50, \frac{92.16 \sigma^4}{x^4}, \frac{2}{\MinProb})$.
+$\EvenLaterPhase = \max(50, \frac{92.16 \sigma^4}{x^4}, \exp(\frac{2}{\MinProb}))$.
 Consider the \Kth{s} pull of an arm $i$, for $s \geq \EvenLaterPhase$.
 If this pull occurs before phase $s$, it was definitely not incentivized.
 So we condition on the pull occurring in phase $s$,
@@ -448,7 +448,7 @@ the expected total number of arm incentivizations is at most
   + 24 \ARMNUM^2 d \cdot \frac{1}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)}
-& = O\left( \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+& = O\left( \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
   + \frac{\ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right).
@@ -500,13 +500,13 @@ Regret can arise in two ways:
 (2) an agent myopically pulled a suboptimal arm.
 By Lemma~\ref{lem:numP}, Algorithm~\ref{alg:basic-incentivizing}
 incentivizes agents at most 
-$O \left( \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+$O \left( \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
   + \frac{\ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right)$
 times in expectation, each time causing regret at most \MAXR,
 for a total expected regret of at most
-$O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+$O \left(\MAXR\cdot\max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
   + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right)$.
@@ -530,7 +530,7 @@ is $\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$,
 and each incurs regret at most $g(s)$.
 Summing over all time steps, the expected total regret from such agents is at most
 \begin{align}
-&E[\sum_{s=1}^{T}\sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)] \leq \sum_{s=1}^{T}\TieDensity\cdot g^2(s)Ns. \nonumber 
+&E[\sum_{s=1}^{T}\sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)] \leq \sum_{s=1}^{T}\TieDensity\cdot g^2(s)N\log(s). \nonumber 
 \end{align}
 
 To bound the regret incurred in time steps with large regret,
@@ -570,8 +570,8 @@ where the inequality was an application of Lemma~\ref{lem:phase-length}.
 Adding all three terms,
 the cumulative regret up to time $T$ is at most
 
-\begin{align*}
-&O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+\begin{align}
+&O \left( \MAXR\cdot \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
   + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right)
@@ -579,8 +579,8 @@ the cumulative regret up to time $T$ is at most
 + & \sum_{s = 1}^T 
   \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
   \cdot \ARMNUM s,
-+ \sum_{s=1}^{T}\TieDensity \cdot g^2(s)\cdot Ns.
-\end{align*}
++ \sum_{s=1}^{T}\TieDensity \cdot g^2(s)\cdot N\log(s). \label{thm:equ}
+\end{align}
 
 The first line is independent of $T$, and we now choose
 $g^2(s) = \frac{288\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$
@@ -604,26 +604,23 @@ Therefore, the second line becomes
 
 \begin{align*}
 \lefteqn{\sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)  +
-          \frac{128\Diam^2 d^2\sigma^2
-          \TieDensity\log(T)}{1.8}\sum_{s=1}^{T}\frac{1}{s}}
+          \frac{288\ARMNUM\Diam^2 d^2\sigma^2
+          \TieDensity\log(T)}{1.8}\sum_{s=1}^{T}\frac{\log(s)}{s}}
 \\ & \leq
-24\ARMNUM^2 d R\frac{T(T-1)}{2T^2}  + 71.12 \Diam^2 d^2\sigma^2
-          \TieDensity\log(T)(\log(T)+1)
+24\ARMNUM^2 d R\frac{T(T-1)}{2T^2}  + 160 \ARMNUM \Diam^2 d^2\sigma^2
+          \TieDensity(\log(T))^2(\log(T)+1)
   \\ & \leq
-12 \ARMNUM^2 d R  + 71.12 \Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1). 
+12 \ARMNUM^2 d R  + 160 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^2(\log(T)+1). 
 \end{align*}
 
-Adding all terms, and substituting the definition of
-$\LatePhase = O(\frac{\sigma^4}{x^4})$
-now gives an upper bound of 
+Adding all terms gives an upper bound of 
 
 \begin{multline*}
-O(\ARMNUM \MAXR \LatePhase^2) + 
-O \left( \frac{\MAXR \ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+O \left(\MAXR\cdot \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
   + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right) +
-O(\Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1)) 
+O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3) 
 \end{multline*}
 
 on the cumulative expected regret.
@@ -645,9 +642,9 @@ If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumu
 \end{corollary}
 
 \begin{proof}
-The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $g^2(t)=\frac{2\log(T)\times 64\Diam^2 d^2\sigma^2}{1.8t}$, then there exists a $t^{0}$ such that for $t>t_{0}$, $q(g(t))=0$. Thus, similar to equation~\eqref{equ:regret}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
+The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $g^2(s) = \frac{288\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$, then there exists a $s^{0}$ such that for $s>s_{0}$, $q(g(s))=0$. Thus, similar to equation~\eqref{thm:equ}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
 \begin{align}
-\sum_{s=1}^{\LatePhase}\ARMNUM \MAXR s + \sum_{s=1}^{T} 24\ARMNUM d\exp\left(-\frac{1.8s f(s)^2}{64 \Diam^2 d^2\sigma^2}\right)\times \MAXR \times \ARMNUM s+ \sum_{t=1}^{t^{0}}\TieDensity g(t)^2 \nonumber
+\sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)+ \sum_{s=1}^{s^{0}}\TieDensity g(s)^2\ARMNUM\log(s) \nonumber
 \end{align}
 Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the cumulative regret is bounded by $O(\ARMNUM^2)$.
 \end{proof}
