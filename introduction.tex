@@ -1,17 +1,17 @@
 \section{Introduction}
 
-A large number of sites are designed to facilitate joint discovery,
-sharing, and recommendations of content by large numbers of users.
-Such sites include news, photo, or video sharing sites,
+\pfedit{Many websites and apps} are designed to facilitate joint discovery,
+sharing, and recommendations of content\pfdelete{by large numbers of users}.
+Such sites include news, photo, \pfedit{and} video sharing sites,
 sites to review restaurants, hotels, or travel experiences,
 online stores at which users write reviews (such as Amazon),
 and citizen science projects
 (such as eBird \citep{sullivan2009ebird} or Galaxy Zoo).
 \dkcomment{Insert citations.}
-By learning from the experiences of other users, individuals can make
-better choices to improve their own experience.
+By learning from the experiences of other users, individuals can \pfdelete{make
+better choices to }improve their own experience.
 
-Viewed more abstractly, the users are jointly exploring a space of
+Viewed more abstractly, users jointly explore a space of
 many options (products, news stories, photos, birdwatching sites,
 patches of sky to train their telescopes on, $\ldots$),
 with the implicit goal of identifying the ``best'' ones.
@@ -30,7 +30,7 @@ site only once, and hence has no intrinsic utility for exploration.
 This model has been the subject of prior work, and forms the basis of
 the present submission.
 
-In order to effect an outcome which is close to societally optimal,
+\pfdelete{In order }To effect an outcome \pfdelete{which is }close to societally optimal,
 it is necessary to provide exploration incentives to the individual users.
 This was noted in two recent lines of work:
 \citet{kremer2014implementing}
@@ -57,19 +57,54 @@ reward a user derives from an arm is the same for all users.%
 \footnote{\citet{han2015incentivizing} assume that users are
 heterogeneous in their tradeoff between utility derived from arm pulls
 and utility derived from the principal's payment.}
-In reality, users will have different preferences, e.g., gastronomic,
-political, aesthetic, practical, etc.,
-and the preferences can typically not be observed by the principal.
-This heterogeneity presents both a challenge and an opportunity.
-On the one hand, it necessitates the exploration of more arms,
-so as to let all users discover their best option.
-On the other hand, the heterogeneity also provides exploration
-``for free,'' as users will not simply herd on one ``best'' arm.
-\emph{Our goal is to explore the impact of user heterogeneity
-on the tradeoff between societal utility and the principal's payments.}
+In reality, users have different preferences, e.g., gastronomic,
+political, aesthetic, practical, etc.
+\pfedit{
+Indeed, the websites and mobile apps most widely used for joint discovery,
+sharing, and recommendation of content tend to concern products and items 
+with large amounts of heterogeneity in preferences (movies, restaurants,
+videos, travel experiences), and not items which have a universally
+agreed-on best order. \pfcomment{can we think of items with agreement?}
+This is perhaps because regimes with heterogeneous preferences are the
+ones where discovery of the best items is the most difficult for people, and
+where the number of items to consider is largest, and thus where online
+platforms tend to provide the greatest value.  Thus, we see an appropriate
+accounting for heterogeneity as critical to an understanding of incentivizing
+exploration in online communities.
 
-At a high level, we model the setting as follows.
-(Formal definitions are given in Section~\ref{sec:prob}.)
+Heterogeneity presents both a challenge and an opportunity.
+On the one hand, it hides critical information about an agent's preferences
+from the principal.  This presents the principal with a path to social
+optimality that requires giving up control, allowing the agent to reveal these
+preferences through action and not obscuring them with incentives.  However,
+the principal cannot give up control completely, and must use these incentives
+to force agents to explore against their preferences, for the greater good.
+Thus, heterogeneity presents a challenge. 
+
+On the other hand, heterogeneity also presents an opportunity, through the
+possibilty of ``free exploration''.  Even when left unincentivized, agents will
+play a variety of arms, revealing information about these arms' attributes.
+This stands in sharp constrast to the case of homogeneous preferences, where 
+unincentized agents will hard onto a single apparently best arm, and providing
+essentially any exploration at all requires incentives.
+}
+
+With these challenges and opportunities in mind, our goal is to understand the
+impact of user heterogeneity on our ability to achieve high social utility with
+low incentive payments, and on the best approaches for doing so.  We wish to
+understand whether incentivizing exploration with heterogeneous preferences  is
+``harder'' or ``easier'' than with homogenous ones, and to understand how 
+exploration strategies that do well in the heterogeneous preference setting
+differ from those in the homogenous one.
+
+\pfdelete{\emph{Our goal is to explore the impact of user heterogeneity
+on the tradeoff between societal utility and the principal's payments.}
+Heterogeneity in a bandit also offers a new perspective on bandit problems.
+}
+
+Toward that end, we model our setting as follows.
+(We describe our model at a high level here,
+with formal definitions given in Section~\ref{sec:prob}.)
 Arms and users (or \emph{agents}) are characterized by payoff-relevant
 \emph{attribute} (or \emph{feature}) vectors,
 both drawn from known distributions.
