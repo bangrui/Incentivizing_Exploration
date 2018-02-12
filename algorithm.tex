@@ -154,8 +154,8 @@ the cumulative regret of the early rounds
 (before tail bounds have kicked in).
 
 \begin{lemma} \label{lem:phase-length}
-For any $s$, the expected length of phase $s$ is at most
-$\ARMNUM \cdot s$ time steps.
+For any $s\geq 3$, the expected length of phase $s$ is at most
+$\ARMNUM \cdot \log(s)$ time steps.
 \end{lemma}
 
 \begin{proof}
@@ -270,6 +270,10 @@ $|S_J| \leq
 we first use that $\sqrt{\cdot}$ is sublinear to bound
 $\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x^2}{16 \sigma^2}}
 \leq \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1)} + \frac{J x}{4 \sigma}$.
+
+\bccomment{If $b(n)$ is a constant, here we know $\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x^2}{16 \sigma^2}}
+\leq \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1)} + \frac{\sqrt{J} x}{4 \sigma}\leq \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1)} + \frac{J x}{4 \sigma}$.}
+
 Then, we use the following technical Lemma~\ref{lem:n0-inequality}
 (whose proof is given in the appendix, and whose precondition we verify
 momentarily) to bound the first term,
@@ -564,7 +568,7 @@ large-regret steps is at most
 \\ & \leq
 \sum_{s = 1}^T 
  \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
-  \cdot \ARMNUM s,
+  \cdot \ARMNUM \log(s),
 \end{align*}
 where the inequality was an application of Lemma~\ref{lem:phase-length}.
 Adding all three terms,
@@ -578,7 +582,7 @@ the cumulative regret up to time $T$ is at most
 \\
 + & \sum_{s = 1}^T 
   \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
-  \cdot \ARMNUM s,
+  \cdot \ARMNUM \log(s),
 + \sum_{s=1}^{T}\TieDensity \cdot g^2(s)\cdot N\log(s). \label{thm:equ}
 \end{align}
 
@@ -603,7 +607,7 @@ For $2\leq s\leq T$, we have $3\sqrt{\frac{2}{1.8}s\log(T)} \geq \sqrt{0.6s\log(
 Therefore, the second line becomes
 
 \begin{align*}
-\lefteqn{\sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)  +
+\lefteqn{\sum_{s=1}^{T} 24\ARMNUM^2 d \log(s) \MAXR \exp\left(-2\log(T)\right)  +
           \frac{288\ARMNUM\Diam^2 d^2\sigma^2
           \TieDensity\log(T)}{1.8}\sum_{s=1}^{T}\frac{\log(s)}{s}}
 \\ & \leq
@@ -638,7 +642,10 @@ on the cumulative expected regret.
 \dkcomment{Edited up to here.}
 
 \begin{corollary} \label{cor:constant-regret}
-If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumulative expected regret is bounded by $O(\ARMNUM^2)$.
+If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumulative expected regret is bounded by $O \left(\MAXR\cdot \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right) $.
 \end{corollary}
 
 \begin{proof}
@@ -646,7 +653,10 @@ The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}.
 \begin{align}
 \sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)+ \sum_{s=1}^{s^{0}}\TieDensity g(s)^2\ARMNUM\log(s) \nonumber
 \end{align}
-Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the cumulative regret is bounded by $O(\ARMNUM^2)$.
+Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the cumulative regret is bounded by $O \left(\MAXR\cdot \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right) $.
 \end{proof}
 
 \subsection{Decreasing the Payment} \label{sec:pi}
@@ -656,9 +666,9 @@ In Algorithm~\ref{alg:basic-incentivizing},
 the payment \Pay{t}{i} offered for pulling payment-eligible arms $i$
 is high enough to ensure that arm $i$ will be pulled with probability 1.
 However, as can be seen in the proof of Lemma~\ref{lem:phase-length},
-we then lower-bound this probability by $1/s$.
+we then lower-bound this probability by $1/\log(s)$.
 Thus, the bounds we prove do not deteriorate as long as the payment is
-high enough such that arm $i$ is pulled with probability at least $1/s$.
+high enough such that arm $i$ is pulled with probability at least $1/\log(s)$.
 A sufficient payment would be defined as
 $\Pay{t}{i} = \sup \Set{c \geq 0}{%
   \Prob[\AgV \sim \AgentDist]{c + \AgV \cdot \ArmEV{t}{i} \leq \AgV \cdot \ArmEV{t}{i'}}}$.

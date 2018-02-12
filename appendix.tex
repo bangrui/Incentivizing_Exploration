@@ -82,12 +82,12 @@ We denote $\bar{c}(s,\ell)=R + 2\Diam d\cdot g(s,\ell)$ as the upper bound of pa
 
 \noindent\textbf{Step 2: Introduce a new stochastic process which bounds the total payment in a phase}
 
-Denote $\mathcal{F}_t$ as the filtration up to time $t$. Denote $V_t$ as the set of arms that we need to pull, but haven't pulled yet in this phase. Based on our algorithm, we know
+Denote $\mathcal{F}_t$ as the filtration up to time $t$. Denote $V_t$ as the set of arms that have been pulled at least $s$ times at time $t$ in phase $s$. Based on our algorithm, we know
 
 \[ \Prob{\text{play a new arm}|\mathcal{F}_t} =
 \begin{cases}
 1       & \quad \text{if we incentivize}\\
-\sum_{i\in V} P(\AgentV{t} \cdot \ArmEV{t}{i}>\AgentV{t}\cdot \ArmEV{t}{j} \forall j\neq i)  & \quad \text{otherwise}  
+\sum_{i\in \{1,\cdots,\ARMNUM\}\setminus V_t} P(\AgentV{t} \cdot \ArmEV{t}{i}>\AgentV{t}\cdot \ArmEV{t}{j} \forall j\neq i)  & \quad \text{otherwise}  
 \end{cases} \label{dom_stoc}
 \] 
 \hspace{1cm}$\geq (\ARMNUM-|V_t|)\times \frac{1}{\log(s)}$.
@@ -100,7 +100,7 @@ where $\bar{T}_{s,v}:=\inf\{m\geq 0: Z_{s,v,m}=1\}+1$.
 
 The new stochastic process will have the property that whenever $Z_{s,v(s,t),m(s,t)}=1$, we will play a new arm at time t for $t\in [t_{s-1}, t_{s}]$, where $v(s,t)$ is the number of unique arms played in phase $s$ strictly before time $t$, and $m(s,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(s,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} \bccomment{why this eqref does not work properly? }and let $q_t$ be the probability computed. Note $q_t\geq \frac{\ARMNUM-v(s,t)}{\log(s)}$.
 
-If $Z_{s,v(s,t),m(s,t)}$ is 1, decide to play a new arm. Otherwise, draw a second Bernoulli random variable with probability $\frac{q_t-(1-\frac{v(s,t)}{s})}{1-(1-\frac{v(s,t)}{s})}$, and if it is 1, decide to play a new arm, and otherwise decide to play an old arm. Note that
+If $Z_{s,v(s,t),m(s,t)}$ is 1, decide to play a new arm. Otherwise, draw a second Bernoulli random variable with probability $\frac{q_t-\frac{\ARMNUM-v(s,t)}{\log(s)}}{1-\frac{\ARMNUM-v(s,t)}{\log(s)}}$, and if it is 1, decide to play a new arm, and otherwise decide to play an old arm. Note that
 
 \begin{align}
 \Prob{\text{play a new arm}|\mathcal{F}_{t}}=\frac{\ARMNUM-v}{\log(s)}+\left[1-\frac{\ARMNUM-v}{\log(s)}\right]\times \frac{q_t-\frac{\ARMNUM-v}{\log(s)}}{1-\frac{\ARMNUM-v}{\log(s)}}=q_t.

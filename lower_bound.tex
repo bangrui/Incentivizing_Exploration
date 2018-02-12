@@ -103,7 +103,7 @@ Below, we want to show
 \begin{align}
 \lim_{t\rightarrow\infty}\frac{E[r(t)| \Noise{1}>0, \Noise{2}>0]}{\frac{1}{t}} = \Omega(1), \nonumber
 \end{align}
-and use the fact that $\sum_{n=1}^{T}\frac{1}{n}=O(\log(T))$ to show the regret is at least $\Omega(\log(T))$. Since
+and use the fact that $\sum_{n=1}^{T}\frac{1}{n}=\Omega(\log(T))$ to show the regret is at least $\Omega(\log(T))$. Since
 \begin{align}
 &\lim_{t\rightarrow \infty}\frac{E[r(t)| \Noise{1}>0, \Noise{2}>0]}{\frac{1}{t}} \nonumber \\
 \geq & \lim_{t\rightarrow \infty}\frac{1}{3\pi^3}\int_{0}^{\infty} \int_{0}^{\infty}\left[ t(\frac{\Noise{1}}{\sqrt{t}+\Noise{1}+\Noise{2}})^2\right]e^{-\frac{\Noise{1}^2}{2}}e^{-\frac{\Noise{2}^2}{2}}d(\Noise{1})d(\Noise{2}) \nonumber  \\
