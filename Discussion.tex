@@ -1,0 +1,16 @@
+\subsection{Decreasing the Payment} \label{sec:pi}
+\dkcomment{Does this really need a whole subsection now?}
+
+In Algorithm~\ref{alg:basic-incentivizing},
+the payment \Pay{t}{i} offered for pulling payment-eligible arms $i$
+is high enough to ensure that arm $i$ will be pulled with probability 1.
+However, as can be seen in the proof of Lemma~\ref{lem:phase-length},
+we then lower-bound this probability by $1/\log(s)$.
+Thus, the bounds we prove do not deteriorate as long as the payment is
+high enough such that arm $i$ is pulled with probability at least $1/\log(s)$.
+A sufficient payment would be defined as
+$\Pay{t}{i} = \sup \Set{c \geq 0}{%
+  \Prob[\AgV \sim \AgentDist]{c + \AgV \cdot \ArmEV{t}{i} \leq \AgV \cdot \ArmEV{t}{i'}}}$.
+Except for offering different payments, the algorithm remains unchanged.
+Then, the exact same analysis shows that the modified algorithm
+provides the same guarantees.
