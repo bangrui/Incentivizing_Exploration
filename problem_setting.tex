@@ -7,7 +7,7 @@ hence, arms can be identified with vectors $\ArmV{i} \in \R^d$.
 The \ArmV{i} are (adversarially) fixed, but unknown to the agents
 or the principal.
 Whenever arm $i$ is pulled, its current utility-relevant features are
-determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero
+determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero \pfedit{independent} 
 Gaussian%
 \footnote{For simplicity of notation, we assume that the variance
   $\sigma^2$ is uniform across time steps. This is not material for
@@ -19,11 +19,10 @@ Here, $I_d$ denotes the $d \times d$ identity matrix.
 At each time $t$, a new user (or \emph{agent}) arrives,
 whose feature vector (which we also call his%
 \footnote{We use male pronouns to refer to users and female pronouns
-  to refer to the principal. 
-  \dkcomment{Feel free to switch if you prefer it the other way.}}
+  to refer to the principal.}
 \emph{type}) $\AgentV{t} \in \R^d$ is drawn from a known distribution
 \AgentDist.
-Depending on context, we will identify a agents with their arrival time
+Depending on context, we will identify agents with their arrival time
 $t$ or their type \AgentV{t}.
 When agent $t$ pulls arm $\Pull{t} := i$,
 he and all future agents observe a vector
@@ -48,7 +47,9 @@ To incentivize users to explore more, the principal can offer
 Then, user $t$ will pull an\footnote{We assume that ties are broken in
   favor of an arm with largest payment \Pay{t}{i}; this assumption is
   only for notational convenience, and can of course be avoided by
-  raising payments infinitesimally.} arm $i$ maximizing
+  raising payments infinitesimally.
+  \pfcomment{In the finite preference setting this is clear, but it's a little bit delicate when there are continuum preferences, since regardless of the payment we offer there may always be support within our preference distribution for a $\theta$ that causes a tie.  In this continuum setting it should instead be possible to perturb infinitessimally so that we avoid ties with probability 1.}  
+  } arm $i$ maximizing
 $\argmax_i (\Pay{t}{i} + \AgentV{t} \cdot \ArmEV{t}{i})$.
 The principal cannot observe \AgentV{t},
 and only knows the distribution \AgentDist from which it is drawn.
@@ -83,9 +84,9 @@ with attribute vector \AgV;
   definition?}
 \pfcomment{Perhaps we should say instead ``breaking ties arbitrarily'' if our results don't depend on how we break ties.}
 
-\dkcomment{Do we need this definition here?}
+\dkcomment{Do we need this definition here?}\pfcomment{I agree that we can move the definition of phase to where we define our algorithm.}
 We call time $t_{n}=\min_{t}\{\forall i, \NumPull{t}{i} \geq n\}$ the
-\emph{starting point of the $n^{th}$ round}.
+\emph{starting point of the $n^{th}$ phase}.
 We call the set of times $[t_{n}, t_{n+1})$ the
 \emph{$n^{th}$ round}.
 
@@ -125,11 +126,14 @@ be the set of agent attribute vectors whose best arm is $i$ and
 second-best arm is $i'$.
 Let $F_{i,i'}$ be the marginal cumulative density function
 (or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
+\pfcomment{Maybe this should just be the conditional cumulative distribution function, 
+$F_{i,i'}(z) = \Prob[\AgentDist]{(\ArmV{i}-\ArmV{i'}) \cdot \AgV \le z \mid \AgV \in \Omega_{i,i^{'}}}$?}
 of $(\ArmV{i}-\ArmV{i'}) \cdot \AgV$,
 conditioned on $\AgV \in \Omega_{i,i^{'}}$.
 In words, $F_{i,i'}$ is the distribution of the \emph{strength} of the
 preference of a random agent for arm $i$ over arm $i'$, given that
 $i$ and $i'$ are the agent's first and second choices.
+\pfcomment{We should say something about what $F_{i,i'}$ is when $\Prob[\AgentDist]{\AgV \in \Omega_{i,i^{'}}}=0$.  We know that arm $i$ is someone's best arm, but it doesn't have to be possible for $i'$ to be someone's second best arm when $i$ is best.  Maybe we can just set $F_{i,i'}$ to be $0$ in that case.}
 
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 

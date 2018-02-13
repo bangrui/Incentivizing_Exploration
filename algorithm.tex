@@ -3,10 +3,10 @@
 
 The algorithm achieving the claimed bounds of
 Theorem~\ref{thm:main-overview} is fairly simple.
-It mostly allows agents to exploits, but when an arm is estimated to
-be extremely unlikely to be pulled by any agents,
-the algorithm incentivizes such an arm with a payment that is so high
-that the next agent is guaranteed to pull the arm.
+It mostly allows agents to exploit, but when an arm is \pfdelete{estimated to
+be extremely} \pfedit{sufficiently} unlikely to be pulled\pfdelete{by any agents},
+the algorithm incentivizes this arm with a payment high enough
+to guarantee that the next agent pulls it.
 This way, the algorithm ensures that each arm is pulled at least a
 certain minimum number of times.
 
