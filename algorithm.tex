@@ -6,15 +6,23 @@ Theorem~\ref{thm:main-overview} is fairly simple.
 It mostly allows agents to exploit, but when an arm is \pfdelete{estimated to
 be extremely} \pfedit{sufficiently} unlikely to be pulled\pfdelete{by any agents},
 the algorithm incentivizes this arm with a payment high enough
-to guarantee that the next agent pulls it.
-This way, the algorithm ensures that each arm is pulled at least a
-certain minimum number of times.
+to guarantee the next agent pulls it.
+This way the algorithm ensures each arm is pulled often enough.
 
 More precisely, the algorithm divides time into \emph{phases}
 $s = 1, 2, 3, \ldots$.
-Phase $s$ ends when each arm has been pulled at least $s$ times.
+Phase $s$ \pfcomment{starts?} ends when each arm has been pulled at least $s$ times.
+We indicate the start time of phase $s$ by $t_s$.
+\pfcomment{According to the notation we had before, in the .tex file below here,
+phase $s$ starts when I have $s$ pulls of each arm.  Also, we should make sure things are clear regarding the free pull at time $0$.}
 An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
 if both of the following hold:
+\pfdelete{
+We call time $t_{s}=\min_{t}\{\forall i, \NumPull{t}{i} \geq s\}$ the
+\emph{starting point of the $s^{th}$ phase}.
+We call the set of times $[t_{s}, t_{s+1})$ the
+\emph{$n^{th}$ phase}.
+}
 
 \begin{itemize}
 \item $i$ has been pulled at most%
@@ -28,6 +36,7 @@ be the probability that arm $i$ will be pulled
 by the next (random) agent based on the current estimates. 
 Then, the second criterion for payment-eligibility is that
 $\PullProb{t}{i} < 1/\log(s)$.
+\pfedit{$1/\log(1)$ is treated as $\infty$, and if $1/\log(s) \ge 1$ then this condition is automatically met.}
 \end{itemize}
 
 When multiple arms are payment-eligible, the algorithm picks one
@@ -81,10 +90,10 @@ Thus, the fraction of agents who misidentify their best arm decreases
 exponentially as well.
 Because for each arm, enough agents have a true preference for this
 arm, once the arms' attribute vectors are learned well enough,
-the algorithm will not need to incentivize any arm pulls any more,
+the algorithm will not need to incentivize any more,
 resulting in a payment bound independent of $T$.
 Similarly, the regret will decrease exponentially, and mostly accrue
-due to agents close to the border making mistakes in their arm choices.
+due to agents close to the border \pfcomment{we could clarify what border} making mistakes in their arm choices.
 The detailed analysis following this outline is somewhat subtle, though,
 due to the dependencies between the agents' arm pulls and the
 estimates which in turn are based on past arm pulls.
@@ -92,18 +101,19 @@ We begin with several technical lemmas that are used for both the
 payment and regret bounds.
 
 To capture the probability masses of problematic and non-problematic
-agents, we define the following:
+agents \pfcomment{in another pass we could seek to clarify what we mean by being problematic in the context of the border statement above}, we define the following:
 $\AlmostTied{\delta} = \Prob[\AgV \sim \AgentDist]{%
 \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq \delta}$
 is the total probability mass (across all arms) of agents
 whose (actual) preference for their best arm over their second-best
 arm is at most $\delta$.
+\pfcomment{We can check through the whole paper on whether we have $\AgV \sim \AgentDist$ in the subscript or just $\AgV \sim \AgentDist$.  I think we have only $\AgentDist$ in the problem description.}
 The minimum probability mass of users who prefer their best arm
 sufficiently strongly over their second-best arm is denoted by
 $\ClearPref{\delta} = \min_{i}
 \Prob[\AgV \sim \AgentDist]{\Best{\AgV}=i,%
 \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) > \delta}$.
-Notice that while \AlmostTied{\delta} (being a measure of problematic
+Notice that \AlmostTied{\delta} (being a measure of problematic
 agents) is defined as a sum over all arms,
 while  \ClearPref{\delta} (being a measure of non-problematic agents)
 is defined as a minimum over arms.
@@ -161,7 +171,7 @@ $\ARMNUM \cdot \log(s)$ time steps.
 \begin{proof}
 Let $S$ be the set of arms that have been pulled at most
 $s-1$ times at the start of phase $s$.
-Thus, phase $s$ ends when each $i \in S$ has been pulled at least once.
+Thus, phase $s$ \pfedit{has ended} when each $i \in S$ has been pulled at least once.
 Consider any time step $t$.
 If $S$ contains at least one payment-eligible arm $i$,
 then some payment-eligible arm will be pulled with probability 1,
