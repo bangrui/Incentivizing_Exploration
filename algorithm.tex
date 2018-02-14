@@ -131,8 +131,15 @@ The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above 
 
 
 \begin{theorem}
-The cumulative regret for Algorithm~\ref{alg:basic-incentivizing}
-is bounded above by $O(\ARMNUM^2 d + \TieDensity d^2(\log(T))^2)$.
+For any given $T$, the cumulative regret for Algorithm~\ref{alg:basic-incentivizing}
+is bounded above by 
+\begin{align}
+O \left(\MAXR\cdot \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right) +
+O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3).
+\end{align}
 \label{rst:regret}
 \end{theorem}
 
@@ -544,7 +551,7 @@ is $\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$,
 and each incurs regret at most $g(s)$.
 Summing over all time steps, the expected total regret from such agents is at most
 \begin{align}
-&E[\sum_{s=1}^{T}\sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)] \leq \sum_{s=1}^{T}\TieDensity\cdot g^2(s)N\log(s). \nonumber 
+&E[\sum_{s=1}^{T}\sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)] \leq \sum_{s=1}^{T}\TieDensity\cdot g^2(s)N\log(s). \label{equ:small_regret_bound}
 \end{align}
 
 To bound the regret incurred in time steps with large regret,
@@ -650,22 +657,4 @@ on the cumulative expected regret.
 \end{proof}
 
 \dkcomment{Edited up to here.}
-
-\begin{corollary} \label{cor:constant-regret}
-If $\exists \delta>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$, then the cumulative expected regret is bounded by $O \left(\MAXR\cdot \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
-  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right) $.
-\end{corollary}
-
-\begin{proof}
-The proof of this corollary is similar to the proof of Theorem~\ref{rst:regret}. If we set $g^2(s) = \frac{288\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$, then there exists a $s^{0}$ such that for $s>s_{0}$, $q(g(s))=0$. Thus, similar to equation~\eqref{thm:equ}, we know the cumulative expected regret when we let the agents play myopically is bounded above by
-\begin{align}
-\sum_{s=1}^{T} 24\ARMNUM^2 d s \MAXR \exp\left(-2\log(T)\right)+ \sum_{s=1}^{s^{0}}\TieDensity g(s)^2\ARMNUM\log(s) \nonumber
-\end{align}
-Therefore, based on the same analysis of Theorem~\ref{rst:regret}, we know the cumulative regret is bounded by $O \left(\MAXR\cdot \max\{\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}, N\exp(\frac{2}{p})\}
-  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right) $.
-\end{proof}
 

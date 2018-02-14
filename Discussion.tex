@@ -1,3 +1,141 @@
+\subsection{Special Case}
+
+As we see in the proof of Theorem~\ref{rst:budget} and Theorem~\ref{rst:regret}, we occurred an exponential payment/regret at the initial phases simplily because we decrease the probability threshold too slowly, which is needed when bounding the regret after the concentration probability kicks in as in Equation~(\ref{equ:small_regret_bound}). In this section, we are going to discuss two special cases where we can get rid of the exponential dependency on the number of arms in the payment and regret bound. 
+
+\textbf{Case 1: If $\exists \delta_0>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$.}
+
+In this case, we can simplily modify the payment-eligible criteria as follows: An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
+if both of the following hold:
+
+\begin{itemize}
+\item $i$ has been pulled at most%
+\footnote{in fact: exactly, since the algorithm entered phase $s$}
+$s-1$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s-1$.
+\item Based on the current estimates \ArmEV{t}{i'} of all arms'
+attribute vectors, the probability of pulling arm $i$ is less than $1/s$. Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
+  \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
+be the probability that arm $i$ will be pulled
+by the next (random) agent based on the current estimates. 
+Then, the second criterion for payment-eligibility is that
+$\PullProb{t}{i} < 1/s$.
+\end{itemize}
+
+The algorithm remains the same as Algorithm~\ref{alg:basic-incentivizing}. Under this new payment-eligible criteria, we are able to prove the following results:
+
+\begin{theorem}
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by $O(\ARMNUM^2)$. 
+\end{theorem}
+
+\begin{proof}
+The proof is exact the same as the proof for Lemma~\ref{rst:budget} except we now define $s_2 =\frac{2}{p}$. The rest of the proof remains the same.
+\end{proof}
+
+
+\begin{lemma}  \label{lem:NumP1}
+The expected number of time steps in which
+Algorithm~\ref{alg:basic-incentivizing}
+makes any payment is at most 
+\begin{align}
+O\left(\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right). \nonumber 
+\end{align}
+\end{lemma}
+
+\begin{proof}
+The proof is exact the same as the proof for Lemma~\ref{lem:numP} except we now define $\EvenLaterPhase = \max(50, \frac{92.16 \sigma^4}{x^4}, \frac{2}{p})$.
+\end{proof}
+
+
+\begin{theorem}
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+\begin{align}
+O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right).  \nonumber
+\end{align}
+\end{theorem}
+
+\begin{proof}
+The proof of this Theorem is similar as Theorem~\ref{rst:regret}, except
+\begin{itemize}
+\item We can use Lemma~\ref{lem:NumP1} to bound the regret when we decide to incentivize;
+\item The expected length of phase $s$ is bounded by $\ARMNUM s$;
+\item The regret in Equation~\ref{equ:small_regret_bound} can now be bounded by a constant based on our assumption.
+\end{itemize}
+The rest of the proof remains the same.
+\end{proof}
+
+
+
+
+\textbf{Case 2: If we know $\MinProb$ in advance.}
+
+If we know $\MinProb$ in advance, we can modify the payment-eligible criteria as follows: Denote $s_0=\min_{s=1,2,\cdots,}\{\frac{1}{\log(s_0)}\leq \frac{\MinProb}{2}\}$. An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
+if both of the following hold:
+
+\begin{itemize}
+\item $i$ has been pulled at most%
+\footnote{in fact: exactly, since the algorithm entered phase $s$}
+$s-1$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s-1$.
+\item Based on the current estimates \ArmEV{t}{i'} of all arms'
+attribute vectors, the probability of pulling arm $i$ is less than $1/\log(s+s_0)$. Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
+  \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
+be the probability that arm $i$ will be pulled
+by the next (random) agent based on the current estimates. 
+Then, the second criterion for payment-eligibility is that
+$\PullProb{t}{i} < 1/\log(s+s_0)$.
+\end{itemize}
+
+The algorithm remains the same as Algorithm~\ref{alg:basic-incentivizing}. Under this new algorithm, we can prove:
+
+\begin{theorem}
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by $O(\ARMNUM^2)$. 
+\end{theorem}
+
+\begin{proof}
+The proof is exact the same as the proof for Lemma~\ref{rst:budget} except we no longer needs $s_2$. The rest of the proof remains the same.
+\end{proof}
+
+\begin{lemma}  \label{lem:NumP2}
+The expected number of time steps in which
+Algorithm~\ref{alg:basic-incentivizing}
+makes any payment is at most 
+\begin{align}
+O\left(\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right). \nonumber 
+\end{align}
+\end{lemma}
+
+\begin{proof}
+The proof is exact the same as the proof for Lemma~\ref{lem:numP} except we now define $\EvenLaterPhase = \max(50, \frac{92.16 \sigma^4}{x^4})$ since $\frac{1}{\log(s+s_0)}\leq \frac{p}{2}$ is true for all $s$.
+\end{proof}
+
+\begin{theorem}
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+\begin{align}
+O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} +\frac{\ARMNUM^2 d\MAXR}{p}+\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{p}\right).  \nonumber
+\end{align}
+\end{theorem}
+
+\begin{proof}
+The proof of this Theorem is similar as Theorem~\ref{rst:regret}, except
+\begin{itemize}
+\item We can use Lemma~\ref{lem:NumP2} to bound the regret when we decide to incentivize;
+\item The expected length of phase $s$ is bounded by $\ARMNUM \log(s+s_0)$;
+\item With the same choice of $g(s)$, the regret in Equation~\ref{equ:small_regret_bound} can now be bounded by $160 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1)\log(T+s_0)=O(\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{p})$.
+\end{itemize}
+The rest of the proof remains the same.
+\end{proof}
+
+
 \subsection{Decreasing the Payment} \label{sec:pi}
 \dkcomment{Does this really need a whole subsection now?}
 
