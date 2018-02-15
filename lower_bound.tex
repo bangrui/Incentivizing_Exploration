@@ -102,12 +102,12 @@ $\Noise{1} > 0$ and $\Noise{2} > 0$, is therefore
   you have $\pi^3$ (instead of $\pi^2$) before? (I changed it.)}
 \begin{align*}
 \ExpectC{\Regret{t}}{\Noise{1} > 0, \Noise{2} > 0}
- & \geq \dkedit{4??} \cdot \frac{1}{8}
+ & \geq \frac{1}{\Prob{\Noise{1}>0,\Noise{2}>0}} \cdot \frac{1}{8}
     \int_{0}^{\infty} \int_{0}^{\infty}
     \left( \frac{\Noise{1}}{1+\Noise{2}} \right)^2 \cdot
     \frac{\e^{-\frac{t \Noise{1}^2}{2}} \sqrt{t}}{\sqrt{2\pi}} \dd\Noise{1}
     \frac{\e^{-\frac{t \Noise{2}^2}{2}} \sqrt{t}}{\sqrt{2\pi}} \dd\Noise{2} \\
- & = \frac{1}{16\pi} \int_{0}^{\infty} \int_{0}^{\infty}
+ & = \frac{1}{4\pi} \int_{0}^{\infty} \int_{0}^{\infty}
    \left( \frac{\Noise{1}}{\sqrt{t}+\Noise{2}} \right)^2
    \e^{-\Noise{1}^2/2} \e^{-\Noise{2}^2/2} \dd \Noise{1} \dd \Noise{2}.
 \end{align*}
@@ -119,17 +119,17 @@ ratio of the two quantities:
 \begin{align*}
 \lim_{t \to \infty} \frac{\ExpectC{\Regret{t}}{\Noise{1} > 0, \Noise{2} > 0}}{\frac{1}{t}}
   & \geq
-    \lim_{t \to \infty} \left( \frac{1}{16\pi} \cdot
+    \lim_{t \to \infty} \left( \frac{1}{4\pi} \cdot
     \int_{0}^{\infty} \int_{0}^{\infty}
     t \cdot \left( \frac{\Noise{1}}{\sqrt{t}+\Noise{2}} \right)^2
     \e^{-\Noise{1}^2/2} \e^{-\Noise{2}^2/2} \dd \Noise{1} \dd \Noise{2} \right) \\
-  & = \frac{1}{16\pi} \cdot \int_{0}^{\infty} \int_{0}^{\infty}
+  & = \frac{1}{4\pi} \cdot \int_{0}^{\infty} \int_{0}^{\infty}
     \lim_{t \to \infty}
     \left( t \cdot \left( \frac{\Noise{1}}{\sqrt{t}+\Noise{2}} \right)^2 \right)
     \e^{-\Noise{1}^2/2} \e^{-\Noise{2}^2/2} \dd \Noise{1} \dd \Noise{2} \\
-  & = \frac{1}{16\pi} \cdot \int_{0}^{\infty} \int_{0}^{\infty}
+  & = \frac{1}{4\pi} \cdot \int_{0}^{\infty} \int_{0}^{\infty}
     \e^{-\Noise{1}^2/2} \e^{-\Noise{2}^2/2} \dd \Noise{1} \dd \Noise{2}
-  \; = \; \frac{1}{16 \pi}; 
+  \; = \; \frac{1}{4 \pi}; 
 \end{align*}
 
 the second line is due to the monotone convergence theorem,
