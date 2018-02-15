@@ -37,7 +37,7 @@ different values only lead to a scaling of the results.
 
 Under these advantages, myopic play is clearly optimal, so it suffices
 to bound the regret of the myopic algorithm which never incentivizes
-agents. \dkcomment{This feels ``clear'', but is it?}
+agents. 
 
 Because a pull of arm $(0,1)$ is observed in each time step,
 after $t$ rounds, the estimate \ArmEV{t}{(0,1)} is of the form
@@ -98,8 +98,6 @@ $2 \int_0^{\frac{\Noise{1}}{1+\Noise{2}}}
 The expected regret, conditioned on
 $\Noise{1} > 0$ and $\Noise{2} > 0$, is therefore
 
-\dkcomment{Where did the 4 come from? Where did it go? Also, why did
-  you have $\pi^3$ (instead of $\pi^2$) before? (I changed it.)}
 \begin{align*}
 \ExpectC{\Regret{t}}{\Noise{1} > 0, \Noise{2} > 0}
  & \geq \frac{1}{\Prob{\Noise{1}>0,\Noise{2}>0}} \cdot \frac{1}{8}

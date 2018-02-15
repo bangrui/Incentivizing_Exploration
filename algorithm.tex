@@ -30,11 +30,7 @@ We call the set of times $[t_{s}, t_{s+1})$ the
 $s-1$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s-1$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms'
 attribute vectors, the probability of pulling arm $i$ is less than
-$1/\log(s)$.
-\bccomment{Do we need to mention what if $\frac{1}{\log(s)}>1$?}
-\dkcomment{I'm not sure why. It's not like the inequality is not
-  satisfied.}
-Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
+$1/\log(s)$. Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
   \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
 be the probability that arm $i$ will be pulled
 by the next (random) agent based on the current estimates. 
@@ -254,11 +250,7 @@ Then,
 \begin{extraproof}{Lemma~\ref{lem:round-prob}}
 Fix an arm $i$ and attribute $j$.
 For any $n \geq 1$, let $k_n$ be the time step right after arm $i$ has
-been pulled for the \Kth{n} time.
-\dkcomment{I'm writing $n$ instead of $s$ here because $S_s$ would
-  look ugly, and $n$ is consistent with the lemma.
-  Or we could rename $S$ to something else.}
-Define
+been pulled for the \Kth{n} time. Define
 $S_n := \frac{n \cdot (\ArmE{k_n}{i}{j} - \Arm{i}{j})}{2 \sigma}$
 to be the sum of all attribute-$j$ noise components up to and
 including the \Kth{n} pull of arm $i$,
@@ -512,15 +504,6 @@ to denote this constant upper bound on the maximum regret that can be
 incurred in any one time step. 
 
 
-\dkcomment{The following paragraph is from Bangrui's version. It may
-  move to an earlier section, go away, or become a part somewhere.}
-As we can see later in our proof, we only need
-$\max_{i,j}\limsup_{y\rightarrow 0^{+}}\frac{F_{i,j}(y)}{y}$ to be
-finite.
-Intuitively, Assumption~\ref{A1} states that there are not many agents
-who are indifferent between their best arm and the second best arm.
-
-
 \begin{proof}
 Regret can arise in two ways:
 (1) an agent was incentivized to pull a suboptimal arm, or
@@ -624,9 +607,6 @@ where the second to last inequality is because the following technical inequalit
 For $2\leq s\leq T$, we have $3\sqrt{\frac{2}{1.8}s\log(T)} \geq \sqrt{0.6s\log(\log_{1.1}(s)+1)+\frac{2}{1.8}\log(T)s}$.
 \end{lemma}
 
-\bccomment{I believe the calculation up to this line should be correct now. The final equation we want to minimize is $\sum_{s=1}^{T}[\exp(-s*g^2(s))+g^2(s)*s]$, what should be our choice of $g(s)$?}
-
-
 Therefore, the second line becomes
 
 \begin{align*}
@@ -651,15 +631,9 @@ O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3)
 \end{multline*}
 
 on the cumulative expected regret.
-\dkcomment{I see a problem here: What's the value of $x$ in the
-  definition of \LatePhase? Presumably, we need to make $x$ small
-  enough that any $x$ we use in any application of Lemma 7 (or
-  Corollary 10) works. But notice that we use $x =
-  \Theta(g^2(\tau_s^k))$,
-  and in particular for the last step, I don't see how we can make
-  $\tau_s^k$ much smaller than $T$.
-  But then, we get that $x = O(\frac{\log T}{T})$, which would give
-  linear regret. How to handle this?}
+
+\bccomment{David, could you go through the proof again if possible? Thanks}
+
 \end{proof}
 
 \dkcomment{Edited up to here.}
