@@ -1,0 +1,246 @@
+\section{Proof of Theorem~\ref{rst:budget}}
+\label{sec:payment-proof}
+
+We restate the theorem here for convenience:
+
+\begin{rtheorem}{Theorem}{\ref{rst:budget}}
+\dkcomment{Copy here the final form of the theorem once it is finalized.}
+\end{rtheorem}
+
+The high-level idea of the proof is motivated by Lemma~\ref{lem:numP},
+which shows that the expected \emph{number} of payments is constant.
+Unfortunately, in contrast to the regret, there is no hard upper bound
+on the payment in any one round.
+If a draw of a particular arm comes out wildly inaccurate --- which is
+an event of low but positive probability ---
+then agents may require very large incentives to pull this arm again
+in the future (and correct the inaccurate estimate).
+The high payments are offset by the exceedingly low probability of
+having to incur them, but a rigorous analysis requires some care:
+if a high payment is required in one phase, this indicates a very
+inaccurate estimate, which may require multiple phases to correct.
+Hence, we need to handle dependency of payments across time steps and
+phases.
+
+To reason about such estimation errors formally, we define
+\emph{envelopes} of sample paths.
+A sample path \SP captures all the random events affecting the
+algorithm, i.e., the random draws \AgentV{t} of agents and the
+noise \Noise[t] in the draws the pulled arms,
+with an infite \dkcomment{Is it infinite?} time horizon.
+\dkcomment{We should be consistent about using filtration vs.~sample
+  path.}
+
+With foresight, we define $g(s, \ell) := \frac{12 \sigma \ell}{s^{2/5}}$.
+Let $\ErrV{t}{i} = \ArmEV{t}{i} - \ArmV{i}$ be the estimation
+error for the attribute vector \ArmV{i} at time $t$,
+with components \Err{t}{i}{j}.
+For any sample path \SP, let $s (t,\SP)$ be the phase number that the
+algorithm is in at time $t$ with the sample path \SP.
+Define the sets
+
+\begin{align*}
+\hat{L}_\ell(t)
+  & = \Set{\SP}{|\Err{t}{i}{j}(\SP)| \leq g(s(t,\SP),\ell)
+    \mbox{ for all } i,j},\\
+\Env[t]{1} & = \hat{L}_1(t)\\ 
+\Env[t]{\ell} & = \hat{L}_{\ell} (t) - \hat{L}_{\ell-1} (t)
+  \qquad \mbox{ for } \ell \geq 2.
+\end{align*}
+
+% \begin{align*}
+% L'[\ell](t)
+%   & = \Set{\SP}{|\Err{t}{i}{j}(\SP)|\leq g(s(t,\SP),\ell), \forall i,j\}
+% \end{align*}
+We call \Env[t]{\ell} the \Kth{\ell} envelope at time $t$.
+In words, \Env[t]{\ell} consists of all sample paths such that at time
+$t$, all coordinates of all arm estimation errors are bounded by
+$g(s, \ell)$, but at least one coordinate of one arm estimation error
+is \emph{not} bounded by $g(s, \ell-1)$.
+When $t$ is clear from the context, we omit it from the notation;
+similarly, when \SP is clear, we omit it in the notation for
+\Err{t}{i}{j}, payments, etc.
+The importance of envelopes is that for small $\ell$, the payments are
+tightly bounded, while for large $\ell$, the cumulative probability of
+the sample paths in \Env[t]{\ell} is small.
+This is captured by the following two lemmas.
+
+\begin{lemma} \label{lem:sample-path-payment}
+If $\SP \in \Env[t]{\ell}$ and $s(t,\SP) = s$, then
+the payment in step $t$ is upper-bounded by
+$\bar{c} (s,\ell) = \MAXR + 2 \Diam d \cdot g(s,\ell)$.
+\dkcomment{Verify that the way I talk about $t$ vs.~$s$ is right.}
+\end{lemma}
+
+\begin{proof}
+The maximum payment is upper-bounded by the maximum perceived
+difference in value for any agent type and any two arms:
+\begin{align*}
+\bar{c} (s, \ell) & \leq 
+\max_{\AgV} \left(  \max_{i} \AgV \cdot \ArmEV{t}{i}
+                 - \min_{i'} \AgV \cdot \ArmEV{t}{i'} \right) \\
+& = \max_{\AgV} \left( \max_{i}\AgV \cdot (\ErrV{t}{i}+\ArmV{i})
+                    - \min_{i'}\AgV \cdot (\ErrV{t}{i'}+\ArmV{i'}) \right) \\
+& \leq \max_{\AgV} \left(  \max_{i} \AgV \cdot \ArmV{i}
+                        - \min_{i'} \AgV \cdot \ArmV{i'}
+                        + \max_{i} \AgV \cdot \ErrV{t}{i}
+                        - \min_{i'} \AgV \cdot \ErrV{t}{i'} \right) \\
+& \leq \MAXR + 2 \Diam d \cdot g(s,\ell). 
+\end{align*}
+The final inequality used the definition of the envelope.
+\end{proof}
+
+\begin{lemma} \label{lem:envelope-probability}
+For every $\ell \geq 2$ and $t$, we have that
+$\Prob{\SP \in \Env[t]{\ell}} \leq 24 \ARMNUM d\exp(-1.8(\ell-1)^2)$. 
+\end{lemma}
+
+\begin{proof}
+The proof idea is quite similar to the proof of
+Lemma~\ref{lem:round-prob};
+however, the specific form of the envelopes necessitates some subtle
+changes in the specific forms of the bounds used.
+For \SP to be in \Env[t]{\ell}, by definition, at least one coordinate
+of at least one arm's estimation error must exceed $g(s(t,\SP),\ell-1)$.
+For now, fix an arm $i$ and coordinate $j$.
+Recall that $\NumPull{t}{i}(\SP) \geq s(t,\SP)$ is the number of times
+that arm $i$ has been pulled by time $t$ under \SP.
+We can express a bound on large deviations in terms of
+the scaled estimation error
+$\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}$:
+\begin{align*}
+\Prob{|\Err{t}{i}{j}| \geq g(s(t,\SP), \ell-1)}
+& = \Prob{\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}
+          \geq \frac{6\NumPull{t}{i}(\ell-1)}{s(t,\SP)^{2/5}}}\\
+& \leq \; \Prob{\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}
+          \geq 6\NumPull{t}{i}^{3/5}(\ell-1)}. 
+\end{align*}
+
+We will show below that
+$5 n^{3/5} \geq \sqrt{0.6n \log(\log_{1.1}(n)+1)}$
+for all $n \geq 1$.
+Applying this inequality and sublinearity of $\sqrt{\cdot}$,
+we obtain that
+
+\begin{align*}
+6 \NumPull{t}{i}^{3/5}(\ell-1)
+& \geq 5 \NumPull{t}{i}^{3/5} + \NumPull{t}{i}^{3/5}(\ell-1)  \\
+& \geq \sqrt{0.6 \NumPull{t}{i} \log(\log_{1.1}(\NumPull{t}{i})+1)}
+     + \sqrt{(\ell-1)^2 \NumPull{t}{i}}  \\
+& \geq \sqrt{0.6\NumPull{t}{i}\log(\log_{1.1}(\NumPull{t}{i})+1)+(\ell-1)^2 \NumPull{t}{i}}. 
+\end{align*}
+
+Because the scaled estimation error
+$\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}$
+is a summation of $1/2$-Gaussian random variables, 
+we can now apply Lemma~\ref{lem:ACI-inequality}
+with $b(n) = (\ell-1)^2$ \dkcomment{omit dependence on $n$ here?},
+to obtain that
+\begin{align*}
+\Prob{|\Err{t}{i}{j}| \geq g(s(t,\SP), \ell-1)}
+& \leq 24 \e^{-1.8(\ell-1)^2}.
+\end{align*}
+Now, taking a union bound over all arms $i$ and
+coordinates $j$ completes the proof.
+
+It remains to show that
+$5 n^{3/5} \geq \sqrt{0.6n \log(\log_{1.1}(n)+1)}$
+for all $n \geq 1$.
+By squaring the inequality and canceling out a factor $n$,
+the statement is equivalent to showing that
+$25 n^{1/5} \geq \log(\log_{1.1}(n)+1)$.
+We will show the stronger statement that
+$25 n^{1/5} \geq \log_{1.1}(n)+1$.  
+To see this, notice that the derivative of the left-hand side is
+always strictly larger than the derivative of the right-hand side,
+so the difference between the sides is minimized at $n=1$,
+where it is positive. 
+\end{proof}
+
+\begin{extraproof}{Theorem~\ref{rst:budget}}
+  
+\noindent\textbf{Step 2: Introduce a new stochastic process which bounds the total payment in a phase}
+
+Denote $\mathcal{F}_t$ as the filtration up to time $t$. Denote $V_t$ as the set of arms that have been pulled at least $s$ times at time $t$ in phase $s$. Based on our algorithm, we know
+
+\begin{align}
+\Prob{\text{play a new arm}|\mathcal{F}_t} & =
+\begin{cases}
+1       & \quad \text{if we incentivize}\\
+\sum_{i\in \{1,\cdots,\ARMNUM\}\setminus V_t} P(\AgentV{t} \cdot \ArmEV{t}{i}>\AgentV{t}\cdot \ArmEV{t}{j} \forall j\neq i)  & \quad \text{otherwise}  
+\end{cases} \label{dom_stoc}\\
+ & \geq (\ARMNUM-|V_t|)\times \frac{1}{\log(s)}. \nonumber
+\end{align}
+
+\bccomment{probably we need to be more careful about $\frac{1}{\log(s)}$}.
+Let $(Z_{s,v,m}:m\geq 0)$ be a sequence of independent Bernoulli random variable with success probability $\frac{\ARMNUM-v}{\log(s)}$. We will construct an alternative stochastic process for selecting which arm gets played that has the same distribution as the original process, but under which
+\begin{align*}
+t_{s}-t_{s-1}\leq \bar{T}_{s}:=\sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}, 
+\end{align*}
+where $\bar{T}_{s,v}:=\inf\{m\geq 0: Z_{s,v,m}=1\}+1$.
+
+The new stochastic process will have the property that whenever $Z_{s,v(s,t),m(s,t)}=1$, we will play a new arm at time t for $t\in [t_{s-1}, t_{s}]$, where $v(s,t)$ is the number of unique arms played in phase $s$ strictly before time $t$, and $m(s,t)$ is the number of times we have pulled a previously pulled arm for the current value of $v(s,t)$. At time $t$, to determine what arm to pull, calculate \eqref{dom_stoc} and let $q_t$ be the probability computed. Note $q_t\geq \frac{\ARMNUM-v(s,t)}{\log(s)}$.
+
+If $Z_{s,v(s,t),m(s,t)}$ is 1, decide to play a new arm. Otherwise, draw a second Bernoulli random variable with probability $\frac{q_t-\frac{\ARMNUM-v(s,t)}{\log(s)}}{1-\frac{\ARMNUM-v(s,t)}{\log(s)}}$, and if it is 1, decide to play a new arm, and otherwise decide to play an old arm. Note that
+
+\begin{align}
+\Prob{\text{play a new arm}|\mathcal{F}_{t}}=\frac{\ARMNUM-v}{\log(s)}+\left[1-\frac{\ARMNUM-v}{\log(s)}\right]\times \frac{q_t-\frac{\ARMNUM-v}{\log(s)}}{1-\frac{\ARMNUM-v}{\log(s)}}=q_t.
+\end{align}
+
+Since we pull a new arm only when $Z_{s,v(s,t),m(s,t)}=1$, the number of times we pull an arm when $v(s,t)=v$ is bounded above by $\bar{T}_{s,v}$. Thus,
+
+\begin{align}
+t_{s}-t_{s-1}\leq \sum_{v=0}^{\ARMNUM-1}\bar{T}_{s,v}=\bar{T}_{s}.
+\end{align}
+Finally, we want to bound $\sum_{t}E[c(t)]$. Let $C(s)$ be the cost incurred in phase $s$. Thus $\sum_{t}E[c(t)]=\sum_{s}E[C(s)]$. We know
+\begin{align*}
+C(s)&=\sum_{t=t_{s-1}+1}^{t_{s}}c(t)=\sum_{t=t_{s-1}+1}^{t_{s}}\sum_{\ell}\mathbbm{1}\{\SP\in \Env{\ell}\}c(t)  \\
+&\leq \sum_{t=t_{s-1}+1}^{t_{s}}\sum_{l}\mathbbm{1}\{\SP\in \Env{\ell}\}\bar{c}(s,\ell)  \\
+&\leq (t_{s}-t_{s-1})\sum_{\ell} \mathbbm{1}\{\SP\in \Env{\ell}\}\bar{c}(s,\ell)  \\
+&\leq \bar{T}_{s}\sum_{l}\mathbbm{1}\{\SP\in \Env{\ell}\}\bar{c}(s,\ell). 
+\end{align*}
+
+Since $\bar{T}_{s}$ is independent of \SP, we know
+\begin{align*}
+E[C(s)]\leq E[\bar{T}_{s}]\sum_{\ell}\Prob{\SP\in \Env{\ell}}\bar{c}(s,\SP). 
+\end{align*}
+\noindent\textbf{Step 3: Rewrite the total payment expression}.
+
+Based on the above notations, we can rewrite the cumulative payment as follows:
+\begin{align*}
+\sum_{t=1}^{\infty}c(t) =\sum_{s=1}^{\infty}C(s)
+\leq  \sum_{s=1}^{\infty}\sum_{\ell=1}^{\infty}\bar{T}_{s}\mathbbm{1}\{\SP\in \Env{\ell}\}\bar{c}(s,\ell). 
+\end{align*}
+
+Set $g(s,\ell)$ to be $\frac{12\sigma \ell}{s^{2/5}}$.
+Since if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot \ArmV{\Best{\AgV}}-\AgV \cdot \ArmV{\Second{\AgV}}> 2\Diam d\lambda\}$, they will correctly identify their best arm. Thus, if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \frac{12\sigma l}{s^{2/5}} \leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a phase $s$ that satisfies $1/log(s)\leq \MinProb/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24\Diam d\sigma}{p^{-1}(\frac{\MinProb}{2})}$. In order to have $\frac{12\sigma l}{s^{2/5}}\leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$, it is sufficient to have $s\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $1/\log(s)\leq \frac{\MinProb}{2}$, we need $s\geq \exp(\frac{2}{\MinProb})$. Denote $s_2=\exp(\frac{2}{\MinProb})$. Thus, we know we can only incur regret for sample paths \SP in the $\ell^{th}$ envelope in the first $\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ phases.
+
+Thus,
+\begin{align*}
+\sum_{t=1}^{\infty}c(t)\leq\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(s,\ell)\mathbbm{1}\{\SP\in \Env{\ell}\}\bar{T}_{s}. 
+\end{align*}
+
+Therefore,
+
+\begin{align*}
+&E\left[\sum_{t=1}^{\infty}c(t)\right] \\
+\leq &\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(s,\SP)\Prob{\SP \in \Env{\ell}}E[\bar{T}_{s}]  \\
+=&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[\MAXR+2\Diam d\frac{12\sigma \ell}{s^{2/5}}\right]\Prob(\SP\in \Env{\ell})E[\bar{T}_{s}]  \\
+\leq &\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[\MAXR+24\Diam d\sigma l\right]\Prob(\SP\in \Env{\ell})E[\bar{T}_{s}]. 
+\end{align*}
+
+\noindent\textbf{Step 5: Final Step}
+
+Thus,
+\begin{align*}
+&\sum_{t=1}^{\infty}c(t)  \\
+\leq&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\SP\in \Env{\ell})E[\bar{T}_{s}}  \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\Prob{\SP\in L[1]}E[\bar{T}_{s}] +\sum_{l=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\SP\in \Env{\ell}}E[\bar{T}_{s}]  \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24\Diam d\sigma \right]E[\bar{T}_{s}] +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24\ARMNUM d e^{-1.8(\ell-1)^2}E[\bar{T}_{s}] \\
+\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\ARMNUM \log(s) +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24 \ARMNUM d e^{-1.8(\ell-1)^2}\ARMNUM \log(s)  \\
+\leq & \left[\MAXR+24\Diam d\sigma \right]\ARMNUM (\max\{s_2,\lceil (a_0)^{5/2} \rceil\})^2+\sum_{\ell=2}^{\infty}24\ARMNUM^2 d[\MAXR+24\Diam d\ell\sigma](\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\})^2 e^{-1.8(\ell-1)^2}  \\
+=& O(\max\{\frac{\ARMNUM^2}{\MinProb^5},\ARMNUM^2\exp(\frac{4}{\MinProb})\}). 
+\end{align*}
+
+\bccomment{in the second to last inequality, I use $s\leq \log(s)$, probably a very loose bound.}
+\end{extraproof}

@@ -1,0 +1,31 @@
+\section{Proof of Lemma~\ref{lem:n0-inequality}}
+\label{sec:n0-inequality-proof}
+
+\begin{proof}
+First, we observe that
+\begin{align}
+&\frac{nx}{4\sigma}\geq \sqrt{0.6n\log(\log_{1.1}(n)+1)} \nonumber \\
+\iff &\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{9.6\sigma^2}{x^2}. \nonumber 
+\end{align}
+Since $\log(x)\leq x-1$ for $x>0$, we know 
+\begin{align}
+\log(\log_{1.1}(n)+1)=\log\left(\frac{\log(n)}{\log(1.1)}+1\right)\leq \log(11\log(n)+1)\leq \log(11n)\leq 3+\log(n). \nonumber
+\end{align}
+
+Thus, we know
+\begin{align}
+\frac{n}{\log(\log_{1.1}(n)+1)}\geq \frac{n}{3+\log(n)}. \nonumber 
+\end{align}
+
+To prove the lemma, we just need to show for $n\geq s_{0}$, we have
+\begin{align}
+\frac{n}{3+\log(n)}\geq \frac{9.6\sigma^2}{x^2}. \label{n0-equ}
+\end{align}
+Inequality~(\ref{n0-equ}) is true because of the following two observations:
+\begin{itemize}
+\item for $n\geq 50$, we have $\frac{n}{3+\log(n)}\geq n^{0.5}$;
+\item for $n\geq \frac{92.16\sigma^4}{x^4}$, we have $n^{0.5}\geq {9.6\sigma^{2}}{x^{2}}$.
+\end{itemize}
+
+Thus, we know our lemma is true.
+\end{proof}

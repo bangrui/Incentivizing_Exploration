@@ -3,10 +3,10 @@
 
 The algorithm achieving the claimed bounds of
 Theorem~\ref{thm:main-overview} is fairly simple.
-It mostly allows agents to exploit, but when an arm is \pfdelete{estimated to
-be extremely} \pfedit{sufficiently} unlikely to be pulled\pfdelete{by any agents},
+It mostly allows agents to exploit, but when an arm is sufficiently
+unlikely to be pulled, 
 the algorithm incentivizes this arm with a payment high enough
-to guarantee the next agent pulls it.
+to guarantee that the next agent pulls it.
 This way the algorithm ensures each arm is pulled often enough.
 
 More precisely, the algorithm divides time into \emph{phases}
@@ -29,7 +29,11 @@ We call the set of times $[t_{s}, t_{s+1})$ the
 \footnote{in fact: exactly, since the algorithm entered phase $s$}
 $s-1$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s-1$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms'
-attribute vectors, the probability of pulling arm $i$ is less than $1/\log(s)$. \bccomment{Do we need to mention what if $\frac{1}{\log(s)}>1$? }
+attribute vectors, the probability of pulling arm $i$ is less than
+$1/\log(s)$.
+\bccomment{Do we need to mention what if $\frac{1}{\log(s)}>1$?}
+\dkcomment{I'm not sure why. It's not like the inequality is not
+  satisfied.}
 Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
   \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
 be the probability that arm $i$ will be pulled
@@ -37,6 +41,7 @@ by the next (random) agent based on the current estimates.
 Then, the second criterion for payment-eligibility is that
 $\PullProb{t}{i} < 1/\log(s)$.
 \pfedit{$1/\log(1)$ is treated as $\infty$, and if $1/\log(s) \ge 1$ then this condition is automatically met.}
+\dkcomment{Do we need this?}
 \end{itemize}
 
 When multiple arms are payment-eligible, the algorithm picks one
@@ -122,7 +127,7 @@ Also notice that $\ClearPref{0} = \MinProb$.
   have measure 0.}
 
 
-In this section, we prove Algorithm~\ref{alg:basic-incentivizing} achieves $O(\ARMNUM^2+\TieDensity(\log(T))^2)$ cumulative regret with $O(\ARMNUM^2)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
+In this section, we prove that Algorithm~\ref{alg:basic-incentivizing} achieves $O(\ARMNUM^2+\TieDensity(\log(T))^2)$ cumulative regret with $O(\ARMNUM^2)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
 
 \begin{theorem}
 The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by $O(\ARMNUM^2)$. 
@@ -190,11 +195,9 @@ each arm $i \in S$ has probability at least $1/\log(s)$ of being pulled.
 In particular, the size of $S$ decreases with probability at least $1/\log(s)$.
 
 In either case, the expected number of time steps until
-$|S|$ decreases is at most $s$,
+$|S|$ decreases is at most $\log s$,
 so the expected number of steps until $S$ is empty is at most
 $\ARMNUM \cdot \log(s)$.
-\dkcomment{If we wanted, this bound could probably be improved using a
-  coupon collector argument. But it would look uglier.}
 \end{proof}
                   
 The key technical lemma captures the intuition that
@@ -236,7 +239,9 @@ Let $J$ be any stopping time with respect to $\SET{X_1, X_2, \ldots}$.
 (We allow $J$ to take the value $\infty$,
 defining $\Prob{J = \infty} = 1 - \lim_{n \to \infty} \Prob{J \leq n}$.)
 Define \dkcomment{I'm making the dependence of $b$ on $n$ explicit,
-  since that's how we're using it.}
+  since that's how we're using it. Is it true with $b$ depending on
+  $n$?
+If not, we need to revisit what we're doing.}
 \begin{align*}
 g(n) & = \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + n \cdot b(n)}.
 \end{align*}
@@ -292,8 +297,8 @@ $\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x^2}{16 \sigma^2}}
 \leq \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1)} + \frac{\sqrt{J} x}{4 \sigma}\leq \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1)} + \frac{J x}{4 \sigma}$.}
 
 Then, we use the following technical Lemma~\ref{lem:n0-inequality}
-(whose proof is given in the appendix, and whose precondition we verify
-momentarily) to bound the first term,
+(whose proof is given in Appendix~\ref{n0-inequality-proof}, and whose
+precondition we verify momentarily) to bound the first term,
 giving us an overall upper bound of
 $|S_J| \leq \frac{J x}{2 \sigma}$.
 
@@ -494,7 +499,8 @@ hence, with small probability, arm locations may be grossly
 misestimated, resulting in high incentive payments.
 As a result, the actual analysis of the total payment is significantly more
 intricate, and hence,
-the proof of Theorem~\ref{rst:budget} is given in the appendix.
+the proof of Theorem~\ref{rst:budget} is given in
+Appendix~\ref{sec:payment-proof}.
 
 
 \subsection{Bounding the Total Regret}
@@ -612,7 +618,7 @@ With this choice and same definition of $S_{s}$ as in the proof of Lemma~\ref{le
 \leq &\sum_{i,j}\Prob{|S_s|\geq 3\sqrt{\frac{2}{1.8}s\log(T)}} \\
 \leq &\sum_{i,j}\Prob{|S_s|\geq \sqrt{0.6s\log(\log_{1.1}(s)+1)+\frac{2}{1.8}\log(T)s}} \leq 24\ARMNUM d \cdot \exp(-2\log(T)),
 \end{align*}
-where the second to last inequality is because the following technical inequality, whose proof we include in the appendix.
+where the second to last inequality is because the following technical inequality, whose proof we include in Appendix~\ref{sec:n1-inequality-proof}.
 
 \begin{lemma} \label{lem:n1-inequality}
 For $2\leq s\leq T$, we have $3\sqrt{\frac{2}{1.8}s\log(T)} \geq \sqrt{0.6s\log(\log_{1.1}(s)+1)+\frac{2}{1.8}\log(T)s}$.

@@ -56,6 +56,17 @@
 % Argument 2: arm
 % Argument 3: coordinate/attribute
 
+\newcommand{\ErrV}[2]{\ensuremath{\vc{\epsilon}_{#1,#2}}\xspace} 
+% error in the empirical estimator of the arm location
+% Argument 1: time step
+% Argument 2: arm
+
+\newcommand{\Err}[3]{\ensuremath{\epsilon_{#1,#2}^{(#3)}}\xspace}
+% coordinates of error in the empirical estimater of the arm location
+% Argument 1: time step
+% Argument 2: arm
+% Argument 3: coordinate/attribute
+
 \newcommand{\PullProb}[2]{\ensuremath{\phi_{#1,#2}}\xspace}
 % probability that a random myopic agent will pull the arm
 % Argument 1: time step
@@ -158,3 +169,18 @@
 
 \newcommand{\EvenLaterPhase}{\ensuremath{s_1}\xspace}
 % lower bound after which payments become unlikely
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Stuff related to payment proof
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\SP}{\ensuremath{\omega}\xspace}
+% sample path
+
+\newcommand{\Env}[2][]{\ensuremath{%
+\ifthenelse{\equal{#1}{}}{L_{#2}}{L_{#2}(#1)}}\xspace}
+% envelope
+% Argument 1 (optional): time step
+% Argument 2: level of envelope
