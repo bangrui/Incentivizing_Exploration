@@ -179,8 +179,6 @@
 \newcommand{\SP}{\ensuremath{\omega}\xspace}
 % sample path
 
-\newcommand{\Env}[2][]{\ensuremath{%
-\ifthenelse{\equal{#1}{}}{L_{#2}}{L_{#2}(#1)}}\xspace}
+\newcommand{\Env}[1]{\ensuremath{{\mathcal L}_{#1}}\xspace}
 % envelope
-% Argument 1 (optional): time step
-% Argument 2: level of envelope
+% Argument: level of envelope

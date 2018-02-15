@@ -26,7 +26,7 @@ To reason about such estimation errors formally, we define
 \emph{envelopes} of sample paths.
 A sample path \SP captures all the random events affecting the
 algorithm, i.e., the random draws \AgentV{t} of agents and the
-noise \Noise[t] in the draws the pulled arms,
+noise \NoiseV[t] in the draws the pulled arms,
 with an infite \dkcomment{Is it infinite?} time horizon.
 \dkcomment{We should be consistent about using filtration vs.~sample
   path.}
@@ -41,11 +41,11 @@ algorithm is in at time $t$ with the sample path \SP.
 Define the sets
 
 \begin{align*}
-\hat{L}_\ell(t)
+\hat{L}_\ell
   & = \Set{\SP}{|\Err{t}{i}{j}(\SP)| \leq g(s(t,\SP),\ell)
-    \mbox{ for all } i,j},\\
-\Env[t]{1} & = \hat{L}_1(t)\\ 
-\Env[t]{\ell} & = \hat{L}_{\ell} (t) - \hat{L}_{\ell-1} (t)
+    \mbox{ for all } i,j,t},\\
+\Env{1} & = \hat{L}_1\\ 
+\Env{\ell} & = \hat{L}_{\ell} - \hat{L}_{\ell-1}
   \qquad \mbox{ for } \ell \geq 2.
 \end{align*}
 
@@ -53,30 +53,21 @@ Define the sets
 % L'[\ell](t)
 %   & = \Set{\SP}{|\Err{t}{i}{j}(\SP)|\leq g(s(t,\SP),\ell), \forall i,j\}
 % \end{align*}
-We call \Env[t]{\ell} the \Kth{\ell} envelope at time $t$.
-\pfcomment{I believe we need the following definition for envelope $\ell$: 
-$\hat{L}_\ell
-  = \Set{\SP}{|\Err{t}{i}{j}(\SP)| \leq g(s(t,\SP),\ell)
-    \mbox{ for all } i,j,t}$
-This is what we use below in the proof of Theorem 3, plus a corresponding $L_\ell$.
-It's ok to have $\hat{L}(t)$ defined as well, but if we are going to define the version without $t$ then maybe we don't need the one wiht $t$.
-}
-
-
-In words, \Env[t]{\ell} consists of all sample paths such that at time
+We call \Env{\ell} the \Kth{\ell} envelope.
+In words, \Env{\ell} consists of all sample paths such that at all times
 $t$, all coordinates of all arm estimation errors are bounded by
-$g(s, \ell)$, but at least one coordinate of one arm estimation error
-is \emph{not} bounded by $g(s, \ell-1)$.
-When $t$ is clear from the context, we omit it from the notation;
-similarly, when \SP is clear, we omit it in the notation for
+$g(s, \ell)$,
+but for at least one time $t$, at least one coordinate of one arm
+estimation error is \emph{not} bounded by $g(s, \ell-1)$.
+When \SP is clear, we omit it in the notation for
 \Err{t}{i}{j}, payments, etc.
 The importance of envelopes is that for small $\ell$, the payments are
 tightly bounded, while for large $\ell$, the cumulative probability of
-the sample paths in \Env[t]{\ell} is small.
+the sample paths in \Env{\ell} is small.
 This is captured by the following two lemmas.
 
 \begin{lemma} \label{lem:sample-path-payment}
-If $\SP \in \Env[t]{\ell}$ and $s(t,\SP) = s$, then
+If $\SP \in \Env{\ell}$ and $s(t,\SP) = s$, then
 the payment in step $t$ is upper-bounded by
 $\bar{c} (s,\ell) = \MAXR + 2 \Diam d \cdot g(s,\ell)$.
 \dkcomment{Verify that the way I talk about $t$ vs.~$s$ is right.}
@@ -101,8 +92,8 @@ The final inequality used the definition of the envelope.
 \end{proof}
 
 \begin{lemma} \label{lem:envelope-probability}
-For every $\ell \geq 2$ and $t$, we have that
-$\Prob{\SP \in \Env[t]{\ell}} \leq 24 \ARMNUM d\exp(-1.8(\ell-1)^2)$. 
+For every $\ell \geq 2$, we have that
+$\Prob{\SP \in \Env{\ell}} \leq 24 \ARMNUM d\exp(-1.8(\ell-1)^2)$. 
 \end{lemma}
 
 \begin{proof}
@@ -110,20 +101,25 @@ The proof idea is quite similar to the proof of
 Lemma~\ref{lem:round-prob};
 however, the specific form of the envelopes necessitates some subtle
 changes in the specific forms of the bounds used.
-For \SP to be in \Env[t]{\ell}, by definition, at least one coordinate
-of at least one arm's estimation error must exceed $g(s(t,\SP),\ell-1)$.
+For \SP to be in \Env{\ell}, by definition,
+for at least one time $t$,
+at least one coordinate of at least one arm's estimation error must
+exceed $g(s(t,\SP),\ell-1)$.
 For now, fix an arm $i$ and coordinate $j$.
+
 Recall that $\NumPull{t}{i}(\SP) \geq s(t,\SP)$ is the number of times
 that arm $i$ has been pulled by time $t$ under \SP.
-We can express a bound on large deviations in terms of
-the scaled estimation error
-$\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}$:
+We define the scaled estimation error
+$S_{i,j}(t) := \frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}$.
+The advantage of $S_{i,j}(t)$ is that it is 
+a summation of $1/2$-Gaussian random variables, 
+so we will be able to apply Lemma~\ref{lem:ACI-inequality}.
+First notice that we can express the desired probability as follows:
+
 \begin{align*}
 \Prob{|\Err{t}{i}{j}| \geq g(s(t,\SP), \ell-1)}
-& = \Prob{\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}
-          \geq \frac{6\NumPull{t}{i}(\ell-1)}{s(t,\SP)^{2/5}}}\\
-& \leq \; \Prob{\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}
-          \geq 6\NumPull{t}{i}^{3/5}(\ell-1)}. 
+& = \Prob{S_{i,j}(t) \geq \frac{6\NumPull{t}{i}(\ell-1)}{s(t,\SP)^{2/5}}}\\
+& \leq \; \Prob{S_{i,j}(t) \geq 6\NumPull{t}{i}^{3/5}(\ell-1)}. 
 \end{align*}
 
 We will show below that
@@ -137,15 +133,30 @@ we obtain that
 & \geq 5 \NumPull{t}{i}^{3/5} + \NumPull{t}{i}^{3/5}(\ell-1)  \\
 & \geq \sqrt{0.6 \NumPull{t}{i} \log(\log_{1.1}(\NumPull{t}{i})+1)}
      + \sqrt{(\ell-1)^2 \NumPull{t}{i}}  \\
-& \geq \sqrt{0.6\NumPull{t}{i}\log(\log_{1.1}(\NumPull{t}{i})+1)+(\ell-1)^2 \NumPull{t}{i}}. 
+& \geq \sqrt{0.6\NumPull{t}{i}\log(\log_{1.1}(\NumPull{t}{i})+1)+(\ell-1)^2 \NumPull{t}{i}}
+\; =: \; h(\NumPull{t}{i}).
 \end{align*}
 
-Because the scaled estimation error
-$\frac{\NumPull{t}{i} \cdot \Err{t}{i}{j}}{2\sigma}$
-is a summation of $1/2$-Gaussian random variables, 
-we can now apply Lemma~\ref{lem:ACI-inequality}
-with $b(n) = (\ell-1)^2$ \dkcomment{omit dependence on $n$ here?},
-to obtain that
+Let the random stopping time $\tau_{i,j}$ be the first value of
+\NumPull{t}{i} (i.e., the first pull of arm $i$) such that 
+$S_{i,j}(\tau_{i,j}) > h(\NumPull{t}{i})$.
+$\tau_{i,j} = \infty$ means that the estimation error never exceeds 
+$h(\NumPull{t}{i})$.
+We apply Lemma~\ref{lem:ACI-inequality}
+to $S_{i,j}(t)$, with a stopping time of $\tau_{i,j}$ and
+with $b(n) = (\ell-1)^2$ \dkcomment{omit dependence on $n$ here?}.
+We obtain that the probability that $\tau_{i,j} < \infty$ and 
+$S_{i,j}(\tau_{i,j}) > h(\tau_{i,j})$ is at most
+$12 \e^{-1.8 b(n)}$.
+By definition of $\tau_{i,j}$, the event is the same as simply
+$\tau_{i,j} < \infty$.
+Applying the lemma again to $-S_{i,j}(\tau_{i,j})$,
+and taking a union bound over both cases,
+gives us that the probability that there is \emph{any} time $t$ with
+$|S_{i,j}(\NumPull{t}{i})| > h (\NumPull{t}{i})$
+is at most $24 \e^{-1.8 b(n)}$.
+Hence, the probability that the error at \emph{any} time $t$ exceeds
+$g(s(t,\SP), \ell-1)$ is bounded by 
 \begin{align*}
 \Prob{|\Err{t}{i}{j}| \geq g(s(t,\SP), \ell-1)}
 & \leq 24 \e^{-1.8(\ell-1)^2}.
@@ -167,49 +178,107 @@ so the difference between the sides is minimized at $n=1$,
 where it is positive. 
 \end{proof}
 
+Next, we show that for any sample path \SP in the envelope \Env{\ell},
+we can bound the total number of payments made in terms of $\ell$.
+Define $h(\ell) := \max \left( \exp(\frac{2}{\MinProb}),
+\left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
+\right)$.
+
+\begin{lemma} \label{lem:envelope-payments}
+Let \SP be a sample path in \Env{\ell}.
+Then, under \SP, the algorithm makes payments at most for the first 
+$h(\ell)$ phases. 
+\end{lemma}
+
+\begin{proof}
+The proof is similar to that of Lemma~\ref{lem:numP}.
+Fix a sample path $\SP \in \Env{\ell}$.
+Consider a phase $s > h(\ell)$.
+
+By definition of \Env{\ell}, the coordinate-wise estimation errors at
+times $t$ in phase $s$ are
+$|\Arm{i}{j} - \ArmE{t}{i}{j}| \leq g(s,\ell)$.
+In particular, all agent typs \AgV whose preference for their best arm
+is sufficiently clear
+($\AgV \cdot \ArmV{\Best{\AgV}} - \AgV \cdot \ArmV{\Second{\AgV}}
+> 2\Diam d g(s,\ell)$) will pull their best arm.
+
+By Lemma~\ref{lem:sdelta}, the \emph{total} measure of agents (across
+all arms) whose best and second-best arm differ in utility by at most
+$2\Diam d \cdot g(s,\ell)$ is at most $2L \Diam d \cdot g(s,\ell)$.
+Substituting the definition of $g$, because 
+$s > h(\ell) \geq \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}$,
+the total measure of these agents is bounded by $\MinProb/2$.
+
+By Assumption~\ref{A3}, at least a \MinProb fraction of agents have
+$i$ as their best arm, so even with estimation errors, at least
+$\MinProb - \MinProb/2 = \MinProb/2$ fraction will still prefer to
+pull arm $i$.
+
+Because $s > h(\ell) \geq \exp(\frac{2}{\MinProb})$, 
+we get that $1/\log(s) \leq \MinProb/2$, so in phase $s$,
+the algorithm will not incentivize any arms whose pulling probability
+is more than $\MinProb/2$, which is all arms.
+So no payments will be made in phase $s$.
+\end{proof}
+
+
 \begin{extraproof}{Theorem~\ref{rst:budget}}
-
-
-\noindent\textbf{Step 3: Rewrite the total payment expression}.
-
-\pfcomment{I deleted Step 2 and replaced it by this simpler argument}
-Let $C(s)$ be the cost incurred in phase $s$.
-In each phase, we can make at most $N$ payments, because each arm is incentivized at most once.
-Noting that each sample path $\omega$ is in exactly one envelope and and using Lemma~\ref{lem:sample-path-payment}, we get
-this bound on the cumulative payment:
+We can write the total expected payment as
 \begin{align*}
-\sum_{t=1}^{\infty}c(t) =\sum_{s=1}^{\infty}C(s)
-\leq  \sum_{s=1}^{\infty}\sum_{\ell=1}^{\infty}\mathbbm{1}\{\SP\in \Env{\ell}\} N \bar{c}(s,\ell). 
+  \Expect{\sum_{t=1}^{\infty} \PayA{t}}
+& = \sum_{\ell = 1}^{\infty} \sum_{\SP \in \Env{\ell}}
+  \Prob{\SP} \cdot \sum_{t=1}^{\infty} \PayA{t}(\SP)
+\; = \; \sum_{\ell = 1}^{\infty} \sum_{\SP \in \Env{\ell}}
+  \Prob{\SP} \cdot \sum_{s=1}^{\infty} \sum_{t: s(t,\SP) = s} \PayA{t}(\SP).
 \end{align*}
 
-Set $g(s,\ell)$ to be $\frac{12\sigma \ell}{s^{2/5}}$.
-Since if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \lambda$ is true $\forall i$, $\forall j$, then we know for those $\AgV\in \{\AgV:\AgV\cdot \ArmV{\Best{\AgV}}-\AgV \cdot \ArmV{\Second{\AgV}}> 2\Diam d\lambda\}$, they will correctly identify their best arm. Thus, if $|\Arm{i}{j}-\ArmE{t}{i}{j}|\leq \frac{12\sigma l}{s^{2/5}} \leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$ $\forall i$ and $\forall j$, then the probability that an unincentivized agent would pull arm $i$ is at least $\frac{p}{2}$. Further, if time $t$ is in a phase $s$ that satisfies $1/log(s)\leq \MinProb/2$, then our algorithm will not incentivize pulling any arms. Denote $a_0=\frac{24\Diam d\sigma}{p^{-1}(\frac{\MinProb}{2})}$. In order to have $\frac{12\sigma l}{s^{2/5}}\leq \frac{p^{-1}(\frac{\MinProb}{2})}{2\Diam d}$, it is sufficient to have $s\geq \lceil (a_{0} l)^\frac{5}{2} \rceil$. In order to have $1/\log(s)\leq \frac{\MinProb}{2}$, we need $s\geq \exp(\frac{2}{\MinProb})$. Denote $s_2=\exp(\frac{2}{\MinProb})$. Thus, we know we can only incur regret \pfcomment{this should be payment cost, right?} for sample paths \SP in the $\ell^{th}$ envelope in the first $\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}$ phases.
+By Lemma~\ref{lem:envelope-payments},
+the payments are 0 for $s > h(\ell)$,
+and by Lemma~\ref{lem:sample-path-payment},
+when $\SP \in \Env{\ell}$ and $s(t,\SP) = s$, we can bound
+$\PayA{t}(\SP) \leq \MAXR + 2 \Diam d \cdot g(s,\ell)$.
+Furthermore, in any one phase, because each arm is incentivized at
+most once, there are at most \ARMNUM payments total.
+Substituting these bounds, we obtain that
 
-Thus,
 \begin{align*}
-\sum_{t=1}^{\infty}c(t)\leq\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(s,\ell)\mathbbm{1}\{\SP\in \Env{\ell}\}N. 
+  \Expect{\sum_{t=1}^{\infty} \PayA{t}}
+& \leq \sum_{\ell = 1}^{\infty} \sum_{\SP \in \Env{\ell}} \Prob{\SP} \cdot
+  \sum_{s=1}^{h(\ell)} \ARMNUM \cdot (\MAXR + 2 \Diam d \cdot g(s,\ell))
+\\ & = \ARMNUM \cdot
+  \sum_{\ell = 1}^{\infty} \Prob{\SP \in \Env{\ell}} \cdot
+  \sum_{s=1}^{h(\ell)} \left( \MAXR + \frac{24 \Diam d \sigma \ell}{s^{2/5}} \right).
 \end{align*}
 
-Therefore,
+We now lower-bound $s^{2/5} \geq 1$, split off the term for $\ell=1$
+and bound $\Prob{\SP \in \Env{1}} \leq 1$, and apply
+Lemma~\ref{lem:envelope-probability} to the remaining
+$\Prob{\SP \in \Env{\ell}}$ terms, to bound
 
 \begin{align*}
-&E\left[\sum_{t=1}^{\infty}c(t)\right] \\
-\leq &\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\bar{c}(s,\SP)\Prob{\SP \in \Env{\ell}}N  \\
-=&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[\MAXR+2\Diam d\frac{12\sigma \ell}{s^{2/5}}\right]\Prob{\SP\in \Env{\ell}}N  \\
-\leq &\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^\frac{5}{2} \rceil\}}\left[\MAXR+24\Diam d\sigma l\right]\Prob{\SP\in \Env{\ell}}N. 
+\Expect{\sum_{t=1}^{\infty} \PayA{t}}
+& \leq
+\ARMNUM \cdot \sum_{s=1}^{h(1)} (\MAXR + 24 \Diam d \sigma)
++ \ARMNUM \cdot
+  \sum_{\ell = 2}^{\infty} 24 \ARMNUM d\exp(-1.8(\ell-1)^2) \cdot
+  \sum_{s=1}^{h(\ell)} (\MAXR + 24 \Diam d \sigma \ell)
+\\ & \leq
+\ARMNUM \cdot h(1) \cdot (\MAXR + 24 \Diam d \sigma)
++ 24 \ARMNUM^2 d \cdot \sum_{\ell = 2}^{\infty}
+     \exp(-1.8(\ell-1)^2) \cdot h(\ell) \cdot (\MAXR + 24 \Diam d \sigma \ell).
 \end{align*}
+Because $h(\ell)$ and $(\MAXR + 24 \Diam d \sigma \ell)$ grow
+polynomially in $\ell$, whereas $\exp(-1.8(\ell-1)^2)$ decreases
+exponentially in $\ell$, the sum is dominated by its first term, and
+the overall expected payment is bounded by
 
-\noindent\textbf{Step 5: Final Step}
-
-Thus,
 \begin{align*}
-&E\left[\sum_{t=1}^{\infty}c(t)\right]  \\
-\leq&\sum_{\ell=1}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\SP\in \Env{\ell}}N  \\
-\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \right]\Prob{\SP\in L[1]}N +\sum_{l=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]\Prob{\SP\in \Env{\ell}}N  \\
-\leq& \sum_{s=1}^{\max\{s_2,\lceil (a_0)^{5/2} \rceil\}}\left[R+24\Diam d\sigma \right]N +\sum_{\ell=2}^{\infty}\sum_{s=1}^{\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\}}\left[\MAXR+24\Diam d\sigma \ell\right]24\ARMNUM d e^{-1.8(\ell-1)^2}N \\
-\leq & \left[\MAXR+24\Diam d\sigma \right]\ARMNUM \max\{s_2,\lceil (a_0)^{5/2} \rceil\}+\sum_{\ell=2}^{\infty}24\ARMNUM^2 d[\MAXR+24\Diam d\ell\sigma]\max\{s_2,\lceil (a_0 \ell)^{5/2} \rceil\} e^{-1.8(\ell-1)^2}  \\
-=& O\left(\max\left\{\frac{\ARMNUM^2}{\MinProb^{5/2}},\ARMNUM^2\exp\left(\frac{2}{\MinProb}\right)\right\}\right). 
+O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot h(1) \right)
+& = 
+O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma
+\cdot \exp(\frac{2}{\MinProb}) \right).
 \end{align*}
-\pfcomment{the above bound got tighter.  I didn't carry this forward anywhere where we report on / use the bound.}
-
+\dkcomment{$p^{-5/2}$ is dominated by $\exp(2/p)$.}
+\pfcomment{the bound got tighter.  I didn't carry this forward anywhere where we report on / use the bound.}
 \end{extraproof}
