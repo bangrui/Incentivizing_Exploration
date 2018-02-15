@@ -41,12 +41,12 @@ algorithm is in at time $t$ with the sample path \SP.
 Define the sets
 
 \begin{align*}
-\hat{L}_\ell
+\hat{\mathcal{L}}_\ell
   & = \Set{\SP}{|\Err{t}{i}{j}(\SP)| \leq g(s(t,\SP),\ell)
     \mbox{ for all } i,j,t},\\
-\Env{1} & = \hat{L}_1\\ 
-\Env{\ell} & = \hat{L}_{\ell} - \hat{L}_{\ell-1}
-  \qquad \mbox{ for } \ell \geq 2.
+\Env{1} & = \hat{\mathcal{L}}_1,\\ 
+\Env{\ell} & = \hat{\mathcal{L}}_{\ell} \setminus \hat{\mathcal{L}}_{\ell-1}
+  \quad \mbox{ for } \ell \geq 2.
 \end{align*}
 
 % \begin{align*}
