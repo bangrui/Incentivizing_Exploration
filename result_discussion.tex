@@ -1,74 +1,72 @@
 \section{Overview of Results and Discussion}
-
-\dkcomment{In the results discussion clarify which results need to
-  know $T$ and which don't.}
-
 %
 % State the main theorem(s) formally.
 %
 
-We will show below that our algorithm (described formally below as Algorithm~\ref{alg:basic-incentivizing}) achieves $O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) + O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3)$ cumulative regret with $O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right)$ payment budget.  We state these results formally, which together constitute our main results.
+\pfcomment{I drafted this section but it feels a bit long, and may repeat itself.}  
+We will show below that our algorithm (Algorithm~\ref{alg:basic-incentivizing}, described formally below), achieves 
+$O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) + O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3)$ cumulative regret with 
+$O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right)$ payment budget.  We state this formally as two theorems, which together constitute our main results.
 
-%\begin{theorem}
-%The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
-%\begin{align}
-%O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right). \nonumber 
-%\end{align} 
-%\label{rst:budget}
-%\end{theorem}
 
-%\begin{theorem}
-%For any given $T$, the cumulative regret for Algorithm~\ref{alg:basic-incentivizing}
-%is bounded above by 
-%\begin{align}
-%O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) +
-%O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3).
-%\end{align}
-%\label{rst:regret}
-%\end{theorem}
+\begin{theorem}
+The expected payment budget for
+Algorithm~\ref{alg:basic-incentivizing} is bounded above by
+\begin{align}
+O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp\left(2/\MinProb\right) \right). \nonumber 
+\end{align} 
+\label{rst:budget}
+\end{theorem}
+
+
+\begin{theorem}
+For any given $T$, the expected cumulative regret for
+Algorithm~\ref{alg:basic-incentivizing} up to time $T$ is bounded
+above by 
+\begin{align}
+O \left(\MAXR\cdot  N\exp\left(2/p\right)\right) +
+O\left(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3\right).
+\end{align}
+\label{rst:regret}
+\end{theorem}
 
 % Discuss lower bounds or impossibility results.
-We also show a lower bound of $\Omega(\log(T))$ (section~\ref{sec:lb}) on the regret of any algorithm when agents have a density. 
+We also show a lower bound on expected regret of $\Omega(\log(T))$ (Section~\ref{sec:lb}), found by studying a setting where agents choose between two arms, with one arm's attributes known and observations of the unknown arm provided for free.  The $\log(T)$ growth in regret arises from agents with preferences that are nearly tied between the two arms, and their shrinking but strictly positive probability of incorrectly pulling the wrong arm.
 
-In the specific case of discrete distributions over agent preferences, in which $L=0$ \pfcomment{check whether this is the right description}, we obtain tighter bounds:
+We remark that $p$ is bounded above by $1/N$, and thus the term $\exp(2/p)$ present in both the payment and regret bounds implies an exponential dependence on $N$.  This exponential dependence arises from a need to continue to incentivize to ensure that nearly tied agents learn their best arms quickly, slowly decreasing the threshold on probability of myopic selection required for incentivization.  When this threshold gets small relative to $p$, and when arms' estimates become sufficiently accurate, incentivization is no longer necessary because each agent can identify his best arm, each arm has a volume $p$ of agents for which it is best, and our threshold is small enough that this volume is enough to avoid incentivization.  When $p$ is small, it takes a long time to decrease the threshold to this level, and we do a large amount of incentivization, causing both large payments and large regret (because the payment may prevent an agent from choosing his best arm).
 
-%Discuss extensions.
+We can eliminate this $\exp(2/p)$ term with small modifications to our algorithm under either of a pair of additional assumptions that we present after our main analysis.  In the first assumption, we suppose that $p$ is known.  This allows us to modify our algorithm's threshold sequenceto eliminate a large amount of early incentivization, achieving 
+expected regret of
+$O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} +\frac{\ARMNUM^2 d\MAXR}{p}+\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{p}\right)$
+with expected payments of 
+$O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot (\sigma L\Diam d / p)^{5/2} \right)$.
+This is stated formally below as Theorem~\ref{rst:known-p}.
+
+In the second assumption, we allow $p$ to be unknown, but assume that the distribution over preferences is discrete.  This eliminates issues with nearly tied agents for large $T$, allowing us to achieve expected regret of 
+$O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right)$ 
+  with expected payments of $O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot (\sigma L\Diam d / p)^{5/2} \right)$.
+This is stated formally below as Theorem~\ref{rst:discrete}.
+
 
 % Discuss the justification or comparison to standard bandits.
-We compare these results to those possible for standard bandits. In standard bandits, the payment is obviously $0$, and the regret scales as $N \sqrt{T}$ \pfcomment{add cite}.
+We focus on the dependence on $T$ and compare these bounds to those possible for standard bandits.  
+To recover the standard bandit setting from the one we consider, assume that preferences $\theta$ are concentrated on a single point, and that agents will pull an arm at the principal's direction without requiring payment.  Then, the payment is $0$ and the expected regret scales as $\log(T)$ \cite[Theorem 2.1]{bubeck2012regret}.
+In contrast, our algorithm's payment is constant in $T$; 
+while regret is $O(\log(T)^3)$ in general with a lower bound of $\Omega(\log(T))$,  
+and constant in $T$ when preferences are discrete.
 
-% Discuss the comparison in the 2x2 square.
+From the viewpoint of dependence on $T$, the best performance achievable seems comparable to that in a standard multi-armed bandit problem, but when preferences our discrete  it is possible to achieve performance that surpasses a multi-armed bandit, achieving constant regret rather than $O(\log(T))$.
+(Note that our specialization of our problem to the standard bandit case used a discrete preference.)
+This may seem surprising, because our setting is one in which the principal has both less control and less information than in the standard bandit setting.
+It is possible because heterogeneity in preferences indeed provides free exploration, in which all of the arms can be pulled infinitely often without incurring regret.
 
-\pfcomment{Below this is old text}
+\pfcomment{Rather than actually placing a 2x2 square, this + the above text is my discussion of the ideas that seem worth sharing}
+While heterogeneity in preferences enables this free exploration, heterogeneity alone is not always beneficial sufficient for enabling performance improvements above what is possible in the standard bandit setting.  Indeed, consider a version of our problem where agents are heterogeneous but modified to be more similar to the standard bandit setting by given the principal the power to pull arms directly.  In this problem, the principal will be unable to correctly choose each agent's preferred arm even with infinite exploration of arm attributes, causing linear regret.
 
-As we discuss in more detail in Section~\ref{sec:main-discussion},
-the reason we obtain stronger regret bounds than in the standard bandit
-setting is that the agents' heterogeneity in preferences will
-naturally lead to exploration.
-
-Here we pursue an alternate direction to our analysis of incentivizing exploration with heterogeneous preferences: we consider approximation-style results comparing achievable algorithm performance across four different problem settings, described in the table below.
-
-\begin{center}
-\begin{tabular}{ c|c|c| } 
- \hline
-     & Pulls arms directly & Needs to incentivize \\ 
-\hline
- Perfect Info on Preferences & $C11$: The ``God'' Policy & $C12$ \\ 
- Partial Info on Preferences & $C21$ & $C22$: actual algorithm \\ 
- \hline
-\end{tabular}
-\end{center}
-
-Columns indicate whether the principal pulls arms directly (left column) or incentivizes agents who in turn actually pull the arms. Rows indicate whether the principal knows the preferences of the agents (top row) or not (bottom row).   Problem settings correspond to cells and are described by the names C11, C12, and so on. An optimal algorithm for problem setting C11 has the best performance possible.
-
-We wish to make two high-level points through this analysis:
-
-\begin{itemize}
-\item First, better performance is possible in setting C22 than in setting C21, in the sense we can find tight approximation guarantees relative to C11 that are better for C22 than for C21.  This is achieved by setting up incentives in C22 that still allow agents to select arms aligned with their preferences, providing selections of arms that contain more information than in C21.
-\item Second, heterogeneity in preferences improves performance over what can be achieved in a setting with homogeneous preferences.  This would be in the spirit of David K.'s results that heterogeneity in preference for money can be exploited to reduce the budget required.
-\end{itemize}
-
-
-
-Section~\ref{sec:lb} constructs an example showing regret is $\Omega(\log(T))$ in the worst case, regardless of incentive budget.
-
+Achieving the benefits of heterogeneous preferences also requires the prinicipal to give up direct control of the arms, providing agents the autonomy they need to express their private information about their own preferences.  Our results show that simple arm-based incentives are sufficient overcome the apparent challenges created by this abdication of control.
