@@ -3,7 +3,7 @@
 \newcommand{\Normal}[2]{\ensuremath{{\mathcal N}(#1,#2)}\xspace}
 % normal distribution
 
-\newcommand{\dataset}{{\cal D}} % used anywhere?
+% \newcommand{\dataset}{{\cal D}} % used anywhere?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Agreed upon symbols without macros
@@ -172,6 +172,19 @@
 \newcommand{\EvenLaterPhase}{\ensuremath{s_1}\xspace}
 % lower bound after which payments become unlikely
 
+
+
+\newcommand{\AccE}[4]{\ensuremath{{\mathcal E}_{#1,#2,#3}(#4)}\xspace}
+% event that estimate of a specific arm's attribute is sufficiently accurate
+% Argument 1: time step
+% Argument 2: arm index
+% Argument 3: attribute
+% Argument 4: error bound
+
+\newcommand{\AccEU}[2]{\ensuremath{{\mathcal E}_{#1}(#2)}\xspace}
+% event that all estimates of all arms' attributes are sufficiently accurate
+% Argument 1: time step
+% Argument 2: error bound
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
