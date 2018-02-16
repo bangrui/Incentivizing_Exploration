@@ -1,15 +1,14 @@
 \section{Introduction}
 
 Many websites and apps are designed to facilitate joint discovery,
-sharing, and recommendations of content\pfdelete{by large numbers of users}.
-Such sites include news, photo, \pfedit{and} video sharing sites,
+sharing, and recommendations of content.
+Such sites include news, photo, and video sharing sites,
 sites to review restaurants, hotels, or travel experiences,
 online stores at which users write reviews (such as Amazon),
 and citizen science projects
-(such as eBird \citep{sullivan2009ebird} or Galaxy Zoo).
-\dkcomment{Insert citations.}
-By learning from the experiences of other users, individuals can \pfdelete{make
-better choices to }improve their own experience.
+(such as eBird \citep{sullivan2009ebird,xue-ebird} or Galaxy Zoo \citep{lintott-galaxy-zoo}).
+By learning from the experiences of other users, individuals can
+improve their own experience \citep{schmit2017human}.
 
 Viewed more abstractly, users jointly explore a space of
 many options (products, news stories, photos, birdwatching sites,
@@ -25,12 +24,12 @@ different options, so as to provide higher rewards for a large number
 of future users.
 However, individual users only interact with the site a limited number
 of times, and therefore have little incentive for exploration.
-A particular clean model is obtained when each user interacts with the
+A particularly clean model is obtained when each user interacts with the
 site only once, and hence has no intrinsic utility for exploration. 
 This model has been the subject of prior work, and forms the basis of
 the present submission.
 
-\pfdelete{In order }To effect an outcome \pfdelete{which is }close to societally optimal,
+To effect an outcome close to societally optimal,
 it is necessary to provide exploration incentives to the individual users.
 This was noted in two recent lines of work:
 \citet{kremer2014implementing}
@@ -48,7 +47,8 @@ past arm pulls are publicly observable
 (such as reviews on an online retail site).
 They instead allow payments which the principal can offer to users as
 a reward for pulling particular arms.
-We follow the model of \citet{frazier2014incentivizing,han2015incentivizing}
+We follow the model of \citet{frazier2014incentivizing} and
+\citet{han2015incentivizing} 
 and consider a multi-armed bandit model in which the principal can
 offer payments to the users for pulling particular arms.
 
@@ -59,12 +59,11 @@ heterogeneous in their tradeoff between utility derived from arm pulls
 and utility derived from the principal's payment.}
 In reality, users have different preferences, e.g., gastronomic,
 political, aesthetic, practical, etc.
-\pfedit{
 Indeed, the websites and mobile apps most widely used for joint discovery,
 sharing, and recommendation of content tend to concern products and items 
 with large amounts of heterogeneity in preferences (movies, restaurants,
 videos, travel experiences), and not items which have a universally
-agreed-on best order. \pfcomment{can we think of items with agreement?}
+agreed-on best order.
 This is perhaps because regimes with heterogeneous preferences are the
 ones where discovery of the best items is the most difficult for people, and
 where the number of items to consider is largest, and thus where online
@@ -72,42 +71,41 @@ platforms tend to provide the greatest value.  Thus, we see an appropriate
 accounting for heterogeneity as critical to an understanding of incentivizing
 exploration in online communities.
 
+\dkcomment{Rearranging the next two paragraphs a bit.}
 Heterogeneity presents both a challenge and an opportunity.
-On the one hand, it hides critical information about an agent's preferences
-from the principal.  This presents the principal with a path to social
-optimality that requires giving up control, allowing the agent to reveal these
-preferences through action and not obscuring them with incentives.  However,
-the principal cannot give up control completely, and must use these incentives
-to force agents to explore against their preferences, for the greater good.
-Thus, heterogeneity presents a challenge. 
-
+On the one hand, \dkedit{unobserved heterogeneity} hides critical
+information about an agent's preferences from the principal.
 On the other hand, heterogeneity also presents an opportunity, through the
-possibilty of ``free exploration''.  Even when left unincentivized, agents will
+possibility of ``free exploration.''
+Even when left unincentivized, agents will
 play a variety of arms, revealing information about these arms' attributes.
-This stands in sharp constrast to the case of homogeneous preferences, where 
-unincentized agents will hard onto a single apparently best arm, and providing
+This stands in sharp contrast to the case of homogeneous preferences, where 
+unincentivized agents will herd onto a single apparently best arm, and providing
 essentially any exploration at all requires incentives.
-}
+
+In order to take advantage of unobserved heterogeneity, the principal
+has to give up some control, allowing the agent to reveal his
+preferences through action, rather than obscuring them with incentives.
+However, the principal cannot give up control completely,
+and must use incentives to force agents to explore against their
+preferences, for the greater good. 
 
 With these challenges and opportunities in mind, our goal is to understand the
 impact of user heterogeneity on our ability to achieve high social utility with
-low incentive payments, and on the best approaches for doing so.  We wish to
-understand whether incentivizing exploration with heterogeneous preferences  is
-``harder'' or ``easier'' than with homogenous ones, and to understand how 
-exploration strategies that do well in the heterogeneous preference setting
-differ from those in the homogenous one.
-
-\pfdelete{\emph{Our goal is to explore the impact of user heterogeneity
-on the tradeoff between societal utility and the principal's payments.}
-Heterogeneity in a bandit also offers a new perspective on bandit problems.
-}
+low incentive payments, and on the best approaches for doing so.
+We wish to understand whether incentivizing exploration with
+heterogeneous preferences  is ``harder'' or ``easier'' than with
+homogeneous ones,
+and to understand how exploration strategies that do well in the
+heterogeneous preference setting differ from those in the homogeneous one.
 
 Toward that end, we model our setting as follows.
 (We describe our model at a high level here,
 with formal definitions given in Section~\ref{sec:prob}.)
 Arms and users (or \emph{agents}) are characterized by payoff-relevant
-\emph{attribute} (or \emph{feature}) vectors,
-both drawn from known distributions.
+\emph{attribute} (or \emph{feature}) vectors.
+\dkedit{Arms' attributes are a priori unknown, and
+  agents' attributes are drawn from a known distribution.}
 An agent's reward from pulling an arm is the inner product of their
 vectors (plus noise).
 When an arm is pulled, a noisy version of its attribute vector is
@@ -118,26 +116,31 @@ The principal can incentivize agents to pull particular arms by
 offering rewards for the specific arm.
 The principal's goal is to keep the cumulative regret across all
 agents small, while incurring only small total payments.
-Our main theorm can be stated informally as follows:
+Our main theorem can be stated informally as follows:
 
 \begin{theorem} \label{thm:main-intro}
 Assume that for each arm, at least a constant fraction of the
 population likes this arm best.
 If furthermore, the density of ties in agent preferences between arms
 vanishes (in a sense made precise in Section~\ref{sec:ub}),
+\dkcomment{Make sure we cite the right section.}
 there is a policy that achieves constant
 expected regret $C$ and constant%
 \footnote{The constants $C,C'$ depend on the number of arms and the
   smallest fraction preferring any one arm.} expected payment $C'$.
 If near-ties have non-zero density,
-then the regret is bounded by $O(C + C'' \log^2(T))$,
+then the regret is bounded by $O(C + C'' \log^3(T))$,
 while the expected payment is still bounded by $C'$;
 here, $C''$ depends on the ``tie density.''
+\dkcomment{Make sure we get the right dependence on $T$.}
 \end{theorem}
 
 The policy achieving the result of Theorem~\ref{thm:main-intro} is
 quite simple: it mostly lets agents exploit arms, but incentivizes
-them to explore when arms appear unlikely to be explored without incentives.
+them to explore when arms appear unlikely to be pulled without incentives.
 It is presented in detail in Section~\ref{sec:ub}.
-The result can be smoothly extended when there some arms that are not
-preferred by any agents.
+
+\dkdelete{The result can be smoothly extended when there some arms that are not
+preferred by any agents.}
+\dkcomment{Deleted the sentence about smooth extension of the result
+  --- if we keep it, it goes in the conclusions section, I think.}
