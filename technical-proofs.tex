@@ -1,0 +1,51 @@
+\section{Proofs of Technical Lemmas}
+\label{sec:n0-inequality-proof}
+\label{sec:n1-inquality-proof}
+
+In this section, we prove the two technical lemmas
+\ref{lem:n0-inequality} and \ref{lem:n1-inequality}.
+We restate both lemmas for convenience.
+
+\dkcomment{I tightened these bounds a bit. Also, the proofs are quite
+  a bit shorter now, so we might fold them into the main body?}
+
+\begin{rtheorem}{Lemma}{\ref{lem:n0-inequality}}
+For any $n \geq \LatePhase = \max (2, \frac{30 \sigma^3}{x^3})$, 
+\begin{align*}
+\sqrt{0.6 n \log (\log_{1.1}(n) + 1)} & \leq \frac{n x}{4 \sigma}. 
+\end{align*}
+\end{rtheorem}
+
+\begin{proof}
+By squaring the statement and rearranging, it is equivalent to show that
+
+\begin{align*}
+\frac{n}{\log(\log_{1.1}(n)+1)}
+  & \geq \frac{9.6\sigma^2}{x^2}.
+\end{align*}
+
+A numerical calculation and derivative test shows that
+$\frac{n}{\log(\log_{1.1}(n)+1)} \geq n^{2/3}$ for all $n \geq 2$,
+and for $n \geq \frac{30 \sigma^3}{x^3}$, we get that
+$n^{2/3} \geq \frac{9.6 \sigma^2}{x^2}$.
+\end{proof}
+
+
+\begin{rtheorem}{Lemma}{\ref{lem:n1-inequality}}
+For any $T \geq 2$ and $1 \leq n \leq T$, we have
+\begin{align*}
+2\sqrt{\frac{2}{1.8} n \log(T)}
+& \geq \sqrt{0.6 n \log(\log_{1.1}(n)+1) + \frac{2}{1.8} n \log(T)}.
+\end{align*}
+\dkcomment{This also holds for $n=1$, and I improved the constant.}
+\end{rtheorem}
+
+\begin{proof}
+By squaring the desired inequality and canceling out common terms, the
+statement to prove is equivalent to
+$\frac{50}{9} \log T \geq \log(\log_{1.1}(n) + 1)$.
+It is sufficient to show that
+$\frac{50}{9} \log T \geq \log(\log_{1.1}(T) + 1)$,
+which can be verified by numerical calculation for $T=2$ and a
+derivative test.
+\end{proof}
