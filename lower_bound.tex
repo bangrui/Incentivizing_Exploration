@@ -1,6 +1,6 @@
 \section{A Lower Bound of $\Omega(\log(T))$} \label{sec:lb}
 
-We saw in Corollary~\ref{cor:constant-regret} that
+We saw in Corollary~\ref{cor:constant-regret} that \bccomment{David, could you put the right reference here?}
 when agent preferences for their best arm are sufficiently clear,
 in the sense that $\TieDensity = 0$, the regret of
 Algorithm~\ref{alg:basic-incentivizing} is bounded by a constant.
@@ -44,8 +44,6 @@ after $t$ rounds, the estimate \ArmEV{t}{(0,1)} is of the form
 $(0,1) + (\Noise[t]{1}, \Noise[t]{2})$,
 where $\Noise[t]{1} \sim \Normal{0}{\sqrt{1/t}}$
 and $\Noise[t]{2} \sim \Normal{0}{\sqrt{1/t}})$.
-\dkcomment{I think we define this to be the estimates at the beginning
-  of round $t$, so we may be off by 1 here and in other places.}
 We lower-bound the regret in step $t$ by focusing on the event that
 both normal noise coordinates are non-negative,
 which by symmetry has probability \quarter:

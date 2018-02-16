@@ -4,7 +4,10 @@
 We restate the theorem here for convenience:
 
 \begin{rtheorem}{Theorem}{\ref{rst:budget}}
-\dkcomment{Copy here the final form of the theorem once it is finalized.}
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+\begin{align}
+O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right).  \nonumber 
+\end{align}
 \end{rtheorem}
 
 The high-level idea of the proof is motivated by Lemma~\ref{lem:numP},
@@ -27,10 +30,7 @@ To reason about such estimation errors formally, we define
 A sample path \SP captures all the random events affecting the
 algorithm, i.e., the random draws \AgentV{t} of agents and the
 noise \NoiseV[t] in the draws the pulled arms,
-with an infite \dkcomment{Is it infinite?} time horizon.
-\dkcomment{We should be consistent about using filtration vs.~sample
-  path.}
-\pfcomment{I removed discussion of filtrations and replaced them by discussion of history.}
+with an infinite time horizon.
 
 With foresight, we define $g(s, \ell) := \frac{12 \sigma \ell}{s^{2/5}}$.
 Let $\ErrV{t}{i} = \ArmEV{t}{i} - \ArmV{i}$ be the estimation
@@ -70,7 +70,6 @@ This is captured by the following two lemmas.
 If $\SP \in \Env{\ell}$ and $s(t,\SP) = s$, then
 the payment in step $t$ is upper-bounded by
 $\bar{c} (s,\ell) = \MAXR + 2 \Diam d \cdot g(s,\ell)$.
-\dkcomment{Verify that the way I talk about $t$ vs.~$s$ is right.}
 \end{lemma}
 
 \begin{proof}
@@ -144,10 +143,10 @@ $\tau_{i,j} = \infty$ means that the estimation error never exceeds
 $h(\NumPull{t}{i})$.
 We apply Lemma~\ref{lem:ACI-inequality}
 to $S_{i,j}(t)$, with a stopping time of $\tau_{i,j}$ and
-with $b(n) = (\ell-1)^2$ \dkcomment{omit dependence on $n$ here?}.
+with $b = (\ell-1)^2$.
 We obtain that the probability that $\tau_{i,j} < \infty$ and 
 $S_{i,j}(\tau_{i,j}) > h(\tau_{i,j})$ is at most
-$12 \e^{-1.8 b(n)}$.
+$12 \e^{-1.8 b}$.
 By definition of $\tau_{i,j}$, the event is the same as simply
 $\tau_{i,j} < \infty$.
 Applying the lemma again to $-S_{i,j}(\tau_{i,j})$,
@@ -279,6 +278,4 @@ O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot h(1) \right)
 O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma
 \cdot \exp(\frac{2}{\MinProb}) \right).
 \end{align*}
-\dkcomment{$p^{-5/2}$ is dominated by $\exp(2/p)$.}
-\pfcomment{the bound got tighter.  I didn't carry this forward anywhere where we report on / use the bound.}
 \end{extraproof}

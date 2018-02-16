@@ -10,7 +10,7 @@ if both of the following hold:
 \begin{itemize}
 \item $i$ has been pulled at most%
 \footnote{in fact: exactly, since the algorithm entered phase $s$}
-$s-1$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s-1$.
+$s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms'
 attribute vectors, the probability of pulling arm $i$ is less than $1/s$. Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
   \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
@@ -23,11 +23,16 @@ $\PullProb{t}{i} < 1/s$.
 The algorithm remains the same as Algorithm~\ref{alg:basic-incentivizing}. Under this new payment-eligible criteria, we are able to prove the following results:
 
 \begin{theorem}
-The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by $O(\ARMNUM^2)$. 
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+\begin{align*}
+O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{p^{5/2}} \right). 
+\end{align*}
 \end{theorem}
 
 \begin{proof}
-The proof is exact the same as the proof for Lemma~\ref{rst:budget} except we now define $s_2 =\frac{2}{p}$. The rest of the proof remains the same.
+The proof is exact the same as the proof for Theorem~\ref{rst:budget} except we now define $h(\ell) := \max \left( \frac{2}{\MinProb},
+\left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
+\right)$. The rest of the proof remains the same.
 \end{proof}
 
 
@@ -36,7 +41,7 @@ The expected number of time steps in which
 Algorithm~\ref{alg:basic-incentivizing}
 makes any payment is at most 
 \begin{align}
-O\left(\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
   + \frac{\ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right). \nonumber 
@@ -44,7 +49,7 @@ O\left(\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
 \end{lemma}
 
 \begin{proof}
-The proof is exact the same as the proof for Lemma~\ref{lem:numP} except we now define $\EvenLaterPhase = \max(50, \frac{92.16 \sigma^4}{x^4}, \frac{2}{p})$.
+The proof is exact the same as the proof for Lemma~\ref{lem:numP} except we now define $\EvenLaterPhase = \max (2, \frac{30 \sigma^3}{x^3}, \frac{2}{p})$.
 \end{proof}
 
 
@@ -79,7 +84,7 @@ if both of the following hold:
 \begin{itemize}
 \item $i$ has been pulled at most%
 \footnote{in fact: exactly, since the algorithm entered phase $s$}
-$s-1$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s-1$.
+$s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms'
 attribute vectors, the probability of pulling arm $i$ is less than $1/\log(s+s_0)$. Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
   \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
@@ -92,11 +97,15 @@ $\PullProb{t}{i} < 1/\log(s+s_0)$.
 The algorithm remains the same as Algorithm~\ref{alg:basic-incentivizing}. Under this new algorithm, we can prove:
 
 \begin{theorem}
-The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by $O(\ARMNUM^2)$. 
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+\begin{align*}
+O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{p^{5/2}} \right). 
+\end{align*}
 \end{theorem}
 
 \begin{proof}
-The proof is exact the same as the proof for Lemma~\ref{rst:budget} except we no longer needs $s_2$. The rest of the proof remains the same.
+The proof is exact the same as the proof for Lemma~\ref{rst:budget} except we define $h(\ell) := 
+\left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}$. The rest of the proof remains the same.
 \end{proof}
 
 \begin{lemma}  \label{lem:NumP2}
@@ -104,7 +113,7 @@ The expected number of time steps in which
 Algorithm~\ref{alg:basic-incentivizing}
 makes any payment is at most 
 \begin{align}
-O\left(\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
   + \frac{\ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right). \nonumber 
@@ -112,13 +121,13 @@ O\left(\frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
 \end{lemma}
 
 \begin{proof}
-The proof is exact the same as the proof for Lemma~\ref{lem:numP} except we now define $\EvenLaterPhase = \max(50, \frac{92.16 \sigma^4}{x^4})$ since $\frac{1}{\log(s+s_0)}\leq \frac{p}{2}$ is true for all $s$.
+The proof is exact the same as the proof for Lemma~\ref{lem:numP} except we now define $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3})$ since $\frac{1}{\log(s+s_0)}\leq \frac{p}{2}$ is true for all $s$.
 \end{proof}
 
 \begin{theorem}
 The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
 \begin{align}
-O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
+O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
   + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} +\frac{\ARMNUM^2 d\MAXR}{p}+\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{p}\right).  \nonumber
@@ -130,7 +139,7 @@ The proof of this Theorem is similar as Theorem~\ref{rst:regret}, except
 \begin{itemize}
 \item We can use Lemma~\ref{lem:NumP2} to bound the regret when we decide to incentivize;
 \item The expected length of phase $s$ is bounded by $\ARMNUM \log(s+s_0)$;
-\item With the same choice of $g(s)$, the regret in Equation~\ref{equ:small_regret_bound} can now be bounded by $160 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1)\log(T+s_0)=O(\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{p})$.
+\item With the same choice of $g(s)$, the regret in Equation~\ref{equ:small_regret_bound} can now be bounded by $71.11 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1)\log(T+s_0)=O(\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{p})$.
 \end{itemize}
 The rest of the proof remains the same.
 \end{proof}

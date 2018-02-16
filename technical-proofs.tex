@@ -6,14 +6,12 @@ In this section, we prove the two technical lemmas
 \ref{lem:n0-inequality} and \ref{lem:n1-inequality}.
 We restate both lemmas for convenience.
 
-\dkcomment{I tightened these bounds a bit. Also, the proofs are quite
-  a bit shorter now, so we might fold them into the main body?}
-
 \begin{rtheorem}{Lemma}{\ref{lem:n0-inequality}}
 For any $n \geq \LatePhase = \max (2, \frac{30 \sigma^3}{x^3})$, 
 \begin{align*}
 \sqrt{0.6 n \log (\log_{1.1}(n) + 1)} & \leq \frac{n x}{4 \sigma}. 
 \end{align*}
+\label{lem:n0-inequality-proof}
 \end{rtheorem}
 
 \begin{proof}
@@ -37,7 +35,7 @@ For any $T \geq 2$ and $1 \leq n \leq T$, we have
 2\sqrt{\frac{2}{1.8} n \log(T)}
 & \geq \sqrt{0.6 n \log(\log_{1.1}(n)+1) + \frac{2}{1.8} n \log(T)}.
 \end{align*}
-\dkcomment{This also holds for $n=1$, and I improved the constant.}
+\label{lem:n1-inequality-proof}
 \end{rtheorem}
 
 \begin{proof}
