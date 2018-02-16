@@ -1,28 +1,45 @@
 \section{Overview of Results and Discussion}
-\dkcomment{I envision this section doing the following:
-\begin{enumerate}
-\item State the main theorem(s) formally.
-\item Discuss lower bounds or impossibility results.
-\item Discuss extensions.
-\item Discuss the justification or comparison to standard bandits.
-\item Discuss the comparison in the 2x2 square.
-\end{enumerate}
-}
-
-\dkcomment{For now, I am just copying over material from various other
-  parts that Bangrui/Peter wrote or I had written in earlier
-  iterations.}
 
 \dkcomment{In the results discussion clarify which results need to
   know $T$ and which don't.}
 
-\begin{theorem} \label{thm:main-overview}
-Under some technical assumptions, 
-there exists a policy which pays at most $O(\ARMNUM^2)$ in expectation,
-and achieves regret at most $O(\ARMNUM^2 + \log^2(T))$.
-\dkcomment{Omitting the density here.}
+%
+% State the main theorem(s) formally.
+%
+
+We will show below that our algorithm (described formally below as Algorithm~\ref{alg:basic-incentivizing}) achieves $O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) + O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3)$ cumulative regret with $O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right)$ payment budget.  We state these results formally, which together constitute our main results.
+
+\begin{theorem}
+The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+\begin{align}
+O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right). \nonumber 
+\end{align} 
+\label{rst:budget}
 \end{theorem}
 
+\begin{theorem}
+For any given $T$, the cumulative regret for Algorithm~\ref{alg:basic-incentivizing}
+is bounded above by 
+\begin{align}
+O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) +
+O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3).
+\end{align}
+\label{rst:regret}
+\end{theorem}
+
+% Discuss lower bounds or impossibility results.
+We also show a lower bound of $\Omega(\log(T))$ (section~\ref{sec:lb}) on the regret of any algorithm when agents have a density. 
+
+In the specific case of discrete distributions over agent preferences, in which $L=0$ \pfcomment{check whether this is the right description}, we obtain tighter bounds:
+
+%Discuss extensions.
+
+% Discuss the justification or comparison to standard bandits.
+We compare these results to those possible for standard bandits. In standard bandits, the payment is obviously $0$, and the regret scales as $N \sqrt{T}$ \pfcomment{add cite}.
+
+% Discuss the comparison in the 2x2 square.
+
+\pfcomment{Below this is old text}
 
 As we discuss in more detail in Section~\ref{sec:main-discussion},
 the reason we obtain stronger regret bounds than in the standard bandit

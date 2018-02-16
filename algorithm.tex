@@ -117,28 +117,7 @@ Also notice that $\ClearPref{0} = \MinProb$.
 \dkcomment{We should stress somewhere that we assume that actual ties
   have measure 0.}
 
-
-In this section, we prove that Algorithm~\ref{alg:basic-incentivizing} achieves $O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) +
-O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3)$ cumulative regret with $O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
-
-\begin{theorem}
-The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
-\begin{align}
-O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right). \nonumber 
-\end{align} 
-\label{rst:budget}
-\end{theorem}
-
-
-\begin{theorem}
-For any given $T$, the cumulative regret for Algorithm~\ref{alg:basic-incentivizing}
-is bounded above by 
-\begin{align}
-O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) +
-O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3).
-\end{align}
-\label{rst:regret}
-\end{theorem}
+We now prove our main results, Theorems~\ref{rst:budget} and~\ref{rst:regret}.
 
 \subsection{General Lemmas}
 
