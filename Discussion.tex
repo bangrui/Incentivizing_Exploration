@@ -1,12 +1,15 @@
-\subsection{Special Case}
+\subsection{Special Cases: Discrete Preferences and Known $p$}
 
-As we see in the proof of Theorem~\ref{rst:budget} and Theorem~\ref{rst:regret}, we occurred an exponential payment/regret at the initial phases simplily because we decrease the probability threshold too slowly, which is needed when bounding the regret after the concentration probability kicks in as in Equation~(\ref{equ:small_regret_bound}). In this section, we are going to discuss two special cases where we can get rid of the exponential dependency on the number of arms in the payment and regret bound. 
+The proofs of Theorem~\ref{rst:budget} and Theorem~\ref{rst:regret} incur exponential payment and regret in the initial phases because the threshold required for incentivization $1/\log(s)$ decreases slowly.  This slow decrease is needed to bound the regret in the later phases when the concentration inequality kicks in as in Equation~(\ref{equ:small_regret_bound}). In this section, we discuss two problem settings where we can modify our algorithm slightly and provide new bounds that remove this exponential dependence.  Both problem settings are special cases of the more general problem setting previously considered.
 
-\textbf{Case 1: If $\exists \delta_0>0$ such that $F_{i,j}(\delta)=0$ for all $i,j$.}
+We first discuss an assumption that holds when $\theta$ follows a finite discrete distribution.
+\begin{assumption}
+\label{a:discrete}
+(Discrete Preferences) 
+$\exists \delta_0>0$ such that $F_{i,j}(\delta_0)=0$ for all $i,j$.
+\end{assumption}
 
-In this case, we can simplily modify the payment-eligible criteria as follows: An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
-if both of the following hold:
-
+When Assumption~\ref{a:discrete} holds, we modify our algorithm to use a new payment-eligibility criterion: an arm $i$ is \emph{payment-eligible} at time $t$ in phase $s$ when both of the following are true:
 \begin{itemize}
 \item $i$ has been pulled at most%
 \footnote{in fact: exactly, since the algorithm entered phase $s$}
@@ -20,41 +23,16 @@ Then, the second criterion for payment-eligibility is that
 $\PullProb{t}{i} < 1/s$.
 \end{itemize}
 
-The algorithm remains the same as Algorithm~\ref{alg:basic-incentivizing}. Under this new payment-eligible criteria, we are able to prove the following results:
+We refer to this modified version of Algorithm~\ref{alg:basic-incentivizing} as the {\it Discrete-Preference Algorithm.} We prove the following result for this algortithm under Assumption~\ref{a:discrete}.
+
+\pfcomment{I collapsed these results together into a single theorem, and consolidated the proofs.  I tweaked some wording in the proofs, but I didn't check them in detail.}
 
 \begin{theorem}
-The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm has an expected payment budget bounded above by 
 \begin{align*}
 O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{p^{5/2}} \right). 
 \end{align*}
-\end{theorem}
-
-\begin{proof}
-The proof is exact the same as the proof for Theorem~\ref{rst:budget} except we now define $h(\ell) := \max \left( \frac{2}{\MinProb},
-\left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
-\right)$. The rest of the proof remains the same.
-\end{proof}
-
-
-\begin{lemma}  \label{lem:NumP1}
-The expected number of time steps in which
-Algorithm~\ref{alg:basic-incentivizing}
-makes any payment is at most 
-\begin{align}
-O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
-  + \frac{\ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right). \nonumber 
-\end{align}
-\end{lemma}
-
-\begin{proof}
-The proof is exact the same as the proof for Lemma~\ref{lem:numP} except we now define $\EvenLaterPhase = \max (2, \frac{30 \sigma^3}{x^3}, \frac{2}{p})$.
-\end{proof}
-
-
-\begin{theorem}
-The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+and an expected regret bounded above by 
 \begin{align}
 O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
   + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
@@ -64,13 +42,25 @@ O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
 \end{theorem}
 
 \begin{proof}
-The proof of this Theorem is similar as Theorem~\ref{rst:regret}, except
+The proof of the expected payment bound is the same as the proof of Theorem~\ref{rst:budget}, except that we now define $h(\ell) := \max \left( \frac{2}{\MinProb},
+\left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
+\right)$.
+
+The proof of the expected regret bound first uses a lemma bounding the expectedt number of time steps in which a payment is made by 
+\begin{align}
+O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
+  + \frac{\ARMNUM^2 d}{1 - \exp \left(
+    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)} \right). \nonumber 
+\end{align}
+The proof follows that of Lemma~\ref{lem:numP}, except that it defines $\EvenLaterPhase = \max (2, \frac{30 \sigma^3}{x^3}, \frac{2}{p})$.
+
+The proof of the expected regret bound then follows the proof of Theorem~\ref{rst:regret}, with these modifications:
 \begin{itemize}
-\item We can use Lemma~\ref{lem:NumP1} to bound the regret when we decide to incentivize;
+\item We use the lemma stated above to bound the regret on pulls that incentivize;
 \item The expected length of phase $s$ is bounded by $\ARMNUM s$;
-\item The regret in Equation~\ref{equ:small_regret_bound} can now be bounded by a constant based on our assumption.
+\item The regret in Equation~\ref{equ:small_regret_bound} can now be bounded by a constant.
 \end{itemize}
-The rest of the proof remains the same.
 \end{proof}
 
 
