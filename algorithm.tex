@@ -1,25 +1,22 @@
 \section{Main Algorithm and Analysis}
 \label{sec:ub}
 
+\dkcomment{Here and earlier, we are using a lot of displayed
+  equations. We could inline some/many of them to save space.}
+
 The algorithm achieving the claimed bounds of
 Theorem~\ref{thm:main-overview} is fairly simple.
 It mostly allows agents to exploit, but when an arm is sufficiently
 unlikely to be pulled, 
 the algorithm incentivizes this arm with a payment high enough
 to guarantee that the next agent pulls it.
-This way the algorithm ensures each arm is pulled often enough.
+This way the algorithm ensures that each arm is pulled often enough.
 
 More precisely, the algorithm divides time into \emph{phases}
 $s = 1, 2, 3, \ldots$.
 Phase $s$ starts when each arm has been pulled at least $s$ times.
 We indicate the start time of phase $s$ by $t_s$. An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
 if both of the following hold:
-\pfdelete{
-We call time $t_{s}=\min_{t}\{\forall i, \NumPull{t}{i} \geq s\}$ the
-\emph{starting point of the $s^{th}$ phase}.
-We call the set of times $[t_{s}, t_{s+1})$ the
-\emph{$n^{th}$ phase}.
-}
 
 \begin{itemize}
 \item $i$ has been pulled at most%
@@ -37,6 +34,7 @@ $\PullProb{t}{i} < 1/\log(s)$.
 
 When multiple arms are payment-eligible, the algorithm picks one
 uniformly at random to incentivize.
+\dkcomment{Is uniform randomness used anywhere? Does arbitrary work?}
 When the algorithm decides to incentivize an arm $i$,
 it offers ``whatever it takes,'' i.e., offers a payment of
 $\Pay{t}{i} = \max_{\AgV,i'} \AgV \cdot (\ArmEV{t}{i'} - \ArmEV{t}{i})$.
@@ -59,12 +57,14 @@ Algorithm~\ref{alg:basic-incentivizing} gives the full details.
 \caption{Algorithm: Incentivizing Exploration \label{alg:basic-incentivizing}}
 \begin{algorithmic}
 \STATE Set the current phase number $s = 1$.
+\COMMENT{Each arm is pulled once initially ``for free''.}
 \FOR{time steps $t = 1, 2, 3, \ldots$}
-\IF{$\NumPull{t}{i} \geq s$ for all arms $i$}
+\IF{$\NumPull{t}{i} \geq \dkedit{s+1}$ for all arms $i$}
 \STATE Increment the phase $s = s + 1$.
 \ENDIF
 \IF{there is a payment-eligible arm $i$}
 \STATE Let $i$ be a uniformly random payment-eligible arm.
+\dkcomment{Is uniform randomness used anywhere?}
 \STATE Offer payment
 $\Pay{t}{i} = \max_{\AgV,i'} \AgV \cdot (\ArmEV{t}{i'} - \ArmEV{t}{i})$
 for pulling arm $i$
@@ -76,53 +76,67 @@ for pulling arm $i$
 \end{algorithmic}
 \end{algorithm}
 
+\dkcomment{I had written ``exponentially'' in a few places here, but I
+  don't think that was correct. The error only decreases as
+  $\sqrt{s}$, while the probability of deviating beyond that error
+  decreases exponentially.}
 The high-level idea of the proof of Theorem~\ref{thm:main-overview}
 is the following.
 Because the algorithm ensures that each arm is pulled
 ``frequently enough,''
-the estimates \ArmEV{t}{i} become exponentially more accurate in the
+the estimates \ArmEV{t}{i} become gradually more accurate in the
 phase number $s$.
-Thus, the fraction of agents who misidentify their best arm decreases
-exponentially as well.
+Thus, the fraction of agents who misidentify their best arm decreases.
 Because for each arm, enough agents have a true preference for this
 arm, once the arms' attribute vectors are learned well enough,
 the algorithm will not need to incentivize any more,
 resulting in a payment bound independent of $T$.
-Similarly, the regret will decrease exponentially, and mostly accrue
-due to agents close to the border \pfcomment{we could clarify what border} making mistakes in their arm choices.
+Similarly, the regret will decrease, and mostly accrue
+due to ``problematic'' agents who are nearly tied in their preferences
+between their top two arm choices.
 The detailed analysis following this outline is somewhat subtle, though,
 due to the dependencies between the agents' arm pulls and the
 estimates which in turn are based on past arm pulls.
 We begin with several technical lemmas that are used for both the
 payment and regret bounds.
 
-To capture the probability masses of problematic and non-problematic
-agents \pfcomment{in another pass we could seek to clarify what we mean by being problematic in the context of the border statement above}, we define the following:
+To capture the probability masses of problematic agents,
+we define
 $\AlmostTied{\delta} = \Prob[\AgV \sim \AgentDist]{%
 \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq \delta}$
-is the total probability mass (across all arms) of agents
+to be the total probability mass (across all arms) of agents
 whose (actual) preference for their best arm over their second-best
 arm is at most $\delta$.
-\pfcomment{We can check through the whole paper on whether we have $\AgV \sim \AgentDist$ in the subscript or just $\AgV \sim \AgentDist$.  I think we have only $\AgentDist$ in the problem description.}
-The minimum probability mass of users who prefer their best arm
-sufficiently strongly over their second-best arm is denoted by
-$\ClearPref{\delta} = \min_{i}
-\Prob[\AgV \sim \AgentDist]{\Best{\AgV}=i,%
-\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) > \delta}$.
-Notice that \AlmostTied{\delta} (being a measure of problematic
-agents) is defined as a sum over all arms,
-while  \ClearPref{\delta} (being a measure of non-problematic agents)
-is defined as a minimum over arms.
-Also notice that $\ClearPref{0} = \MinProb$.
+\pfcomment{We can check through the whole paper on whether we have
+  $\AgV \sim \AgentDist$ in the subscript or just $\AgV \sim
+  \AgentDist$.  I think we have only $\AgentDist$ in the problem
+  description.}
+\dkcomment{There must be a typo in Peter's comment.}
+%The minimum probability mass of users who prefer their best arm
+%sufficiently strongly over their second-best arm is denoted by
+%$\ClearPref{\delta} = \min_{i}
+%\Prob[\AgV \sim \AgentDist]{\Best{\AgV}=i,%
+%\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) > \delta}$.
+%Notice that \AlmostTied{\delta} (being a measure of problematic
+%agents) is defined as a sum over all arms,
+%while  \ClearPref{\delta} (being a measure of non-problematic agents)
+%is defined as a minimum over arms.
+%Also notice that $\ClearPref{0} = \MinProb$.
 \dkcomment{We should stress somewhere that we assume that actual ties
   have measure 0.}
-
+\dkcomment{We weren't using $p(\delta)$ anywhere, so I got rid
+  of it.}
 
 In this section, we prove that Algorithm~\ref{alg:basic-incentivizing} achieves $O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) +
 O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3)$ cumulative regret with $O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right)$ payment budget.  This is stated in the following pair of theorems, which together constitute our main results.
 
+\dkcomment{Depending on how we structure Section 3, we might
+get rid of those theorems, and only consider them parts of Theorem 2
+that we prove here.}
+
 \begin{theorem}
-The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+The expected payment budget for
+Algorithm~\ref{alg:basic-incentivizing} is bounded above by
 \begin{align}
 O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right). \nonumber 
 \end{align} 
@@ -131,8 +145,9 @@ O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinPr
 
 
 \begin{theorem}
-For any given $T$, the cumulative regret for Algorithm~\ref{alg:basic-incentivizing}
-is bounded above by 
+For any given $T$, the expected cumulative regret for
+Algorithm~\ref{alg:basic-incentivizing} up to time $T$ is bounded
+above by 
 \begin{align}
 O \left(\MAXR\cdot  N\exp(\frac{2}{p})\right) +
 O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3).
@@ -194,7 +209,7 @@ $\ARMNUM \cdot \log(s)$.
                   
 The key technical lemma captures the intuition that
 the estimates of the arms' attribute vectors become
-exponentially more accurate with increasing phases $s$.
+more accurate with increasing phases $s$.
 That intuition is captured by the following lemma.
 
 \begin{lemma} \label{lem:round-prob}
@@ -242,13 +257,20 @@ Then,
 
 \begin{extraproof}{Lemma~\ref{lem:round-prob}}
 Fix an arm $i$ and attribute $j$.
+By the assumptions of the lemma,
+the stopping time $\tau$ is such that almost surely, each arm --- and
+in particular arm $i$ --- has been pulled at least
+$s \geq \LatePhase$ times at time $\tau$.
+Define $J$ to be the number of times that $i$ has been pulled at
+time $\tau$.
 For any $n \geq 1$, let $k_n$ be the time step right after arm $i$ has
 been pulled for the \Kth{n} time. Define
 $S_n := \frac{n \cdot (\ArmE{k_n}{i}{j} - \Arm{i}{j})}{2 \sigma}$
 to be the sum of all attribute-$j$ noise components up to and
 including the \Kth{n} pull of arm $i$, renormalized to have standard deviation $1/2$.
 The $S_n$ define an unbiased half-subgaussian random walk,
-and we can therefore apply Lemma~\ref{lem:ACI-inequality} to them.
+and we can therefore apply Lemma~\ref{lem:ACI-inequality} to them and
+the stopping time $J$.
 Specifically, we set $b = \frac{x^2}{16 \sigma^2}$,
 and obtain that
 
@@ -267,37 +289,8 @@ of $b$, and taking a union bound over both cases, we obtain that
 & \leq 24 \exp \left( \frac{-1.8 J x^2}{16 \sigma^2} \right).
 \end{align*}
 
-In the high-probability case
-$|S_J| \leq
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x^2}{16 \sigma^2}}$,
-we first use that $\sqrt{\cdot}$ is sublinear to bound
-$\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x^2}{16 \sigma^2}}
-\leq \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1)} + \frac{J x}{4 \sigma}$ (here we use the fact $\sqrt{J}\leq J$).
-
-Then, we use the following technical Lemma~\ref{lem:n0-inequality}
-(whose proof is given in Appendix~\ref{lem:n0-inequality-proof}, and whose
-precondition we verify momentarily) to bound the first term,
-giving us an overall upper bound of
-$|S_J| \leq \frac{J x}{2 \sigma}$.
-
-\begin{lemma} \label{lem:n0-inequality}
-For any $n \geq \LatePhase = \max (2, \frac{30 \sigma^3}{x^3})$, 
-\begin{align*}
-\sqrt{0.6 n \log (\log_{1.1}(n) + 1)} & \leq \frac{n x}{4 \sigma}. 
-\end{align*}
-\end{lemma}
-
-Substituting the definition of $S_J$ and canceling common terms,
-the inequality implies that
-$|\ArmE{k_J}{i}{j} - \Arm{i}{j}| \leq x$.
-By the assumptions of the lemma,
-the stopping time $\tau$ is such that almost surely, each arm --- and
-in particular arm $i$ --- has been pulled at least
-$s \geq \LatePhase$ times at time $\tau$.
-Defining $J$ to be the number of times that $i$ has been pulled at
-time $\tau$, we obtain that $J$ satisfies the precondition of
-Lemma~\ref{lem:n0-inequality}.
-Furthermore, with probability 1, $J$ will be finite, meaning that
+Because $J$ will be finite with probability 1, we can drop the
+$J < \infty$ part of the event:
 \begin{align*}
 & \Prob{S_J \geq 
 \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x^2}{16
@@ -307,17 +300,44 @@ Furthermore, with probability 1, $J$ will be finite, meaning that
     \sigma^2}}}.
 \end{align*}
 
-Finally, this choice of $J$ ensures that
+In the high-probability case
+$|S_J| \leq
+\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x^2}{16 \sigma^2}}$,
+we first use that $\sqrt{\cdot}$ is sublinear to bound
+$\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x^2}{16 \sigma^2}}
+\leq \sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1)} + \frac{J x}{4 \sigma}$
+(here we use the fact $\sqrt{J} \leq J$).
+Then, we will show momentarily that
+$\sqrt{0.6 J \log (\log_{1.1}(J) + 1)} \leq \frac{J x}{4 \sigma}$,
+giving us an overall upper bound of
+$|S_J| \leq \frac{J x}{2 \sigma}$.
+
+Substituting the definition of $S_J$ and canceling common terms,
+the inequality implies that
+$|\ArmE{k_J}{i}{j} - \Arm{i}{j}| \leq x$.
+The choice of $J$ ensures that
 $\ArmE{k_J}{i}{j} = \ArmE{\tau}{i}{j}$,
 and we have thus shown that
 $|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq x$ for all $i,j$.
 The lemma now follows by a union bound over all \ARMNUM arms and $d$
 attributes.
+
+It remains to show that
+$\sqrt{0.6 J \log (\log_{1.1}(J) + 1)} \leq \frac{J x}{4 \sigma}$.
+By squaring the statement and rearranging, it is equivalent to show that
+$\frac{J}{\log(\log_{1.1}(J)+1)} \geq \frac{9.6\sigma^2}{x^2}$.
+Because $J \geq \LatePhase \geq 2$,
+a numerical calculation and derivative test shows that
+$\frac{J}{\log(\log_{1.1}(J)+1)} \geq J^{2/3}$,
+and because $J \geq \LatePhase \geq \frac{30 \sigma^3}{x^3}$,
+we get that
+$J^{2/3} \geq \frac{9.6 \sigma^2}{x^2}$, completing the proof.
 \end{extraproof}
 
 
-Lemma~\ref{lem:round-prob} implies that errors from myopic play
-decrease exponentially in the phase number $s$.
+Lemma~\ref{lem:round-prob} implies that the probability of making
+large errors due to myopic play decreases exponentially in the phase
+number $s$.
 
 \begin{corollary} \label{cor:right-choice}
 Let $x > 0$ be arbitrary.
@@ -434,7 +454,7 @@ In the high-probability event, all such agents would myopically pull
 the arm $i$, and as a result, in the high-probability event,
 arm $i$ is not payment-eligible.
 
-Thus, for any phase $s \geq \EvenLaterPhase$
+Thus, for any phase $s \geq \EvenLaterPhase$,
 Algorithm~\ref{alg:basic-incentivizing} incentivizes any given arm $i$
 with probability at most
 $24 \ARMNUM d \cdot \exp \left(
@@ -449,9 +469,9 @@ the expected total number of arm incentivizations is at most
   + 24 \ARMNUM^2 d \cdot \frac{1}{1 - \exp \left(
     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \nonumber \\
-=& O\left( \max\{\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}, N\exp(\frac{2}{p})\}
+=& O\left( \max\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}, N\exp(\frac{2}{p})\right)
   + \frac{\ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+    \frac{-1.8 \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right) \nonumber  \\
 =& O\left( N\exp\left(\frac{2}{p}\right) \right).
 \end{align*}
@@ -482,7 +502,7 @@ to denote this constant upper bound on the maximum regret that can be
 incurred in any one time step. 
 
 
-\begin{proof}
+\begin{extraproof}{Theorem~\ref{rst:regret}}
 Regret can arise in two ways:
 (1) an agent was incentivized to pull a suboptimal arm, or
 (2) an agent myopically pulled a suboptimal arm.
@@ -501,99 +521,104 @@ such misestimated are exponentially unlikely to occur),
 and agents incurring small positive regret,
 which requires these agents to be almost tied in their preference for
 the best arm.
-To be more precise, we will define (with hindsight) a phase-dependent
-cutoff $g(s)$, and consider a regret exceeding $g(s)$ large.
+To be more precise, we will define (with foresight) a phase-dependent
+cutoff
+$g(s) = \sqrt{\frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}}$,
+and consider a regret exceeding $g(s)$ large.
 
 We first consider agents \AgV incurring positive regret less than $g(s)$.
-The second-best arm \Second{\AgV} of \AgV must satisfy
+The second-best arm \Second{\AgV} of such an agent \AgV must satisfy
 $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq g(s)$.
 By Lemma~\ref{lem:sdelta}, the total measure of such agents
 is $\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$,
 and each incurs regret at most $g(s)$.
-Summing over all time steps, the expected total regret from such agents is at most
+Summing over all time steps,
+and using Lemma~\ref{lem:phase-length} to bound the number of time
+steps in phase $s$, 
+the expected total regret from such agents is at most
 \begin{align}
-&E\left[\sum_{s=1}^{T}\sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)\right] \leq \sum_{s=1}^{T}\TieDensity\cdot g^2(s)N\log(s). \label{equ:small_regret_bound}
+\Expect{\sum_{s=1}^{T} \sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)}
+& \leq \sum_{s=1}^{T} \TieDensity \cdot g^2(s) \ARMNUM \log(s).
+\label{equ:small_regret_bound}
 \end{align}
 
 To bound the regret incurred in time steps with large regret,
-let the random variable $t_s$ be the final time step in phase $s$,
+we use a proof nearly identical to that of
+Lemma~\ref{lem:round-prob} and Corollary~\ref{cor:right-choice}.
+The only reason we cannot directly apply them is that in order
+to apply to arbitrary $x > 0$, we had to assume that
+$\LatePhase \geq \frac{30 \sigma^3}{x^3}$, a bound we cannot afford here.
+So here, we will choose a larger value of $x$, and in return
+will only need to assume that $T \geq 2$.
+
+Let the random variable $t_s$ be the final time step in phase $s$,
 for each $s$. Define the stopping times $\tau_{s}^{k}$ to be the \Kth{k}
 time step in the \Kth{s} phase,
 with $\tau_{s}^{k} = \infty$ when phase $s$ has fewer than $k$ steps,
 i.e., $k > t_{s}-t_{s-1}$.
-For $t = \tau_{s}^{k}$, we know
-\begin{align}
-&\Prob{\text{incur regret exceeding g(s)}} \nonumber \\
-\leq & \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}}.\nonumber 
-\end{align}
+Exactly as in the proof of Corollary~\ref{cor:right-choice},
+it is sufficient to show that with high probability,
+$|\ArmE{t}{i}{j} - \Arm{i}{j}| \leq \frac{g(s)}{2\Diam d}$
+for all arms $i$ and attributes $j$.
 
-Because the regret never exceeds \MAXR,
-the expected (large) regret for the \Kth{k} time step of phase $s$
-is bounded above by
-$\Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR$.
-Summing over all time steps $t$, we get that the total regret from
-large-regret steps is at most
+The proof of this high-probability guarantee for the stopping time
+$t = \tau_s^k$ is identical to the proof of
+Lemma~\ref{lem:round-prob} with $x = \frac{g(s)}{2 \Diam d}$
+until the step where we start bounding
+$\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x^2}{16 \sigma^2}}$.
+At that point in the proof, we had shown that 
+the probability of $|S_J|$ exceeding the preceding expression is at most
+\begin{align*}
+24 \exp \left( \frac{-1.8 s x^2}{16 \sigma^2} \right)
+  & = \frac{24}{T^2}.
+\end{align*}
+
+Substituting $J = s$ and $x = \frac{g(s)}{2 \Diam d}$, the upper bound is
+$\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{2 \log T}{1.8 J}}$.
+We claim that for $J \leq T$ and $T \geq 2$, we have
+$\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{2 \log T}{1.8 J}}
+\leq 2 \sqrt{\frac{2}{1.8} s \log(T)}$.
+Indeed, by squaring this inequality and canceling out common terms,
+the claimed inequality is equivalent to
+$\frac{50}{9} \log T \geq \log(\log_{1.1}(J) + 1)$.
+Because $J \leq T$, it is sufficient to show that
+$\frac{50}{9} \log T \geq \log(\log_{1.1}(T) + 1)$,
+which can be verified by numerical calculation for $T=2$ and a
+derivative test.
+
+With this upper bound of $|S_J| \leq 2 \sqrt{\frac{2}{1.8} s \log(T)}$,
+we can substitute the definition of $S_J$ to obtain that
+$|\ArmE{t}{i}{j} - \Arm{i}{j}| \leq \frac{g(s)}{2\Diam d}$
+in the high-probability event.
+By a union bound over all arms $i$ and attributes $j$,
+the probability of incurring regret exceeding $g(s)$ is at most
+$\frac{24 \ARMNUM d}{T^2}$.
+
+Using that the regret never exceeds \MAXR,
+and applying Lemma~\ref{lem:phase-length},
+the total expected regret from large-regret steps is at most
 
 \begin{align*}
-\lefteqn{\sum_{s = 1}^T \sum_{t=t_s}^{t_{s+1}-1}
-  \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR}
-\\ & =
-\sum_{s = 1}^T 
-  \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
-  \cdot \Expect{\mbox{Length of phase } s}
-\\ & \leq
-\sum_{s = 1}^T 
- \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
-  \cdot \ARMNUM \log(s),
+\sum_{s = 1}^T \sum_{t=t_s}^{t_{s+1}-1}
+  \Prob{\mbox{incur regret exceeding } g(s) \mbox{ at step } t} \cdot \MAXR
+& \leq
+ \sum_{s = 1}^T \frac{24 \ARMNUM d}{T^2} \cdot \MAXR \cdot \ARMNUM \log(s)
+\\ & \leq 12 \ARMNUM^2 d \MAXR.
 \end{align*}
-where the inequality was an application of Lemma~\ref{lem:phase-length}.
-Adding all three terms,
+
+Adding all three types of regret terms,
+and substituting that 
+$g^2(s) = \frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$,
 the cumulative regret up to time $T$ is at most
 
-\begin{align}
-&O\left(\MAXR\cdot N\exp\left(\frac{2}{p}\right) \right)
-\\
-+ & \sum_{s = 1}^T 
-  \Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \cdot \MAXR
-  \cdot \ARMNUM \log(s),
-+ \sum_{s=1}^{T}\TieDensity \cdot g^2(s)\cdot N\log(s). \label{thm:equ}
-\end{align}
-
-The first line is independent of $T$, and we now choose
-$g^2(s) = \frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$
-with the goal of minimizing the second line.
-With this choice and same definition of $S_{s}$ as in the proof of Lemma~\ref{lem:round-prob}, 
 \begin{align*}
-&\Prob{\exists i,j, s.t. |\ArmE{t}{i}{j} - \Arm{i}{j}|\geq \frac{g(s)}{2\Diam d}} \\
-\leq &\sum_{i,j}\Prob{|S_s|\geq 2\sqrt{\frac{2}{1.8}s\log(T)}} \\
-\leq &\sum_{i,j}\Prob{|S_s|\geq \sqrt{0.6s\log(\log_{1.1}(s)+1)+\frac{2}{1.8}\log(T)s}} \leq 24\ARMNUM d \cdot \exp(-2\log(T)),
+\lefteqn{
+O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
++ \ARMNUM^2 \MAXR d
++ \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} g^2(s) \log(s) \right)}
+\\ & = 
+O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
++ \ARMNUM^2 \MAXR d
++ \ARMNUM \TieDensity \Diam^2 d^2 \sigma^2 \cdot \log^3(T) \right).
 \end{align*}
-where the second to last inequality is because the following technical inequality, whose proof we include in Appendix~\ref{lem:n1-inequality-proof}.
-
-\begin{lemma} \label{lem:n1-inequality}
-For any $T \geq 2$ and $1 \leq n \leq T$, we have
-\begin{align*}
-2\sqrt{\frac{2}{1.8} n \log(T)}
-& \geq \sqrt{0.6 n \log(\log_{1.1}(n)+1) + \frac{2}{1.8} n \log(T)}.
-\end{align*}
-\end{lemma}
-
-Therefore, the second line becomes
-
-\begin{align*}
-\lefteqn{\sum_{s=1}^{T} 24\ARMNUM^2 d \log(s) \MAXR \exp\left(-2\log(T)\right)  +
-          \frac{128\ARMNUM\Diam^2 d^2\sigma^2
-          \TieDensity\log(T)}{1.8}\sum_{s=1}^{T}\frac{\log(s)}{s}}
-\\ & \leq
-24\ARMNUM^2 d R\frac{T(T-1)}{2T^2}  + 71.11 \ARMNUM \Diam^2 d^2\sigma^2
-          \TieDensity(\log(T))^2(\log(T)+1)
-  \\ & \leq
-12 \ARMNUM^2 d R  + 71.11 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^2(\log(T)+1). 
-\end{align*}
-
-Adding all terms gives an upper bound of $O\left(\MAXR\cdot N\exp\left(\frac{2}{p}\right) \right) +O(\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3)$ on the cumulative expected regret.
-
-\end{proof}
-
-\dkcomment{Edited up to here.}
-
+\end{extraproof}

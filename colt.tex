@@ -58,7 +58,7 @@
 
 \providecommand{\PROB}{\ensuremath{{\rm Prob}}\xspace}
 \providecommand{\Prob}[2][]{\ensuremath{%
-\ifthenelse{\equal{#1}{}}{\PROB[#2]}{\PROB_{#1}[#2]}}\xspace}
+\ifthenelse{\equal{#1}{}}{\PROB\left[#2\right]}{\PROB_{#1}\left[#2\right]}}\xspace}
 \providecommand{\ProbC}[3][]{\Prob[#1]{#2\;|\;#3}}
 \providecommand{\Expect}[2][]{\ensuremath{%
 \ifthenelse{\equal{#1}{}}{\mathbb{E}}{\mathbb{E}_{#1}}%
@@ -160,7 +160,7 @@ Incentivizing Exploration
 
 \input{payment-proof}
 
-\input{technical-proofs}
+% \input{technical-proofs}
 
 \bibliography{reference}
 \end{document}
