@@ -128,16 +128,16 @@ $\AgV \sim \AgentDist$, $\AgentDist$ or $\AgV$ in the subscript, and make the us
 To formally reason about the event that the estimates of arms'
 attributes vectors are accurate enough --- or fail to be so ---
 we define the events
-$\AccE{t}{i}{j}{\epsilon} := [|\ArmE{t}{i}{j} - \Arm{i}{j}| \leq \epsilon]$
+$\AccE{t}{i}{j}{x} := [|\ArmE{t}{i}{j} - \Arm{i}{j}| \leq x]$
 that attribute $j$ of arm $i$ at time $t$ is estimated to
-within accuracy $\epsilon$ or better.
+within accuracy $x$ or better.
 Then, 
-$\AccEU{t}{\epsilon} = \bigcap_{i,j} \AccE{t}{i}{j}{\epsilon}$
+$\AccEU{t}{x} = \bigcap_{i,j} \AccE{t}{i}{j}{x}$
 is the event that at time $t$, all arm attribute
-estimates are accurate to within $\epsilon$ simultaneously.
+estimates are accurate to within $x$ simultaneously.
 We will then show that for suitable choices of $t, x$,
 the events \AccE{t}{i}{j}{x}
-(and hence, by union bound, \AccEU{t}{\epsilon})
+(and hence, by union bound, \AccEU{t}{x})
 have high probability,
 and that when they do, myopic agents do not make large mistakes.
 
@@ -202,9 +202,9 @@ more accurate with increasing phases $s$.
 \begin{lemma} \label{lem:round-prob}
 Recall that $\sigma$ is the standard deviation of the Gaussian noise.
 Let \LatePhase be a phase cutoff, 
-and let $\epsilon_n, \epsilon'_n > 0$ be functions satisfying that
-$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n \epsilon_n^2}{16 \sigma^2}}
-\leq \frac{n \epsilon'_n}{2 \sigma}$,
+and let $x_n, x'_n > 0$ be functions satisfying that
+$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x_n^2}{16 \sigma^2}}
+\leq \frac{n x'_n}{2 \sigma}$,
 for all $n \geq \LatePhase$.
 Let $\tau_s$ be a stopping time
 (which may depend on the entire past history)
@@ -213,8 +213,8 @@ i.e., satisfying $\tau \in [t_s, t_{s+1})$ almost surely.
 
 Then, for any arm $i$, attribute $j$, and phase $s \geq \LatePhase$,
 we have that
-$\Prob{\AccE{\tau_s}{i}{j}{\epsilon'_s}}
-\geq 1 - 24 \exp\left(-\frac{1.8 s \epsilon_s^2}{16 \sigma^2} \right)$.
+$\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
+\geq 1 - 24 \exp\left(-\frac{1.8 s x_s^2}{16 \sigma^2} \right)$.
 \end{lemma}
 
 The proof of Lemma~\ref{lem:round-prob} is based on an adaptive
@@ -255,13 +255,13 @@ renormalized to have standard deviation $1/2$.
 The $S_n$ define an unbiased half-subgaussian random walk,
 and we can therefore apply Lemma~\ref{lem:ACI-inequality} to them and
 the stopping time $J$.
-Specifically, we set $b = \frac{\epsilon_J^2}{16 \sigma^2}$,
+Specifically, we set $b = \frac{x_J^2}{16 \sigma^2}$,
 and obtain that
 
 \begin{align*}
 \Prob{J < \infty \mbox{ and } S_J \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J \epsilon_J^2}{16 \sigma^2}}}
-& \leq 12 \exp \left( \frac{-1.8 J \epsilon_J^2}{16 \sigma^2} \right).
+\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x_J^2}{16 \sigma^2}}}
+& \leq 12 \exp \left( \frac{-1.8 J x_J^2}{16 \sigma^2} \right).
 \end{align*}
 
 Applying Lemma~\ref{lem:ACI-inequality} to $-S_n$ with the same choice
@@ -269,66 +269,66 @@ of $b$, and taking a union bound over both cases, we obtain that
 
 \begin{align*}
 \Prob{J < \infty \mbox{ and } |S_J| \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J \epsilon_J^2}{16 \sigma^2}}}
-& \leq 24 \exp \left( \frac{-1.8 J \epsilon_J^2}{16 \sigma^2} \right).
+\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x_J^2}{16 \sigma^2}}}
+& \leq 24 \exp \left( \frac{-1.8 J x_J^2}{16 \sigma^2} \right).
 \end{align*}
 
 Because $J$ will be finite with probability 1, we can drop the
 $J < \infty$ part of the event:
 \begin{align*}
 & \Prob{S_J \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 \epsilon_J^2}{16
+\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x_J^2}{16
     \sigma^2}}}\\
 = & \Prob{J < \infty \mbox{ and } S_J \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 \epsilon_J^2}{16
+\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x_J^2}{16
     \sigma^2}}}.
 \end{align*}
 
 In the high-probability case, we now apply the assumed inequality
-between $\epsilon_J$ and $\epsilon'_J$, to obtain that
+between $x_J$ and $x'_J$, to obtain that
 \[
 |S_J| \; \leq \;
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J \epsilon_J^2}{16 \sigma^2}}
-\; \leq \; \frac{J \epsilon'_J}{2 \sigma}.
+\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x_J^2}{16 \sigma^2}}
+\; \leq \; \frac{J x'_J}{2 \sigma}.
 \]
 
 Substituting the definition of $S_J$ and canceling common terms,
 the inequality implies that
-$|\ArmE{k_J}{i}{j} - \Arm{i}{j}| \leq \epsilon'_J$.
+$|\ArmE{k_J}{i}{j} - \Arm{i}{j}| \leq x'_J$.
 The choice of $J$ ensures that
 $\ArmE{k_J}{i}{j} = \ArmE{\tau_s}{i}{j}$,
 and we have thus shown that
-$|\ArmE{\tau_s}{i}{j} - \Arm{i}{j}| \leq \epsilon'_s$.
+$|\ArmE{\tau_s}{i}{j} - \Arm{i}{j}| \leq x'_s$.
 \end{extraproof}
 
 Next, we show the complementary part:
-when \AccE{t}{\epsilon} happens, no myopic agent incurs large regret.
+when \AccE{t}{x} happens, no myopic agent incurs large regret.
 
 \begin{lemma} \label{lem:right-choice}
-Let $\epsilon > 0$ be arbitrary.
-When \AccEU{t}{\epsilon} happens,
+Let $x > 0$ be arbitrary.
+When \AccEU{t}{x} happens,
 no agent \AgV will pull a highly suboptimal arm, i.e., an arm $i$ with 
-$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d \epsilon$.
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
 \end{lemma}
 
 \begin{proof}
-By definition, when \AccEU{t}{\epsilon} happens,
+By definition, when \AccEU{t}{x} happens,
 for all arms $i$ and attributes $j$,
-all arm attribute estimates are accurate to within $\epsilon$,
+all arm attribute estimates are accurate to within $x$,
 in the sense that
-$|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq \epsilon$.
+$|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq x$.
 
 Consider any agent type \AgV.
 Let $i \neq \Best{\AgV}$ be any arm
 with much smaller true reward than the best arm:
-$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d \epsilon$.
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
 Because each coordinate of \ArmEV{t}{\Best{\AgV}} and of
-\ArmEV{t}{i} is estimated accurately to within $\epsilon$, 
+\ArmEV{t}{i} is estimated accurately to within $x$, 
 we get that 
 $\AgV \cdot (\ArmEV{t}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
-\geq - \Diam d \epsilon$
+\geq - \Diam d x$
 and
-$\AgV \cdot (\ArmEV{t}{i} - \ArmV{i}) \leq \Diam d \epsilon$.
+$\AgV \cdot (\ArmEV{t}{i} - \ArmV{i}) \leq \Diam d x$.
 Hence, 
 
 \begin{align}
@@ -337,7 +337,7 @@ Hence,
 \AgV \cdot (\ArmEV{t}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
 + \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i})
 + \AgV \cdot (\ArmV{i} - \ArmEV{t}{i}) \nonumber\\
-& > -\Diam d \epsilon + 2 \Diam d \epsilon - \Diam d \epsilon
+& > -\Diam d x + 2 \Diam d x - \Diam d x
 \; = \; 0, \label{equ:choice}
 \end{align}
 which means that the agent with type \AgV will not pull arm $i$.
@@ -347,7 +347,7 @@ which means that the agent with type \AgV will not pull arm $i$.
 
 As a first step towards bound the total payment (and also regret),
 we show that for sufficiently late phases,
-under the event \AccEU{t}{\epsilon} for suitably small $\epsilon$,
+under the event \AccEU{t}{x} for suitably small $x$,
 the algorithm does not offer any payments.
 
 \begin{lemma} \label{lem:no-incentives}
@@ -402,14 +402,14 @@ Lemma~\ref{lem:round-prob}.
 
 To make this intuition precise, we set
 $\delta = \frac{\MinProb}{2 \TieDensity}$,
-and $\epsilon = \epsilon' = \frac{\delta}{2 \Diam d}$
+and $x = x' = \frac{\delta}{2 \Diam d}$
 (which is independent of the phase number $s$).
 The cutoff point between early and late phases is now set to
-$\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{\epsilon^3}, \exp(\frac{2}{\MinProb}))$.
+$\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3}, \exp(\frac{2}{\MinProb}))$.
 We will verify below that
-$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n \epsilon^2}{16 \sigma^2}}
-\leq \frac{n \epsilon}{2 \sigma}$
-for all $n \geq \max(2, \frac{30 \sigma^3}{\epsilon^3})$.
+$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x^2}{16 \sigma^2}}
+\leq \frac{n x}{2 \sigma}$
+for all $n \geq \max(2, \frac{30 \sigma^3}{x^3})$.
 
 Fix an arm $i$, and consider the \Kth{s} pull of an arm $i$,
 for $s \geq \EvenLaterPhase$.
@@ -419,12 +419,12 @@ and let $\tau_s$ be the time step when this pull occurred;
 notice that this means that this must be the first pull of arm $i$ in
 phase $s$.
 
-By Lemma~\ref{lem:round-prob} (with our choice of $\epsilon = \epsilon'$),
+By Lemma~\ref{lem:round-prob} (with our choice of $x = x'$),
 and a union bound over all $i,j$, we bound the probability
-$\Prob{\AccEU{\tau_s}{\epsilon}}
-\geq 1 - 24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s \epsilon^2}{16 \sigma^2} \right)$.
+$\Prob{\AccEU{\tau_s}{x}}
+\geq 1 - 24 \ARMNUM d \cdot \exp\left(-\frac{1.8 s x^2}{16 \sigma^2} \right)$.
 And by Lemma~\ref{lem:no-incentives},
-under the event ${\mathcal E}_{\tau_s}(\epsilon)$,
+under the event ${\mathcal E}_{\tau_s}(x)$,
 arm $i$ is not payment-eligible.
 
 Thus, for any $s \geq \EvenLaterPhase$,
@@ -450,28 +450,28 @@ the expected total number of arm incentivizations is at most
 \end{align*}
 
 It remains to show that
-$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n \epsilon^2}{16 \sigma^2}}
-\leq \frac{n \epsilon}{2 \sigma}$
-for all $n \geq \max(2, \frac{30 \sigma^3}{\epsilon^3}$.
+$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x^2}{16 \sigma^2}}
+\leq \frac{n x}{2 \sigma}$
+for all $n \geq \max(2, \frac{30 \sigma^3}{x^3}$.
 We first use that $\sqrt{\cdot}$ is sublinear to bound
 \[
-  \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n \epsilon^2}{16 \sigma^2}}
-\; \leq \; \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1)} + \frac{n \epsilon}{4 \sigma}
+  \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x^2}{16 \sigma^2}}
+\; \leq \; \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1)} + \frac{n x}{4 \sigma}
 \]
 (here we use the fact $\sqrt{n} \leq n$).
 Next, we show that
-$\sqrt{0.6 n \log (\log_{1.1}(n) + 1)} \leq \frac{n \epsilon}{4 \sigma}$;
+$\sqrt{0.6 n \log (\log_{1.1}(n) + 1)} \leq \frac{n x}{4 \sigma}$;
 then, adding the two terms gives the desired bound.
 
 By squaring the claimed statement and rearranging,
 it is equivalent to show that
-$\frac{n}{\log(\log_{1.1}(n)+1)} \geq \frac{9.6\sigma^2}{\epsilon^2}$.
+$\frac{n}{\log(\log_{1.1}(n)+1)} \geq \frac{9.6\sigma^2}{x^2}$.
 Because $n \geq 2$,
 a numerical calculation and derivative test shows that
 $\frac{n}{\log(\log_{1.1}(n)+1)} \geq n^{2/3}$,
-and because $n \geq \frac{30 \sigma^3}{\epsilon^3}$,
+and because $n \geq \frac{30 \sigma^3}{x^3}$,
 we get that
-$n^{2/3} \geq \frac{9.6 \sigma^2}{\epsilon^2}$, completing the proof.
+$n^{2/3} \geq \frac{9.6 \sigma^2}{x^2}$, completing the proof.
 
 \dkcomment{I'm leaving in all the dependencies on ``constant''
   parameters for now. We can decide later which ones to absorb into
@@ -551,17 +551,17 @@ regret more than $g(s)$.
 
 To bound the probability of \AccEU{\tau_s^k}{\frac{g(s)}{2\Diam d}},
 we use Lemma~\ref{lem:round-prob}
-(with $\epsilon_s = \epsilon'_s = \frac{g(s)}{2 \Diam d}$
+(with $x_s = x'_s = \frac{g(s)}{2 \Diam d}$
 and a stopping time of $\tau_s^k$).
-We first verify that this choice of $\epsilon_s, \epsilon'_s$
+We first verify that this choice of $x_s, x'_s$
 satisfies the assumption of Lemma~\ref{lem:round-prob} for all
 $s \geq 2$,
 i.e., that
-$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n \epsilon_n^2}{16 \sigma^2}}
-\leq \frac{n \epsilon_n}{2 \sigma}$
+$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x_n^2}{16 \sigma^2}}
+\leq \frac{n x_n}{2 \sigma}$
 for all $n \geq 2$.
 Substituting that
-$\epsilon_n = \frac{g(n)}{2 \Diam d} = \sqrt{\frac{32\log(T) \cdot \sigma^2}{1.8 n}}$,
+$x_n = \frac{g(n)}{2 \Diam d} = \sqrt{\frac{32\log(T) \cdot \sigma^2}{1.8 n}}$,
 the left-hand side is
 
 \[
@@ -581,7 +581,7 @@ derivative test.
 Now, by Lemma~\ref{lem:round-prob} and a union bound over all arms $i$
 and attributes $j$, we get that 
 \begin{align*}
-\Prob{\AccEU{\tau_s^k}{\epsilon_s}}
+\Prob{\AccEU{\tau_s^k}{x_s}}
 & \leq 24 \ARMNUM d \cdot \exp \left( \frac{-1.8 s x^2}{16 \sigma^2} \right)
 \; = \; \frac{24 \ARMNUM d}{T^2}.
 \end{align*}
