@@ -1,26 +1,38 @@
-We consider the problem of incentivized exploration with heterogeneous agents.
+We consider the problem of incentivizing exploration with heterogeneous agents.
 In this problem, bandit arms provide vector-valued outcomes equal to an unknown
-arm-specific attribute vector perturbed by independent normally distributed
-noise.  Agents arrive sequentially and choose arms to pull based on their own
-private and heterogeneous linear utility function over attributes and estimates
-of the arms' attribute vectors derived from observations of other agents' past
-pulls.  Agents are myopic and selfish and thus would choose the arm with
-maximal estimated utility, except for an incentive payment that a principle may
-offer to encourage agents to explore underplayed arms.  The principal seeks to
-minimize the expected cumulative regret incurred by agents relative to their
-best arms, while also making a small expected cumulative payment.  We propose
-an algorithm that incentivizes arms played infrequently in the
+arm-specific attribute vector,
+perturbed by independent normally distributed noise.
+Agents arrive sequentially and choose arms to pull based on their own
+private and heterogeneous linear utility functions over attributes
+and the estimates of the arms' attribute vectors derived from
+observations of other agents' past pulls.
+Agents are myopic and selfish and thus would choose the arm with
+maximum estimated utility.
+A principal, knowing only the distribution from which agents'
+preferences are drawn, but not the specific draws,
+can offer incentive payments for pulling specific arms
+in order to encourage agents to explore underplayed arms.
+The principal seeks to minimize the total expected cumulative regret
+incurred by agents relative to their best arms,
+while also making a small expected cumulative payment.
+
+We propose an algorithm that incentivizes arms played infrequently in the
 past whose probability of being played in the next round would be small
-without incentives.  Under the assumption that each arm is preferred by at
-least a fraction $p>0$ of agents, we show this algorithm achieves expected
-cumulative regret of $O(N\exp(2/p) + N \log(T)^3)$ using expected cumulative
-payments of $O(N^2 \exp(2/p))$.  If $p$ is known or the distribution over agent
-preferences is discrete, the term $\exp(2/p)$ can be eliminated.  In these
-cases, the bound on payment improves to $O(N^2 / p^{5/2})$.  The bound on
-regret improves to $O(N/p^4 + N \log(T)^3 / p)$ for known $p$ and to
-$O(N/p^4)$ for discrete preference distributions.  Regret and
-payments that are both constant in $T$ for discrete preferences stands
-in contrast to the $\log(T)$ dependence on regret in standard multi-armed bandit
-problems, and arises because heterogeneity in agent preferences allows
-exploitation of arms to also explore fully.
-Succinctly, heterogeneity provides free exploration.
+without incentives.
+Under the assumption that each arm is preferred by at
+least a fraction $\MinProb > 0$ of agents,
+we show that this algorithm achieves expected
+cumulative regret of $O (\ARMNUM \e^{2/\MinProb} + \ARMNUM \log^3(T))$,
+using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$.
+If \MinProb is known or the distribution over agent
+preferences is discrete,
+the exponential term $\e^{2/\MinProb}$ can be replaced with suitable
+polynomials in \ARMNUM and $1/\MinProb$.
+For discrete preferences, the regret dependence on $T$ can be
+eliminated entirely, giving constant (depending only polynomially on
+\ARMNUM and $1/\MinProb$) expected regret and payments.
+This constant regret stands in contrast to the $\Theta(\log(T))$ dependence of
+regret in standard multi-armed bandit problems.
+It arises because even unobserved heterogeneity in agent preferences
+allows exploitation of arms to also explore arms fully;
+succinctly, heterogeneity provides free exploration.
