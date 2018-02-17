@@ -210,7 +210,7 @@ $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
 As a first step towards bound the total payment (and also regret),
 we show that for sufficiently late phases,
 under the event \AccEU{t}{x} for suitably small $x$,
-the algorithm does not offer any payments.
+the algorithm does not offer any payments. We prove Lemma~\ref{lem:no-incentives} in the Appendix~\ref{sec:lemma8-proof}.
 
 \begin{lemma} \label{lem:no-incentives}
 Fix an arm $i$.
@@ -219,28 +219,6 @@ time when arm $i$ is pulled for the \Kth{s} time.
 Under \AccEU{\tau_s}{\frac{p}{4\Diam d \TieDensity}},
 this pull of arm $i$ is not incentivized.
 \end{lemma}
-
-\begin{proof}
-By Lemma~\ref{lem:right-choice},
-under the event \AccEU{\tau_s}{\frac{\MinProb}{4\Diam d \TieDensity}},
-all agent types \AgV with
-$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}})
-> \frac{\MinProb}{2\TieDensity}$
-will pull their best arm \Best{\AgV}.
-
-By Assmption~\ref{A1},
-%Lemma~\ref{lem:sdelta},
-the measure of agents (across all arms)
-whose best and second-best arm differ in utility by less
-than $\frac{\MinProb}{2\TieDensity}$ is at most $\frac{\MinProb}{2}$.
-In particular, this bound holds for agents whose best arm is $i$.
-By Assumption~\ref{A3}, at least a measure \MinProb of agents has $i$
-as their best arm, and thus, at least a measure $\frac{\MinProb}{2}$
-will myopically pull arm $i$.
-Because $1/\log(s) < \frac{\MinProb}{2}$ for
-$s \geq \exp(2/\MinProb)$, arm $i$ is not payment-eligible at time
-$\tau_s$.
-\end{proof}
 
 Towards bounding the algorithm's total payment, we now bound the
 \emph{number} of rounds in which the algorithm makes a payment by a

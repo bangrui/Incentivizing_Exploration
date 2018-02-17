@@ -160,3 +160,37 @@ Hence,
 \end{align}
 which means that the agent with type \AgV will not pull arm $i$.
 \end{proof}
+
+
+\section{Proof of Lemma~\ref{lem:no-incentives}}
+\label{sec:lemma8-proof}
+
+\begin{rlemma}{Lemma}{\ref{lem:no-incentives}}
+Fix an arm $i$.
+Let $s \geq \exp(2/\MinProb)$, and let $\tau_s$ be the (random)
+time when arm $i$ is pulled for the \Kth{s} time.
+Under \AccEU{\tau_s}{\frac{p}{4\Diam d \TieDensity}},
+this pull of arm $i$ is not incentivized.
+\end{rlemma}
+
+\begin{proof}
+By Lemma~\ref{lem:right-choice},
+under the event \AccEU{\tau_s}{\frac{\MinProb}{4\Diam d \TieDensity}},
+all agent types \AgV with
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}})
+> \frac{\MinProb}{2\TieDensity}$
+will pull their best arm \Best{\AgV}.
+
+By Assmption~\ref{A1},
+%Lemma~\ref{lem:sdelta},
+the measure of agents (across all arms)
+whose best and second-best arm differ in utility by less
+than $\frac{\MinProb}{2\TieDensity}$ is at most $\frac{\MinProb}{2}$.
+In particular, this bound holds for agents whose best arm is $i$.
+By Assumption~\ref{A3}, at least a measure \MinProb of agents has $i$
+as their best arm, and thus, at least a measure $\frac{\MinProb}{2}$
+will myopically pull arm $i$.
+Because $1/\log(s) < \frac{\MinProb}{2}$ for
+$s \geq \exp(2/\MinProb)$, arm $i$ is not payment-eligible at time
+$\tau_s$.
+\end{proof}
