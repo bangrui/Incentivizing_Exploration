@@ -24,7 +24,7 @@ $1/\log(s)$ given current estimates \ArmEV{t}{i'} of arms'
 attribute vectors.  In other words, we require
 $\PullProb{t}{i} < 1/\log(s)$ where 
 $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
-\cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i \pfedit{\mid \ArmEV{t}{i'}\ \forall i'}}$
+\cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i \mid \ArmEV{t}{i'}\ \forall i'}$
 is the probability that arm $i$ will be pulled
 by the next (random) agent based on the current estimates. 
 \end{itemize}
@@ -91,19 +91,6 @@ due to the dependencies between the agents' arm pulls and the
 estimates which in turn are based on past arm pulls.
 We begin with several technical lemmas that are used for both the
 payment and regret bounds.
-
-\pfcomment{I deleted here we now define $q(z)$ in section 2}
-\pfdelete{
-To capture the probability masses of problematic agents,
-we define the quantity
-$\AlmostTied{\delta} = \Prob[\AgV \sim \AgentDist]{%
-\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq \delta}$
-to be the total probability mass (across all arms) of agents
-whose (actual) preference for their best arm over their second-best
-arm is at most $\delta$.
-}
-\dkcomment{We should stress somewhere that we assume that actual ties
-  have measure 0.}
 
 To formally reason about the event that the estimates of arms'
 attributes vectors are accurate enough --- or fail to be so ---
