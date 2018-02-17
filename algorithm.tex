@@ -92,6 +92,8 @@ estimates which in turn are based on past arm pulls.
 We begin with several technical lemmas that are used for both the
 payment and regret bounds.
 
+\pfcomment{I deleted here we now define $q(z)$ in section 2}
+\pfdelete{
 To capture the probability masses of problematic agents,
 we define the quantity
 $\AlmostTied{\delta} = \Prob[\AgV \sim \AgentDist]{%
@@ -99,6 +101,7 @@ $\AlmostTied{\delta} = \Prob[\AgV \sim \AgentDist]{%
 to be the total probability mass (across all arms) of agents
 whose (actual) preference for their best arm over their second-best
 arm is at most $\delta$.
+}
 \dkcomment{We should stress somewhere that we assume that actual ties
   have measure 0.}
 
@@ -143,9 +146,9 @@ and that when they do, myopic agents do not make large mistakes.
 % \end{align*}
 % \end{emptyproof}
 
-We begin by bounding the length of any phase, which will be useful to bound
-the cumulative regret of the early rounds
-(before tail bounds have kicked in). We prove Lemma~\ref{lem:phase-length} in the Appendix~\ref{sec:lemma4-proof}.
+We begin by bounding the length of any phase, which will support bounding
+the regret of early rounds
+(before tail bounds have kicked in). We prove Lemma~\ref{lem:phase-length} in Appendix~\ref{sec:lemma4-proof}.
 
 
 \begin{lemma} \label{lem:phase-length}
