@@ -1,0 +1,87 @@
+\subsection{General Lemmas}
+
+% We begin by showing that under our assumptions, the measure of
+% problematic arms cannot be too large.
+
+% \begin{lemma} \label{lem:sdelta}
+% $\AlmostTied{\delta} \leq \TieDensity \cdot \delta$ for all $\delta$.
+% \end{lemma}
+
+% \begin{emptyproof}
+% Using the upper bound from Assumption~\ref{A1}, we can bound
+
+% \begin{align*}
+% \AlmostTied{\delta}
+% & = \sum_{i,i'} \ProbC{\AgV \cdot (\ArmV{i} - \ArmV{i'}) \leq \delta}%
+%     {\AgV \in \FirstTwo{i}{i'}}
+%   \cdot \Prob{\AgV \in \FirstTwo{i}{i'}}\\
+% & \leq \sum_{i,i'} \TieDensity \cdot \delta
+%     \cdot \Prob{\AgV \in \FirstTwo{i}{i'}}
+% \; = \; \TieDensity \cdot \delta. \QED
+% \end{align*}
+% \end{emptyproof}
+
+We begin by bounding the length of any phase, which will support bounding
+the regret of early rounds
+(before tail bounds have kicked in). We prove Lemma~\ref{lem:phase-length} in Appendix~\ref{sec:lemma4-proof}.
+
+
+\begin{lemma} \label{lem:phase-length}
+For any $s\geq 3$, the expected length of phase $s$ is at most
+$\ARMNUM \cdot \log(s)$ time steps.
+\end{lemma}
+                  
+We now state the key technical lemma captures the intuition that
+the estimates of the arms' attribute vectors become
+more accurate with increasing phases $s$.
+
+\begin{lemma} \label{lem:round-prob}
+Recall that $\sigma$ is the standard deviation of the Gaussian noise.
+Let \LatePhase be a phase cutoff, 
+and let $x_n, x'_n > 0$ be functions satisfying that
+$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x_n^2}{16 \sigma^2}}
+\leq \frac{n x'_n}{2 \sigma}$,
+for all $n \geq \LatePhase$.
+Let $\tau_s$ be a stopping time
+(which may depend on the entire past history)
+which is almost surely in phase $s$,
+i.e., satisfying $\tau \in [t_s, t_{s+1})$ almost surely.
+
+Then, for any arm $i$, attribute $j$, and phase $s \geq \LatePhase$,
+we have that
+$\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
+\geq 1 - 24 \exp\left(-\frac{1.8 s x_s^2}{16 \sigma^2} \right)$.
+\end{lemma}
+
+The proof of Lemma~\ref{lem:round-prob} is based on an adaptive
+concentration inequality due to \cite{zhao2016adaptive},
+given as Lemma~\ref{lem:ACI-inequality}.
+
+\begin{lemma}[Corollary 1 of \cite{zhao2016adaptive}]
+\label{lem:ACI-inequality}
+Let $X_i$ be zero-mean $1/2$-subgaussian random variables,
+and $\SET{S_n = \sum_{i=1}^n X_i, n \geq 1}$ the corresponding random walk.
+Let $J$ be any stopping time with respect to $\SET{X_1, X_2, \ldots}$.
+(We allow $J$ to take the value $\infty$,
+defining $\Prob{J = \infty} = 1 - \lim_{n \to \infty} \Prob{J \leq n}$.)
+Define 
+\begin{align*}
+g(n) & = \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + n \cdot b}.
+\end{align*}
+Then, 
+\begin{align*}
+\Prob{J < \infty \mbox{ and } S_J \geq g(J)} \leq 12 \e^{-1.8 b}.
+\end{align*}
+\end{lemma}
+
+We leave the proof of Lemma~\ref{lem:round-prob} in the Appendix~\ref{sec:lemma5-proof}. Next, we show the complementary part:
+when \AccEU{t}{x} happens, no myopic agent incurs large regret. We prove Lemma~\ref{lem:right-choice} in the Appendix~\ref{sec:lemma7-proof}.
+
+\begin{lemma} \label{lem:right-choice}
+Let $x > 0$ be arbitrary.
+When \AccEU{t}{x} happens,
+no agent \AgV will pull a highly suboptimal arm, i.e., an arm $i$ with 
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
+\end{lemma}
+
+
