@@ -23,7 +23,7 @@ $s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
 \end{itemize}
 
 We refer to this modified version of Algorithm~\ref{alg:basic-incentivizing} as the \emph{Discrete-Preference Algorithm.}
-We outline a proof of the following result for this algortithm under Assumption~\ref{a:discrete}.
+We outline a proof of the following result for this algortithm under Assumption~\ref{a:discrete} in Appendix~\ref{sec:discussion-proof1}.
 
 \begin{theorem}
 \label{rst:discrete}
@@ -40,32 +40,7 @@ O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
 \end{align}
 \end{theorem}
 
-\begin{proof}
-The proof of the expected payment bound is the same as the proof of Theorem~\ref{rst:budget}, except that we now define $h(\ell) := \max \left( \frac{2}{\MinProb},
-\left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
-\right)$.
 
-To prove the bound on the expected regret, one can first prove tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
-which replace the $\exp(2/\MinProb)$ term with simply $2/\MinProb$.
-In return, the length of phase $s$ is now bounded only be $\ARMNUM s$ instead of $\ARMNUM \log(s)$.
-Substituting these changes into the proof of Theorem~\ref{rst:regret}, we obtain the claimed bounds.
-\end{proof}
-
-% bound first uses a lemma bounding the expected number of time steps in which a payment is made by 
-% \begin{align}
-% O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
-%   + \frac{\ARMNUM^2 d}{1 - \exp \left(
-%     \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-%   \right)} \right). \nonumber 
-% \end{align}
-% The proof follows that of Lemma~\ref{lem:numP}, except that it defines $\EvenLaterPhase = \max (2, \frac{30 \sigma^3}{x^3}, \frac{2}{\MinProb})$.
-
-% The proof of the expected regret bound then follows the proof of Theorem~\ref{rst:regret}, with these modifications:
-% \begin{itemize}
-% \item We use the lemma stated above to bound the regret on pulls that incentivize;
-% \item The expected length of phase $s$ is bounded by $\ARMNUM s$;
-% \item The regret in Equation~\ref{equ:small_regret_bound} can now be bounded by a constant.
-% \end{itemize}
 
 \subsubsection{Known \MinProb}
 An alternative useful assumption is that \MinProb (or a strictly positive lower bound on \MinProb) is known.
@@ -87,7 +62,7 @@ $s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
 
 This, knowledge of \MinProb allows the algorithm to incentivize significantly fewer arm pulls.
 We refer to this modified version of Algorithm~\ref{alg:basic-incentivizing} as the \emph{Known-\MinProb Algorithm.}
-We outline a proof of the following result for this algortithm under Assumption~\ref{a:known-p}.
+We outline a proof of the following result for this algortithm under Assumption~\ref{a:known-p} in the Appendix~\ref{sec:discussion-proof2}.
 
 \begin{theorem}
 \label{rst:known-p}
@@ -104,22 +79,3 @@ O \left(\frac{\MAXR \ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
 \end{align*}
 \end{theorem}
 
-\begin{proof}
-  The proof of the expected payment bound follows Lemma~\ref{rst:budget} except for defining
-  $h(\ell) := \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}$
-(without including the $\exp(2/\MinProb)$ term).
-
-The proof of the expected regret bound first establishes tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
-proving the following upper bound on the number of time steps in which a payment is made:
-\begin{align}
-O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
-  + \frac{\ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right). \nonumber 
-\end{align}
-The proof of this result follows that of Lemma~\ref{lem:numP}, but the less aggressive incentivization allows us to define $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3})$ since $\frac{1}{\log(s+s_0)} \leq \frac{\MinProb}{2}$ is true for all $s$.
-
-Using this tighter bound on the number of incentiziations, and the fact that phases now last at most $\ARMNUM \log(s+s_0)$ steps in expectation, we can bound the regret in Equation~\ref{equ:small_regret_bound} by
-%$71.11 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1)\log(T+s_0)$
-$O\left(\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{\MinProb}\right)$.
-\end{proof}

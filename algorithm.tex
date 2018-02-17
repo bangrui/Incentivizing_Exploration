@@ -144,34 +144,15 @@ and that when they do, myopic agents do not make large mistakes.
 
 We begin by bounding the length of any phase, which will be useful to bound
 the cumulative regret of the early rounds
-(before tail bounds have kicked in).
+(before tail bounds have kicked in). We prove Lemma~\ref{lem:phase-length} in the Appendix~\ref{sec:lemma4-proof}.
+
 
 \begin{lemma} \label{lem:phase-length}
 For any $s\geq 3$, the expected length of phase $s$ is at most
 $\ARMNUM \cdot \log(s)$ time steps.
 \end{lemma}
-
-\begin{proof}
-Let $S$ be the set of arms that have been pulled at most
-$s$ times at the start of phase $s$.
-Thus, phase $s$ has ended when each $i \in S$ has been pulled at least once.
-Consider any time step $t$.
-If $S$ contains at least one payment-eligible arm $i$,
-then some payment-eligible arm will be pulled with probability 1,
-and every payment-eligible arm is in $S$.
-In particular, the size of $S$ decreases with probability 1.
-If $S$ contains no payment-eligible arm,
-then by definition of payment-eligibility,
-each arm $i \in S$ has probability at least $1/\log(s)$ of being pulled.
-In particular, the size of $S$ decreases with probability at least $1/\log(s)$.
-
-In either case, the expected number of time steps until
-$|S|$ decreases is at most $\log s$,
-so the expected number of steps until $S$ is empty is at most
-$\ARMNUM \cdot \log(s)$.
-\end{proof}
                   
-The key technical lemma captures the intuition that
+We now state the key technical lemma captures the intuition that
 the estimates of the arms' attribute vectors become
 more accurate with increasing phases $s$.
 
@@ -214,71 +195,8 @@ Then,
 \end{align*}
 \end{lemma}
 
-\begin{extraproof}{Lemma~\ref{lem:round-prob}}
-Fix an arm $i$ and attribute $j$.
-By the assumptions of the lemma,
-the stopping time $\tau_s$ is such that almost surely,
-each arm --- and in particular arm $i$ --- has been pulled at least
-$s \geq \LatePhase$ times at time $\tau_s$.
-Define $J$ to be the number of times that $i$ has been pulled at
-time $\tau_s$.
-For any $n \geq 1$, let $k_n$ be the time step right after arm $i$ has
-been pulled for the \Kth{n} time. Define
-$S_n := \frac{n \cdot (\ArmE{k_n}{i}{j} - \Arm{i}{j})}{2 \sigma}$
-to be the sum of all attribute-$j$ noise components up to and
-including the \Kth{n} pull of arm $i$,
-renormalized to have standard deviation $1/2$.
-The $S_n$ define an unbiased half-subgaussian random walk,
-and we can therefore apply Lemma~\ref{lem:ACI-inequality} to them and
-the stopping time $J$.
-Specifically, we set $b = \frac{x_J^2}{16 \sigma^2}$,
-and obtain that
-
-\begin{align*}
-\Prob{J < \infty \mbox{ and } S_J \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x_J^2}{16 \sigma^2}}}
-& \leq 12 \exp \left( \frac{-1.8 J x_J^2}{16 \sigma^2} \right).
-\end{align*}
-
-Applying Lemma~\ref{lem:ACI-inequality} to $-S_n$ with the same choice
-of $b$, and taking a union bound over both cases, we obtain that
-
-\begin{align*}
-\Prob{J < \infty \mbox{ and } |S_J| \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x_J^2}{16 \sigma^2}}}
-& \leq 24 \exp \left( \frac{-1.8 J x_J^2}{16 \sigma^2} \right).
-\end{align*}
-
-Because $J$ will be finite with probability 1, we can drop the
-$J < \infty$ part of the event:
-\begin{align*}
-& \Prob{S_J \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x_J^2}{16
-    \sigma^2}}}\\
-= & \Prob{J < \infty \mbox{ and } S_J \geq 
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J^2 x_J^2}{16
-    \sigma^2}}}.
-\end{align*}
-
-In the high-probability case, we now apply the assumed inequality
-between $x_J$ and $x'_J$, to obtain that
-\[
-|S_J| \; \leq \;
-\sqrt{0.6 J \cdot \log (\log_{1.1}(J) + 1) + \frac{J x_J^2}{16 \sigma^2}}
-\; \leq \; \frac{J x'_J}{2 \sigma}.
-\]
-
-Substituting the definition of $S_J$ and canceling common terms,
-the inequality implies that
-$|\ArmE{k_J}{i}{j} - \Arm{i}{j}| \leq x'_J$.
-The choice of $J$ ensures that
-$\ArmE{k_J}{i}{j} = \ArmE{\tau_s}{i}{j}$,
-and we have thus shown that
-$|\ArmE{\tau_s}{i}{j} - \Arm{i}{j}| \leq x'_s$.
-\end{extraproof}
-
-Next, we show the complementary part:
-when \AccEU{t}{x} happens, no myopic agent incurs large regret.
+We leave the proof of Lemma~\ref{lem:round-prob} in the Appendix~\ref{sec:lemma5-proof}. Next, we show the complementary part:
+when \AccEU{t}{x} happens, no myopic agent incurs large regret. We prove Lemma~\ref{lem:right-choice} in the Appendix~\ref{sec:lemma7-proof}.
 
 \begin{lemma} \label{lem:right-choice}
 Let $x > 0$ be arbitrary.
@@ -286,38 +204,6 @@ When \AccEU{t}{x} happens,
 no agent \AgV will pull a highly suboptimal arm, i.e., an arm $i$ with 
 $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
 \end{lemma}
-
-\begin{proof}
-By definition, when \AccEU{t}{x} happens,
-for all arms $i$ and attributes $j$,
-all arm attribute estimates are accurate to within $x$,
-in the sense that
-$|\ArmE{t}{i}{j} - \Arm{i}{j}| \leq x$.
-
-Consider any agent type \AgV.
-Let $i \neq \Best{\AgV}$ be any arm
-with much smaller true reward than the best arm:
-$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
-Because each coordinate of \ArmEV{t}{\Best{\AgV}} and of
-\ArmEV{t}{i} is estimated accurately to within $x$, 
-we get that 
-$\AgV \cdot (\ArmEV{t}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
-\geq - \Diam d x$
-and
-$\AgV \cdot (\ArmEV{t}{i} - \ArmV{i}) \leq \Diam d x$.
-Hence, 
-
-\begin{align}
-\AgV \cdot (\ArmEV{t}{\Best{\AgV}} - \ArmEV{t}{i})
-& =
-\AgV \cdot (\ArmEV{t}{\Best{\AgV}} - \ArmV{\Best{\AgV}})
-+ \AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i})
-+ \AgV \cdot (\ArmV{i} - \ArmEV{t}{i}) \nonumber\\
-& > -\Diam d x + 2 \Diam d x - \Diam d x
-\; = \; 0, \label{equ:choice}
-\end{align}
-which means that the agent with type \AgV will not pull arm $i$.
-\end{proof}
 
 \subsection{Bounding the Total Payment}
 
