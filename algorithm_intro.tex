@@ -40,8 +40,11 @@ Indeed, it suffices to
 incentivize only a $1/\log(s)$ fraction of the agents,
 and our bounds also hold for an alternate version of our algorithm that 
 offers payment
-$\Pay{t}{i} = \min \Set{c \geq 0}{%
-\Prob[\AgV \sim \AgentDist]{c + \AgV \cdot \ArmEV{t}{i} \geq \max_{i'\ne i} \AgV \cdot \ArmEV{t}{i'}} \ge 1/\log(s)}$.
+$\Pay{t}{i} = \sup \Set{c \geq 0}{%
+\Prob[\AgV \sim \AgentDist]{c + \AgV \cdot \ArmEV{t}{i} \geq \max_{i'\ne i} \AgV \cdot \ArmEV{t}{i'}} \leq 1/\log(s)}$.
+(This definition ensures that \Pay{t}{i} is well-defined
+and incentivizes at least a $1/\log(s)$ measure of agents,
+even if $f$ has discrete points.)
 However, we focus on the higher payments for simplicity of presentation.
 
 Notice that \PullProb{t}{i} depends on the estimates for \emph{all}
