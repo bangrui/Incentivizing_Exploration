@@ -7,7 +7,7 @@ to denote this constant upper bound on the maximum regret that can be
 incurred in any one time step. 
 
 
-\begin{extraproof}{Theorem~\ref{rst:regret}}
+\begin{emptyextraproof}{Theorem~\ref{rst:regret}}
 Regret can arise in two ways:
 (1) an agent was incentivized to pull a suboptimal arm, or
 (2) an agent myopically pulled a suboptimal arm.
@@ -115,13 +115,11 @@ $g^2(s) = \frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$,
 the cumulative regret up to time $T$ is at most
 
 \begin{align*}
-\lefteqn{
 O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
 + \ARMNUM^2 \MAXR d
-+ \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} g^2(s) \log(s) \right)}
-\\ & = 
-O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
-+ \ARMNUM^2 \MAXR d
-+ \ARMNUM \TieDensity \Diam^2 d^2 \sigma^2 \cdot \log^3(T) \right).
++ \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} g^2(s) \log(s) \right)
+& = 
+O \left(\ARMNUM  \cdot \exp \left( \frac{2}{p} \right)
++ \ARMNUM \TieDensity \cdot \log^3(T) \right).\QED
 \end{align*}
-\end{extraproof}
+\end{emptyextraproof}
