@@ -1,9 +1,5 @@
 \section{Main Algorithm and Analysis}
 \label{sec:ub}
-
-\dkcomment{Here and earlier, we are using a lot of displayed
-  equations. We could inline some/many of them to save space.}
-
 The algorithm achieving the claimed bounds of
 Theorems~\ref{rst:budget} and~\ref{rst:regret} is fairly simple.
 It mostly allows agents to exploit, but when an arm is sufficiently
@@ -32,9 +28,7 @@ Then, the second criterion for payment-eligibility is that
 $\PullProb{t}{i} < 1/\log(s)$.
 \end{itemize}
 
-When multiple arms are payment-eligible, the algorithm picks one
-uniformly at random to incentivize.
-\dkcomment{Is uniform randomness used anywhere? Does arbitrary work?}
+When multiple arms are payment-eligible, the algorithm picks one arbitarily to incentivize.
 When the algorithm decides to incentivize an arm $i$,
 it offers ``whatever it takes,'' i.e., offers a payment of
 $\Pay{t}{i} = \max_{\AgV,i'} \AgV \cdot (\ArmEV{t}{i'} - \ArmEV{t}{i})$.
@@ -61,12 +55,11 @@ Algorithm~\ref{alg:basic-incentivizing} gives the full details.
 \STATE Set the current phase number $s = 1$.
 \COMMENT{Each arm is pulled once initially ``for free''.}
 \FOR{time steps $t = 1, 2, 3, \ldots$}
-\IF{$\NumPull{t}{i} \geq \dkedit{s+1}$ for all arms $i$}
+\IF{$\NumPull{t}{i} \geq s+1$ for all arms $i$}
 \STATE Increment the phase $s = s + 1$.
 \ENDIF
 \IF{there is a payment-eligible arm $i$}
-\STATE Let $i$ be a uniformly random payment-eligible arm.
-\dkcomment{Is uniform randomness used anywhere?}
+\STATE Let $i$ be an arbitary payment-eligible arm.
 \STATE Offer payment
 $\Pay{t}{i} = \max_{\AgV,i'} \AgV \cdot (\ArmEV{t}{i'} - \ArmEV{t}{i})$
 for pulling arm $i$
@@ -105,25 +98,8 @@ $\AlmostTied{\delta} = \Prob[\AgV \sim \AgentDist]{%
 to be the total probability mass (across all arms) of agents
 whose (actual) preference for their best arm over their second-best
 arm is at most $\delta$.
-\pfcomment{We can check through the whole paper on whether we write
-$\AgV \sim \AgentDist$, $\AgentDist$ or $\AgV$ in the subscript, and make the use consistent.
-  Here we write $\AgV \sim \AgentDist$ while we have only $\AgentDist$ in the definition of $p$ in the problem description.}
-%The minimum probability mass of users who prefer their best arm
-%sufficiently strongly over their second-best arm is denoted by
-%$\ClearPref{\delta} = \min_{i}
-%\Prob[\AgV \sim \AgentDist]{\Best{\AgV}=i,%
-%\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) > \delta}$.
-%Notice that \AlmostTied{\delta} (being a measure of problematic
-%agents) is defined as a sum over all arms,
-%while  \ClearPref{\delta} (being a measure of non-problematic agents)
-%is defined as a minimum over arms.
-%Also notice that $\ClearPref{0} = \MinProb$.
 \dkcomment{We should stress somewhere that we assume that actual ties
   have measure 0.}
-
-\dkcomment{We weren't using $p(\delta)$ anywhere, so I got rid
-  of it.}
-
 
 To formally reason about the event that the estimates of arms'
 attributes vectors are accurate enough --- or fail to be so ---
@@ -302,7 +278,7 @@ $|\ArmE{\tau_s}{i}{j} - \Arm{i}{j}| \leq x'_s$.
 \end{extraproof}
 
 Next, we show the complementary part:
-when \AccE{t}{x} happens, no myopic agent incurs large regret.
+when \AccEU{t}{x} happens, no myopic agent incurs large regret.
 
 \begin{lemma} \label{lem:right-choice}
 Let $x > 0$ be arbitrary.
@@ -316,7 +292,7 @@ By definition, when \AccEU{t}{x} happens,
 for all arms $i$ and attributes $j$,
 all arm attribute estimates are accurate to within $x$,
 in the sense that
-$|\ArmE{\tau}{i}{j} - \Arm{i}{j}| \leq x$.
+$|\ArmE{t}{i}{j} - \Arm{i}{j}| \leq x$.
 
 Consider any agent type \AgV.
 Let $i \neq \Best{\AgV}$ be any arm
@@ -473,9 +449,6 @@ and because $n \geq \frac{30 \sigma^3}{x^3}$,
 we get that
 $n^{2/3} \geq \frac{9.6 \sigma^2}{x^2}$, completing the proof.
 
-\dkcomment{I'm leaving in all the dependencies on ``constant''
-  parameters for now. We can decide later which ones to absorb into
-  big-$O$.}
 \end{proof}
 
 It would be desirable to simply identify a constant upper bound on the
