@@ -19,7 +19,7 @@ $\AlmostTied{\delta_0} = 0$.
 When Assumption~\ref{a:discrete} holds, we restrict the payment-eligibility criterion by only incentivizing arms with much smaller probability to be pulled: an arm $i$ is \emph{payment-eligible} at time $t$ in phase $s$ when both of the following are true:
 \begin{itemize}
 \item $i$ has been pulled at most
-$s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
+$s$ times up to time $t$, i.e., $\NumPull{t}{i} \leq s$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors, the probability of pulling arm $i$ is less than $1/s$ (compared to $1/\log(s)$ in the general algorithm).
 \end{itemize}
 
@@ -56,7 +56,7 @@ An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
 if both of the following hold:
 \begin{itemize}
 \item $i$ has been pulled at most
-$s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
+$s$ times up to time $t$, i.e., $\NumPull{t}{i} \leq s$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors, the probability of pulling arm $i$ is less than $1/\log(s+s_0)$.
 \end{itemize}
 

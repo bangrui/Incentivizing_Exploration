@@ -3,10 +3,10 @@
 The algorithm achieving the claimed bounds of
 Theorems~\ref{rst:budget} and~\ref{rst:regret} is simple.
 It mostly allows agents to exploit, but when an arm is sufficiently
-unlikely to be pulled
+unlikely to be pulled,
 it incentivizes this arm with a payment high enough
-to guarantee the next agent pulls it.
-This way the algorithm ensures each arm is pulled often enough.
+to guarantee that the next agent pulls it.
+This way, the algorithm ensures that each arm is pulled often enough.
 
 More precisely, the algorithm divides time into \emph{phases}
 $s = 1, 2, 3, \ldots$.
@@ -17,7 +17,7 @@ if both of the following hold:
 \begin{itemize}
 \item $i$ has been pulled at most%
 \footnote{in fact: exactly, since the algorithm entered phase $s$}
-$s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
+$s$ times up to time $t$, i.e., $\NumPull{t}{i} \leq s$.
 \item 
 The conditional probability of pulling arm $i$ is less than
 $1/\log(s)$ given current estimates \ArmEV{t}{i'} of arms'
