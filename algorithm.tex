@@ -1,12 +1,12 @@
 \section{Main Algorithm and Analysis}
 \label{sec:ub}
 The algorithm achieving the claimed bounds of
-Theorems~\ref{rst:budget} and~\ref{rst:regret} is fairly simple.
+Theorems~\ref{rst:budget} and~\ref{rst:regret} is simple.
 It mostly allows agents to exploit, but when an arm is sufficiently
-unlikely to be pulled, 
-the algorithm incentivizes this arm with a payment high enough
-to guarantee that the next agent pulls it.
-This way the algorithm ensures that each arm is pulled often enough.
+unlikely to be pulled
+it incentivizes this arm with a payment high enough
+to guarantee the next agent pulls it.
+This way the algorithm ensures each arm is pulled often enough.
 
 More precisely, the algorithm divides time into \emph{phases}
 $s = 1, 2, 3, \ldots$.
@@ -18,14 +18,15 @@ if both of the following hold:
 \item $i$ has been pulled at most%
 \footnote{in fact: exactly, since the algorithm entered phase $s$}
 $s$ times up to time $t$, i.e., $\NumPull{t}{s} \leq s$.
-\item Based on the current estimates \ArmEV{t}{i'} of all arms'
-attribute vectors, the probability of pulling arm $i$ is less than
-$1/\log(s)$. Let $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
-  \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i}$
-be the probability that arm $i$ will be pulled
+\item 
+The conditional probability of pulling arm $i$ is less than
+$1/\log(s)$ given current estimates \ArmEV{t}{i'} of arms'
+attribute vectors.  In other words, we require
+$\PullProb{t}{i} < 1/\log(s)$ where 
+$\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
+\cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i \pfedit{\mid \ArmEV{t}{i'}\ \forall i'}}$
+is the probability that arm $i$ will be pulled
 by the next (random) agent based on the current estimates. 
-Then, the second criterion for payment-eligibility is that
-$\PullProb{t}{i} < 1/\log(s)$.
 \end{itemize}
 
 When multiple arms are payment-eligible, the algorithm picks one arbitarily to incentivize.
@@ -44,7 +45,7 @@ $\Pay{t}{i} = \min \Set{c \geq 0}{%
 However, we focus on the higher payments for simplicity of presentation.
 
 Notice that \PullProb{t}{i} depends on the estimates for \emph{all}
-arms; thus, by pulling some other arm $i'$, an arm $i$ may become
+arms; thus, by pulling another arm $i'$, an arm $i$ may become
 payment-eligible, or cease to be so.
 Algorithm~\ref{alg:basic-incentivizing} gives the full details.
 
