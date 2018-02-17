@@ -1,8 +1,33 @@
 \section{Conclusion}
-In this paper, we study the problem of incentivizing exploration with heterogeneous user preferences.  We propose an algorithm for making incentive payments that achieves  expected cumulative regret of $O(N\exp(2/p) + N \log(T)^3)$ using expected cumulative payments of $O(N^2 \exp(2/p))$.  It is possible to improve this bound on payments to $O(N^2 / p^{5/2})$ when $p$ is known or the preference distribution is discrete, with the bound on regret improving to $O(N/p^4 + N \log(T)^3 / p)$ in the former case and to $O(N/p^4)$ in the latter.
+We study the problem of incentivizing exploration with heterogeneous
+user preferences.
+We propose an algorithm that achieves expected cumulative regret of
+$O(\ARMNUM \e^{2/\MinProb} + \ARMNUM \log^3(T))$,
+using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$.
+It is possible to improve these bounds to polynomial (in \ARMNUM and
+$1/\MinProb$) when \MinProb is known or the preference distribution is
+discrete.
+In fact, we conjecture that this should be possible even in the full
+generality of our model.
+As a first step towards such a polynomial bound, we believe that it
+should be possible to obtain an exponential dependence on
+$1/(\MinProb \ARMNUM)$, which gives polynomial dependence unless some
+arm has a much smaller fraction of the population preferring.
 
-Other questions are raised by this work.  First, we conjecture that it is possible to eliminate the $\exp(2/p)$ term in our bounds by beginning our threshold at a level that becomes smaller with larger $N$, obtaining a bound with an exponential dependence on $pN$.  Since $p \le 1/N$, the latter term would scale better with $N$.
-Second, exploring utilities other than inner products is of interest.  We conjecture that similar results hold for Lipshitz utility functions.
-Third, we wish to develop algorithms that do not require all arms to be preferred by a strictly positive fraction of agents.  We imagine an alternate algorithm that only incentivizes an arm if its estimated attribute vector is close enough to a Pareto frontier.  
-Regret will be $\Omega(\log(T)$ when at least one arm falls below the frontier, as we no longer have free exploration of all arms.  
-We plan to explore these and other questions in future research.
+Taking this goal one step further, we would like to 
+develop algorithms that do not require all arms to be preferred by a
+strictly positive fraction of agents.
+An alternate algorithm might only incentivize an arm if its estimated
+attribute vector is close enough to a Pareto frontier.
+The regret will then be $\Omega(\log(T)$ when at least one arm falls
+below the Pareto frontier, as we no longer have free exploration of
+all arms. 
+It is likely that a bound will deteriorate as the number of such
+unpreferred arms increases.
+
+Finally, it would be desirable to generalize the class of utility
+functions that can be handled beyond inner products.
+We believe that similar results hold for arbitrary
+Lipschitz-continuous utility functions of the arm's attribute vector,
+and that only minor modifications are necessary to the algorithm and
+proofs.
