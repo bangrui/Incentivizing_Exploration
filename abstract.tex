@@ -17,8 +17,8 @@ cumulative regret of $O(N\exp(2/p) + N \log(T)^3)$ using expected cumulative
 payments of $O(N^2 \exp(2/p))$.  If $p$ is known or the distribution over agent
 preferences is discrete, the term $\exp(2/p)$ can be eliminated.  In these
 cases, the bound on payment improves to $O(N^2 / p^{5/2})$.  The bound on
-regret improves to $O(N/p^4 + N^2/p^2 + N \log(T)^3 / p)$ for known $p$ and to
-$O(N/p^4 + N^2/p^2)$ for discrete preference distributions.  Regret and
+regret improves to $O(N/p^4 + N \log(T)^3 / p)$ for known $p$ and to
+$O(N/p^4)$ for discrete preference distributions.  Regret and
 payments that are both constant in $T$ for discrete preferences stands
 in contrast to the $\log(T)$ dependence on regret in standard multi-armed bandit
 problems, and arises because heterogeneity in agent preferences allows
