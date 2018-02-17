@@ -46,9 +46,8 @@ Let $\tau_s$ be a stopping time
 (which may depend on the entire past history)
 which is almost surely in phase $s$,
 i.e., satisfying $\tau \in [t_s, t_{s+1})$ almost surely.
-
 Then, for any arm $i$, attribute $j$, and phase $s \geq \LatePhase$,
-we have that
+we have 
 $\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
 \geq 1 - 24 \exp\left(-\frac{1.8 s x_s^2}{16 \sigma^2} \right)$.
 \end{lemma}
@@ -65,17 +64,13 @@ Let $J$ be any stopping time with respect to $\SET{X_1, X_2, \ldots}$.
 (We allow $J$ to take the value $\infty$,
 defining $\Prob{J = \infty} = 1 - \lim_{n \to \infty} \Prob{J \leq n}$.)
 Define 
-\begin{align*}
-g(n) & = \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + n \cdot b}.
-\end{align*}
+$g(n)  = \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + n \cdot b}$.
 Then, 
-\begin{align*}
-\Prob{J < \infty \mbox{ and } S_J \geq g(J)} \leq 12 \e^{-1.8 b}.
-\end{align*}
+$\Prob{J < \infty \mbox{ and } S_J \geq g(J)} \leq 12 \e^{-1.8 b}$.
 \end{lemma}
 
-Next, we show the complementary part:
-when \AccEU{t}{x} happens, no myopic agent incurs large regret.
+Next, we show the complementary result:
+when event \AccEU{t}{x} happens, no myopic agent incurs large regret.
 
 \begin{lemma} \label{lem:right-choice}
 Let $x > 0$ be arbitrary.
