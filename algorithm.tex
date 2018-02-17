@@ -117,32 +117,32 @@ the events \AccE{t}{i}{j}{x}
 have high probability,
 and that when they do, myopic agents do not make large mistakes.
 
-We now prove our main results, Theorems~\ref{rst:budget} and~\ref{rst:regret}.
+%We now prove our main results, Theorems~\ref{rst:budget} and~\ref{rst:regret}.
 
 \subsection{General Lemmas}
 
-We begin by showing that under our assumptions, the measure of
-problematic arms cannot be too large.
+% We begin by showing that under our assumptions, the measure of
+% problematic arms cannot be too large.
 
-\begin{lemma} \label{lem:sdelta}
-$\AlmostTied{\delta} \leq \TieDensity \cdot \delta$ for all $\delta$.
-\end{lemma}
+% \begin{lemma} \label{lem:sdelta}
+% $\AlmostTied{\delta} \leq \TieDensity \cdot \delta$ for all $\delta$.
+% \end{lemma}
 
-\begin{emptyproof}
-Using the upper bound from Assumption~\ref{A1}, we can bound
+% \begin{emptyproof}
+% Using the upper bound from Assumption~\ref{A1}, we can bound
 
-\begin{align*}
-\AlmostTied{\delta}
-& = \sum_{i,i'} \ProbC{\AgV \cdot (\ArmV{i} - \ArmV{i'}) \leq \delta}%
-    {\AgV \in \FirstTwo{i}{i'}}
-  \cdot \Prob{\AgV \in \FirstTwo{i}{i'}}\\
-& \leq \sum_{i,i'} \TieDensity \cdot \delta
-    \cdot \Prob{\AgV \in \FirstTwo{i}{i'}}
-\; = \; \TieDensity \cdot \delta. \QED
-\end{align*}
-\end{emptyproof}
+% \begin{align*}
+% \AlmostTied{\delta}
+% & = \sum_{i,i'} \ProbC{\AgV \cdot (\ArmV{i} - \ArmV{i'}) \leq \delta}%
+%     {\AgV \in \FirstTwo{i}{i'}}
+%   \cdot \Prob{\AgV \in \FirstTwo{i}{i'}}\\
+% & \leq \sum_{i,i'} \TieDensity \cdot \delta
+%     \cdot \Prob{\AgV \in \FirstTwo{i}{i'}}
+% \; = \; \TieDensity \cdot \delta. \QED
+% \end{align*}
+% \end{emptyproof}
 
-We next bound the length of any phase, which will be useful to bound
+We begin by bounding the length of any phase, which will be useful to bound
 the cumulative regret of the early rounds
 (before tail bounds have kicked in).
 
@@ -342,7 +342,9 @@ $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}})
 > \frac{\MinProb}{2\TieDensity}$
 will pull their best arm \Best{\AgV}.
 
-By Lemma~\ref{lem:sdelta}, the measure of agents (across all arms)
+By Assmption~\ref{A1},
+%Lemma~\ref{lem:sdelta},
+the measure of agents (across all arms)
 whose best and second-best arm differ in utility by less
 than $\frac{\MinProb}{2\TieDensity}$ is at most $\frac{\MinProb}{2}$.
 In particular, this bound holds for agents whose best arm is $i$.
@@ -499,7 +501,9 @@ and consider a regret exceeding $g(s)$ large.
 We first consider agents \AgV incurring positive regret less than $g(s)$.
 The second-best arm \Second{\AgV} of such an agent \AgV must satisfy
 $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq g(s)$.
-By Lemma~\ref{lem:sdelta}, the total measure of such agents
+By Assumption~\ref{A1},
+%Lemma~\ref{lem:sdelta},
+the total measure of such agents
 is $\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$,
 and each incurs regret at most $g(s)$.
 Summing over all time steps,
