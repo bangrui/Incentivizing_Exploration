@@ -53,6 +53,23 @@ $\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
 \geq 1 - 24 \exp\left(-\frac{1.8 s x_s^2}{16 \sigma^2} \right)$.
 \end{rlemma}
 
+The proof of Lemma~\ref{lem:round-prob} is based on an adaptive
+concentration inequality due to \cite{zhao2016adaptive},
+given as Lemma~\ref{lem:ACI-inequality}.
+
+\begin{lemma}[Corollary 1 of \cite{zhao2016adaptive}]
+\label{lem:ACI-inequality}
+Let $X_i$ be zero-mean $1/2$-subgaussian random variables,
+and $\SET{S_n = \sum_{i=1}^n X_i, n \geq 1}$ the corresponding random walk.
+Let $J$ be any stopping time with respect to $\SET{X_1, X_2, \ldots}$.
+(We allow $J$ to take the value $\infty$,
+defining $\Prob{J = \infty} = 1 - \lim_{n \to \infty} \Prob{J \leq n}$.)
+Define 
+$g(n)  = \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + n \cdot b}$.
+Then, 
+$\Prob{J < \infty \mbox{ and } S_J \geq g(J)} \leq 12 \e^{-1.8 b}$.
+\end{lemma}
+
 \begin{extraproof}{Lemma~\ref{lem:round-prob}}
 Fix an arm $i$ and attribute $j$.
 By the assumptions of the lemma,
