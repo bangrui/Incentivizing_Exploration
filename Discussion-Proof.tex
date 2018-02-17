@@ -9,9 +9,8 @@ O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam
 and expected regret bounded above by 
 \begin{align}
 O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
-  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right).  \nonumber
+  + \frac{\MAXR \ARMNUM^2 d^3 \TieDensity^2 \Diam^2 \sigma^2}{\MinProb^2}
+  \right).  \nonumber
 \end{align}
 \end{rtheorem}
 
@@ -38,9 +37,9 @@ O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam
 and an expected regret bounded above by
 \begin{align*}
 O \left(\frac{\MAXR \ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
-  + \frac{\MAXR \ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} +\frac{\ARMNUM^2 d\MAXR}{\MinProb}+\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{\MinProb}\right).
+  + \frac{\MAXR \ARMNUM^2 d^3 \TieDensity^2 \Diam^2 \sigma^2}{\MinProb^2}
+  + \frac{\ARMNUM^2 d\MAXR}{\MinProb}
+  + \frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{\MinProb}\right).
 \end{align*}
 \end{rtheorem}
 
@@ -54,10 +53,11 @@ proving the following upper bound on the number of time steps in which a payment
 \begin{align}
 O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
   + \frac{\ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+    \frac{-1.8 \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
   \right)} \right). \nonumber 
 \end{align}
-The proof of this result follows that of Lemma~\ref{lem:numP}, but the less aggressive incentivization allows us to define $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3})$ since $\frac{1}{\log(s+s_0)} \leq \frac{\MinProb}{2}$ is true for all $s$.
+The proof of this result follows that of Lemma~\ref{lem:numP},
+but the less aggressive incentivization allows us to define $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3})$ since $\frac{1}{\log(s+s_0)} \leq \frac{\MinProb}{2}$ is true for all $s$.
 
 Using this tighter bound on the number of incentiziations, and the fact that phases now last at most $\ARMNUM \log(s+s_0)$ steps in expectation, we can bound the regret in Equation~\ref{equ:small_regret_bound} by
 %$71.11 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1)\log(T+s_0)$
