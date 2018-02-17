@@ -69,19 +69,18 @@ $24 \ARMNUM d \cdot \exp \left(
   -\frac{1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
 \right)$.
 Summing over all arms and phases $s$,
-and adding the at most $\ARMNUM \EvenLaterPhase$ incentivizations in
+adding the at most $\ARMNUM \EvenLaterPhase$ incentivizations in
 the first \EvenLaterPhase phases, 
+and using that $\exp(-x) \leq 1-x/2$ for $x \leq 1$,
 the expected total number of arm incentivizations is at most
 \begin{align*}
-&\ARMNUM \EvenLaterPhase
+\lefteqn{\ARMNUM \EvenLaterPhase
   + 24 \ARMNUM^2 d \cdot \frac{1}{1 - \exp \left(
-    \frac{-1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \nonumber \\
-=& O\left( \max\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}, N\exp(\frac{2}{p})\right)
-  + \frac{\ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right) \nonumber  \\
-=& O\left( N\exp\left(\frac{2}{p}\right) \right).
+    \frac{-1.8 \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+  \right)}}  \\
+& = O\left( \max\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}, N\exp(\frac{2}{p})\right)
+  + \frac{\ARMNUM^2 d^3 \TieDensity^2 \sigma^2 \Diam^2}{\MinProb^2} \right)
+\; = \; O\left( N\exp\left(\frac{2}{p}\right) \right).
 \end{align*}
 
 It remains to show that
