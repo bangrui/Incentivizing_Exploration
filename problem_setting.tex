@@ -3,16 +3,15 @@
 
 We consider a multi-armed bandit setting with \ARMNUM arms.
 Arm payoffs are determined by $d$ \emph{attributes} or \emph{features};
-hence, arms can be identified with vectors $\ArmV{i} \in \R^d$.
+hence, arms are identified with vectors $\ArmV{i} \in \R^d$.
 The \ArmV{i} are (adversarially) fixed, and unknown to the agents
 or the principal.
-Whenever arm $i$ is pulled, its current utility-relevant features are
+When arm $i$ is pulled, its current utility-relevant features are
 determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero independent Gaussian%
 \footnote{For simplicity of notation, we assume that the variance
   $\sigma^2$ is uniform across time steps.
-  This is not material for the analysis.
-\dkedit{In fact, the analysis extends straightforwardly to any
-  mean-zero sub-Gaussian noise.} \dkcomment{Is this true?}}
+In fact, the analysis extends straightforwardly to any
+mean-zero \pfedit{sub-Gaussian($\sigma^2$)} noise \pfedit{that is independent but not necessarily identically distributed across time}.}
 noise vector $\NoiseV \sim \Normal{\vc{0}}{\sigma^2 I_{d}}$.
 Here, $I_d$ denotes the $d \times d$ identity matrix.
 
@@ -26,17 +25,15 @@ he and all future agents observe a vector
 $\ObsV{t} = \ArmV{i} + \NoiseV[t]$ for arm $i$,
 and his reward is $\AgentV{t} \cdot \ObsV{t}$,
 i.e., agents have linear preferences.%
-\footnote{\dkedit{Some of our results generalize to other forms of
-    agent rewards.}}
 
 For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
 times that arm $i$ has been pulled (strictly) before time $t$.
 An agent at time $t$ estimates arm $i$'s attribute vector as the
-average of vectors observed during past pulls of the arm:
+average of vectors observed during the arm's past pulls:
 $\ArmEV{t}{i} = \frac{1}{\NumPull{t}{i}+1} \cdot
 (\ArmEV{0}{i} + \sum_{t'<t: \Pull{t'} = i} \ObsV{t'})$;
 here, \ArmEV{i}{0} is a single draw $\ArmV{i} + \NoiseV$ for arm $i$.
-(In other words, we assume that each arm is pulled once for free at time 0.)
+(In other words, we assume each arm is pulled once for free at time 0.)
 
 Since each user only pulls an arm once, users are \emph{myopic}:
 in the absence of incentives, user $t$ will pull an arm from
@@ -53,7 +50,7 @@ Then, user $t$ will pull an\footnote{We assume that ties are broken in
 arm $i$ maximizing $\argmax_i (\Pay{t}{i} + \AgentV{t} \cdot \ArmEV{t}{i})$.
 The principal cannot observe \AgentV{t},
 and only knows the distribution \AgentDist from which it is drawn.
-Her goal is to achieve a good tradeoff between the cumulative
+Her goal is to reduce both the cumulative
 \emph{regret} experienced by all users up to time $T$,
 and the total \emph{payment} she makes to the users.
 
@@ -70,8 +67,6 @@ More formally, the principal's goal is to find a policy
 regret
 $\Expect{\TotalRegret{T}}$ the cumulative expected payment
 $\Expect{\TotalPay{T}}$ are small.
-\dkcomment{Deleted the \POLICY subscript for the expectation, as the
-  expectation is also over the entire random history.}
 
 To support the formulation of our results and the analysis,
 we define the following additional notation.
@@ -81,7 +76,7 @@ and
 $ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
 denote the (indices of) the best and second-best arms for an agent
 with attribute vector \AgV,
-\dkedit{breaking ties arbitrarily (but consistently)}.
+breaking ties arbitrarily (but consistently).
 
 % \dkdelete{This behavior may be recovered if agents are Bayesian and
 %   share a common non-informative prior distribution that is constant
@@ -95,8 +90,8 @@ with attribute vector \AgV,
 %   such a Bayesian justification.}
 % \dkcomment{I wonder what's the best way to discuss this.}
 
-\subsection{Properties of \AgentDist}
-Our algorithms rely on a few assumptions about the agent distribution
+% \paragraph{Properties of \AgentDist}
+Our algorithms rely on the following three assumptions on the agent distribution
 \AgentDist.
 
 \begin{assumption}[Compact Support] \label{A2}
@@ -115,8 +110,7 @@ is the best arm; that is, $\MinProb > 0$.
 %Let $\FirstTwo{i}{i'} = \Set{\AgV}{\Best{\AgV} = i, \Second{\AgV} = i'}$
 %be the set of agent attribute vectors whose best arm is $i$ and
 %second-best arm is $i'$.
-% Let $F_{i,i'}$ be the cumulative density function
-% (or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
+% Let $F_{i,i'}$ be the cumulative distribution function,
 % $F_{i,i'}(z) = \Prob[\AgV \sim \AgentDist]{\AgV \in \FirstTwo{i}{i'}
 %   \mbox{ and } (\ArmV{i}-\ArmV{i'}) \cdot \AgV \leq z}$
 % of $(\ArmV{i}-\ArmV{i'}) \cdot \AgV$,
@@ -128,12 +122,11 @@ is the best arm; that is, $\MinProb > 0$.
 % and
 % $ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
 
-\dkedit{Let \AlmostTied{z} be the cumulative density function
-(or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
+Let \AlmostTied{z} be the cumulative distribution function (CDF)
 $\AlmostTied{z} = \Prob[\AgV \sim \AgentDist]{%
   (\ArmV{\Best{\AgV}}-\ArmV{\Second{\AgV}}) \cdot \AgV \leq z}$.
 In words, \AlmostTied{z} is the CDF of the \emph{strength} of the
-preference of a random agent for his best arm over his second-best arm.}
+preference of a random agent for his best arm over his second-best arm.
 
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 
@@ -142,22 +135,12 @@ that is, there exists a constant \TieDensity such that for all $z \in \R^+$,
 $\AlmostTied{z} \leq \TieDensity \cdot z$.
 \end{assumption}
 
-\dkedit{\paragraph{Role of parameters:}
-Our problem setting is characterized by a fairly large number of
+\paragraph{Role of parameters:}
+Our problem setting is characterized by many 
 parameters.
 Of these, we consider \ARMNUM, $\MinProb \leq 1/\ARMNUM$ and $T$ to be
-the key parameters, while $\sigma, \Diam, d, \TieDensity$ should be
-considered constant.
-We will keep track of these constants throughout most of our proofs,
-but report final results in terms of only the three key parameters
-(except where we illustrate a specific point).}
-
-
-\dkcomment{Stuff to discussion in conclusions:
-\begin{enumerate}
-\item Arms that are noone's best.
-\item Other utilities besides inner products.
-\item Other noise distributions.
-\item Better bounds.
-\end{enumerate}
-}
+the key parameters, while we consider $\sigma, \Diam, d, \TieDensity$ to be
+constant.
+We track all parameters through most of our proofs,
+but report final results in terms of only the three key parameters,
+except where we illustrate a specific point.
