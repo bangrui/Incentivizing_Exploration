@@ -87,6 +87,14 @@
 \begin{it}
 }{\end{it}}
 
+\newenvironment{rlemma}[3][]{
+
+\bigskip
+
+\noindent \ifthenelse{\equal{#1}{}}{\bf #2 #3}{\bf #2 #3 (#1)}
+\begin{it}
+}{\end{it}}
+
 \newcommand{\argmax}{\mathop{\mathrm{argmax}}}
 \newcommand\floor[1]{\lfloor#1\rfloor}
 \newcommand\ceil[1]{\lceil#1\rceil}

@@ -1,6 +1,11 @@
 \section{Proof of Lemma~\ref{lem:phase-length}}
 \label{sec:lemma4-proof}
 
+\begin{rlemma}{Lemma}{\ref{lem:phase-length}}
+For any $s\geq 3$, the expected length of phase $s$ is at most
+$\ARMNUM \cdot \log(s)$ time steps.
+\end{rlemma}
+
 \begin{proof}
 Let $S$ be the set of arms that have been pulled at most
 $s$ times at the start of phase $s$.
@@ -29,6 +34,24 @@ $\ARMNUM \cdot \log(s)$.
 
 \section{Proof of Lemma~\ref{lem:round-prob}}
 \label{sec:lemma5-proof}
+
+\begin{rlemma}{Lemma}{\ref{lem:round-prob}}
+Recall that $\sigma$ is the standard deviation of the Gaussian noise.
+Let \LatePhase be a phase cutoff, 
+and let $x_n, x'_n > 0$ be functions satisfying that
+$\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x_n^2}{16 \sigma^2}}
+\leq \frac{n x'_n}{2 \sigma}$,
+for all $n \geq \LatePhase$.
+Let $\tau_s$ be a stopping time
+(which may depend on the entire past history)
+which is almost surely in phase $s$,
+i.e., satisfying $\tau \in [t_s, t_{s+1})$ almost surely.
+
+Then, for any arm $i$, attribute $j$, and phase $s \geq \LatePhase$,
+we have that
+$\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
+\geq 1 - 24 \exp\left(-\frac{1.8 s x_s^2}{16 \sigma^2} \right)$.
+\end{rlemma}
 
 \begin{extraproof}{Lemma~\ref{lem:round-prob}}
 Fix an arm $i$ and attribute $j$.
@@ -99,6 +122,12 @@ $|\ArmE{\tau_s}{i}{j} - \Arm{i}{j}| \leq x'_s$.
 \section{Proof of Lemma~\ref{lem:right-choice}}
 \label{sec:lemma7-proof}
 
+\begin{rlemma}{Lemma}{\ref{lem:right-choice}}
+Let $x > 0$ be arbitrary.
+When \AccEU{t}{x} happens,
+no agent \AgV will pull a highly suboptimal arm, i.e., an arm $i$ with 
+$\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{i}) > 2\Diam d x$.
+\end{rlemma}
 
 \begin{proof}
 By definition, when \AccEU{t}{x} happens,
