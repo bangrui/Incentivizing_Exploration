@@ -1,3 +1,8 @@
 \section{Conclusion}
-In this paper, we study the incentivizing exploration problem with heterogeneous user preferences, which generalize the problem setting studied by \cite{frazier2014incentivizing} and \cite{han2015incentivizing}. We propose a simple policy that mostly exploits and occasionally incentivizing exploration, which can achieve $O(N^2+M(\log(T))^2)$ cumulative expected regret with $O(N^2)$ payment budget.
+In this paper, we study the problem of incentivizing exploration with heterogeneous user preferences.  We propose an algorithm for making incentive payments that achieves  expected cumulative regret of $O(N\exp(2/p) + N \log(T)^3)$ using expected cumulative payments of $O(N^2 \exp(2/p))$.  It is possible to improve this bound on payments to $O(N^2 / p^{5/2})$ when $p$ is known or the preference distribution is discrete, with the bound on regret improving to $O(N/p^4 + N \log(T)^3 / p)$ in the former case and to $O(N/p^4)$ in the latter.
 
+Other questions are raised by this work.  First, we conjecture that it is possible to eliminate the $\exp(2/p)$ term in our bounds by beginning our threshold at a level that becomes smaller with larger $N$, obtaining a bound with an exponential dependence on $pN$.  Since $p \le 1/N$, the latter term would scale better with $N$.
+Second, we conjecture that our analysis can be extended to non-normal or correlated noise using alternate concentration inequalities. 
+Third, we wish to develop algorithms that do not require all arms to be preferred by a strictly positive fraction of agents.  We imagine an alternate algorithm that only incentivizes an arm if its estimated attribute vector is close enough to a Pareto frontier.  
+Regret will be $\Omega(\log(T)$ when at least one arm falls below the frontier, as we no longer have free exploration of all arms.  
+We plan to explore these and other questions in future research.
