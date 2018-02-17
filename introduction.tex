@@ -106,10 +106,11 @@ heterogeneous preference setting differ from those in the homogeneous one.
 Toward that end, we model our setting as follows.
 (We describe our model at a high level here,
 with formal definitions given in Section~\ref{sec:prob}.)
-Arms and users (or \emph{agents}) are characterized by payoff-relevant
+The \ARMNUM arms and users (or \emph{agents})
+are characterized by payoff-relevant
 \emph{attribute} (or \emph{feature}) vectors.
-Arms' attributes are a priori unknown, and
-  agents' attributes are drawn from a known distribution.
+Arms' attributes are a priori unknown,
+and agents' attributes are drawn from a known distribution.
 An agent's reward from pulling an arm is the inner product of his
 vector with the arm's vector (plus noise).
 When an arm is pulled, a noisy version of its attribute vector is
@@ -123,18 +124,18 @@ agents small, while incurring only small total payments.
 Our main theorem can be stated informally as follows:
 
 \begin{theorem} \label{thm:main-intro}
-Assume that for each arm, at least a constant fraction of the
-population likes this arm best.
-If furthermore, the density of ties in agent preferences between arms
-vanishes (in a sense made precise in Section~\ref{subsec:discrete}),
-there is a policy that achieves constant
-expected regret $C$ and constant%
-\footnote{The constants $C,C'$ depend on the number of arms and the
-  smallest fraction preferring any one arm.} expected payment $C'$.
-If near-ties have non-zero density,
-then the regret is bounded by $O(C + C'' \log^3(T))$,
-while the expected payment is still bounded by $C'$;
-here, $C''$ depends on the ``tie density.''
+Assume that for each arm, at least a constant fraction \MinProb
+of the population likes this arm best,
+and let \TieDensity be a measure of the ``density of near-ties''
+between agents' arms preferences
+(in a sense made precise in Section~\ref{subsec:discrete}).
+There is a policy that achieves expected 
+cumulative regret $O (\ARMNUM \e^{2/\MinProb} + \ARMNUM \log^3(T))$,
+using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$.
+In particular, when $\TieDensity = 0$
+(e.g., in the case of discrete agent preferences),
+both the expected regret and expected payment are bounded by constants
+(with respect to $T$). 
 \end{theorem}
 
 The policy achieving the result of Theorem~\ref{thm:main-intro} is
