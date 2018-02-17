@@ -1,33 +1,33 @@
 \section{Preliminaries}
 \label{sec:prob}
 
-We consider a MAB setting with \ARMNUM arms.
+We consider a multi-armed bandit setting with \ARMNUM arms.
 Arm payoffs are determined by $d$ \emph{attributes} or \emph{features};
 hence, arms can be identified with vectors $\ArmV{i} \in \R^d$.
-The \ArmV{i} are (adversarially) fixed, but unknown to the agents
+The \ArmV{i} are (adversarially) fixed, and unknown to the agents
 or the principal.
 Whenever arm $i$ is pulled, its current utility-relevant features are
 determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero independent Gaussian%
 \footnote{For simplicity of notation, we assume that the variance
-  $\sigma^2$ is uniform across time steps. This is not material for
-  the analysis.}
+  $\sigma^2$ is uniform across time steps.
+  This is not material for the analysis.
+\dkedit{In fact, the analysis extends straightforwardly to any
+  mean-zero sub-Gaussian noise.} \dkcomment{Is this true?}}
 noise vector $\NoiseV \sim \Normal{\vc{0}}{\sigma^2 I_{d}}$.
-\dkcomment{Clarify if we can handle more general noise.}
 Here, $I_d$ denotes the $d \times d$ identity matrix.
 
 At each time $t$, a new user (or \emph{agent}) arrives,
-whose feature vector (which we also call his%
-\footnote{We use male pronouns to refer to users and female pronouns
-  to refer to the principal.}
-\emph{type}) $\AgentV{t} \in \R^d$ is drawn from a known distribution
-\AgentDist.
+whose feature vector (which we also call his \emph{type})
+$\AgentV{t} \in \R^d$ is drawn from a known distribution \AgentDist.
 Depending on context, we will identify agents with their arrival time
 $t$ or their type \AgentV{t}.
 When agent $t$ pulls arm $\Pull{t} := i$,
 he and all future agents observe a vector
 $\ObsV{t} = \ArmV{i} + \NoiseV[t]$ for arm $i$,
 and his reward is $\AgentV{t} \cdot \ObsV{t}$,
-i.e., agents have linear preferences.
+i.e., agents have linear preferences.%
+\footnote{\dkedit{Some of our results generalize to other forms of
+    agent rewards.}}
 
 For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
 times that arm $i$ has been pulled (strictly) before time $t$.
@@ -44,12 +44,13 @@ $\argmax_i \AgentV{t} \cdot \ArmEV{t}{i}$.
 To incentivize users to explore more, the principal can offer
 \emph{payments} $\Pay{t}{i}$ to user $t$ for pulling arm $i$.
 Then, user $t$ will pull an\footnote{We assume that ties are broken in
-  favor of an arm with largest payment \Pay{t}{i}; this assumption is
-  only for notational convenience, and can of course be avoided by
-  raising payments infinitesimally.
-  \pfcomment{In the finite preference setting this is clear, but it's a little bit delicate when there are continuum preferences, since regardless of the payment we offer there may always be support within our preference distribution for a $\theta$ that causes a tie.  In this continuum setting it should instead be possible to perturb infinitessimally so that we avoid ties with probability 1.}  
-  } arm $i$ maximizing
-$\argmax_i (\Pay{t}{i} + \AgentV{t} \cdot \ArmEV{t}{i})$.
+  favor of an arm with largest payment \Pay{t}{i}.}
+% ; this assumption is
+%   only for notational convenience, and can of course be avoided by
+%   raising payments infinitesimally.
+%   \pfcomment{In the finite preference setting this is clear, but it's a little bit delicate when there are continuum preferences, since regardless of the payment we offer there may always be support within our preference distribution for a $\theta$ that causes a tie.  In this continuum setting it should instead be possible to perturb infinitessimally so that we avoid ties with probability 1.}  
+% }
+arm $i$ maximizing $\argmax_i (\Pay{t}{i} + \AgentV{t} \cdot \ArmEV{t}{i})$.
 The principal cannot observe \AgentV{t},
 and only knows the distribution \AgentDist from which it is drawn.
 Her goal is to achieve a good tradeoff between the cumulative
@@ -67,8 +68,10 @@ $\TotalPay{T} = \sum_{t=1}^{T} \PayA{t}$.
 More formally, the principal's goal is to find a policy
 \POLICY for offering payments under which both the cumulative expected
 regret
-$\Expect[\POLICY]{\TotalRegret{T}}$ the cumulative expected payment
-$\Expect[\POLICY]{\TotalPay{T}}$ are small.
+$\Expect{\TotalRegret{T}}$ the cumulative expected payment
+$\Expect{\TotalPay{T}}$ are small.
+\dkcomment{Deleted the \POLICY subscript for the expectation, as the
+  expectation is also over the entire random history.}
 
 To support the formulation of our results and the analysis,
 we define the following additional notation.
@@ -77,24 +80,20 @@ $\Best{\AgV} \in \argmax_i \AgV \cdot \ArmV{i}$
 and
 $ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
 denote the (indices of) the best and second-best arms for an agent
-with attribute vector \AgV;
-\dkdelete{breaking ties uniformly at random}.
-\dkcomment{What would it mean to break ties at random in a
-  definition?}
-\pfcomment{Perhaps we should say instead ``breaking ties arbitrarily'' if our results don't depend on how we break ties.}
+with attribute vector \AgV,
+\dkedit{breaking ties arbitrarily (but consistently)}.
 
-\dkdelete{This behavior may be recovered if agents are Bayesian and
-  share a common non-informative prior distribution that is constant
-  over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the
-  posterior distribution on $u_{i}$ at time $t$ is multivariate normal
-  with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$
-  under this posterior conditioned on $\theta_t$ is $\theta_t \cdot
-  u_{i,t}$ (see Equation 2.13 in Section 2.5, \cite{Ge04}).
-  Alternatively, one may simply take our assumption that agents use
-  the average as their estimate of an attribute value directly without
-  such a Bayesian justification.}
-\dkcomment{I wonder what's the best way to discuss this.}
-
+% \dkdelete{This behavior may be recovered if agents are Bayesian and
+%   share a common non-informative prior distribution that is constant
+%   over $\mathbb{R}^m$ and know $\sigma^2$.  In this case, the
+%   posterior distribution on $u_{i}$ at time $t$ is multivariate normal
+%   with mean $u_{i,t}$, and the expected value of $\theta_t \cdot u_i$
+%   under this posterior conditioned on $\theta_t$ is $\theta_t \cdot
+%   u_{i,t}$ (see Equation 2.13 in Section 2.5, \cite{Ge04}).
+%   Alternatively, one may simply take our assumption that agents use
+%   the average as their estimate of an attribute value directly without
+%   such a Bayesian justification.}
+% \dkcomment{I wonder what's the best way to discuss this.}
 
 \subsection{Properties of \AgentDist}
 Our algorithms rely on a few assumptions about the agent distribution
@@ -113,29 +112,52 @@ Each arm $i$ has a strictly positive proportion of users for whom $i$
 is the best arm; that is, $\MinProb > 0$.
 \end{assumption}
 
-Let $\FirstTwo{i}{i'} = \Set{\AgV}{\Best{\AgV} = i, \Second{\AgV} = i'}$
-be the set of agent attribute vectors whose best arm is $i$ and
-second-best arm is $i'$.
-Let $F_{i,i'}$ be the marginal cumulative density function
+%Let $\FirstTwo{i}{i'} = \Set{\AgV}{\Best{\AgV} = i, \Second{\AgV} = i'}$
+%be the set of agent attribute vectors whose best arm is $i$ and
+%second-best arm is $i'$.
+% Let $F_{i,i'}$ be the cumulative density function
+% (or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
+% $F_{i,i'}(z) = \Prob[\AgV \sim \AgentDist]{\AgV \in \FirstTwo{i}{i'}
+%   \mbox{ and } (\ArmV{i}-\ArmV{i'}) \cdot \AgV \leq z}$
+% of $(\ArmV{i}-\ArmV{i'}) \cdot \AgV$,
+% on $\AgV \in \Omega_{i,i^{'}}$.
+% In words, $F_{i,i'}$ is the distribution of the \emph{strength} of the
+% preference of a random agent for arm $i$ over arm $i'$
+
+% $\Best{\AgV} \in \argmax_i \AgV \cdot \ArmV{i}$
+% and
+% $ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
+
+\dkedit{Let \AlmostTied{z} be the cumulative density function
 (or cumulative mass function if $\AgentDist(\cdot)$ is a discrete distribution)
-\pfcomment{Maybe this should just be the conditional cumulative distribution function, 
-$F_{i,i'}(z) = \Prob[\AgentDist]{(\ArmV{i}-\ArmV{i'}) \cdot \AgV \le z \mid \AgV \in \Omega_{i,i^{'}}}$?}
-of $(\ArmV{i}-\ArmV{i'}) \cdot \AgV$,
-conditioned on $\AgV \in \Omega_{i,i^{'}}$.
-In words, $F_{i,i'}$ is the distribution of the \emph{strength} of the
-preference of a random agent for arm $i$ over arm $i'$, given that
-$i$ and $i'$ are the agent's first and second choices.
-\pfcomment{We should say something about what $F_{i,i'}$ is when $\Prob[\AgentDist]{\AgV \in \Omega_{i,i^{'}}}=0$.  We know that arm $i$ is someone's best arm, but it doesn't have to be possible for $i'$ to be someone's second best arm when $i$ is best.  Maybe we can just set $F_{i,i'}$ to be $0$ in that case.}
+$\AlmostTied{z} = \Prob[\AgV \sim \AgentDist]{%
+  (\ArmV{\Best{\AgV}}-\ArmV{\Second{\AgV}}) \cdot \AgV \leq z}$.
+In words, \AlmostTied{z} is the CDF of the \emph{strength} of the
+preference of a random agent for his best arm over his second-best arm.}
 
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 
-that is, there exists a constant \TieDensity such that
-for all pairs $i,i'$ of arms and all $z \in \R^+$,
-we have $F_{i,i'}(z) \leq \TieDensity \cdot z$.
+that is, there exists a constant \TieDensity such that for all $z \in \R^+$,
+%for all pairs $i,i'$ of arms and 
+$\AlmostTied{z} \leq \TieDensity \cdot z$.
 \end{assumption}
 
+\dkedit{\paragraph{Role of parameters:}
+Our problem setting is characterized by a fairly large number of
+parameters.
+Of these, we consider \ARMNUM, $\MinProb \leq 1/\ARMNUM$ and $T$ to be
+the key parameters, while $\sigma, \Diam, d, \TieDensity$ should be
+considered constant.
+We will keep track of these constants throughout most of our proofs,
+but report final results in terms of only the three key parameters
+(except where we illustrate a specific point).}
 
 
-
-
-
+\dkcomment{Stuff to discussion in conclusions:
+\begin{enumerate}
+\item Arms that are noone's best.
+\item Other utilities besides inner products.
+\item Other noise distributions.
+\item Better bounds.
+\end{enumerate}
+}
