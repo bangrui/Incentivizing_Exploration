@@ -132,8 +132,7 @@ between agents' arm preferences
 There is a policy that achieves expected 
 cumulative regret $O (\ARMNUM \e^{2/\MinProb} + \ARMNUM \log^3(T))$,
 using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$.
-In particular, when $\TieDensity = 0$
-(e.g., in the case of discrete agent preferences),
+In particular, when agents who are close to tied between two arms have measure $0$,
 both the expected regret and expected payment are bounded by constants
 (with respect to $T$). 
 \end{theorem}

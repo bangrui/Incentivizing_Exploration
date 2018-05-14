@@ -23,7 +23,7 @@ Under the assumption that each arm is preferred by at
 least a fraction $\MinProb > 0$ of agents,
 we show that this algorithm achieves expected
 cumulative regret of $O (\ARMNUM \e^{2/\MinProb} + \ARMNUM \log^3(T))$,
-using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$.
+using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$, where $\ARMNUM$ is the total number of arms.
 If \MinProb is known or the distribution over agent
 preferences is discrete,
 the exponential term $\e^{2/\MinProb}$ can be replaced with suitable

@@ -47,7 +47,7 @@ Then, user $t$ will pull an\footnote{We assume that ties are broken in
 %   raising payments infinitesimally.
 %   \pfcomment{In the finite preference setting this is clear, but it's a little bit delicate when there are continuum preferences, since regardless of the payment we offer there may always be support within our preference distribution for a $\theta$ that causes a tie.  In this continuum setting it should instead be possible to perturb infinitessimally so that we avoid ties with probability 1.}  
 % }
-arm $i$ maximizing $\argmax_i (\Pay{t}{i} + \AgentV{t} \cdot \ArmEV{t}{i})$.
+arm $i$ maximizing $(\Pay{t}{i} + \AgentV{t} \cdot \ArmEV{t}{i})$.
 The principal cannot observe \AgentV{t},
 and only knows the distribution \AgentDist from which it is drawn.
 Her goal is to reduce both the cumulative
@@ -98,7 +98,7 @@ Our algorithms rely on the following three assumptions on the agent distribution
 \AgentDist has a compact support set contained in $[0,\Diam]^d$.
 \end{assumption}
 
-Let $\MinProb = \min_{i} \Prob[\AgentDist]{\Set{\AgV}{\Best{\AgV} = i}}$
+Let $\MinProb = \min_{i} \Prob[\AgentDist]{\Best{\AgV} = i}$
 denote the minimum (over all arms) fraction of users that prefer any
 particular arm.
 
