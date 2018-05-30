@@ -1,5 +1,5 @@
-\documentclass[twoside,11pt]{article}
-\usepackage[anon]{jmlr2e}
+\documentclass[final,12pt]{colt2018}
+% \usepackage[anon]{jmlr2e}
 
 
 % Any additional packages needed should be included after jmlr2e.
@@ -110,31 +110,21 @@
 
 \input{localdefs}
 
-% Heading arguments are {volume}{year}{pages}{date submitted}{date published}{paper id}{author-full-names}
-
-\jmlrheading{1}{2000}{1-48}{4/00}{10/00}{meila00a}{Marina Meil\u{a} and Michael I. Jordan}
-
-% Short headings should be running head and authors last names
-
-\ShortHeadings{Incentivizing Exploration with Heterogeneous Utilities}{Chen, Frazier and Kempe}
-\firstpageno{1}
-
-\begin{document}
-
 \title{Incentivizing Exploration by Heterogeneous Users}
+\usepackage{times}
 
-\author{\name Bangrui Chen \email bc496@cornell.edu \\
-\name Peter I.\ Frazier \email pf98@cornell.edu \\
+\coltauthor{\Name{Bangrui Chen} \Email{bc496@cornell.edu} \\
+\Name{Peter I.\ Frazier} \Email{pf98@cornell.edu} \\
 \addr Operations Research and Information Engineering\\
 Cornell University\\
 New York, NY 14850, USA
 \AND
-\name David Kempe \email david.m.kempe@gmail.com  \\
+\Name{David Kempe} \Email{david.m.kempe@gmail.com}  \\
 \addr Department of Computer Science\\
 University of Southern California\\
 Los Angeles, CA 90089, USA}
 
-\editor{}
+\begin{document}
 
 \maketitle
 
@@ -163,8 +153,9 @@ Incentivizing Exploration, Multi-Armed Bandits, Social Learning
 
 \input{conclusion}
 
+\acks{We thank a bunch of people.}
 
-\newpage
+\bibliography{reference}
 
 \appendix
 
@@ -178,5 +169,4 @@ Incentivizing Exploration, Multi-Armed Bandits, Social Learning
 
 % \input{technical-proofs}
 
-\bibliography{reference}
 \end{document}
