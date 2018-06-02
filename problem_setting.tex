@@ -24,7 +24,8 @@ When agent $t$ pulls arm $\Pull{t} := i$,
 he and all future agents observe a vector
 $\ObsV{t} = \ArmV{i} + \NoiseV[t]$ for arm $i$,
 and his reward is $\AgentV{t} \cdot \ObsV{t}$,
-i.e., agents have linear preferences.%
+i.e., agents have linear preferences.
+\pfedit{(We are also free to create new attributes that are nonlinear transformations of existing attributes.)}
 
 For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
 times that arm $i$ has been pulled (strictly) before time $t$.
@@ -67,6 +68,25 @@ More formally, the principal's goal is to find a policy
 regret
 $\Expect{\TotalRegret{T}}$ the cumulative expected payment
 $\Expect{\TotalPay{T}}$ are small.
+
+\pfedit{
+We assume above that the distribution $\AgentDist$ over preference vectors is known.  In practice, one would estimate this from agents' selections and the attribute estimates and offered payments on which they were based.  While we do not show it, we hypothesize that our regret guarantees only change by constants as long as our estimate of the conditional probability of pulling an arm is correct within a constant factor (our algorithm depends on this quantity).
+}
+
+
+
+
+% \pfedit{
+% We assume above that the distribution $\AgentDist$ over preference vectors is known.
+% In practice, one would estimate this from agents' selections and attribute estimates $\ArmEV{t}{i}$
+% and offered payments $\Pay{t}{i}$ at the time of selection.  
+% In the process of doing such an estimation procedure, one could also select nonlinear transformations of existing attributes (increasing $d$) to improve the predictive accuracy of the assumed linear model.   
+% Our analysis assumes such a procedure has already been conducted.
+% This assumption is most appropriate when the number of dimensions $d$ is small relative to the number of items $N$, so that the time required to estimate the distribution over preference vectors is small relative to the time required to learn about items.
+% }
+%\pfcomment{One modeling assumption I don't say anything about is that $\AgentDist$ is known.  I thought about adding some text saying that it can actually be estimated from user selections as we go, which is true, but it isn't clear that we can learn it much quicker than the item attributes, in general.  Another tact is to argue that our method is robust to mis-estimation of this, which seems true intuitively, but I'm not sure how to argue it here.  Probably it is possible to desgin an algorithm that learns this distribution along with item attributes.}
+
+
 
 To support the formulation of our results and the analysis,
 we define the following additional notation.

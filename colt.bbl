@@ -1,9 +1,16 @@
-\begin{thebibliography}{11}
+\begin{thebibliography}{14}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abulaish et~al.(2009)Abulaish, Doja, Ahmad,
+  et~al.]{abulaish2009feature}
+Muhammad Abulaish, Mohammad~Najmud Doja, Tanvir Ahmad, et~al.
+\newblock Feature and opinion mining for customer review summarization.
+\newblock In \emph{International Conference on Pattern Recognition and Machine
+  Intelligence}, pages 219--224. Springer, 2009.
 
 \bibitem[Bubeck et~al.(2012)Bubeck, Cesa-Bianchi, et~al.]{bubeck2012regret}
 S{\'e}bastien Bubeck, Nicolo Cesa-Bianchi, et~al.
@@ -34,13 +41,19 @@ Ilan Kremer, Yishay Mansour, and Motty Perry.
 \bibitem[Lintott et~al.(2008)Lintott, Schawinski, Slosar, Land, Bamford,
   Thomas, Raddick, Nichol, Szalay, Andreescu, Murray, and
   Vandenberg]{lintott-galaxy-zoo}
-Chris~J. Lintott, Kevin Schawinski, Anze Slosar, Kate Land, Steven Bamford,
+Chris~J. Lintott, Kevin Schawinski, AnÅ¾e Slosar, Kate Land, Steven Bamford,
   Daniel Thomas, M.~Jordan Raddick, Robert~C. Nichol, Alex Szalay, Dan
   Andreescu, Phil Murray, and Jan Vandenberg.
 \newblock Galaxy zoo: morphologies derived from visual inspection of ga laxies
   from the sloan digital sky survey.
 \newblock \emph{Monthly Notices of the Royal Astronomical Society},
   389\penalty0 (3):\penalty0 1179--1189, September 2008.
+
+\bibitem[Liu et~al.(2012)Liu, Hsaio, Lee, Lu, and Jou]{liu2012movie}
+Chien-Liang Liu, Wen-Hoar Hsaio, Chia-Hoang Lee, Gen-Chi Lu, and Emery Jou.
+\newblock Movie rating and review summarization in mobile environment.
+\newblock \emph{IEEE Transactions on Systems, Man, and Cybernetics, Part C
+  (Applications and Reviews)}, 42\penalty0 (3):\penalty0 397--407, 2012.
 
 \bibitem[Mansour et~al.(2015)Mansour, Slivkins, and
   Syrgkanis]{mansour2015bayesian}
@@ -69,6 +82,12 @@ Brian~L Sullivan, Christopher~L Wood, Marshall~J Iliff, Rick~E Bonney, Daniel
   sciences.
 \newblock \emph{Biological Conservation}, 142\penalty0 (10):\penalty0
   2282--2292, 2009.
+
+\bibitem[Wang and Yaman(2010)]{wang2010product}
+Ye-Yi Wang and Sibel Yaman.
+\newblock Product or service review summarization using attributes, July~1
+  2010.
+\newblock US Patent App. 12/346,903.
 
 \bibitem[Xue et~al.(2013)Xue, Dilkina, Damoulas, Fink, Gomes, and
   Kelling]{xue-ebird}
