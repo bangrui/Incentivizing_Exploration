@@ -120,6 +120,7 @@ Notice that based on Assumption~\ref{A1} below,
   because for z=0, Assumption~\ref{A1} says that there is a measure 0
   set of agents whose difference between the best and second-best
   option is z=0. Or am I misunderstanding something?}
+  \pfcomment{That argument says that $\Best{\AgV}$ is unique.  But the second best, $\Second{\AgV}$, doesn't have to be.  The measure of the set of agents with 0 gap between the second- and third-best  options might not vanish.}
 
 % \dkdelete{This behavior may be recovered if agents are Bayesian and
 %   share a common non-informative prior distribution that is constant
@@ -173,19 +174,9 @@ preference of a random agent for his best arm over his second-best arm.
 
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 
-that is, there exist constants \dkedit{$\TieCutoff > 0, \TieDensity$} such that 
+that is, there exist constants $\TieCutoff > 0, \TieDensity$ such that 
 $\AlmostTied{z} \leq \TieDensity \cdot z$ for all $z \leq \TieCutoff$.
 \end{assumption}
-
-\dkdelete{
-% The requirement that $\TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
-%is not restrictive.
-%Because \TieDensity and \TieCutoff are both constants,
-%we could simply increase \TieDensity.
-%Perhaps even more simply, $\MinProb \leq 1/\ARMNUM$,
-%while \TieCutoff is a constant,
-%so an alternative is to decrease \MinProb by a suitable constant factor.
-}
 
 Assumption~\ref{A1} implies that ties happen with probability $0$.
 One special case of interest we discuss below is
@@ -199,8 +190,8 @@ and each type has a unique best arm.
 \paragraph{Roles of parameters:}
 Our problem setting is characterized by many parameters.
 Of these, we consider \ARMNUM, $\MinProb \leq 1/\ARMNUM$ and $T$ to be
-the key parameters, \dkedit{and also give some prominence to
-\TieDensity to illustrate an interesting phenomenon.}
+the key parameters, and also give some prominence to
+\TieDensity to illustrate an interesting phenomenon.
 On the other hand, we consider
 $\sigma, \Diam, d$, and \TieCutoff to be constant.
 We track all parameters through most of our proofs,

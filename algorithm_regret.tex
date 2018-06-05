@@ -34,8 +34,11 @@ and consider a regret exceeding $g(s)$ large.
 \dkedit{
 For most of the proof, we will focus on the case $g(s) \leq \TieCutoff$.
 The remaining phases are the ones with
-$s \leq \frac{128}{1.8} \cdot \log(T) \cdot \Diam^2 d^2 \sigma^2 \TieCutoff^2$.
-Each such phase lasts for at most $\ARMNUM \cdot \log(s)$ steps
+$s \leq \frac{128}{1.8} \cdot \log(T) \cdot \Diam^2 d^2 \sigma^2 \TieCutoff^2$.}
+\pfcomment{Is there a typo in the previous line?  Shouldn't it be 
+$s \leq \frac{128}{1.8} \cdot \log(T) \cdot \Diam^2 d^2 \sigma^2 / \TieCutoff^2$?
+Or am I missing something?}
+\dkedit{Each such phase lasts for at most $\ARMNUM \cdot \log(s)$ steps
 in expectation by Lemma~\ref{lem:phase-length},
 and each step incurs regret at most \MAXR.
 The total expected regret incurred in these phases is at most
