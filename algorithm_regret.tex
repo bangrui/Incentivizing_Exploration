@@ -30,23 +30,25 @@ To be more precise, we define (with foresight) a phase-dependent
 cutoff
 $g(s) = \sqrt{\frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}}$,
 and consider a regret exceeding $g(s)$ large.
+\pfcomment{We use $g$ in 3 places: here, when talking about adding new linear
+features in section 2, and in Lemma 11.  Maybe it's worth using different notation.}
 
-\dkedit{
 For most of the proof, we will focus on the case $g(s) \leq \TieCutoff$.
 The remaining phases are the ones with
-$s \leq \frac{128}{1.8} \cdot \log(T) \cdot \Diam^2 d^2 \sigma^2/\TieCutoff^2$.}
-\dkedit{Each such phase lasts for at most $\ARMNUM \cdot \log(s)$ steps
+$s \leq \frac{128}{1.8} \cdot \log(T) \cdot \Diam^2 d^2 \sigma^2/\TieCutoff^2$.
+Each such phase lasts for at most $\ARMNUM \cdot \log(s)$ steps
 in expectation by Lemma~\ref{lem:phase-length},
 and each step incurs regret at most \MAXR.
 The total expected regret incurred in these phases is at most
-$100 \ARMNUM \MAXR \log^2(T) \cdot \Diam^3 d^3 \sigma^3/\TieCutoff^3$.}
+$100 \ARMNUM \MAXR \log^2(T) \cdot \Diam^3 d^3 \sigma^3/\TieCutoff^3$.
+\pfcomment{I get the $NR$, but where does $100 \log^2(T)  D^3 d^3 \sigma^3/\hat{z}^3$ come from?  I assume this an identity for $\sum_{s=1}^m \log(s)$ I don't know --- could we add the identity we are using?}
 
-\dkedit{For the remainder of the proof, we consider phases $s$
-with $g(s) \leq \TieCutoff$.}
+For the remainder of the proof, we consider phases $s$
+with $g(s) \leq \TieCutoff$.
 We first consider agents \AgV incurring positive regret less than $g(s)$.
 The second-best arm \Second{\AgV} of such an agent \AgV must satisfy
 $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq g(s)$.
-By Assumption~\ref{A1}, \dkedit{and because $g(s) \leq \TieCutoff$,}
+By Assumption~\ref{A1}, and because $g(s) \leq \TieCutoff$,
 %Lemma~\ref{lem:sdelta},
 the total measure of such agents
 is $\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$,
@@ -54,6 +56,7 @@ and each such agent incurs regret at most $g(s)$.
 Summing over all time steps,
 and using Lemma~\ref{lem:phase-length} to bound the number of time
 steps in phase $s$, 
+\pfcomment{We'll have to fix a probability bug here.}
 the expected total regret from such agents is at most
 \begin{align}
 \Expect{\sum_{s=1}^{T} \sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot g^2(s)}
