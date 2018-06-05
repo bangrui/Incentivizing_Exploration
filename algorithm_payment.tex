@@ -38,15 +38,17 @@ locations occur, which is exponentially unlikely by
 Lemma~\ref{lem:round-prob}.
 
 To make this intuition precise, we set
-\dkedit{$x = x' = \frac{1}{2 \Diam d} \cdot \min(\TieCutoff, \frac{\MinProb}{2 \TieDensity})$}
-(which is independent of the phase number $s$).
-The cutoff point between early and late phases is now set to
+$x = x' = \frac{1}{2 \Diam d} \cdot \min(\TieCutoff, \frac{\MinProb}{2 \TieDensity})$
+(which is independent of the phase number $s$
+\pfedit{and is equal to $\hat{x}$ defined in Lemma~\ref{lem:no-incentives}}).
+\pfedit{We set} the cutoff point between early and late phases to
 $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3}, \exp(\frac{2}{\MinProb}))$.
-We will verify below that
+We verify below that
 $\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x^2}{16 \sigma^2}}
 \leq \frac{n x}{2 \sigma}$
 for all $n \geq \max(2, \frac{30 \sigma^3}{x^3})$.
 
+\pfdelete{
 Fix an arm $i$, and consider the \Kth{s} pull of arm $i$,
 for $s \geq \EvenLaterPhase$.
 If this pull occurred before phase $s$, it was definitely not incentivized.
@@ -54,7 +56,10 @@ So we condition on the pull occurring in phase $s$,
 and let $\tau_s$ be the time step when this pull occurred;
 notice that this means that this must be the first pull of arm $i$ in
 phase $s$.
+}
 
+\pfedit{Fix an arm $i$, let $s \geq \EvenLaterPhase$, and 
+define $\tau_s$ as in Lemma~\ref{lem:no-incentives}.}
 By Lemma~\ref{lem:round-prob} (with our choice of $x = x'$),
 and a union bound over all $i,j$, we bound the probability
 $\Prob{\AccEU{\tau_s}{x}}
@@ -67,8 +72,8 @@ Thus, for any $s \geq \EvenLaterPhase$,
 the \Kth{s} pull of arm $i$ is incentivized  
 with probability at most
 $24 \ARMNUM d \cdot \exp \left(
-\dkedit{  - \frac{1.8 s}{256 \Diam^2 d^2 \sigma^2}
-  \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2}
+- \frac{1.8 s}{\pfedit{64} \Diam^2 d^2 \sigma^2}
+  \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2
 \right)$.
 Summing over all arms and phases $s$,
 adding the at most $\ARMNUM \EvenLaterPhase$ incentivizations in
@@ -78,16 +83,16 @@ the expected total number of arm incentivizations is at most
 \begin{align*}
 \lefteqn{\ARMNUM \EvenLaterPhase
   + 24 \ARMNUM^2 d \cdot \frac{1}{1 - \exp \left(
-\dkedit{ - \frac{1.8}{256 \Diam^2 d^2 \sigma^2}
-  \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2}
+- \frac{1.8}{\pfedit{64} \Diam^2 d^2 \sigma^2}
+  \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2
   \right)}}
 \\ & = O\left( \max \left(
      \frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3},
-\dkedit{     \frac{\ARMNUM \Diam^3 d^3 \sigma^3}{\TieCutoff^3},}
+\frac{\ARMNUM \Diam^3 d^3 \sigma^3}{\TieCutoff^3},
      \ARMNUM \exp \left(\frac{2}{\MinProb} \right) \right)
 + \max \left(
      \frac{\ARMNUM^2 d^3 \TieDensity^2 \sigma^2 \Diam^2}{\MinProb^2},
-\dkedit{ \frac{\ARMNUM^2 d^3 \sigma^2 \Diam^2}{\TieCutoff^2}}
+\frac{\ARMNUM^2 d^3 \sigma^2 \Diam^2}{\TieCutoff^2}
 \right) \right)
 \\ & = O\left( \ARMNUM \exp \left(\frac{2}{\MinProb}\right) \right).
 \end{align*}
