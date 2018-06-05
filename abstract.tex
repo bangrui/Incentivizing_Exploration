@@ -10,13 +10,14 @@ Agents are myopic and selfish and thus would choose the arm with
 maximum estimated utility.
 A principal, knowing only the distribution from which agents'
 preferences are drawn, but not the specific draws,
-can offer \pfedit{arm-specific} incentive payments 
+can offer arm-specific incentive payments 
 to encourage agents to explore underplayed arms.
 The principal seeks to minimize the total expected cumulative regret
 incurred by agents relative to their best arms,
 while also making a small expected cumulative payment.
 
-We propose an algorithm that incentivizes \pfedit{infrequently played arms}
+We propose an algorithm that incentivizes \dkedit{arms played
+  infrequently in the past}
 whose probability of being played in the next round would be small
 without incentives.
 Under the assumption that each arm is preferred by at
@@ -28,11 +29,11 @@ If \MinProb is known or the distribution over agent
 preferences is discrete,
 the exponential term $\e^{2/\MinProb}$ can be replaced with suitable
 polynomials in \ARMNUM and $1/\MinProb$.
-For discrete preferences, the \pfedit{regret's} dependence on $T$ can be
+For discrete preferences, the regret's dependence on $T$ can be
 eliminated entirely, giving constant (depending only polynomially on
-\ARMNUM and $1/\MinProb$) expected regret and payments\pfdelete{where \ARMNUM is the number of arms}.
+\ARMNUM and $1/\MinProb$) expected regret and payments.
 This constant regret stands in contrast to the $\Theta(\log(T))$ dependence of
 regret in standard multi-armed bandit problems.
 It arises because even unobserved heterogeneity in agent preferences
-\pfedit{causes} exploitation of arms to also explore arms fully;
+causes exploitation of arms to also explore arms fully;
 succinctly, heterogeneity provides free exploration.

@@ -1,6 +1,5 @@
 \section{Introduction} \label{sec:introduction}
 
-\pfedit{
 Many websites and apps facilitate joint discovery,
 sharing, and recommendation of content.
 This includes news-, photo-, and video-sharing sites;
@@ -10,7 +9,6 @@ such as eBird \citep{sullivan2009ebird,xue-ebird} and Galaxy Zoo \citep{lintott-
 Users of these sites improve their own experiences 
 by learning from the experiences of others 
 \citep{schmit2017human}.
-}
 
 Viewed more abstractly, users jointly explore a space of
 options (products, news stories, photos, birdwatching sites,
@@ -22,15 +20,15 @@ learning framework.
 However, unlike standard bandit settings, the utilities of the
 decision makers (the users) are not aligned with overall utility.
 Societally (i.e., in a suitable aggregate over users),
-\pfedit{substantial exploration of options could provide higher future rewards.}
+substantial exploration of options could provide higher future rewards.
 However, individual users interact with the site a limited number
 of times, and therefore have little incentive to explore.
-\pfedit{Recent work has focused on the setting where users interact only once, 
-and so have no intrinsic incentive to explore.}
+Recent work has focused on the setting in which users interact only once, 
+and therefore have no intrinsic incentive to explore.
 
 Two recent lines of work have shown that
-effecting a societally \pfedit{near-optimal} outcome in this setting \pfedit{requires
-explicitly inducing exploration}:
+effecting a societally near-optimal outcome in this setting requires
+explicitly inducing exploration:
 \citet{kremer2014implementing}
 and
 \citet{mansour2015bayesian,mansour2016bayesian,mansour2018competition}
@@ -42,71 +40,70 @@ of past arm pulls
 The principal can use her%
 \footnote{We use male pronouns to refer to users and female pronouns
   to refer to the principal.}
-\pfedit{advantage to induce exploration by recommending apparently sub-optimal arms,
-as long as agents cannot do better on their own.}
+advantage to induce exploration by recommending apparently sub-optimal arms,
+as long as agents cannot do better on their own.
 \citet{frazier2014incentivizing} and 
 \citet{han2015incentivizing} instead assume that the results of all
 past arm pulls are publicly observable
-\pfedit{(as on a review-sharing site)}.
-They suppose the principal can \pfedit{incentivize exploration} by offering \pfedit{arm-specific reward payments}.
-\pfedit{We follow this second model.}
+(as on a review-sharing site).
+They suppose that the principal can incentivize exploration by offering arm-specific reward payments.
+We follow this second model.
 
-Past work has assumed \pfedit{users have homogeneous preferences over arms, i.e., the expected
-reward derived from an arm is the same for all users}.
-(\citet{han2015incentivizing} \pfedit{models users that} are
+Past work has assumed that users have homogeneous preferences over
+arms, i.e., the expected reward derived from an arm is the same for all users.
+(\citet{han2015incentivizing} model users that are
 heterogeneous in their tradeoff between utility derived from arm pulls
 and utility derived from the principal's payment,
-\pfedit{but assumes preferences across arms are homogenous.})
+but assume that preferences across arms are homogenous.)
 In reality, users have different preferences, e.g., gastronomic,
 political, aesthetic, practical.
 Indeed, the websites and mobile apps most widely used for joint discovery,
 sharing, and recommendation of content tend to concern products and items 
 with heterogeneity in preferences (movies, restaurants,
-videos, travel experiences), and not items \pfedit{with} a universally
+videos, travel experiences), and not items with a universally
 agreed-on best order.
 This is perhaps because regimes with heterogeneous preferences are the
-ones where \pfedit{people have the most difficulty discovering} the best items, 
-and thus where online
-platforms provide the most value.  
+ones where people have the most difficulty discovering the best items, 
+and thus where online platforms provide the most value.  
 Thus, we see an appropriate
 accounting for heterogeneity as critical to incentivizing
 exploration in online communities.
 
-\pfedit{In this work, we present the first algorithm and analysis (of which we
+In this work, we present the first algorithm and analysis (of which we
 are aware) for incentivizing exploration when users have heterogeneous 
-preferences over arms.}
-\pfedit{Our analysis provides insight into the
-impact of user heterogeneity on the principal's ability to achieve
-high social utility with low incentive payments,
-and on the best approaches for doing so.}
-Heterogeneity presents both a challenge and an opportunity.
-On the one hand, unobserved heterogeneity hides critical
-information about an agent's preferences from the principal,
-\pfedit{making her unaware of agents' preferred arms.
-Thus, even with an unlimited incentive budget, incentivizing 
-pulls according to a standard multi-armed bandit algorithm does not provide
-low regret.  Instead, she must use incentives sparingly and 
-allow agents to reveal their preferences through action.}
-On the other hand, heterogeneity also \pfedit{offers}
-the possibility of ``free exploration.''
-Even \pfdelete{when left} unincentivized, agents will
-play a variety of arms, revealing information about their attributes.
-This stands in sharp contrast to the case of homogeneous preferences,
-where unincentivized agents will herd onto a single apparently best arm,
-\pfedit{and where} effecting essentially any exploration at all requires incentives.
-
-\pfdelete{
-With these challenges and opportunities in mind, 
-our goal is to understand the
+preferences over arms.
+Our analysis provides insight into the
 impact of user heterogeneity on the principal's ability to achieve
 high social utility with low incentive payments,
 and on the best approaches for doing so.
-We wish to understand whether incentivizing exploration with
-heterogeneous preferences  is ``harder'' or ``easier'' than with
-homogeneous ones,
-and to understand how exploration strategies that do well in the
-heterogeneous preference setting differ from those in the homogeneous one.
-Toward that end, we model our setting as follows.}
+Heterogeneity presents both a challenge and an opportunity.
+On the one hand, unobserved heterogeneity hides critical
+information about an agent's preferences from the principal,
+making her unaware of agents' preferred arms.
+Thus, even with an unlimited incentive budget, incentivizing 
+pulls according to a standard multi-armed bandit algorithm does not provide
+low regret.  Instead, she must use incentives sparingly and 
+allow agents to reveal their preferences through action.
+On the other hand, heterogeneity also offers
+the possibility of ``free exploration.''
+Even unincentivized, agents will
+play a variety of arms, revealing information about their attributes.
+This stands in sharp contrast to the case of homogeneous preferences,
+where unincentivized agents will herd onto a single apparently best arm,
+and where effecting essentially any exploration at all requires incentives.
+
+
+% With these challenges and opportunities in mind, 
+% our goal is to understand the
+% impact of user heterogeneity on the principal's ability to achieve
+% high social utility with low incentive payments,
+% and on the best approaches for doing so.
+% We wish to understand whether incentivizing exploration with
+% heterogeneous preferences  is ``harder'' or ``easier'' than with
+% homogeneous ones,
+% and to understand how exploration strategies that do well in the
+% heterogeneous preference setting differ from those in the homogeneous one.
+% Toward that end, we model our setting as follows.
 We describe our model at a high level here,
 with formal definitions given in Section~\ref{sec:prob}.
 The \ARMNUM arms and users (or \emph{agents})
@@ -133,7 +130,7 @@ While platforms could in principle manipulate the display of such
 data, most have an incentive to be seen as truthful.
 %\pfedit{Agents' ability to effectively base decisions on all past observations models platforms' abilities to aggregate and effectively display past feedback, through simple averages of ratings and automatic summarization of full-text reviews \citep{wang2010product,liu2012movie,abulaish2009feature}.  While platforms can manipulate the display of user data, most have an incentive to be seen as truthful.}
 The principal can incentivize agents to pull particular arms by
-offering \pfedit{arm-specific payments}.
+offering arm-specific payments.
 The principal's goal is to keep the cumulative regret across all
 agents small, while incurring only small total payments.
 
@@ -151,7 +148,7 @@ Assume that for each arm, at least a constant fraction \MinProb
 of the population likes this arm best,
 and let \TieDensity be a measure of the ``density of near-ties''
 between agents' arm preferences
-(in a sense made precise in Section~\ref{subsec:discrete}).
+(in a sense made precise in \dkedit{Section~\ref{sec:prob}}).
 There is a policy that achieves expected 
 cumulative regret $O (\ARMNUM \e^{2/\MinProb} + \TieDensity \ARMNUM \log^3(T))$,
 using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$.
