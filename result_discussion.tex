@@ -23,7 +23,8 @@ $O \left(\ARMNUM \cdot \e^{2/\MinProb} + \TieDensity \ARMNUM \log^3(T) \right)$.
 
 When $\TieDensity = 0$, the bound of Theorem~\ref{rst:regret} is
 constant in $T$;
-thus, the algorithm achieves constant regret using constant payment. 
+thus, the algorithm achieves constant regret using constant
+\dkedit{expected payments}. 
 As discussed in Section~\ref{sec:prob},
 the case $\TieDensity = 0$ arises, for instance, for
 discrete agent distributions.
@@ -42,8 +43,10 @@ constant bound more generally, i.e., for $\TieDensity > 0$.
 That such a bound is unachievable is shown in Appendix~\ref{sec:lb},
 where we show a lower bound of $\Omega(\log(T))$ on
 the expected regret of any algorithm.
-The instance is \pfdelete{very} simple: it has two arms, one \pfedit{with}
-attributes; in addition, one draw from the other arm is observed in
+The instance is simple: it has two arms, one \pfedit{with}
+attributes; \dkcomment{Should that be ``with \emph{known}
+  attributes''? I don't understand this edit.}
+in addition, one draw from the other arm is observed in
 each step $t$ even when it is not pulled.
 While the probability of pulling the wrong arm decreases over time, it
 does not do so fast enough, causing the stated regret.
@@ -58,7 +61,7 @@ allows us to eliminate this exponential dependence.
 Namely, when \MinProb (or a lower bound on it) is known ahead of time,
 the algorithm can be modified to incentivize arms less aggressively.
 As shown in Theorem~\ref{rst:known-p},
-the modified algorithm \pfedit{has} expected regret at most
+the modified algorithm has expected regret at most
 $O \left(\frac{\ARMNUM}{\MinProb^3}
 +\frac{\ARMNUM \TieDensity \log^3(T)}{\MinProb} \right)$,
 with expected payments of at most
@@ -69,7 +72,7 @@ focusing on the dependence on $T$.
 The standard bandit setting is the case when the agent types \AgV
 are concentrated on a single point, and agents pull arms at the
 principal's direction without requiring payment.
-(\pfedit{This} setting violates our Assumption~\ref{A3},
+(This setting violates our Assumption~\ref{A3},
 so our bounds do not apply to it.)
 Then, the payment is $0$ and the expected regret scales as
 $\Theta(\log(T))$ \cite[Theorem 2.1]{bubeck2012regret}.
@@ -83,25 +86,23 @@ Thus, viewed solely in terms of the dependence on $T$,
 the best performance achievable seems comparable to that in a standard
 multi-armed bandit problem;
 but when preferences are discrete, the constant regret
-surpasses \pfedit{the $\Theta(\log(T))$ achievable in the} standard multi-armed bandit.
-This may seem surprising, because the
-\pfedit{principal in our setting} has both less control and less information than in the
-standard bandit setting.
-The result arises because heterogeneity in preferences \pfdelete{indeed} provides
-free exploration, \pfedit{and allows} all of the arms \pfedit{to} be pulled infinitely
-often without incurring regret \pfedit{once estimates are accurate enough}.
+surpasses the $\Theta(\log(T))$ achievable in the standard multi-armed
+bandit \dkedit{setting}.
+This may seem surprising, because the principal in our setting has
+both less control and less information than in the standard bandit setting.
+The result arises because heterogeneity in preferences provides
+free exploration, and allows all of the arms to be pulled infinitely
+often without incurring regret once estimates are accurate enough.
 
 While heterogeneity in preferences enables this free exploration,
 heterogeneity alone is not always sufficient for enabling performance
 improvements compared to the standard bandit setting.
-Indeed, \pfedit{suppose} agents are still heterogeneous,
-but the principal \pfedit{pulls} arms directly.
-Unless \pfedit{the principal can also observe}
-the agents' types, \pfedit{she} will be unable to correctly choose
-each agent's preferred arm,
+Indeed, suppose that agents are still heterogeneous,
+but the principal pulls arms directly.
+Unless the principal can also observe the agents' types,
+she will be unable to correctly choose each agent's preferred arm,
 even with infinite exploration of arm attributes.
-\pfedit{Regret will then} 
-grow as $\Omega(T)$. 
+Regret will then grow as $\Omega(T)$. 
 
 Thus, reaping the benefits of (unobserved) heterogeneous preferences
 requires the principal to give up direct control of the arms,
