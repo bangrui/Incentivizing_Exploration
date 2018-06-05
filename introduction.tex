@@ -1,78 +1,75 @@
 \section{Introduction} \label{sec:introduction}
 
-Many websites and apps are designed to facilitate joint discovery,
-sharing, and recommendations of content.
-Such sites include news, photo, and video sharing sites,
-sites to review restaurants, hotels, or travel experiences,
-online stores at which users write reviews (such as Amazon),
+Many websites and apps facilitate joint discovery,
+sharing, and recommendation of content.
+This includes news-, photo-, and video-sharing sites;
+sites that host user-written reviews of products, restaurants, hotels, and travel experiences;
 and citizen science projects
-(such as eBird \citep{sullivan2009ebird,xue-ebird} or Galaxy Zoo \citep{lintott-galaxy-zoo}).
-By learning from the experiences of other users, individuals can
-improve their own experience \citep{schmit2017human}.
+such as eBird \citep{sullivan2009ebird,xue-ebird} and Galaxy Zoo \citep{lintott-galaxy-zoo}.
+Users of these sites improve their own experiences 
+by learning from the experiences of others 
+\citep{schmit2017human}.
 
 Viewed more abstractly, users jointly explore a space of
-many options (products, news stories, photos, birdwatching sites,
-patches of sky to train their telescopes on, $\ldots$),
+options (products, news stories, photos, birdwatching sites,
+%patches of sky to train their telescopes on, 
+$\ldots$),
 with the implicit goal of identifying the ``best'' ones.
-Therefore, such scenarios can be fruitfully modeled in a bandit
+Such scenarios are often modeled in a bandit
 learning framework.
-However, contrary to standard bandit settings, the utilities of the
-decision makers (the users) are not aligned with the overall utility.
-Societally (i.e., in a suitable aggregate over all users),
-it would be desirable to engage in considerable exploration of
-different options, so as to provide higher rewards for a large number
-of future users.
-However, individual users only interact with the site a limited number
-of times, and therefore have little incentive for exploration.
-A particularly clean model is obtained when each user interacts with the
-site only once, and hence has no intrinsic utility for exploration. 
-This model has been the subject of prior work, and forms the basis of
-the present submission.
+However, unlike standard bandit settings, the utilities of the
+decision makers (the users) are not aligned with overall utility.
+Societally (i.e., in a suitable aggregate over users),
+substantial exploration of options could provide higher future rewards.
+However, individual users interact with the site a limited number
+of times, and therefore have little incentive to explore.
+Recent work has focused on the setting where users interact only once, 
+and so have no intrinsic incentive to explore.  
 
-To effect an outcome close to societally optimal,
-it is necessary to provide exploration incentives to the individual users.
-This was noted in two recent lines of work:
+Two recent lines of work have shown that
+effecting a societally near-optimal outcome in this setting requires
+explicitly incentivizing exploration:
 \citet{kremer2014implementing}
 and
 \citet{mansour2015bayesian,mansour2016bayesian,mansour2018competition}
-(see \cite{slivkins:asymmetry} for a high-level overview)
+(see \cite{slivkins:asymmetry} for an overview)
 assume that the site (also called the \emph{principal}) has an
 informational advantage in being the only one to observe the results
-of past arm pulls.
-(Such an assumption applies, for instance, to route recommendations in
-driving.)
-The principal can exploit her%
+of past arm pulls
+(as in driving route recommendations).
+The principal can use her%
 \footnote{We use male pronouns to refer to users and female pronouns
   to refer to the principal.}
-advantage and make recommendations to the individual agents that 
-are in their best interest to follow.
+advantage to induce exploration by recommending apparently sub-optimal arms,
+as long as agents cannot do better on their own.
 \citet{frazier2014incentivizing} and 
 \citet{han2015incentivizing} instead assume that the results of all
 past arm pulls are publicly observable
-(such as reviews on an online retail site).
-They instead suppose that the principal can offer payments to users as
+(as on a review-sharing site).
+They suppose the principal can incentivize exploration by offering payments to users as
 a reward for pulling particular arms.
-We follow the model of \citet{frazier2014incentivizing} and
-\citet{han2015incentivizing} 
-and consider a multi-armed bandit model in which the principal can
-offer payments to the users for pulling particular arms.
+We follow this second model.
+% We follow the model of \citet{frazier2014incentivizing} and
+% \citet{han2015incentivizing} 
+% and consider a multi-armed bandit model in which the principal can
+% offer payments to the users for pulling particular arms.
 
 Past work has assumed that users are homogeneous, i.e., the expected
-reward a user derives from an arm is the same for all users.%
+reward derived from an arm is the same for all users.%
 \footnote{\citet{han2015incentivizing} assume that users are
 heterogeneous in their tradeoff between utility derived from arm pulls
 and utility derived from the principal's payment.}
 In reality, users have different preferences, e.g., gastronomic,
-political, aesthetic, practical, etc.
+political, aesthetic, practical.
 Indeed, the websites and mobile apps most widely used for joint discovery,
 sharing, and recommendation of content tend to concern products and items 
-with large amounts of heterogeneity in preferences (movies, restaurants,
+with heterogeneity in preferences (movies, restaurants,
 videos, travel experiences), and not items which have a universally
 agreed-on best order.
 This is perhaps because regimes with heterogeneous preferences are the
 ones where discovery of the best items is the most difficult for people, 
 and thus where online
-platforms tend to provide the greatest value.  Thus, we see an appropriate
+platforms provide the most value.  Thus, we see an appropriate
 accounting for heterogeneity as critical to an understanding of incentivizing
 exploration in online communities.
 
