@@ -60,7 +60,7 @@ steps in phase $s$,
 the expected total regret from such agents is at most
 \begin{align}
 \Expect{\sum_{s=1}^{T} \sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot \EarlyCut[2]{s}}
-& \leq \sum_{s=1}^{T} \TieDensity \cdot g^2(s) \ARMNUM \log(s).
+& \leq \sum_{s=1}^{T} \TieDensity \cdot \EarlyCut[2]{s} \ARMNUM \log(s).
 \label{equ:small_regret_bound}
 \end{align}
 
