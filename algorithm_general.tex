@@ -39,17 +39,15 @@ more accurate with increasing phases $s$.
 
 \begin{lemma} \label{lem:round-prob}
 Recall that $\sigma$ is the standard deviation of the Gaussian noise.
-Let \LatePhase be a phase cutoff, 
-and let $x_n, x'_n > 0$ be functions satisfying that
+Let \LatePhase be \pfedit{fixed}, 
+and let $x_n, x'_n > 0$ be \pfedit{sequences} satisfying 
 $\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x_n^2}{16 \sigma^2}}
 \leq \frac{n x'_n}{2 \sigma}$,
 for all $n \geq \LatePhase$.
 Let $\tau_s$ be a stopping time
 (which may depend on the entire past history)
 which is almost surely in phase $s$,
-i.e., satisfying $\dkedit{\tau_s} \in [t_s, t_{s+1})$ almost surely.
-\dkcomment{$\tau$ was missing the subscript $s$ here. I think that was
-  a mistake, but am marking it so someone can check.}
+i.e., satisfying $\tau_s \in [t_s, t_{s+1})$ almost surely.
 Then, for any arm $i$, attribute $j$, and phase $s \geq \LatePhase$,
 we have 
 $\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
