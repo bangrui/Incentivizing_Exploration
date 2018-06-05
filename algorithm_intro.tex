@@ -27,7 +27,10 @@ $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
 \cdot \ArmEV{t}{i'} \mbox{ for all } i' \neq i \mid \ArmEV{t}{i'}\ \forall i'}$
 is the probability that arm $i$ will be pulled
 by the next (random) agent based on the current estimates. 
+\pfedit{(Our assumption of a continuous noise distribution and one free pull ensure that 
+ties in $\AgV \cdot \ArmEV{t}{i}$ between arms occur with probability $0$.)} 
 \end{itemize}
+
 
 When multiple arms are payment-eligible, the algorithm picks one arbitarily to incentivize.
 When the algorithm decides to incentivize an arm $i$,
@@ -82,15 +85,15 @@ Because the algorithm ensures that each arm is pulled
 the estimates \ArmEV{t}{i} become gradually more accurate in the
 phase number $s$.
 Thus, the fraction of agents who misidentify their best arm decreases.
-Because for each arm, enough agents have a true preference for this
-arm, once the arms' attribute vectors are learned well enough,
+Because \pfedit{each arm has enough agents that prefer its true attribute vector}, 
+once the arms' attribute vectors are learned well enough
 the algorithm will not need to incentivize any more,
 resulting in a payment bound independent of $T$.
-Similarly, the regret will decrease, and mostly accrue
+Similarly, \pfedit{instantaneous} regret will decrease, and mostly accrue
 due to ``problematic'' agents who are nearly tied in their preferences
-between their top two arm choices.
-The detailed analysis following this outline is somewhat subtle, though,
-due to the dependence between the agents' arm pulls and the
+between their top two \pfedit{arms}.
+The detailed analysis following this outline is \pfedit{complicated by}
+dependence between the agents' arm pulls and the
 estimates which in turn are based on past arm pulls.
 We begin with several technical lemmas that are used for both the
 payment and regret bounds.
@@ -107,7 +110,7 @@ is the event that at time $t$, all arm attribute
 estimates are accurate to within $x$ simultaneously.
 We will show that for suitable choices of $t, x$,
 the events \AccE{t}{i}{j}{x}
-(and hence, by union bound, \AccEU{t}{x})
+(and hence, by \pfedit{a} union bound, \AccEU{t}{x})
 have high probability,
 and that when they do, myopic agents do not make large mistakes.
 
