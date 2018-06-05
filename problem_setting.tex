@@ -11,7 +11,8 @@ determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero independent Gau
 \footnote{For simplicity of notation, we assume that the variance
   $\sigma^2$ is uniform across time steps.
 In fact, the analysis extends straightforwardly to any
-mean-zero sub-Gaussian($\sigma^2$) noise that is independent but not necessarily identically distributed across time.}
+\pfedit{continuous}
+mean-zero sub-Gaussian($\sigma^2$) noise that is independent but not necessarily identically distributed across time. \pfcomment{I used continuity below where the algorithm is defined to get rid of ties.}}
 noise vector $\NoiseV \sim \Normal{\vc{0}}{\sigma^2 I_{d}}$.
 Here, $I_d$ denotes the $d \times d$ identity matrix.
 
@@ -28,9 +29,9 @@ i.e., agents have linear preferences.
 Although the model is linear, it permits additional flexibility
 through the addition of derived attributes that are nonlinear
 transformation of some original attribute vector.
-\dkedit{One can simply define $\Ag{j} = g_j(\AgV)$ for some known
+One can simply define $\Ag{j} = g_j(\AgV)$ for some known
 nonlinear functions $g_j$ and $j=d+1,\ldots,d'$, and then increase the
-number of attributes to $d'$.}
+number of attributes to $d'$.
 
 For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
 times that arm $i$ has been pulled (strictly) before time $t$.
