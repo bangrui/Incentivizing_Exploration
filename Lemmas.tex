@@ -187,23 +187,29 @@ which means that the agent with type \AgV will not pull arm $i$.
 Fix an arm $i$.
 Let $s \geq \exp(2/\MinProb)$, and let $\tau_s$ be the (random)
 time when arm $i$ is pulled for the \Kth{s} time.
-Under \AccEU{\tau_s}{\frac{p}{4\Diam d \TieDensity}},
+\dkedit{Let $\hat{x} = \frac{1}{2\Diam d}
+  \cdot \min(\TieCutoff, \frac{\MinProb}{2\TieDensity})$.
+Under \AccEU{\tau_s}{\hat{x}},}
 this pull of arm $i$ is not incentivized.
 \end{rlemma}
 
 \begin{proof}
 By Lemma~\ref{lem:right-choice},
-under the event \AccEU{\tau_s}{\frac{\MinProb}{4\Diam d \TieDensity}},
+under the event \dkedit{\AccEU{\tau_s}{\hat{x}}},
 all agent types \AgV with
 $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}})
-> \frac{\MinProb}{2\TieDensity}$
+> \dkedit{2\Diam d \hat{x}}$
 will pull their best arm \Best{\AgV}.
+Notice that $\dkedit{2\Diam d \hat{x}
+= \min(\TieCutoff, \frac{\MinProb}{2 \TieDensity})}$
 
-By Assmption~\ref{A1}
-\dkedit{(including that $\frac{\MinProb}{2\TieDensity} \leq \TieCutoff$)},
+By Assmption~\ref{A1},
 the measure of agents (across all arms)
 whose best and second-best arm differ in utility by less
-than $\frac{\MinProb}{2\TieDensity}$ is at most $\frac{\MinProb}{2}$.
+than \dkedit{$\min(\TieCutoff, \frac{\MinProb}{2 \TieDensity})$}
+is at most
+\dkedit{$\TieDensity \cdot \min(\TieCutoff, \frac{\MinProb}{2 \TieDensity})
+\leq \frac{\MinProb}{2}$}.
 In particular, this bound holds for agents whose best arm is $i$.
 By Assumption~\ref{A3}, at least a measure \MinProb of agents has $i$
 as their best arm, and thus, at least a measure $\frac{\MinProb}{2}$

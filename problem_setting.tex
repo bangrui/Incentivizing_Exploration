@@ -11,8 +11,12 @@ determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero independent Gau
 \footnote{For simplicity of notation, we assume that the variance
   $\sigma^2$ is uniform across time steps.
 In fact, the analysis extends straightforwardly to any
-\pfedit{continuous}
-mean-zero sub-Gaussian($\sigma^2$) noise that is independent but not necessarily identically distributed across time. \pfcomment{I used continuity below where the algorithm is defined to get rid of ties.}}
+continuous mean-zero sub-Gaussian($\sigma^2$) noise that is
+independent but not necessarily identically distributed across time.
+\dkcomment{Are we actually stating the result in this generality now?
+  If not, then why make the algorithm use continuity, as opposed to
+  that we have Gaussians? If we do make the algorithm that general,
+  then we should just define everything for Gaussians here.}}
 noise vector $\NoiseV \sim \Normal{\vc{0}}{\sigma^2 I_{d}}$.
 Here, $I_d$ denotes the $d \times d$ identity matrix.
 
@@ -112,6 +116,10 @@ breaking ties arbitrarily (but consistently).
 Notice that based on Assumption~\ref{A1} below,
   \Best{\AgV} and \Second{\AgV} are unique with probability 1.
 \pfcomment{Why is \Second{\AgV} unique with probability 1?  I don't think that is implied.  Can I remove that part of the statement?}
+\dkcomment{It is unique with probablity 1 over the draw of agent types
+  because for z=0, Assumption~\ref{A1} says that there is a measure 0
+  set of agents whose difference between the best and second-best
+  option is z=0. Or am I misunderstanding something?}
 
 % \dkdelete{This behavior may be recovered if agents are Bayesian and
 %   share a common non-informative prior distribution that is constant
@@ -165,19 +173,19 @@ preference of a random agent for his best arm over his second-best arm.
 
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 
-that is, there exist constants
-$\TieDensity, \TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
-such that 
+that is, there exist constants \dkedit{$\TieCutoff > 0, \TieDensity$} such that 
 $\AlmostTied{z} \leq \TieDensity \cdot z$ for all $z \leq \TieCutoff$.
 \end{assumption}
 
-The requirement that $\TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
-is not restrictive.
-Because \TieDensity and \TieCutoff are both constants,
-we could simply increase \TieDensity.
-Perhaps even more simply, $\MinProb \leq 1/\ARMNUM$,
-while \TieCutoff is a constant,
-so an alternative is to decrease \MinProb by a suitable constant factor.
+\dkdelete{
+% The requirement that $\TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
+%is not restrictive.
+%Because \TieDensity and \TieCutoff are both constants,
+%we could simply increase \TieDensity.
+%Perhaps even more simply, $\MinProb \leq 1/\ARMNUM$,
+%while \TieCutoff is a constant,
+%so an alternative is to decrease \MinProb by a suitable constant factor.
+}
 
 Assumption~\ref{A1} implies that ties happen with probability $0$.
 One special case of interest we discuss below is
@@ -186,17 +194,18 @@ $\TieDensity = 0$. This case arises when there is a cutoff
 within utility \TieCutoff of each other.
 In particular, $\TieDensity = 0$ happens whenever \AgentDist is discrete,
 i.e., supported on a finite set of types,
-\pfedit{and each type has a unique best arm.}
+and each type has a unique best arm.
 
 \paragraph{Roles of parameters:}
 Our problem setting is characterized by many parameters.
 Of these, we consider \ARMNUM, $\MinProb \leq 1/\ARMNUM$ and $T$ to be
-the key parameters, while we consider
-$\sigma, \Diam, d, \TieDensity, \TieCutoff$ to be constant.
+the key parameters, \dkedit{and also give some prominence to
+\TieDensity to illustrate an interesting phenomenon.}
+On the other hand, we consider
+$\sigma, \Diam, d$, and \TieCutoff to be constant.
 We track all parameters through most of our proofs,
-but report final results in terms of only the three key parameters,
+but report final results in terms of only the key parameters,
 except where we illustrate a specific point.
-\pfcomment{We report Thm 1 with $L$ in it.  Maybe we can still leave this sentence like it is.  I'll revisit later, if someone else doesn't resolve this first.}
 In particular, we consider $d$ a constant, because users
-typically evaluate products (or restaurants) by a small number of
+typically evaluate products (or restaurants, etc.) by a small number of
 relevant features.

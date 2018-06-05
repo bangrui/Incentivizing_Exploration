@@ -9,7 +9,9 @@ the algorithm does not offer any payments.
 Fix an arm $i$.
 Let $s \geq \exp(2/\MinProb)$, and let $\tau_s$ be the (random)
 time when arm $i$ is pulled for the \Kth{s} time.
-Under \AccEU{\tau_s}{\frac{p}{4\Diam d \TieDensity}},
+\dkedit{Let $\hat{x} = \frac{1}{2\Diam d}
+  \cdot \min(\TieCutoff, \frac{\MinProb}{2\TieDensity})$.
+Under \AccEU{\tau_s}{\hat{x}},}
 this pull of arm $i$ is not incentivized.
 \end{lemma}
 
@@ -36,8 +38,7 @@ locations occur, which is exponentially unlikely by
 Lemma~\ref{lem:round-prob}.
 
 To make this intuition precise, we set
-$\delta = \frac{\MinProb}{2 \TieDensity}$,
-and $x = x' = \frac{\delta}{2 \Diam d}$
+\dkedit{$x = x' = \frac{1}{2 \Diam d} \cdot \min(\TieCutoff, \frac{\MinProb}{2 \TieDensity})$}
 (which is independent of the phase number $s$).
 The cutoff point between early and late phases is now set to
 $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3}, \exp(\frac{2}{\MinProb}))$.
@@ -66,7 +67,8 @@ Thus, for any $s \geq \EvenLaterPhase$,
 the \Kth{s} pull of arm $i$ is incentivized  
 with probability at most
 $24 \ARMNUM d \cdot \exp \left(
-  -\frac{1.8 s \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
+\dkedit{  - \frac{1.8 s}{256 \Diam^2 d^2 \sigma^2}
+  \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2}
 \right)$.
 Summing over all arms and phases $s$,
 adding the at most $\ARMNUM \EvenLaterPhase$ incentivizations in
@@ -76,11 +78,18 @@ the expected total number of arm incentivizations is at most
 \begin{align*}
 \lefteqn{\ARMNUM \EvenLaterPhase
   + 24 \ARMNUM^2 d \cdot \frac{1}{1 - \exp \left(
-    \frac{-1.8 \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)}}  \\
-& = O\left( \max\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}, N\exp\left(\frac{2}{p}\right)\right)
-  + \frac{\ARMNUM^2 d^3 \TieDensity^2 \sigma^2 \Diam^2}{\MinProb^2} \right)
-\; = \; O\left( N\exp\left(\frac{2}{p}\right) \right).
+\dkedit{ - \frac{1.8}{256 \Diam^2 d^2 \sigma^2}
+  \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2}
+  \right)}}
+\\ & = O\left( \max \left(
+     \frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3},
+\dkedit{     \frac{\ARMNUM \Diam^3 d^3 \sigma^3}{\TieCutoff^3},}
+     \ARMNUM \exp \left(\frac{2}{\MinProb} \right) \right)
++ \max \left(
+     \frac{\ARMNUM^2 d^3 \TieDensity^2 \sigma^2 \Diam^2}{\MinProb^2},
+\dkedit{ \frac{\ARMNUM^2 d^3 \sigma^2 \Diam^2}{\TieCutoff^2}}
+\right) \right)
+\\ & = O\left( \ARMNUM \exp \left(\frac{2}{\MinProb}\right) \right).
 \end{align*}
 
 It remains to show that
