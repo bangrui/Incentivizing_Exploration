@@ -165,6 +165,9 @@
 \newcommand{\History}[1]{H_{#1}}
 % History of pulls, payments, and observations
 
+\newcommand{\EarlyCut}[2][]{\dkedit{\ensuremath{%
+\ifthenelse{\equal{#1}{}}{\gamma(#2)}{\gamma^{#1}(#2)}}\xspace}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Stuff related to specific bounds
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
