@@ -67,6 +67,9 @@ for each $s$.
 \dkcomment{We have already used $t_s$ before, e.g., in the preceding
   formula. Do we need to redefine it here?}
 \pfcomment{Above we define $t_s$ to be the start time of phase $s$.}
+\dkcomment{So the new $t_s$ is the old $t_{s+1}-1$? That's a really
+  confusing subtle notation change. Is there a way we can avoid this
+  and just decide on one or the other, and use it consistently?}
 Define the stopping times $\tau_{s}^{k}$ to be the \Kth{k}
 time step in the \Kth{s} phase,
 with $\tau_{s}^{k} = \infty$ when phase $s$ has fewer than $k$ steps,
