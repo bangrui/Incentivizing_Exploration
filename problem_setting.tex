@@ -25,7 +25,7 @@ he and all future agents observe a vector
 $\ObsV{t} = \ArmV{i} + \NoiseV[t]$ for arm $i$,
 and his reward is $\AgentV{t} \cdot \ObsV{t}$,
 i.e., agents have linear preferences.
-\pfedit{(Although linear, this model permits additional flexibility through the addition of derived attributes that are nonlinear transformation of some original attribute vector: define $\Agent{t}{i} = f_i(\AgentV{t})$ for some known nonlinear functions $f_i$ and $i=d+1,\ldots,d'$, and then increase $d$ to $d'$.)}
+\pfedit{(Although linear, this model permits additional flexibility through the addition of derived attributes that are nonlinear transformation of some original attribute vector: define $\Agent{t}{i} = \Psi_i(\AgentV{t})$ for some known nonlinear functions $\Psi_i$ where $i=d+1,\ldots,d'$, and then increase $d$ to $d'$.)}
 \pfcomment{I added some detail.  Is it clear now David?  I'm just talking about a standard trick in linear models, where you add nonlinear transformations of your feature vector and have a linear model in higher dimensions.}
 
 For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
@@ -36,9 +36,9 @@ $\ArmEV{t}{i} = \frac{1}{\NumPull{t}{i}+1} \cdot
 (\ArmEV{0}{i} + \sum_{t'<t: \Pull{t'} = i} \ObsV{t'})$;
 here, \ArmEV{0}{i} is a single draw $\ArmV{i} + \NoiseV$ for arm $i$.
 (In other words, we assume each arm is pulled once for free at time 0.)
-\dkedit{For a justification of the assumption that agents can observe
+For a justification of the assumption that agents can observe
 the actual noisy vectors \ObsV{t'} of past pulls, see
-Section~\ref{sec:introduction}.} 
+Section~\ref{sec:introduction}.
   
 Since each user only pulls an arm once, users are \emph{myopic}:
 in the absence of incentives, user $t$ will pull an arm from
@@ -82,7 +82,6 @@ While we do not show it, we hypothesize that our regret guarantees
 only change by constants as long as the principal's estimate of the
 conditional probability of pulling an arm is correct to within a
 constant factor.
-\dkdelete{(our algorithm depends on this quantity).}
 
 % \pfedit{
 % We assume above that the distribution $\AgentDist$ over preference vectors is known.
@@ -105,8 +104,8 @@ $ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
 denote the (indices of) the best and second-best arms for an agent
 with attribute vector \AgV,
 breaking ties arbitrarily (but consistently).
-\dkedit{Notice that based on Assumption~\ref{A1} below,
-  \Best{\AgV} and \Second{\AgV} are unique with probability 1.}
+Notice that based on Assumption~\ref{A1} below,
+  \Best{\AgV} and \Second{\AgV} are unique with probability 1.
 
 % \dkdelete{This behavior may be recovered if agents are Bayesian and
 %   share a common non-informative prior distribution that is constant
