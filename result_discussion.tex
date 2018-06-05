@@ -23,12 +23,13 @@ $O \left(\ARMNUM \cdot \e^{2/\MinProb} + \TieDensity \ARMNUM \log^3(T) \right)$.
 
 When $\TieDensity = 0$, the bound of Theorem~\ref{rst:regret} is
 constant in $T$;
-thus, the algorithm achieves constant regret for constant payment. 
-The case $\TieDensity = 0$ arises, for instance, in the case of a
-discrete distribution for agents.
-In fact, in the case of a discrete distribution of agents,
-it is possible to modify the algorithm to reduce the dependence on
-\MinProb from exponential to polynomial.
+thus, the algorithm achieves constant regret using constant payment. 
+\dkedit{As discussed in Section~\ref{sec:prob},
+the case $\TieDensity = 0$ arises, for instance, for
+discrete agent distributions.}
+In fact, in the case of a discrete agent distribution,
+it is possible to modify the algorithm to \dkedit{also}
+reduce the dependence on \MinProb from exponential to polynomial.
 Theorem~\ref{rst:discrete} (given later) states that the modified
 algorithm achieves expected regret
 $O \left(\frac{\ARMNUM}{\MinProb^4} \right)$

@@ -1,4 +1,4 @@
-\section{Introduction}
+\section{Introduction} \label{sec:introduction}
 
 Many websites and apps are designed to facilitate joint discovery,
 sharing, and recommendations of content.
@@ -33,7 +33,9 @@ To effect an outcome close to societally optimal,
 it is necessary to provide exploration incentives to the individual users.
 This was noted in two recent lines of work:
 \citet{kremer2014implementing}
-and \citet{mansour2015bayesian,mansour2016bayesian}
+and
+\citet{mansour2015bayesian,mansour2016bayesian,mansour2018competition}
+(see \cite{slivkins:asymmetry} for a high-level overview)
 assume that the site (also called the \emph{principal}) has an
 informational advantage in being the only one to observe the results
 of past arm pulls.
@@ -48,7 +50,7 @@ are in their best interest to follow.
 \citet{han2015incentivizing} instead assume that the results of all
 past arm pulls are publicly observable
 (such as reviews on an online retail site).
-They instead suppose the principal can offer payments to users as
+They instead suppose that the principal can offer payments to users as
 a reward for pulling particular arms.
 We follow the model of \citet{frazier2014incentivizing} and
 \citet{han2015incentivizing} 
@@ -80,7 +82,7 @@ information about an agent's preferences from the principal.
 On the other hand, heterogeneity also presents her an opportunity,
 through the possibility of ``free exploration.''
 Even when left unincentivized, agents will
-play a variety of arms, revealing information about their attributes.
+play a variety of arms, revealing information about the arms' attributes.
 This stands in sharp contrast to the case of homogeneous preferences,
 where unincentivized agents will herd onto a single apparently best arm;
 thus, effecting essentially any exploration at all requires incentives.
@@ -115,10 +117,20 @@ An agent's reward from pulling an arm is the inner product of his
 vector with the arm's vector (plus noise).
 When an arm is pulled, a noisy version of its attribute vector is
 observed by everyone.
-\pfedit{This models full-text product reviews on websites like Amazon, or ratings of ``service'', ``value'', and other restaurant attributes on websites like Tripadvisor.  }
+This models full-text product reviews on websites like Amazon,
+or ratings of ``service'', ``value'',
+and other restaurant attributes on websites like Tripadvisor.  
 Agents are myopic and will pull the arm whose expected attribute
 vector (based on past noisy observations) maximizes their reward.
-\pfedit{Agents' ability to effectively base decisions on all past observations models platforms' abilities to aggregate and effectively display past feedback, through simple averages of ratings and automatic summarization of full-text reviews \citep{wang2010product,liu2012movie,abulaish2009feature}.  While platforms can manipulate the display of user data, most have an incentive to be seen as truthful.}
+\dkedit{This assumption requires agents to have access to aggregate
+information about the feature vector estimates of all (relevant) arms. 
+Such access is facilitated by the platforms' ability to aggregate and
+effectively display past feedback, e.g., by displaying simple averages
+of ratings and using automatic summarization of full-text reviews 
+\citep{wang2010product,liu2012movie,abulaish2009feature}.
+While platforms could in principle manipulate the display of such
+data, most have an incentive to be seen as truthful.}
+%\pfedit{Agents' ability to effectively base decisions on all past observations models platforms' abilities to aggregate and effectively display past feedback, through simple averages of ratings and automatic summarization of full-text reviews \citep{wang2010product,liu2012movie,abulaish2009feature}.  While platforms can manipulate the display of user data, most have an incentive to be seen as truthful.}
 The principal can incentivize agents to pull particular arms by
 offering rewards for the specific arm.
 The principal's goal is to keep the cumulative regret across all
@@ -139,12 +151,14 @@ and let \TieDensity be a measure of the ``density of near-ties''
 between agents' arm preferences
 (in a sense made precise in Section~\ref{subsec:discrete}).
 There is a policy that achieves expected 
-cumulative regret $O (\ARMNUM \e^{2/\MinProb} + \ARMNUM \log^3(T))$,
+cumulative regret $O (\ARMNUM \e^{2/\MinProb} + \dkedit{\TieDensity} \ARMNUM \log^3(T))$,
 using expected cumulative payments of $O(\ARMNUM^2 \e^{2/\MinProb})$.
 In particular, when agents who are close to tied between two arms have measure $0$,
 both the expected regret and expected payment are bounded by constants
 (with respect to $T$). 
 \end{theorem}
+
+\dkcomment{Added the \TieDensity term in the statement.}
 
 The policy achieving the result of Theorem~\ref{thm:main-intro} is
 quite simple: it mostly lets agents exploit arms, but incentivizes

@@ -29,7 +29,7 @@ To reason about such estimation errors formally, we define
 \emph{envelopes} of sample paths.
 A sample path \SP captures all the random events affecting the
 algorithm, i.e., the random draws \AgentV{t} of agents and the
-noise \NoiseV[t] in the draws the pulled arms,
+noise \NoiseV[t] in the draws of the pulled arms,
 with an infinite time horizon.
 
 With foresight, we define $g(s, \ell) := \frac{12 \sigma \ell}{s^{2/5}}$.
@@ -206,6 +206,8 @@ Substituting these bounds, we obtain that
   \sum_{\ell = 1}^{\infty} \Prob{\SP \in \Env{\ell}} \cdot
   \sum_{s=1}^{h(\ell)} \left( \MAXR + \frac{24 \Diam d \sigma \ell}{s^{2/5}} \right).
 \end{align*}
+
+\dkcomment{Did we forget a sum over \SP here?}
 
 We now lower-bound $s^{2/5} \geq 1$, split off the term for $\ell=1$
 and bound $\Prob{\SP \in \Env{1}} \leq 1$, and apply

@@ -13,9 +13,9 @@ Under \AccEU{\tau_s}{\frac{p}{4\Diam d \TieDensity}},
 this pull of arm $i$ is not incentivized.
 \end{lemma}
 
-Towards bounding the algorithm's total payment, we now bound the
-\emph{number} of rounds in which the algorithm makes a payment by a
-constant.
+Towards bounding the algorithm's total payment, we now bound by a
+constant the \emph{number} of rounds in which the algorithm makes a
+payment.
 This bound also turns out to be useful for bounding the total regret.
 
 \begin{lemma} \label{lem:numP}
@@ -46,7 +46,7 @@ $\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x^2}{16 \sigma^2}}
 \leq \frac{n x}{2 \sigma}$
 for all $n \geq \max(2, \frac{30 \sigma^3}{x^3})$.
 
-Fix an arm $i$, and consider the \Kth{s} pull of an arm $i$,
+Fix an arm $i$, and consider the \Kth{s} pull of arm $i$,
 for $s \geq \EvenLaterPhase$.
 If this pull occurred before phase $s$, it was definitely not incentivized.
 So we condition on the pull occurring in phase $s$,

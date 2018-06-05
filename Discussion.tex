@@ -60,17 +60,18 @@ $s$ times up to time $t$, i.e., $\NumPull{t}{i} \leq s$.
 \item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors, the probability of pulling arm $i$ is less than $1/\log(s+s_0)$.
 \end{itemize}
 
-This, knowledge of \MinProb allows the algorithm to incentivize significantly fewer arm pulls.
+This knowledge of \MinProb allows the algorithm to incentivize
+significantly fewer arm pulls.
 We refer to this modified version of Algorithm~\ref{alg:basic-incentivizing} as the \emph{Known-\MinProb Algorithm.}
-We outline a proof of the following result for this algortithm under Assumption~\ref{a:known-p} in the Appendix~\ref{sec:discussion-proof2}.
+We outline a proof of the following result for this algortithm under Assumption~\ref{a:known-p} in Appendix~\ref{sec:discussion-proof2}.
 
 \begin{theorem}
 \label{rst:known-p}
-Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has an expected payment budget bounded above by 
+Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has expected payment budget bounded above by 
 \begin{align*}
 O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{\MinProb^{5/2}} \right),
 \end{align*}
-and an expected regret bounded above by
+and expected regret bounded above by
 \begin{align*}
 O \left(\frac{\MAXR \ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
   + \frac{\MAXR \ARMNUM^2 d^3 \TieDensity^2 \Diam^2 \sigma^2}{\MinProb^2}

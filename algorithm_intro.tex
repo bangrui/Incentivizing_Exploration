@@ -20,7 +20,7 @@ if both of the following hold:
 $s$ times up to time $t$, i.e., $\NumPull{t}{i} \leq s$.
 \item 
 The conditional probability of pulling arm $i$ is less than
-$1/\log(s)$ given current estimates \ArmEV{t}{i'} of arms'
+$1/\log(s)$ given the current estimates \ArmEV{t}{i'} of the arms'
 attribute vectors.  In other words, we require
 $\PullProb{t}{i} < 1/\log(s)$ where 
 $\PullProb{t}{i} = \Prob[\AgV \sim \AgentDist]{\AgV \cdot \ArmEV{t}{i} > \AgV
@@ -57,7 +57,7 @@ Algorithm~\ref{alg:basic-incentivizing} gives the full details.
 \caption{Algorithm: Incentivizing Exploration \label{alg:basic-incentivizing}}
 \begin{algorithmic}
 \STATE Set the current phase number $s = 1$.
-\COMMENT{Each arm is pulled once initially ``for free''.}
+\COMMENT{Each arm is pulled once initially ``for free.''}
 \FOR{time steps $t = 1, 2, 3, \ldots$}
 \IF{$\NumPull{t}{i} \geq s+1$ for all arms $i$}
 \STATE Increment the phase $s = s + 1$.
@@ -105,7 +105,7 @@ Then,
 $\AccEU{t}{x} = \bigcap_{i,j} \AccE{t}{i}{j}{x}$
 is the event that at time $t$, all arm attribute
 estimates are accurate to within $x$ simultaneously.
-We will then show that for suitable choices of $t, x$,
+We will show that for suitable choices of $t, x$,
 the events \AccE{t}{i}{j}{x}
 (and hence, by union bound, \AccEU{t}{x})
 have high probability,

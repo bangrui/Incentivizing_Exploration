@@ -22,23 +22,35 @@ pull arms myopically and make mistakes.
 
 We distinguish between agents incurring large regret
 (which requires severe misestimates of arm locations;
-such misestimated are exponentially unlikely to occur), 
+such misestimates are exponentially unlikely to occur), 
 and agents incurring small positive regret,
 which requires these agents to be almost tied in their preference for
 the best arm.
-To be more precise, we will define (with foresight) a phase-dependent
+To be more precise, we define (with foresight) a phase-dependent
 cutoff
 $g(s) = \sqrt{\frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}}$,
 and consider a regret exceeding $g(s)$ large.
 
+\dkedit{
+For most of the proof, we will focus on the case $g(s) \leq \TieCutoff$.
+The remaining phases are the ones with
+$s \leq \frac{128}{1.8} \cdot \log(T) \cdot \Diam^2 d^2 \sigma^2 \TieCutoff^2$.
+Each such phase lasts for at most $\ARMNUM \cdot \log(s)$ steps
+in expectation by Lemma~\ref{lem:phase-length},
+and each step incurs regret at most \MAXR.
+The total expected regret incurred in these phases is at most
+$100 \ARMNUM \MAXR \log^2(T) \cdot \Diam^3 d^3 \sigma^3 \TieCutoff^3$.}
+
+\dkedit{For the remainder of the proof, we consider phases $s$
+with $g(s) \leq \TieCutoff$.}
 We first consider agents \AgV incurring positive regret less than $g(s)$.
 The second-best arm \Second{\AgV} of such an agent \AgV must satisfy
 $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq g(s)$.
-By Assumption~\ref{A1},
+By Assumption~\ref{A1}, \dkedit{and because $g(s) \leq \TieCutoff$,}
 %Lemma~\ref{lem:sdelta},
 the total measure of such agents
 is $\AlmostTied{g(s)} \leq \TieDensity \cdot g(s)$,
-and each incurs regret at most $g(s)$.
+and each such agent incurs regret at most $g(s)$.
 Summing over all time steps,
 and using Lemma~\ref{lem:phase-length} to bound the number of time
 steps in phase $s$, 
@@ -51,14 +63,22 @@ the expected total regret from such agents is at most
 
 We next bound the regret incurred in time steps with large regret.
 Let the random variable $t_s$ be the final time step in phase $s$,
-for each $s$. Define the stopping times $\tau_{s}^{k}$ to be the \Kth{k}
+for each $s$.
+\dkcomment{We have already used $t_s$ before, e.g., in the preceding
+  formula. Do we need to redefine it here?}
+Define the stopping times $\tau_{s}^{k}$ to be the \Kth{k}
 time step in the \Kth{s} phase,
 with $\tau_{s}^{k} = \infty$ when phase $s$ has fewer than $k$ steps,
 i.e., $k > t_{s}-t_{s-1}$.
 By Lemma~\ref{lem:right-choice},
 under \AccEU{\tau_s^k}{\frac{g(s)}{2\Diam d}}, no agent at time $t$ will incur
 regret more than $g(s)$.
-
+\dkcomment{Instead of the extra case distinction, I had thought of
+  defining $g(s)$ to be the minimum of the current definition and
+  \TieCutoff. Unfortunately, I think that we cannot necessarily apply
+  Lemma~\ref{lem:right-choice} with that definition. Just putting that
+  here in case you are thinking of simplifying the proof this way.}
+  
 To bound the probability of \AccEU{\tau_s^k}{\frac{g(s)}{2\Diam d}},
 we use Lemma~\ref{lem:round-prob}
 (with $x_s = x'_s = \frac{g(s)}{2 \Diam d}$
@@ -109,16 +129,17 @@ the total expected regret from large-regret steps is at most
 \\ & \leq 12 \ARMNUM^2 d \MAXR.
 \end{align*}
 
-Adding all three types of regret terms,
+Adding all \dkedit{four} types of regret terms,
 and substituting that 
 $g^2(s) = \frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$,
 the cumulative regret up to time $T$ is at most
 
 \begin{align*}
-O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
+\lefteqn{O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
+\dkedit{+ \ARMNUM \MAXR \log^2(T)}
 + \ARMNUM^2 \MAXR d
-+ \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} g^2(s) \log(s) \right)
-& = 
++ \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} g^2(s) \log(s) \right)}
+\\ & = 
 O \left(\ARMNUM  \cdot \exp \left( \frac{2}{p} \right)
 + \ARMNUM \TieDensity \cdot \log^3(T) \right).\QED
 \end{align*}

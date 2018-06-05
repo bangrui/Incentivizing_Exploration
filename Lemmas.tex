@@ -66,6 +66,7 @@ Let $J$ be any stopping time with respect to $\SET{X_1, X_2, \ldots}$.
 defining $\Prob{J = \infty} = 1 - \lim_{n \to \infty} \Prob{J \leq n}$.)
 Define 
 $g(n)  = \sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + n \cdot b}$.
+
 Then, 
 $\Prob{J < \infty \mbox{ and } S_J \geq g(J)} \leq 12 \e^{-1.8 b}$.
 \end{lemma}
@@ -198,8 +199,8 @@ $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}})
 > \frac{\MinProb}{2\TieDensity}$
 will pull their best arm \Best{\AgV}.
 
-By Assmption~\ref{A1},
-%Lemma~\ref{lem:sdelta},
+By Assmption~\ref{A1}
+\dkedit{(including that $\frac{\MinProb}{2\TieDensity} \leq \TieCutoff$)},
 the measure of agents (across all arms)
 whose best and second-best arm differ in utility by less
 than $\frac{\MinProb}{2\TieDensity}$ is at most $\frac{\MinProb}{2}$.

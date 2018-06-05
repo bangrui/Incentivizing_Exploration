@@ -26,6 +26,7 @@ $\ObsV{t} = \ArmV{i} + \NoiseV[t]$ for arm $i$,
 and his reward is $\AgentV{t} \cdot \ObsV{t}$,
 i.e., agents have linear preferences.
 \pfedit{(We are also free to create new attributes that are nonlinear transformations of existing attributes.)}
+\dkcomment{I have no idea what this sentence refers to.}
 
 For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
 times that arm $i$ has been pulled (strictly) before time $t$.
@@ -33,9 +34,12 @@ An agent at time $t$ estimates arm $i$'s attribute vector as the
 average of vectors observed during the arm's past pulls:
 $\ArmEV{t}{i} = \frac{1}{\NumPull{t}{i}+1} \cdot
 (\ArmEV{0}{i} + \sum_{t'<t: \Pull{t'} = i} \ObsV{t'})$;
-here, \ArmEV{i}{0} is a single draw $\ArmV{i} + \NoiseV$ for arm $i$.
+here, \ArmEV{0}{i} is a single draw $\ArmV{i} + \NoiseV$ for arm $i$.
 (In other words, we assume each arm is pulled once for free at time 0.)
-
+\dkedit{For a justification of the assumption that agents can observe
+the actual noisy vectors \ObsV{t'} of past pulls, see
+Section~\ref{sec:introduction}.} 
+  
 Since each user only pulls an arm once, users are \emph{myopic}:
 in the absence of incentives, user $t$ will pull an arm from
 $\argmax_i \AgentV{t} \cdot \ArmEV{t}{i}$.
@@ -69,12 +73,16 @@ regret
 $\Expect{\TotalRegret{T}}$ the cumulative expected payment
 $\Expect{\TotalPay{T}}$ are small.
 
-\pfedit{
-We assume above that the distribution $\AgentDist$ over preference vectors is known.  In practice, one would estimate this from agents' selections and the attribute estimates and offered payments on which they were based.  While we do not show it, we hypothesize that our regret guarantees only change by constants as long as our estimate of the conditional probability of pulling an arm is correct within a constant factor (our algorithm depends on this quantity).
-}
-
-
-
+We assume above that the distribution $\AgentDist$ over preference
+vectors is known to the principal.
+In practice, a principal would estimate this distribution from agents'
+selections and the attribute estimates and offered payments on which
+they were based.
+While we do not show it, we hypothesize that our regret guarantees
+only change by constants as long as the principal's estimate of the
+conditional probability of pulling an arm is correct to within a
+constant factor.
+\dkdelete{(our algorithm depends on this quantity).}
 
 % \pfedit{
 % We assume above that the distribution $\AgentDist$ over preference vectors is known.
@@ -97,6 +105,8 @@ $ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
 denote the (indices of) the best and second-best arms for an agent
 with attribute vector \AgV,
 breaking ties arbitrarily (but consistently).
+\dkedit{Notice that based on Assumption~\ref{A1} below,
+  \Best{\AgV} and \Second{\AgV} are unique with probability 1.}
 
 % \dkdelete{This behavior may be recovered if agents are Bayesian and
 %   share a common non-informative prior distribution that is constant
@@ -118,7 +128,7 @@ Our algorithms rely on the following three assumptions on the agent distribution
 \AgentDist has a compact support set contained in $[0,\Diam]^d$.
 \end{assumption}
 
-Let $\MinProb = \min_{i} \Prob[\AgentDist]{\Best{\AgV} = i}$
+Let $\MinProb = \min_{i} \Prob[\AgV \sim \AgentDist]{\Best{\AgV} = i}$
 denote the minimum (over all arms) fraction of users that prefer any
 particular arm.
 
@@ -150,19 +160,37 @@ preference of a random agent for his best arm over his second-best arm.
 
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 
-that is, there exists a constant \TieDensity such that for all $z \in \R^+$,
-%for all pairs $i,i'$ of arms and 
-$\AlmostTied{z} \leq \TieDensity \cdot z$.
+that is, there exist constants
+\dkedit{$\TieDensity, \TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
+such that 
+$\AlmostTied{z} \leq \TieDensity \cdot z$ for all $z \leq \TieCutoff$.}
 \end{assumption}
 
-We emphasize that this assumption implies ties happen with probability $0$.
+\dkedit{
+The requirement that $\TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
+is not restrictive.
+Because \TieDensity and \TieCutoff are both constants,
+we could simply increase \TieDensity.
+Perhaps even more simply, $\MinProb \leq 1/\ARMNUM$,
+while \TieCutoff is a constant,
+so an alternative is to decrease \MinProb by a suitable constant factor.
 
-\paragraph{Role of parameters:}
-Our problem setting is characterized by many 
-parameters.
+Assumption~\ref{A1} implies that ties happen with probability $0$.
+One special case of interest we discuss below is
+$\TieDensity = 0$. This case arises when there is a cutoff
+\TieCutoff such that only a measure-zero set of agents has two best arms
+within utility \TieCutoff of each other.
+In particular, $\TieDensity = 0$ happens whenever \AgentDist is discrete,
+i.e., supported on a finite set of types.}
+
+\paragraph{Roles of parameters:}
+Our problem setting is characterized by many parameters.
 Of these, we consider \ARMNUM, $\MinProb \leq 1/\ARMNUM$ and $T$ to be
-the key parameters, while we consider $\sigma, \Diam, d, \TieDensity$ to be
-constant.
+the key parameters, while we consider
+$\sigma, \Diam, d, \TieDensity, \TieCutoff$ to be constant.
 We track all parameters through most of our proofs,
 but report final results in terms of only the three key parameters,
 except where we illustrate a specific point.
+\dkedit{In particular, we consider $d$ a constant, because users
+typically evaluate products (or restaurants) by a small number of
+relevant features.}

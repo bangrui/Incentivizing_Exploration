@@ -24,7 +24,10 @@
 We begin by bounding the length of any phase, which will support bounding
 the regret of early rounds
 (before tail bounds have kicked in). The proof of Lemma~\ref{lem:phase-length} and all other proofs missing in the main paper may be found in the appendix.
-
+\dkcomment{If we only get 12 pages in the proceedings, make sure to
+  replace ``appendix'' by ``online appendix'' or ``supplemental
+  material'' or whatever we call it, here and everywhere else.}
+  
 \begin{lemma} \label{lem:phase-length}
 For any $s\geq 3$, the expected length of phase $s$ is at most
 $\ARMNUM \cdot \log(s)$ time steps.
@@ -44,7 +47,9 @@ for all $n \geq \LatePhase$.
 Let $\tau_s$ be a stopping time
 (which may depend on the entire past history)
 which is almost surely in phase $s$,
-i.e., satisfying $\tau \in [t_s, t_{s+1})$ almost surely.
+i.e., satisfying $\dkedit{\tau_s} \in [t_s, t_{s+1})$ almost surely.
+\dkcomment{$\tau$ was missing the subscript $s$ here. I think that was
+  a mistake, but am marking it so someone can check.}
 Then, for any arm $i$, attribute $j$, and phase $s \geq \LatePhase$,
 we have 
 $\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
@@ -52,7 +57,7 @@ $\Prob{\AccE{\tau_s}{i}{j}{x'_s}}
 \end{lemma}
 
 Next, we show the complementary result:
-when event \AccEU{t}{x} happens, no myopic agent incurs large regret.
+when the event \AccEU{t}{x} happens, no myopic agent incurs large regret.
 
 \begin{lemma} \label{lem:right-choice}
 Let $x > 0$ be arbitrary.
