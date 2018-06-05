@@ -25,8 +25,8 @@ he and all future agents observe a vector
 $\ObsV{t} = \ArmV{i} + \NoiseV[t]$ for arm $i$,
 and his reward is $\AgentV{t} \cdot \ObsV{t}$,
 i.e., agents have linear preferences.
-\pfedit{(We are also free to create new attributes that are nonlinear transformations of existing attributes.)}
-\dkcomment{I have no idea what this sentence refers to.}
+\pfedit{(Although linear, this model permits additional flexibility through the addition of derived attributes that are nonlinear transformation of some original attribute vector: define $\Agent{t}{i} = f_i(\AgentV{t})$ for some known nonlinear functions $f_i$ and $i=d+1,\ldots,d'$, and then increase $d$ to $d'$.)}
+\pfcomment{I added some detail.  Is it clear now David?  I'm just talking about a standard trick in linear models, where you add nonlinear transformations of your feature vector and have a linear model in higher dimensions.}
 
 For each time $t$ and arm $i$, let \NumPull{t}{i} be the number of
 times that arm $i$ has been pulled (strictly) before time $t$.
