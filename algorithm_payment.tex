@@ -72,7 +72,7 @@ Thus, for any $s \geq \EvenLaterPhase$,
 the \Kth{s} pull of arm $i$ is incentivized  
 with probability at most
 $24 \ARMNUM d \cdot \exp \left(
-- \frac{1.8 s}{\pfedit{64} \Diam^2 d^2 \sigma^2}
+- \frac{1.8 s}{256 \Diam^2 d^2 \sigma^2}
   \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2
 \right)$.
 Summing over all arms and phases $s$,
@@ -83,7 +83,7 @@ the expected total number of arm incentivizations is at most
 \begin{align*}
 \lefteqn{\ARMNUM \EvenLaterPhase
   + 24 \ARMNUM^2 d \cdot \frac{1}{1 - \exp \left(
-- \frac{1.8}{\pfedit{64} \Diam^2 d^2 \sigma^2}
+- \frac{1.8}{256 \Diam^2 d^2 \sigma^2}
   \cdot \min(\TieCutoff, \frac{\MinProb}{\TieDensity})^2
   \right)}}
 \\ & = O\left( \max \left(
