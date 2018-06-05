@@ -24,7 +24,7 @@ $O \left(\ARMNUM \cdot \e^{2/\MinProb} + \TieDensity \ARMNUM \log^3(T) \right)$.
 When $\TieDensity = 0$, the bound of Theorem~\ref{rst:regret} is
 constant in $T$;
 thus, the algorithm achieves constant regret using constant
-\dkedit{expected payments}. 
+expected payments. 
 As discussed in Section~\ref{sec:prob},
 the case $\TieDensity = 0$ arises, for instance, for
 discrete agent distributions.
@@ -43,9 +43,8 @@ constant bound more generally, i.e., for $\TieDensity > 0$.
 That such a bound is unachievable is shown in Appendix~\ref{sec:lb},
 where we show a lower bound of $\Omega(\log(T))$ on
 the expected regret of any algorithm.
-The instance is simple: it has two arms, one \pfedit{with}
-attributes; \dkcomment{Should that be ``with \emph{known}
-  attributes''? I don't understand this edit.}
+The instance is simple: it has two arms, one \pfedit{with known}
+attributes; 
 in addition, one draw from the other arm is observed in
 each step $t$ even when it is not pulled.
 While the probability of pulling the wrong arm decreases over time, it
