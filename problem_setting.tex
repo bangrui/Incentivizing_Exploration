@@ -28,7 +28,7 @@ i.e., agents have linear preferences.
 Although the model is linear, it permits additional flexibility
 through the addition of derived attributes that are nonlinear
 transformation of some original attribute vector.
-\dkedit{One can simply define $\Ag{j} = g_j(\AgV{t})$ for some known
+\dkedit{One can simply define $\Ag{j} = g_j(\AgV)$ for some known
 nonlinear functions $g_j$ and $j=d+1,\ldots,d'$, and then increase the
 number of attributes to $d'$.}
 
@@ -40,9 +40,9 @@ $\ArmEV{t}{i} = \frac{1}{\NumPull{t}{i}+1} \cdot
 (\ArmEV{0}{i} + \sum_{t'<t: \Pull{t'} = i} \ObsV{t'})$;
 here, \ArmEV{0}{i} is a single draw $\ArmV{i} + \NoiseV$ for arm $i$.
 (In other words, we assume each arm is pulled once for free at time 0.)
-\dkedit{For a justification of the assumption that agents can observe
+For a justification of the assumption that agents can observe
 the actual noisy vectors \ObsV{t'} of past pulls, see
-Section~\ref{sec:introduction}.} 
+Section~\ref{sec:introduction}.
   
 Since each user only pulls an arm once, users are \emph{myopic}:
 in the absence of incentives, user $t$ will pull an arm from
@@ -86,7 +86,6 @@ While we do not show it, we hypothesize that our regret guarantees
 only change by constants as long as the principal's estimate of the
 conditional probability of pulling an arm is correct to within a
 constant factor.
-\dkdelete{(our algorithm depends on this quantity).}
 
 % \pfedit{
 % We assume above that the distribution $\AgentDist$ over preference vectors is known.
@@ -109,8 +108,9 @@ $ \Second{\AgV} \in \argmax_{i \neq \Best{\AgV}} \AgV \cdot \ArmV{i}$
 denote the (indices of) the best and second-best arms for an agent
 with attribute vector \AgV,
 breaking ties arbitrarily (but consistently).
-\dkedit{Notice that based on Assumption~\ref{A1} below,
-  \Best{\AgV} and \Second{\AgV} are unique with probability 1.}
+Notice that based on Assumption~\ref{A1} below,
+  \Best{\AgV} and \Second{\AgV} are unique with probability 1.
+\pfcomment{Why is \Second{\AgV} unique with probability 1?  I don't think that is implied.  Can I remove that part of the statement?}
 
 % \dkdelete{This behavior may be recovered if agents are Bayesian and
 %   share a common non-informative prior distribution that is constant
@@ -165,12 +165,11 @@ preference of a random agent for his best arm over his second-best arm.
 \begin{assumption}[Not too many near-ties] \label{A1}
 Near-ties have vanishing probability; 
 that is, there exist constants
-\dkedit{$\TieDensity, \TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
+$\TieDensity, \TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
 such that 
-$\AlmostTied{z} \leq \TieDensity \cdot z$ for all $z \leq \TieCutoff$.}
+$\AlmostTied{z} \leq \TieDensity \cdot z$ for all $z \leq \TieCutoff$.
 \end{assumption}
 
-\dkedit{
 The requirement that $\TieCutoff \geq \frac{\MinProb}{2 \TieDensity}$
 is not restrictive.
 Because \TieDensity and \TieCutoff are both constants,
@@ -185,7 +184,8 @@ $\TieDensity = 0$. This case arises when there is a cutoff
 \TieCutoff such that only a measure-zero set of agents has two best arms
 within utility \TieCutoff of each other.
 In particular, $\TieDensity = 0$ happens whenever \AgentDist is discrete,
-i.e., supported on a finite set of types.}
+i.e., supported on a finite set of types,
+\pfedit{and each type has a unique best arm.}
 
 \paragraph{Roles of parameters:}
 Our problem setting is characterized by many parameters.
@@ -195,6 +195,7 @@ $\sigma, \Diam, d, \TieDensity, \TieCutoff$ to be constant.
 We track all parameters through most of our proofs,
 but report final results in terms of only the three key parameters,
 except where we illustrate a specific point.
-\dkedit{In particular, we consider $d$ a constant, because users
+\pfcomment{We report Thm 1 with $L$ in it.  Maybe we can still leave this sentence like it is.  I'll revisit later, if someone else doesn't resolve this first.}
+In particular, we consider $d$ a constant, because users
 typically evaluate products (or restaurants) by a small number of
-relevant features.}
+relevant features.
