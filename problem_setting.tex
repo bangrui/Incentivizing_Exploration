@@ -102,8 +102,6 @@ constant factor.
 % }
 %\pfcomment{One modeling assumption I don't say anything about is that $\AgentDist$ is known.  I thought about adding some text saying that it can actually be estimated from user selections as we go, which is true, but it isn't clear that we can learn it much quicker than the item attributes, in general.  Another tact is to argue that our method is robust to mis-estimation of this, which seems true intuitively, but I'm not sure how to argue it here.  Probably it is possible to desgin an algorithm that learns this distribution along with item attributes.}
 
-
-
 To support the formulation of our results and the analysis,
 we define the following additional notation.
 We let
@@ -114,13 +112,7 @@ denote the (indices of) the best and second-best arms for an agent
 with attribute vector \AgV,
 breaking ties arbitrarily (but consistently).
 Notice that based on Assumption~\ref{A1} below,
-  \Best{\AgV} and \Second{\AgV} are unique with probability 1.
-\pfcomment{Why is \Second{\AgV} unique with probability 1?  I don't think that is implied.  Can I remove that part of the statement?}
-\dkcomment{It is unique with probablity 1 over the draw of agent types
-  because for z=0, Assumption~\ref{A1} says that there is a measure 0
-  set of agents whose difference between the best and second-best
-  option is z=0. Or am I misunderstanding something?}
-  \pfcomment{That argument says that $\Best{\AgV}$ is unique.  But the second best, $\Second{\AgV}$, doesn't have to be.  The measure of the set of agents with 0 gap between the second- and third-best  options might not vanish.}
+\dkedit{\Best{\AgV} is unique with probability 1.}
 
 % \dkdelete{This behavior may be recovered if agents are Bayesian and
 %   share a common non-informative prior distribution that is constant
