@@ -115,25 +115,20 @@ In the low-probability event, we simply
 bound the maximum regret by \MAXR.
 Now, applying Lemma~\ref{lem:phase-length},
 the total expected regret from large-regret steps is at most
-
-\begin{equation*}
-\sum_{s = 1}^T \frac{24 \ARMNUM d}{T^2} \cdot \MAXR \cdot \ARMNUM \log(s)
-\leq 12 \ARMNUM^2 d \MAXR.
-\end{equation*}
+$\sum_{s = 1}^T \frac{24 \ARMNUM d}{T^2} \cdot \MAXR \cdot \ARMNUM \log(s)
+\leq 12 \ARMNUM^2 d \MAXR.$
 %\pfcomment{I deleted the left-hand side of the above equation because it was using random terms in the summand, and actually wasn't true.  What was intended was an expectation outside of the sum, but I thought it simpler just to delete that term.}
 
 Adding all four types of regret terms,
-and substituting that 
+and substituting 
 $\EarlyCut[2]{s} = \frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$,
 the cumulative regret up to time $T$ is at most
-
-\begin{align*}
-\lefteqn{O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
+$
+O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
 + \ARMNUM \MAXR \log^2(T)
 + \ARMNUM^2 \MAXR d
-+ \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} \EarlyCut[2]{s} \log(s) \right)}
-\\ & = 
++ \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} \EarlyCut[2]{s} \log(s) \right)\\
+= 
 O \left(\ARMNUM  \cdot \exp \left( \frac{2}{p} \right)
-+ \ARMNUM \TieDensity \cdot \log^3(T) \right).\QED
-\end{align*}
++ \ARMNUM \TieDensity \cdot \log^3(T) \right)$.\QED
 \end{emptyextraproof}
