@@ -61,9 +61,12 @@ The calculation I did for the bound on the expected payment is,
 
 \begin{rtheorem}{Theorem}{\ref{rst:known-p}}
 Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has an expected payment budget bounded above by 
+    \bcedit{
 \begin{align*}
-O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{\MinProb^{5/2}} \right),
+    O\left(\ARMNUM^2 d\cdot(R+Dd\sigma)\cdot \max\bigg\{ \left(\frac{24\sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
+        \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}\right)
 \end{align*}
+}
 and an expected regret bounded above by
 \bcedit{
 \begin{align*}
@@ -76,7 +79,10 @@ O \left(\frac{\MAXR \ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
 
 \begin{proof}
   The proof of the expected payment bound follows Lemma~\ref{rst:budget} except for defining
-  $h(\ell) := \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}$
+    \bcedit{
+    $h(\ell) := \max\big\{ \left(\frac{24\sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
+        \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}\big\}$
+    }
 (without including the $\exp(2/\MinProb)$ term).
 
 The proof of the expected regret bound first establishes tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
