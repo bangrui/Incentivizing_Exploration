@@ -28,7 +28,7 @@ The conditional probability that the counter is stopped by that agent's pull is 
 Then, by definition of payment-eligibility,
 each arm $i \in S_t$ has conditional probability at least $1/\log(s)$ of being pulled.
 
-The expected value of this counter when it is stopped is bounded above by the expected stopped value of another counter whose conditional probability of being stopped is exactly $1/\log(s)$, and is otherwise identical.  (This can be shown more formally via a coupling argument.)
+The expected value of this counter when it is stopped is bounded above by the expected stopped value of another counter whose conditional probability of being stopped is exactly $1/\log(s)$.  (This can be shown more formally via a coupling argument.)
 Let $V_\ell$ be the conditional expectation of this second counter's value when it is stopped,
 given that its current value is $\ell$ and it has not been stopped.  Observe that $V_\ell = \ell + V_0$.
 Enumerating outcomes (either the counter increments or not; either it stops or it continues) provides $V_0 = f(A)\frac1{\log(s)} + f(A) (1-\frac1{\log(s)}) V_1 + (1-f(A))(1-\frac1{\log(s)}) V_0$.

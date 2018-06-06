@@ -71,13 +71,8 @@ time step in the \Kth{s} phase,
 with $\tau_{s}^{k} = \infty$ when phase $s$ has fewer than $k$ steps,
 i.e., $k > \pfedit{t_{s+1}-t_{s}}$.
 By Lemma~\ref{lem:right-choice},
-under \AccEU{\tau_s^k}{\frac{\dkedit{\EarlyCut{s}}}{2\Diam d}}, no agent at time $t$ will incur
+under \AccEU{\tau_s^k}{\frac{\EarlyCut{s}}{2\Diam d}}, no agent at time $t$ will incur
 regret more than \EarlyCut{s}.
-\dkcomment{Instead of the extra case distinction, I had thought of
-  defining \EarlyCut{s} to be the minimum of the current definition and
-  \TieCutoff. Unfortunately, I think that we cannot necessarily apply
-  Lemma~\ref{lem:right-choice} with that definition. Just putting that
-  here in case you are thinking of simplifying the proof this way.}
   
 To bound the probability of \AccEU{\tau_s^k}{\frac{\EarlyCut{s}}{2\Diam d}},
 we use Lemma~\ref{lem:round-prob}
@@ -121,22 +116,20 @@ bound the maximum regret by \MAXR.
 Now, applying Lemma~\ref{lem:phase-length},
 the total expected regret from large-regret steps is at most
 
-\begin{align*}
-\sum_{s = 1}^T \sum_{t=t_s}^{t_{s+1}-1}
-  \Prob{\mbox{incur regret exceeding } \EarlyCut{s} \mbox{ at step } t} \cdot \MAXR
-& \leq
- \sum_{s = 1}^T \frac{24 \ARMNUM d}{T^2} \cdot \MAXR \cdot \ARMNUM \log(s)
-\\ & \leq 12 \ARMNUM^2 d \MAXR.
-\end{align*}
+\begin{equation*}
+\sum_{s = 1}^T \frac{24 \ARMNUM d}{T^2} \cdot \MAXR \cdot \ARMNUM \log(s)
+\leq 12 \ARMNUM^2 d \MAXR.
+\end{equation*}
+%\pfcomment{I deleted the left-hand side of the above equation because it was using random terms in the summand, and actually wasn't true.  What was intended was an expectation outside of the sum, but I thought it simpler just to delete that term.}
 
-Adding all \dkedit{four} types of regret terms,
+Adding all four types of regret terms,
 and substituting that 
 $\EarlyCut[2]{s} = \frac{128\log(T) \cdot \Diam^2 d^2 \sigma^2}{1.8 s}$,
 the cumulative regret up to time $T$ is at most
 
 \begin{align*}
 \lefteqn{O \left(\ARMNUM \MAXR \cdot \exp \left( \frac{2}{p} \right)
-\dkedit{+ \ARMNUM \MAXR \log^2(T)}
++ \ARMNUM \MAXR \log^2(T)
 + \ARMNUM^2 \MAXR d
 + \ARMNUM \TieDensity \cdot \sum_{s=1}^{T} \EarlyCut[2]{s} \log(s) \right)}
 \\ & = 
