@@ -27,16 +27,23 @@ thus, the algorithm achieves constant regret using constant
 expected payments. 
 As discussed in Section~\ref{sec:prob},
 the case $\TieDensity = 0$ arises, for instance, for
-discrete agent distributions.
-In fact, in the case of a discrete agent distribution,
-it is possible to modify the algorithm to also
-reduce the dependence on \MinProb from exponential to polynomial.
+\dkdelete{discrete} agent distributions \dkedit{with finite support}.
+\dkdelete{In fact, in the case of a discrete agent distribution,}
+\dkedit{Alternatively, when $\TieDensity = 0$, 
+one can modify} the algorithm to
+reduce the dependence on \MinProb from exponential to polynomial,
+\dkedit{at the cost of reintroducing the poly-logarithmic dependence
+  on $T$}.
 Theorem~\ref{rst:discrete} (given later) states that the modified
 algorithm achieves expected regret
 $O \left(\frac{\ARMNUM}{\MinProb^4} \right)$
 with expected payments of
 $O \left(\frac{\ARMNUM^2}{\MinProb^{5/2}} \right)$.
-
+\dkcomment{Adjust these bounds.}
+\dkedit{Whether one can achieve regret that is simultaneously
+  independent of $T$ and polynomial in \ARMNUM and \MinProb is an
+  interesting open question.}
+  
 The fact that constant regret can be achieved with constant payment
 (independent of $T$) when $\TieDensity = 0$ suggests aiming for a
 constant bound more generally, i.e., for $\TieDensity > 0$.
@@ -54,8 +61,8 @@ dependence on \ARMNUM (because $\MinProb \leq 1/\ARMNUM$).
 This exponential dependence arises from a need to continue to
 incentivize arm pulls to ensure that nearly tied agents learn their
 best arms quickly.
-Aside from the assumption that $\TieDensity = 0$, another assumption
-allows us to eliminate this exponential dependence.
+Aside from the assumption that $\TieDensity = 0$,
+another assumption allows us to eliminate this exponential dependence.
 Namely, when \MinProb (or a lower bound on it) is known ahead of time,
 the algorithm can be modified to incentivize arms less aggressively.
 As shown in Theorem~\ref{rst:known-p},
