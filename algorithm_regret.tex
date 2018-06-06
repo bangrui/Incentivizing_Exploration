@@ -54,14 +54,10 @@ is $\AlmostTied{\EarlyCut{s}} \leq \TieDensity \cdot \EarlyCut{s}$.
 Then, by Lemma~\ref{lem:phase-length},
 the expected number of pulls in phase $s$ by agents in $A_s$  
 is bounded above by $\TieDensity \EarlyCut{s} \cdot \ARMNUM \log(s)$.
-\dkdelete{and the total expected number of pulls by these agents by
-$\sum_{s=1}^T \TieDensity \EarlyCut[2]{s} \ARMNUM \log(s)$.
-Consider}
 Any agent \AgV incurring positive regret less than $\EarlyCut{s}$
 must have a type in $A_s$,
-\dkdelete{Moreover, this agent's regret is bounded above by $\EarlyCut{s}$.}
 so the expected total regret from such agents,
-\dkedit{summed over all phases,} is at most
+summed over all phases, is at most
 \begin{equation}
 \sum_{s=1}^{T} \TieDensity \EarlyCut[2]{s} \cdot \ARMNUM \log(s).
 \label{equ:small_regret_bound}
