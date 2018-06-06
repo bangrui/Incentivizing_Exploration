@@ -4,7 +4,13 @@
 \begin{rtheorem}{Theorem}{\ref{rst:discrete}}
 Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm has expected payment budget bounded above by 
 \begin{align*}
-O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{\MinProb^{5/2}} \right),
+\pfedit{
+O \left(\ARMNUM^2  d^{7/2} D^{5/2} \sigma^{5/2} \cdot (\MAXR + \Diam d \sigma)\cdot
+    \max\bigg\{
+    \frac{1}{\TieCutoff},
+    \frac{\TieDensity}{\MinProb} \bigg\}^{5/2}
+\right)
+}
 \end{align*}
 and expected regret bounded above by 
 \begin{align}
@@ -16,13 +22,35 @@ O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
 
 \begin{proof}
 The proof of the expected payment bound is the same as the proof of Theorem~\ref{rst:budget}, except that we now define $h(\ell) := \max \left( \frac{2}{\MinProb},
+\pfedit{
+\left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
+}
 \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
 \right)$.
 
 To prove the bound on the expected regret, one can first prove tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
 which replace the $\exp(2/\MinProb)$ term with simply $2/\MinProb$.
 In return, the length of phase $s$ is now bounded only be $\ARMNUM s$ instead of $\ARMNUM \log(s)$.
-Substituting these changes into the proof of Theorem~\ref{rst:regret}, we obtain the claimed bounds.
+Substituting these changes into the proof\pfedit{s} of Theorem\pfedit{s}~\ref{rst:regret} \pfedit{and \ref{rst:budget}}, we obtain the claimed bounds.
+
+\pfcomment{
+The calculation I did for the bound on the expected payment is,
+\begin{align*}
+&O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot h(1) \right) \\ 
+&=O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
+    \max\bigg\{\frac{2}{p},
+    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},
+    \left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}
+\right)\\
+&=O \left(\ARMNUM^2  d^{7/2} D^{5/2} \sigma^{5/2} \cdot (\MAXR + \Diam d \sigma)\cdot
+    \max\bigg\{
+    \frac{1}{\TieCutoff},
+    \frac{\TieDensity}{\MinProb} \bigg\}^{5/2}
+\right).
+\end{align*}
+}
+
+
 \end{proof}
 
 \section{Proof Sketch of Theorem~\ref{rst:known-p}}
