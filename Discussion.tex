@@ -40,9 +40,12 @@ O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
 \end{align*}
 and expected regret bounded above by 
 \begin{align}
-O \left(\MAXR\cdot \frac{\ARMNUM \TieDensity^4 \Diam^4 d^4 \sigma^4}{\MinProb^4}
-  + \frac{\MAXR \ARMNUM^2 d^3 \TieDensity^2 \Diam^2 \sigma^2}{\MinProb^2}
-  \right).  \nonumber
+\pfedit{
+O \left(
+\ARMNUM \MAXR \left(
+	\frac2{\MinProb}
+       + \frac{\log^2(T) \Diam^4 d^4 \sigma^4}{\hat{z}^4}\right) \right)
+}
 \end{align}
 \end{theorem}
 
