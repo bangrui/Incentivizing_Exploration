@@ -9,9 +9,10 @@ $1/\MinProb$) when \MinProb is known or the preference distribution is
 discrete.
 In fact, we conjecture that this should be possible even in the full
 generality of our model.
-As a first step towards such a polynomial bound, we believe that it
-should be possible to obtain an exponential dependence on
-$1/(\MinProb \ARMNUM)$, which gives polynomial dependence unless some
+As a first step towards such a polynomial bound, we can obtain an exponential dependence on
+$1/(\MinProb \ARMNUM)$ by changing the probability threshold to be $\frac{1}{\ARMNUM\log(s)}$
+\footnote{This will lead to a different dependence on $\ARMNUM$
+in the regret bound as well as the payment bound}, which gives polynomial dependence unless some
 arm has a much smaller fraction of the population preferring it.
 
 Taking this goal one step further, we would like to 
