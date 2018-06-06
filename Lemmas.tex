@@ -4,26 +4,42 @@
 \begin{rlemma}{Lemma}{\ref{lem:phase-length}}
 For any $s\geq 3$, the expected length of phase $s$ is at most
 $\ARMNUM \cdot \log(s)$ time steps.
+\pfedit{
+Moreover, for any set of types $A$, the expected number of times that 
+an agent with a type in $A$ appears in a phase $s$ is at most 
+$f(A) \cdot \ARMNUM \cdot \log(s)$,
+where $f(A) := \Prob[\AgV \sim \AgentDist]{\ArmV \in A}$.
+}
 \end{rlemma}
 
 \begin{proof}
-Let $S$ be the set of arms that have been pulled at most
-$s$ times at the start of phase $s$.
-Thus, phase $s$ has ended when each $i \in S$ has been pulled at least once.
-Consider any time step $t$.
-If $S$ contains at least one payment-eligible arm $i$,
-then some payment-eligible arm will be pulled with probability 1,
-and every payment-eligible arm is in $S$.
-In particular, the size of $S$ decreases with probability 1.
-If $S$ contains no payment-eligible arm,
-then by definition of payment-eligibility,
-each arm $i \in S$ has probability at least $1/\log(s)$ of being pulled.
-In particular, the size of $S$ decreases with probability at least $1/\log(s)$.
+\pfedit{
+We show the second claim for general $A$, which implies the first claim by taking $A$ to be the support of $\AgentDist$.
 
-In either case, the expected number of time steps until
-$|S|$ decreases is at most $\log s$,
-so the expected number of steps until $S$ is empty is at most
-$\ARMNUM \cdot \log(s)$.
+Fix a phase $s$ and let $S_t$ be the set of arms that have been pulled at most $s$ times by time $t$.  Let $\tau_m$ be the maximum of $t_s$ (the start of phase $s$) and the time $t$ when $S_t$ first contains $m$ elements.  The phase ends when $S_t$ contains no elements, i.e., $\tau_0 = t_{s+1}$.
+We consider the expected number of pulls during times $[\tau_m, \tau_{m-1})$ made by agents whose types are in $A$.
+
+Consider a counter starting from $0$ at time $\tau_m$ that increments each time an agent arrives with a type in $A$, and that is stopped the first time an arm in $S_t$ is pulled.
+For any stopping time $t \in [\tau_m, \tau_{m-1})$, 
+the conditional probability that the counter increments
+given the history of pulls, payments, and observations at time $t$ 
+is $f(A)$.
+The conditional probability that the counter is stopped by that agent's pull is at least $1/\log(s)$.  To see this, consider two cases.  In the first case, there is at least one payment eligible arm, in which case the principal incentives an arm in $S_t$.  In the second case, there are no payment eligible arms.  
+Then, by definition of payment-eligibility,
+each arm $i \in S_t$ has conditional probability at least $1/\log(s)$ of being pulled.
+
+The expected value of this counter when it is stopped is bounded above by the expected stopped value of another counter whose conditional probability of being stopped is exactly $1/\log(s)$, and is otherwise identical.  (This can be shown more formally via a coupling argument.)
+Let $V_\ell$ be the conditional expectation of this second counter's value when it is stopped,
+given that its current value is $\ell$ and it has not been stopped.  Observe that $V_\ell = \ell + V_0$.
+Enumerating outcomes (either the counter increments or not; either it stops or it continues) provides $V_0 = f(A)\frac1{\log(s)} + f(A) (1-\frac1{\log(s)}) V_1 + (1-f(A))(1-\frac1{\log(s)}) V_0$.
+Using $V_1 = 1 + V_0$ simplifies this to 
+$V_0 = f(A) + (1-\frac1{\log(s)}) V_0$.
+Noting $V_0$ is finite and solving for $V_0$ provides
+$V_0 = f(A) \log(s)$.
+Thus, the conditional expected number of pulls (given the history at time $\tau_m$) by an agent with a type in $A$ during times in $[\tau_m, \tau_{m-1})$ is no more than $f(A) \log(s)$.
+
+We may write the total number of pulls by agents with types in $A$ during phase $s$ as a sum of this quantity over $m$ ranging from $|S_{t_s}|$ down to 1.  Noting that $|S_{t_s}| \le N$ and taking the expectation of this sum shows the claim. 
+}
 \end{proof}
 
 
