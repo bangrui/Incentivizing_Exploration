@@ -229,10 +229,13 @@ polynomially in $\ell$, whereas $\exp(-1.8(\ell-1)^2)$ decreases
 exponentially in $\ell$, the sum is dominated by its first term, and
 the overall expected payment is bounded by
 
+\bcedit{
 \begin{align*}
-O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot h(1) \right)
+O \left(\ARMNUM\cdot (\MAXR + \Diam d \sigma) \cdot h(1) \right)
 & = 
-O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma
-\cdot \exp(\frac{2}{\MinProb}) \right).
+    O \left(\ARMNUM (\MAXR + \Diam d \sigma)\cdot \max\bigg\{\exp(\frac{2}{p}),
+    \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}
+\right).
 \end{align*}
+}
 \end{extraproof}
