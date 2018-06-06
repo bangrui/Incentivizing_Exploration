@@ -35,12 +35,13 @@ Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has an expected p
 O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{\MinProb^{5/2}} \right),
 \end{align*}
 and an expected regret bounded above by
+\bcedit{
 \begin{align*}
 O \left(\frac{\MAXR \ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
   + \frac{\MAXR \ARMNUM^2 d^3 \TieDensity^2 \Diam^2 \sigma^2}{\MinProb^2}
-  + \frac{\ARMNUM^2 d\MAXR}{\MinProb}
   + \frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{\MinProb}\right).
 \end{align*}
+}
 \end{rtheorem}
 
 \begin{proof}
