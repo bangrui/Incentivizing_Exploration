@@ -36,7 +36,7 @@ $\ARMNUM \cdot \log(s)$.
 \label{sec:lemma5-proof}
 
 \begin{rlemma}{Lemma}{\ref{lem:round-prob}}
-Recall that $\sigma$ is the standard deviation of the Gaussian noise.
+Recall the noise is a mean-zero sub-Gaussian($\sigma^2$) random variable.
 Let \LatePhase be a phase cutoff, 
 and let $x_n, x'_n > 0$ be functions satisfying that
 $\sqrt{0.6 n \cdot \log (\log_{1.1}(n) + 1) + \frac{n x_n^2}{16 \sigma^2}}
@@ -84,7 +84,7 @@ been pulled for the \Kth{n} time. Define
 $S_n := \frac{n \cdot (\ArmE{k_n}{i}{j} - \Arm{i}{j})}{2 \sigma}$
 to be the sum of all attribute-$j$ noise components up to and
 including the \Kth{n} pull of arm $i$,
-renormalized to have standard deviation $1/2$.
+renormalized to be a mean-zero sub-Gaussian($1/2$) random variable.
 The $S_n$ define an unbiased half-subgaussian random walk,
 and we can therefore apply Lemma~\ref{lem:ACI-inequality} to them and
 the stopping time $J$.
