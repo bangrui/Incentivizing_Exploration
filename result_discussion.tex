@@ -28,19 +28,13 @@ expected payments.
 As discussed in Section~\ref{sec:prob},
 the case $\TieDensity = 0$ arises, for instance, for
 discrete agent distributions with finite support.
-\pfedit{In fact, when $\TieDensity = 0$,
-one can also modify} the algorithm to
-reduce the dependence on \MinProb from exponential to polynomial
-\pfdelete{at the cost of reintroducing the poly-logarithmic dependence
-  on $T$}.
+In fact, when $\TieDensity = 0$, one can also modify the algorithm to
+reduce the dependence on \MinProb from exponential to polynomial.
 Theorem~\ref{rst:discrete} (given later) states that the modified
 algorithm achieves expected regret
-$O \left(\ARMNUM/\pfedit{\MinProb} \right)$
+$O \left(\ARMNUM/\MinProb \right)$
 with expected payments of
-$O \left(\ARMNUM^2/\pfedit{\MinProb} \right)$.
-\pfdelete{Whether one can achieve regret that is simultaneously
-  independent of $T$ and polynomial in \ARMNUM and \MinProb is an
-  interesting open question.}
+$O \left(\ARMNUM^2/\MinProb \right)$.
   
 The fact that constant regret can be achieved with constant payment
 (independent of $T$) when $\TieDensity = 0$ suggests aiming for a
