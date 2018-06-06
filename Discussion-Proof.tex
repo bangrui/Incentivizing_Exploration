@@ -55,45 +55,64 @@ we obtain the bound $O(\MAXR(\ARMNUM/\MinProb + \ARMNUM^2) + \ARMNUM \MAXR +
 
 
 \begin{rtheorem}{Theorem}{\ref{rst:known-p}}
-Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has an expected payment bounded above by 
-$\pfedit{O\left(N^2 \max\{1, (L/p)^{5/2}\}\right)}$.
-and an expected regret bounded above by
-\bcedit{
-\begin{align*}
-O\left(\frac{\ARMNUM^2}{\MinProb^2}
-    + \frac{\ARMNUM^2}{\hat{z}^2} + \frac{\ARMNUM}{\hat{z}^3}
-    + \frac{NL\log^3(T)}{p}    
-    \right)
-\end{align*}
-}
+% Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has an expected payment bounded above by 
+% $\pfedit{O\left(N^2 \max\{1, (L/p)^{5/2}\}\right)}$.
+% and an expected regret bounded above by
+% \bcedit{
+% \begin{align*}
+% O\left(\frac{\ARMNUM^2}{\MinProb^2}
+%     + \frac{\ARMNUM^2}{\hat{z}^2} + \frac{\ARMNUM}{\hat{z}^3}
+%     + \frac{NL\log^3(T)}{p}    
+%     \right)
+% \end{align*}
+% }
+Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has
+expected payment bounded above by  
+$O(\ARMNUM^2 \cdot \max(1,(\TieDensity/\MinProb)^{5/2}))$ 
+and expected regret bounded above by
+%\begin{align*}
+$O \left( \frac{\ARMNUM^2}{\MinProb^2}
+%  + \frac{\ARMNUM^2}{\hat{z}^2}+\frac{\ARMNUM}{\hat{z}^3}
+  +\frac{\ARMNUM \TieDensity \log^3(T)}{\MinProb}\right)$.
+%  \end{align*}
 \end{rtheorem}
 
 \begin{proof}
-	The proof of the expected payment bound follows Lemma~\ref{rst:budget} \pfedit{ except we define 
-	$h(\ell)$ without including the $\exp(2/\MinProb)$ term}
-    as $h(\ell) := \max\big\{ \left(\frac{24\sigma \ell\Diam d}{\TieCutoff} \right)^{5/2},
-        \left( \frac{48\sigma \ell\TieDensity \Diam d}{\MinProb} \right)^{5/2}\big\}$
-\pfedit{
-The resulting bound on expected payment is
-$O\left(\ARMNUM^2 d\cdot(R+Dd\sigma)\cdot \max\bigg\{ \left(\frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},
- \left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}\right)
- = O\left(N^2 \max\{1, (L/p)^{5/2}\}\right)$.
-}
-
+The proof of the expected payment bound follows Lemma~\ref{rst:budget},
+except we define $h(\ell)$ without including the $\exp(2/\MinProb)$ term,
+instead using
+$h(\ell) := \max \left(
+  \left(\frac{24\sigma \ell\Diam d}{\TieCutoff} \right)^{5/2},
+  \left( \frac{48\sigma \ell\TieDensity \Diam d}{\MinProb} \right)^{5/2}
+\right)$.
+The resulting bound on the expected payment is
+\begin{align*}
+O\left( \ARMNUM^2 d \cdot (\MAXR+\Diam d\sigma) \cdot
+  \max \left(
+    \left(\frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},
+    \left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2}
+    \right) \right)
+& = O\left(\ARMNUM^2 \max (1, (\TieDensity/\MinProb)^{5/2}) \right).
+\end{align*}
 
 The proof of the expected regret bound first establishes tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
 proving the following upper bound on the number of time steps in which a payment is made:
-    \bcedit{
-\begin{align}
+    
+\begin{align*}
 O\left(\frac{\ARMNUM^2 \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^2}
-    + \frac{\ARMNUM^2 d^3 \sigma^2 \Diam^2}{\hat{z}^2} + \frac{\ARMNUM \Diam^3 d^3 \sigma^3}{\hat{z}^3}
- \right). \nonumber 
-\end{align}
-}
-The proof of this result follows that of Lemma~\ref{lem:numP},
-but the less aggressive incentivization allows us to define $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3})$ since $\frac{1}{\log(s+s_0)} \leq \frac{\MinProb}{2}$ is true for all $s$.
+    + \frac{\ARMNUM^2 d^3 \sigma^2 \Diam^2}{\TieCutoff^2} + \frac{\ARMNUM \Diam^3 d^3 \sigma^3}{\TieCutoff^3}
+  \right)
+& \dkedit{= O \left( \frac{\ARMNUM^2}{\MinProb^2} \right)}.
+\end{align*}
 
-Using this tighter bound on the number of incentiziations, and the fact that phases now last at most $\ARMNUM \log(s+s_0)$ steps in expectation, we can bound the regret in Equation~\ref{equ:small_regret_bound} by
+The proof of this result follows that of Lemma~\ref{lem:numP},
+but the less aggressive incentivization allows us to define
+$\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3})$
+since $\frac{1}{\log(s+s_0)} \leq \frac{\MinProb}{2}$ is true for all $s$.
+
+Using this tighter bound on the number of incentivizations,
+and the fact that phases now last at most $\ARMNUM \log(s+s_0)$ steps in expectation,
+we can bound the regret in Equation~\eqref{equ:small_regret_bound} by
 %$71.11 \ARMNUM\Diam^2 d^2\sigma^2 \TieDensity\log(T)(\log(T)+1)\log(T+s_0)$
-$O\left(\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{\MinProb}\right)$.
+$O\left(\frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity \cdot (\log(T))^3}{\MinProb}\right)$.
 \end{proof}
