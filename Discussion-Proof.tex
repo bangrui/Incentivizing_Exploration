@@ -5,10 +5,10 @@
 Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm has expected payment budget bounded above by 
 \begin{align*}
 \pfedit{
-O \left(\ARMNUM^2  d^{7/2} D^{5/2} \sigma^{5/2} \cdot (\MAXR + \Diam d \sigma)\cdot
-    \max\bigg\{
-    \frac{1}{\TieCutoff},
-    \frac{\TieDensity}{\MinProb} \bigg\}^{5/2}
+O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
+    \max\bigg\{\frac{2}{p},
+    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2}
+    \bigg\}
 \right)
 }
 \end{align*}
@@ -30,7 +30,7 @@ The proof of the expected payment bound is the same as the proof of Theorem~\ref
 \pfedit{
 = 
 \max \left( \frac{2}{\MinProb},
-\left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
+\left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2}
 \right)
 }
 $.
@@ -46,14 +46,9 @@ The calculation I did for the bound on the expected payment is,
 &O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot h(1) \right) \\ 
 &=O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
     \max\bigg\{\frac{2}{p},
-    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},
-    \left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}
-\right)\\
-&=O \left(\ARMNUM^2  d^{7/2} D^{5/2} \sigma^{5/2} \cdot (\MAXR + \Diam d \sigma)\cdot
-    \max\bigg\{
-    \frac{1}{\TieCutoff},
-    \frac{\TieDensity}{\MinProb} \bigg\}^{5/2}
-\right).
+    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2}
+    \bigg\}
+\right)
 \end{align*}
 }
 

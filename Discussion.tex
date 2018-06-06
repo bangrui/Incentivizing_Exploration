@@ -12,8 +12,8 @@ Discrete preferences by agents are captured by the following assumption (which s
 
 \begin{assumption}[Discrete Preferences]
 \label{a:discrete}
-There is a positive $\delta_0$ such that
-$\AlmostTied{\delta_0} = 0$.
+There is a positive \pfedit{$\hat{z}$} such that
+$\AlmostTied{\pfedit{\hat{z}}} = 0$.
 \end{assumption}
 
 When Assumption~\ref{a:discrete} holds, we restrict the payment-eligibility criterion by only incentivizing arms with much smaller probability to be pulled: an arm $i$ is \emph{payment-eligible} at time $t$ in phase $s$ when both of the following are true:
@@ -30,7 +30,13 @@ We outline a proof of the following result for this algortithm under Assumption~
 \label{rst:discrete}
 Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm has expected payment \pfdelete{budget} bounded above by 
 \begin{align*}
-O \left(\frac{\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma)\sigma^{5/2}L^{5/2}\Diam^{5/2}d^{5/2}}{\MinProb^{5/2}} \right),
+\pfedit{
+O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
+    \max\bigg\{\frac{2}{p},
+    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2}
+    \bigg\}
+\right)
+}
 \end{align*}
 and expected regret bounded above by 
 \begin{align}
