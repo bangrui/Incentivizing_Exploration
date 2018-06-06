@@ -4,15 +4,20 @@
 We restate the theorem here for convenience:
 
 \begin{rtheorem}{Theorem}{\ref{rst:budget}}
-The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
-\begin{align}
+The expected total payment of
+Algorithm~\ref{alg:basic-incentivizing} is at most
+$O \left(\ARMNUM^2 \cdot \e^{2/\MinProb} \right)$.
+%The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
+%\begin{align}
 % O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp\left(\frac{2}{\MinProb}\right) \right).  
-\pfedit{O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot \max\bigg\{\exp\left(\frac{2}{p}\right),
-\left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},
-\left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}
-\right).}\nonumber 
-\end{align}
+%\pfedit{O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot \max\bigg\{\exp\left(\frac{2}{p}\right),
+%\left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},
+%\left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}
+%\right).}\nonumber 
+%\end{align}
 \pfcomment{Maybe we want to simplify the constants in the above? Not sure.}
+\dkcomment{I think that stating it the way we state it in Section 3
+  makes the most sense.}
 \end{rtheorem}
 
 The high-level idea of the proof is motivated by Lemma~\ref{lem:numP},
@@ -161,9 +166,7 @@ coordinates $j$ completes the proof.
 Next, we show that for any sample path \SP in the envelope \Env{\ell},
 we can bound the total number of payments made in terms of $\ell$.
 Define $h(\ell) := \max \left( \exp(\frac{2}{\MinProb}),
-\pfedit{
 \left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
-}
 \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
 \right)$.
 
@@ -181,7 +184,7 @@ Because $\SP \in \Env{\ell}$, in particular, all estimation errors are
 bounded at time $t$, in the sense that the event \AccEU{t}{g(s,\ell)}
 happens.
 Because $s \geq h(\ell)$, we get that
-$g(s,\ell) \leq \pfedit{\min(\frac{\TieCutoff}{2\Diam d},} \frac{\MinProb}{4 \Diam d \TieDensity}\pfedit{)}$
+$g(s,\ell) \leq \min(\frac{\TieCutoff}{2\Diam d}, \frac{\MinProb}{4 \Diam d \TieDensity})$
 as well as $s \geq \exp(2/\MinProb)$.
 Therefore, we can apply Lemma~\ref{lem:no-incentives} and conclude
 that the pull at time $t$ was not incentivized.
@@ -237,14 +240,16 @@ polynomially in $\ell$, whereas $\exp(-1.8(\ell-1)^2)$ decreases
 exponentially in $\ell$, the sum is dominated by its first term, and
 the overall expected payment is bounded by
 
-\pfedit{
 \begin{align*}
-& O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot h(1) \right) \\ 
-= 
-& O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot \max\bigg\{\exp\left(\frac{2}{p}\right),
-		    \pfedit{\left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},}
-    \left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2}\bigg\}
-\right).
+& O \left(\ARMNUM^2 d \cdot (\MAXR + \Diam d \sigma) \cdot h(1)
+  \right)
+\\ = 
+& O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
+  \max \left( \exp \left(\frac{2}{\MinProb}\right),
+		    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2},
+    \left( \frac{\sigma \TieDensity \Diam d}{\MinProb} \right)^{5/2} \right)
+\right)
+\\ =
+& \dkedit{O \left( \ARMNUM^2 \cdot \exp \left(\frac{2}{\MinProb} \right) \right)}.
 \end{align*}
-}
 \end{extraproof}
