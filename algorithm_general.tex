@@ -21,14 +21,26 @@
 % \end{align*}
 % \end{emptyproof}
 
-We begin by bounding the length of any phase, which will support bounding
-the regret of early rounds
-(before tail bounds have kicked in). The proof of Lemma~\ref{lem:phase-length} and all other proofs missing in the main paper may be found in the appendix.
+We begin by bounding the length of any phase,
+\dkedit{and more generally, the number of arm pulls by any given set
+  of agents.
+The bound of Lemma~\ref{lem:phase-length}} will support bounding the
+regret of early rounds (before tail bounds have kicked in).
+The proof of Lemma~\ref{lem:phase-length} and all other proofs missing
+in the main paper may be found in the appendix.
   
 \begin{lemma} \label{lem:phase-length}
 For any $s\geq 3$, the expected length of phase $s$ is at most
 $\ARMNUM \cdot \log(s)$ time steps.
+
+More generally, for any set of types $A$, the expected number of times that 
+an agent with a type in $A$ appears in a phase $s$ is at most 
+$f(A) \cdot \ARMNUM \cdot \log(s)$,
+where $f(A) := \Prob[\AgV \sim \AgentDist]{\dkedit{\AgV} \in A}$.
 \end{lemma}
+
+%For any $s\geq 3$, the expected length of phase $s$ is at most
+%$\ARMNUM \cdot \log(s)$ time steps.
                   
 We now state the key technical lemma which captures the intuition that
 the estimates of the arms' attribute vectors become
