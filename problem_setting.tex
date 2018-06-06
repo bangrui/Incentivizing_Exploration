@@ -7,12 +7,10 @@ hence, arms are identified with vectors $\ArmV{i} \in \R^d$.
 The \ArmV{i} are (adversarially) fixed, and unknown to the agents
 and the principal.
 When arm $i$ is pulled, its current utility-relevant features are
-determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero independent sub-Gaussian%
-\footnote{For simplicity of notation, we assume that the variance
+determined as $\ArmV{i} + \NoiseV$, where \NoiseV is a mean-zero independent \pfedit{continuous} sub-Gaussian%
+\footnote{For simplicity of notation, we assume that the variance \pfedit{proxy}
   $\sigma^2$ is uniform across time steps.
-In fact, the analysis extends straightforwardly to any
-continuous mean-zero sub-Gaussian($\sigma^2$) noise that is
-independent but not necessarily identically distributed across time.}
+  \pfedit{The} analysis extends \pfedit{easily when the variance proxy changes over time}.}
 noise vector $\NoiseV \sim \Normal{\vc{0}}{\sigma^2 I_{d}}$.
 Here, $I_d$ denotes the $d \times d$ identity matrix.
 
