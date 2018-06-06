@@ -60,9 +60,10 @@ $\pfedit{O\left(N^2 \max\{1, (L/p)^{5/2}\}\right)}$.
 and an expected regret bounded above by
 \bcedit{
 \begin{align*}
-O \left(\frac{\MAXR \ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
-  + \frac{\MAXR \ARMNUM^2 d^3 \TieDensity^2 \Diam^2 \sigma^2}{\MinProb^2}
-  + \frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{\MinProb}\right).
+O\left(\frac{\ARMNUM^2}{\MinProb^2}
+    + \frac{\ARMNUM^2}{\hat{z}^2} + \frac{\ARMNUM}{\hat{z}^3}
+    + \frac{NL\log^3(T)}{p}    
+    \right)
 \end{align*}
 }
 \end{rtheorem}
@@ -82,12 +83,13 @@ $O\left(\ARMNUM^2 d\cdot(R+Dd\sigma)\cdot \max\bigg\{ \left(\frac{\sigma \Diam d
 
 The proof of the expected regret bound first establishes tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
 proving the following upper bound on the number of time steps in which a payment is made:
+    \bcedit{
 \begin{align}
-O\left(\frac{\ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
-  + \frac{\ARMNUM^2 d}{1 - \exp \left(
-    \frac{-1.8 \cdot \MinProb^2}{256 \TieDensity^2 \Diam^2 d^2 \sigma^2}
-  \right)} \right). \nonumber 
+O\left(\frac{\ARMNUM^2 \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^2}
+    + \frac{\ARMNUM^2 d^3 \sigma^2 \Diam^2}{\hat{z}^2} + \frac{\ARMNUM \Diam^3 d^3 \sigma^3}{\hat{z}^3}
+ \right). \nonumber 
 \end{align}
+}
 The proof of this result follows that of Lemma~\ref{lem:numP},
 but the less aggressive incentivization allows us to define $\EvenLaterPhase = \max(2, \frac{30 \sigma^3}{x^3})$ since $\frac{1}{\log(s+s_0)} \leq \frac{\MinProb}{2}$ is true for all $s$.
 
