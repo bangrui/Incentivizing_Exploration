@@ -61,12 +61,12 @@ The calculation I did for the bound on the regret is:
 
 \begin{itemize}
 \item regret from times when we pay is $RN\frac2p$
-\item regret from times with $\gamma(s) >= \hat{z}$ is $NR \log^2(T) D^4 d^4 sigma^4 / \hat{z}^4$
-\item regret from small regret is 0
-\item regret from big regret is $NRd/T$
+\item regret from phases with $\gamma(s) >= \hat{z}$ is $NR \log^2(T) D^4 d^4 \sigma^4 / \hat{z}^4$
+\item regret from pulls with small regret is 0
+\item regret from pulls with big regret is $NRd/T$
 \end{itemize}
 
-Total is NR ($\frac2p + \frac{d}{T} + \frac{\log^2(T) D^4 d^4 sigma^4}{zhat^4}$)
+Total is NR ($\frac2p + \frac{d}{T} + \frac{\log^2(T) D^4 d^4 \sigma^4}{\hat{z}^4}$)
 }
 
 
