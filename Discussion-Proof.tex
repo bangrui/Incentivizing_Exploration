@@ -26,7 +26,14 @@ The proof of the expected payment bound is the same as the proof of Theorem~\ref
 \left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
 }
 \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
-\right)$.
+\right)
+\pfedit{
+= 
+\max \left( \frac{2}{\MinProb},
+\left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
+\right)
+}
+$.
 
 To prove the bound on the expected regret, one can first prove tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
 which replace the $\exp(2/\MinProb)$ term with simply $2/\MinProb$.
