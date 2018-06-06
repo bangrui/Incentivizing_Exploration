@@ -29,24 +29,8 @@ We outline a proof of the following result for this algortithm under Assumption~
 \begin{theorem}
 \label{rst:discrete}
 Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm has expected payment \pfdelete{budget} bounded above by 
-\begin{align*}
-\pfedit{
-O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
-    \max\bigg\{\frac{2}{p},
-    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2}
-    \bigg\}
-\right)
-}
-\end{align*}
-and expected regret bounded above by 
-\begin{align}
-\pfedit{
-O \left(
-\ARMNUM \MAXR \left(
-	\frac2{\MinProb}
-       + \frac{\log^2(T) \Diam^4 d^4 \sigma^4}{\hat{z}^4}\right) \right)
-}
-\end{align}
+$\pfedit{O \left(\ARMNUM^2 /p \right)}$
+and expected regret bounded above by \pfedit{$O(\ARMNUM / p)$}.
 \end{theorem}
 
 

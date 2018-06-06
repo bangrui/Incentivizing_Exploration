@@ -2,47 +2,24 @@
 \label{sec:discussion-proof1}
 
 \begin{rtheorem}{Theorem}{\ref{rst:discrete}}
-Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm has expected payment budget bounded above by 
-\begin{align*}
-\pfedit{
-O \left(\ARMNUM^2  d \cdot (\MAXR + \Diam d \sigma)\cdot
-    \max\bigg\{\frac{2}{p},
-    \left( \frac{\sigma \Diam d}{\TieCutoff} \right)^{5/2}
-    \bigg\}
-\right)
-}
-\end{align*}
-and expected regret bounded above by 
-\pfedit{
-\begin{align*}
-O \left(
-\ARMNUM \MAXR \left(
-	\frac2{\MinProb}
-       + \frac{\log^2(T) \Diam^4 d^4 \sigma^4}{\hat{z}^4}\right) \right)
-\end{align*}
-}
+Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm has expected payment \pfdelete{budget} bounded above by 
+$\pfedit{O \left(\ARMNUM^2 /p \right)}$
+and expected regret bounded above by \pfedit{$O(\ARMNUM / p)$}.
 \end{rtheorem}
 
 \begin{proof}
 The proof of the expected payment bound is the same as the proof of Theorem~\ref{rst:budget}, except that we now define $h(\ell) := \max \left( \frac{2}{\MinProb},
 \pfedit{
-\left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
-}
-\left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
-\right)
-\pfedit{
-= 
-\max \left( \frac{2}{\MinProb},
 \left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2}
-\right).
 }
+\right).
 $
 %\pfedit{and $s_1 = \max(2,\frac{30\sigma^3}{x^3}, \frac2{\MinProb})$}.
 
 To prove the bound on the expected regret, one can first prove tightened versions of Lemmas~\ref{lem:no-incentives} and \ref{lem:numP},
-which replace the $\exp(2/\MinProb)$ term with simply $2/\MinProb$.
-In return, the length of phase $s$ is now bounded only by $\ARMNUM s$ instead of $\ARMNUM \log(s)$.
-Substituting these changes into the proof of Theorem~\ref{rst:regret}, we obtain the claimed bounds.
+which replace the $\exp(2/\MinProb)$ term with \pfdelete{simply} $2/\MinProb$ \pfedit{and use $L=0$.}
+In return, the length of phase $s$ is now bounded only by $\ARMNUM s$ instead of $\ARMNUM \log(s)$, \pfedit{and the expectetd number of times steps in which a payment is made is bounded by $O(N/p + N^2)$.}
+Substituting these changes into the proof of Theorem~\ref{rst:regret}, we obtain the bound $O(R(N/p + N^2) + NR + NR) = O(N/p)$ since $p \le 1/N$.
 
 \pfcomment{
 The calculation I did for the bound on the expected payment is,
@@ -60,13 +37,11 @@ The calculation I did for the bound on the expected payment is,
 The calculation I did for the bound on the regret is:
 
 \begin{itemize}
-\item regret from times when we pay is $RN\frac2p$
-\item regret from phases with $\gamma(s) >= \hat{z}$ is $NR \log^2(T) D^4 d^4 \sigma^4 / \hat{z}^4$
+\item regret from times when we pay is $RN(N + 1/p)$
+\item regret from phases with $\gamma(s) >= \hat{z}$ is $O(NR D^6 d^6 \sigma^6 / \hat{z}^6)$
 \item regret from pulls with small regret is 0
-\item regret from pulls with big regret is $NRd/T$
+\item regret from pulls with big regret is $O(NR)$
 \end{itemize}
-
-Total is NR ($\frac2p + \frac{d}{T} + \frac{\log^2(T) D^4 d^4 \sigma^4}{\hat{z}^4}$)
 }
 
 
