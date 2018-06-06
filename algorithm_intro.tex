@@ -33,7 +33,7 @@ probability $0$.
 \end{itemize}
 
 
-When multiple arms are payment-eligible, the algorithm picks one arbitarily to incentivize.
+When multiple arms are payment-eligible, the algorithm picks one arbitrarily to incentivize.
 When the algorithm decides to incentivize an arm $i$,
 it offers ``whatever it takes,'' i.e., offers a payment of
 $\Pay{t}{i} = \max_{\AgV,i'} \AgV \cdot (\ArmEV{t}{i'} - \ArmEV{t}{i})$.
@@ -67,7 +67,7 @@ Algorithm~\ref{alg:basic-incentivizing} gives the full details.
 \STATE Increment the phase $s = s + 1$.
 \ENDIF
 \IF{there is a payment-eligible arm $i$}
-\STATE Let $i$ be an arbitary payment-eligible arm.
+\STATE Let $i$ be an arbitrary payment-eligible arm.
 \STATE Offer payment
 $\Pay{t}{i} = \max_{\AgV,i'} \AgV \cdot (\ArmEV{t}{i'} - \ArmEV{t}{i})$
 for pulling arm $i$
