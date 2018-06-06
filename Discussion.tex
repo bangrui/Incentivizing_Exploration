@@ -61,18 +61,11 @@ We outline a proof of the following result for this algortithm under Assumption~
 \begin{theorem}
 \label{rst:known-p}
 Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has expected payment \pfdelete{budget} bounded above by 
-    \bcedit{
-\begin{align*}
-    O\left(\ARMNUM^2d\cdot(R+\Diam d\sigma)\cdot\max\bigg\{\left(\frac{\sigma \Diam d}{\TieCutoff}\right)^{5/2},
-    \left(\frac{\sigma \TieDensity\Diam d}{\MinProb}\right)^{5/2}\bigg\}\right)
-\end{align*}
-}
+    \bcedit{$O(\ARMNUM^2\max\{1,(\TieDensity/\MinProb)^{5/2}\}$ }
 and expected regret bounded above by
 \bcedit{
 \begin{align*}
-O \left(\frac{\MAXR \ARMNUM \TieDensity^3 \Diam^3 d^3 \sigma^3}{\MinProb^3}
-  + \frac{\MAXR \ARMNUM^2 d^3 \TieDensity^2 \Diam^2 \sigma^2}{\MinProb^2}
-  + \frac{\ARMNUM\Diam^2 d^2\sigma^2 \TieDensity(\log(T))^3}{\MinProb}\right).
+    O\left(\frac{\ARMNUM^2}{\MinProb^2} + \frac{\ARMNUM^2}{\hat{z}^2}+\frac{\ARMNUM}{\hat{z}^3}+\frac{\ARMNUM \TieDensity \log^3(T)}{\MinProb}\right).
 \end{align*}
 }
 \end{theorem}
