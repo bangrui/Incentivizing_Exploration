@@ -8,7 +8,7 @@ $\ARMNUM \cdot \log(s)$ time steps.
 More generally, for any set of types $A$, the expected number of times that 
 an agent with a type in $A$ appears in a phase $s$ is at most 
 $f(A) \cdot \ARMNUM \cdot \log(s)$,
-where $f(A) := \Prob[\AgV \sim \AgentDist]{\dkedit{\AgV} \in A}$.
+where $f(A) := \Prob[\AgV \sim \AgentDist]{\AgV \in A}$.
 \end{rlemma}
 
 \begin{proof}
@@ -18,10 +18,10 @@ which implies the first claim by taking $A$ to be the support of $\AgentDist$.
 Fix a phase $s$, and let $S_t$ be the set of arms that have been
 pulled at most $s$ times by time $t$.
 Let $\tau_m$ be the maximum of $t_s$ (the start of phase $s$)
-and the time $t$ when $S_t$ first contains \dkedit{(at most)} $m$ elements.
+and the time $t$ when $S_t$ first contains (at most) $m$ elements.
 The phase ends when $S_t$ contains no elements, i.e., $\tau_0 = t_{s+1}$.
 We consider the expected number of pulls during times
-$\dkedit{t \in} [\tau_m, \tau_{m-1})$ made by agents whose types are in $A$. 
+$t \in [\tau_m, \tau_{m-1})$ made by agents whose types are in $A$. 
 
 Consider a counter starting from $0$ at time $\tau_m$ that increments
 each time an agent arrives with a type in $A$,
