@@ -6,7 +6,7 @@ We restate the theorem here for convenience:
 \begin{rtheorem}{Theorem}{\ref{rst:budget}}
 The payment budget for Algorithm~\ref{alg:basic-incentivizing} is bounded above by 
 \begin{align}
-O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp(\frac{2}{\MinProb}) \right).  \nonumber 
+O \left(\ARMNUM^2 \MAXR \Diam^2 \TieDensity d^3 \sigma\cdot \exp\left(\frac{2}{\MinProb}\right) \right).  \nonumber 
 \end{align}
 \end{rtheorem}
 
@@ -156,6 +156,9 @@ coordinates $j$ completes the proof.
 Next, we show that for any sample path \SP in the envelope \Env{\ell},
 we can bound the total number of payments made in terms of $\ell$.
 Define $h(\ell) := \max \left( \exp(\frac{2}{\MinProb}),
+\pfedit{
+\left( \frac{24 \sigma \ell \Diam d}{\TieCutoff} \right)^{5/2},
+}
 \left( \frac{48 \sigma \ell \TieDensity \Diam d}{\MinProb} \right)^{5/2}
 \right)$.
 
@@ -173,7 +176,7 @@ Because $\SP \in \Env{\ell}$, in particular, all estimation errors are
 bounded at time $t$, in the sense that the event \AccEU{t}{g(s,\ell)}
 happens.
 Because $s \geq h(\ell)$, we get that
-$g(s,\ell) \leq \frac{\MinProb}{4 \Diam d \TieDensity}$
+$g(s,\ell) \leq \pfedit{\min(\frac{\TieCutoff}{2\Diam d},} \frac{\MinProb}{4 \Diam d \TieDensity}\pfedit{)}$
 as well as $s \geq \exp(2/\MinProb)$.
 Therefore, we can apply Lemma~\ref{lem:no-incentives} and conclude
 that the pull at time $t$ was not incentivized.
