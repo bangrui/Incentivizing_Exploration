@@ -37,11 +37,11 @@ $s \leq \frac{128}{1.8} \cdot \log(T) \cdot \Diam^2 d^2 \sigma^2/\TieCutoff^2$.
 Each such phase lasts for at most $\ARMNUM \cdot \log(s)$ steps
 in expectation by Lemma~\ref{lem:phase-length},
 and each step incurs regret at most \MAXR.
-\dkedit{The total expected regret incurred in these phases is at most
+The total expected regret incurred in these phases is at most
 $O(\ARMNUM \MAXR \cdot \log(T) \Diam^2 d^2 \sigma^2/\TieCutoff^2
 \cdot \log (\log(T) \cdot \Diam^2 d^2 \sigma^2/\TieCutoff^2)
 \leq O(\ARMNUM \MAXR \log^2(T) \cdot \Diam^3 d^3 \sigma^3/\TieCutoff^3)$,
-by crudely bounding $\log y \leq O(\sqrt{y})$.}
+by crudely bounding $\log y \leq O(\sqrt{y})$.
 
 For the remainder of the proof, we consider phases $s$
 with $\EarlyCut{s} \leq \TieCutoff$.
