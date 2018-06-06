@@ -45,38 +45,31 @@ by crudely bounding $\log y \leq O(\sqrt{y})$.}
 
 For the remainder of the proof, we consider phases $s$
 with $\EarlyCut{s} \leq \TieCutoff$.
+\pfedit{
 We first consider agents \AgV incurring positive regret less than \EarlyCut{s}.
-The second-best arm \Second{\AgV} of such an agent \AgV must satisfy
+Let $A$ be the set of types satisfying 
 $\AgV \cdot (\ArmV{\Best{\AgV}} - \ArmV{\Second{\AgV}}) \leq \EarlyCut{s}$.
 By Assumption~\ref{A1}, and because $\EarlyCut{s} \leq \TieCutoff$,
-%Lemma~\ref{lem:sdelta},
-the total measure of such agents
+the total measure of $A$
 is $\AlmostTied{\EarlyCut{s}} \leq \TieDensity \cdot \EarlyCut{s}$,
-and each such agent incurs regret at most \EarlyCut{s}.
-Summing over all time steps,
-and using Lemma~\ref{lem:phase-length} to bound the number of time
-steps in phase $s$, 
-\pfcomment{We'll have to fix a probability bug here.}
-the expected total regret from such agents is at most
-\begin{align}
-\Expect{\sum_{s=1}^{T} \sum_{t=t_{s-1}+1}^{t_{s}} \TieDensity \cdot \EarlyCut[2]{s}}
-& \leq \sum_{s=1}^{T} \TieDensity \cdot \EarlyCut[2]{s} \ARMNUM \log(s).
+Then, by Lemma~\ref{lem:phase-length},
+the expected number of pulls in phase $s$ by agents in $A$  
+bounded above by $\TieDensity\ \EarlyCut{s} \ARMNUM \log(s)$, and the total expected number of pulls by these agents by $\sum_{s=1}^T \TieDensity \ \EarlyCut[2]{s} \ARMNUM \log(s)$.
+Consider any agent $\AgV$ incurring positive regret less than $\EarlyCut{s}$.
+This agent's type must be in $A$.
+Moreover, this agent's regret is bounded above by $\EarlyCut{s}$.
+Thus, the expected total regret from such agents is at most
+\begin{equation}
+\sum_{s=1}^{T} \TieDensity \cdot \EarlyCut[2]{s} \ARMNUM \log(s).
 \label{equ:small_regret_bound}
-\end{align}
+\end{equation}
+}
 
 We next bound the regret incurred in time steps with large regret.
-Let the random variable $t_s$ be the final time step in phase $s$,
-for each $s$.
-\dkcomment{We have already used $t_s$ before, e.g., in the preceding
-  formula. Do we need to redefine it here?}
-\pfcomment{Above we define $t_s$ to be the start time of phase $s$.}
-\dkcomment{So the new $t_s$ is the old $t_{s+1}-1$? That's a really
-  confusing subtle notation change. Is there a way we can avoid this
-  and just decide on one or the other, and use it consistently?}
 Define the stopping times $\tau_{s}^{k}$ to be the \Kth{k}
 time step in the \Kth{s} phase,
 with $\tau_{s}^{k} = \infty$ when phase $s$ has fewer than $k$ steps,
-i.e., $k > t_{s}-t_{s-1}$.
+i.e., $k > \pfedit{t_{s+1}-t_{s}}$.
 By Lemma~\ref{lem:right-choice},
 under \AccEU{\tau_s^k}{\frac{\dkedit{\EarlyCut{s}}}{2\Diam d}}, no agent at time $t$ will incur
 regret more than \EarlyCut{s}.
