@@ -27,20 +27,18 @@ thus, the algorithm achieves constant regret using constant
 expected payments. 
 As discussed in Section~\ref{sec:prob},
 the case $\TieDensity = 0$ arises, for instance, for
-\dkdelete{discrete} agent distributions \dkedit{with finite support}.
-\dkdelete{In fact, in the case of a discrete agent distribution,}
-\dkedit{Alternatively, when $\TieDensity = 0$, 
-one can modify} the algorithm to
-reduce the dependence on \MinProb from exponential to polynomial,
-\dkedit{at the cost of reintroducing the poly-logarithmic dependence
+discrete agent distributions with finite support.
+\pfedit{In fact, when $\TieDensity = 0$,
+one can also modify} the algorithm to
+reduce the dependence on \MinProb from exponential to polynomial
+\pfdelete{at the cost of reintroducing the poly-logarithmic dependence
   on $T$}.
 Theorem~\ref{rst:discrete} (given later) states that the modified
 algorithm achieves expected regret
-$O \left(\frac{\ARMNUM}{\MinProb^4} \right)$
+$O \left(\ARMNUM/\pfedit{\MinProb} \right)$
 with expected payments of
-$O \left(\frac{\ARMNUM^2}{\MinProb^{5/2}} \right)$.
-\dkcomment{Adjust these bounds.}
-\dkedit{Whether one can achieve regret that is simultaneously
+$O \left(\ARMNUM^2/\pfedit{\MinProb} \right)$.
+\pfdelete{Whether one can achieve regret that is simultaneously
   independent of $T$ and polynomial in \ARMNUM and \MinProb is an
   interesting open question.}
   
