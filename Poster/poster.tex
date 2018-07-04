@@ -1,0 +1,240 @@
+%==============================================================================
+%== template for LATEX poster =================================================
+%==============================================================================
+%
+%--A0 beamer slide-------------------------------------------------------------
+\documentclass[final]{beamer} % use beamer
+\usepackage[orientation=landscape,
+            size=a0,          % poster size
+            scale=1.2         % font scale factor
+           ]{beamerposter}    % beamer in poster size
+
+\usepackage{algorithmic}
+\usepackage{enumitem}
+
+
+%
+%--some needed packages--------------------------------------------------------
+\usepackage[american]{babel}  % language 
+\usepackage{amsmath,amsthm, amssymb, latexsym}
+\usepackage[utf8]{inputenc}   % std linux encoding
+%\usepackage[authoryear]{natbib}
+\usepackage[backend=bibtex, style=numeric, url=false, doi=false,isbn=false]{biblatex}
+\bibliography{skipfree}
+%\usepackage[doi=false,isbn=false]{biblatex}
+%
+%==The poster style============================================================
+\usetheme{cpbgposter}            % our poster style
+%--set colors for blocks (without frame)---------------------------------------
+  \setbeamercolor{block title}{fg=nred,bg=white}
+  \setbeamercolor{block body}{fg=black,bg=white}
+%--set colors for alerted blocks (with frame)----------------------------------
+%--textcolor = fg, backgroundcolor = bg, dblue is the jacobs blue
+  \setbeamercolor{block alerted title}{fg=white,bg=nred!70}%frame color
+  \setbeamercolor{block alerted body}{fg=black,bg=nred!10}%body color
+%
+%\theoremstyle{plain}
+%\newtheorem{proposition}{Proposition}
+%\newtheorem{claim}{Claim}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+%\newtheorem{corollary}{Corollary}
+
+%\theoremstyle{definition}
+%\newtheorem{definition}{Definition}
+%\newtheorem{example}{Example}[section]
+
+%\theoremstyle{remark}
+%\newtheorem{rk}{Remark}
+
+%==Titel, date and authors of the poster=======================================
+\title{Incentivizing Exploration By Heterogeneous Users}
+\author{Bangrui Chen\footnotemark[1], Peter I. Frazier\footnotemark[1] \& David Kempe\footnotemark[2]}
+\institute[ORIE]
+          {\footnotemark[1] ORIE, Cornell University; \footnotemark[2] Department of Computer Science, USC}
+\date{\today}
+%
+%==some usefull qm commands====================================================
+%  |x>
+\newcommand{\ket}[1]{\left\vert#1\right\rangle}
+%  <x|
+\newcommand{\bra}[1]{\left\langle#1\right\vert}
+%  <x|y>
+\newcommand{\braket}[2]{\left< #1 \vphantom{#2}\,
+                        \right\vert\left.\!\vphantom{#1} #2 \right>}
+%  <x|a|y>
+\newcommand{\sandwich}[3]{\left< #1 \vphantom{#2 #3} \right|
+                          #2 \left|\vphantom{#1 #2} #3 \right>}
+%  d/dt
+\newcommand{\ddt}{\frac{d}{dt}}
+%  D/Dx
+\newcommand{\pdd}[1]{\frac{\partial}{\partial#1}}
+%  |x|
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+%  k_{x}
+\newcommand{\kv}[1]{\mathbf{k}_{#1}}
+%==============================================================================
+%==the poster content==========================================================
+%==============================================================================
+\begin{document}
+%--the poster is one beamer frame, so we have to start with:
+\begin{frame}[t]
+%--to seperate the poster in columns we can use the columns environment
+\begin{columns}[t] % the [t] options aligns the columns content at the top
+%--the left column-------------------------------------------------------------
+\begin{column}{0.28\paperwidth}% the right size for a 3-column layout
+%--abstract block--------------------------------------------------------------
+\begin{alertblock}{Abstract}
+\begin{itemize}[label=\textbullet]
+\item We consider the problem of incentivizing exploration with heterogeneous agents. 
+\item Under the assumption that each arm is preferred by at least a fraction $p > 0$ of agents, we propose an algorithm that achieves expected cumulative regret of $O(Ne^{2/p} + N \log^{3}(T))$, using expected cumulative payments of $O(N^{2}e^{2/p})$. 
+\item If $p$ is known or the distribution over agent preferences is discrete, the exponential term $e^{2/p}$ can be replaced with suitable polynomials in $N$ and $1/p$. 
+\item For discrete preferences, the regret’s dependence on T can be eliminated entirely, giving constant (depending only polynomially on N and 1/p) expected regret and payments.
+%\item We give variance bounds of the Markov chain in terms of the proposed gap
+\end{itemize}
+\end{alertblock}
+\vskip2ex
+%--requirements block-----------------------------------------------------------
+
+\begin{block}{Preliminaries}
+\begin{itemize}[label=\textbullet]
+\item In this problem, $N$ bandit arms provide vector-valued outcomes equal to an unknown arm-specific attribute vector $u_{i}\in \mathbb{R}^{d}$, perturbed by independent noise. 
+\item Agents arrive sequentially with preference vector $\theta_t$ and choose arms to pull based on their own private and heterogeneous linear utility functions over attributes and the estimates of the arms’ attribute vectors $\hat{u}_{i,t}$, derived from observations of other agents’ past pulls. 
+\item Agents are myopic and selfish and thus would choose the arm with maximum estimated utility, i.e. they will pull arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}\}$.
+\item  A principal, knowing only the distribution from which agents’ preferences are drawn, but not the specific draws, can offer arm-specific incentive payments $c_{t,i}$ to encourage agents to explore underplayed arms. 
+\item We define the regret at time $t$ as $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and payment $c_t = c_{t,i_t}$.
+\item The principal seeks to minimize the total expected cumulative regret incurred by agents relative to their best arms, while also making a small expected cumulative payment.
+\end{itemize}
+\end{block}
+
+\begin{block}{Literature Review}
+Two recent lines of work have shown that effecting a societally near-optimal outcome in this setting requires explicitly inducing exploration:
+\begin{itemize}[label=\textbullet]
+\item Kremer et al. (2014) and Mansour et al. (2015, 2016, 2018) (see Slivkins (2017) for an overview) assume that the principal has an informational advantage in being the only one to observe the results of past arm pulls (as in driving route recommendations). The principal can use her advantage to induce exploration by recommending apparently sub-optimal arms, as long as agents cannot do better on their own.
+\item Frazier et al. (2014) and Han et al. (2015) instead assume that the results of all past arm pulls are publicly observable (as on a review-sharing site). They suppose that the principal can incentivize exploration by offering arm-specific reward payments.
+\end{itemize}
+In this work, we present the first algorithm and analysis (of which we are aware) for incentivizing exploration when users have heterogeneous preferences over arms.\end{block}
+\end{column}
+
+\begin{column}{0.28\paperwidth}
+
+\begin{block}{Key Assumptions}
+\begin{itemize}[label=\textbullet]
+\item (\textbf{Every arm is someone's best}) Each arm $i$ has a strictly positive proportion of users for whom $i$ is the best arm. We use $p$ to denote the minimum (over all arms) fraction of users that prefer any particular arm.
+\item (\textbf{Not too many near-ties}) Let $q(z)$ be the cumulative distribution function of those agents whose utility difference between their best and second best arm is less than or equal to $z$, then there exists a $\hat{z}>0$, $L$ such that $q(z)\leq L\cdot z$ for all $z\leq \hat{z}$.
+\item (\textbf{Compact Support}) $\theta$ has a compact support set contained in $[0,D]^{d}$.
+\end{itemize}
+\end{block}
+
+\begin{block}{Main Results}
+\begin{alertblock}{Theorem 1}
+With the previously stated assumptions, there is a policy that achieves expected 
+cumulative regret $O (N e^{2/p} + L N \log^3(T))$,
+using expected cumulative payments of $O(N^2 e^{2/p})$.
+\newline
+\newline
+In particular, when agents who are close to tied between two arms have measure $0$,
+both the expected regret and expected payment are bounded by constants
+(with respect to $T$). 
+\end{alertblock}
+\end{block}							
+
+\begin{block}{Algorithm}
+
+
+\textbf{Notations:}
+\vspace{0.5cm}
+\begin{itemize}[label=\textbullet]
+\item Phase: Our algorithm divides time into \emph{phases} $s = 1, 2, 3, \ldots$. Phase $s$ starts when each arm has been pulled at least $s$ times. We use $m_{t,i}$ to denote the number of pulls for arm $i$ up to time $t$ and indicate the start time of phase $s$ by $t_s$. 
+\item Payment-eligible: An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$) if both of the following hold:
+\begin{itemize}[label=\textbullet]
+\item $i$ has been pulled at most $s$ times up to time $t$, i.e., $m_{t,i} \leq s$.
+\item  The conditional probability of pulling arm $i$ is less than$1/\log(s)$ given the current estimates $\hat{u}_{t,i'}$ of the arms' attribute vectors.  
+\end{itemize}
+\end{itemize}
+
+
+\vspace{0.5cm}
+\textbf{Our Algorithm:}
+\vspace{0.5cm}
+
+\begin{algorithmic}
+\STATE Set the current phase number $s = 1$.
+\COMMENT{Each arm is pulled once initially ``for free.''}
+\FOR{time steps $t = 1, 2, 3, \ldots$} {
+\IF {$m_{t,i} \geq s+1$ for all arms $i$}
+\STATE Increment the phase $s = s + 1$.
+\ENDIF
+\IF {there is a payment-eligible arm $i$} 
+    \STATE Let $i$ be an arbitrary payment-eligible arm.
+    \STATE Offer payment $c_{t,i} = \max_{\theta,i'} \theta \cdot (\hat{\mu}_{t,i'} - \hat{\mu}_{t,i})$ for pulling arm $i$ (and payment 0 for all other arms).
+\ELSE
+    \STATE Let agent $t$ play myopically, i.e., offer payments 0 for all arms.
+\ENDIF 
+}\ENDFOR
+\end{algorithmic}
+
+\end{block}
+
+
+\end{column}
+
+
+
+\begin{column}{0.28\paperwidth}
+
+
+\begin{block}{Proof Sketch}
+The key technical lemma in our proof is a Hoeffding-like concentration inequality that holds for a random, adaptively chosen number of samples.
+
+\vspace{1cm}
+
+\textbf{Payment Proof:}
+\begin{itemize}[label=\textbullet]
+\item For the early phases, we crudely bound the number of payment by $N$ for each phase;
+\item For the later phases, we uses our technical lemma to rule out any incentives unless large misestimates of the arm locations occur, which is exponentially unlikely as the phase advances.
+\end{itemize}
+
+\vspace{1cm}
+
+\textbf{Regret Proof:}
+\begin{itemize}[label=\textbullet]
+\item Regret occurred when an agent was incentivized to pull a sub-optimal arm: the analysis here is very similar to the payment proof;
+\item Regret occurred when an agent myopically pulled a suboptimal arm: in this case, we define a phase-dependent cutoff to further distinguish agents based on their regret.
+\begin{itemize}[label=\textbullet]
+\item For those agents incurring large regret, which requires severe misestimates of arm locations and such misestimates are exponentially unlikely to occur, we use the following analysis to bound the regret:
+\begin{itemize}[label=$\star$]
+\item the technical lemma suggests this happens with exponentially decreasing probability;
+\item based on our compact support assumption, the maximum regret is bounded above by a constant;
+\end{itemize}
+\item For those agents incurring small positive regret, which requires these agents to be almost tied in their preference for the best arm, we use the following analysis to bound the regret: 
+\begin{itemize}[label=$\star$] 
+\item there are not so many agents have near-ties preferences; 
+\item the maximum regret is bounded above by the phase-dependent cutoff;
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\vspace{1cm}
+
+%\textbf{Lower Bound:}
+
+%In our current setting, a logarithmic dependence on $T$ is typically unavoidable for any incentivization strategy when at least one arm falls below the Pareto frontier, as we no longer have free exploration of all arms.
+
+\end{block}
+
+
+
+
+\begin{block}{References}
+[1] Ilan Kremer, Yishay Mansour, and Motty Perry. Implementing the “wisdom of the crowd”. Journal of Political Economy, 122(5):988–1012, 2014. \newline
+[2] Yishay Mansour, Aleksandrs Slivkins, and Vasilis Syrgkanis. Bayesian incentive-compatible bandit exploration. In Proceedings of the 16th ACM Conference on Economics and Computation (EC), pages 565–582. ACM, 2015. \newline
+[3] Yishay Mansour, Aleksandrs Slivkins, Vasilis Syrgkanis, and Zhiwei Steven Wu. Bayesian explo- ration: Incentivizing exploration in bayesian games. In Proceedings of the 17th ACM Conference on Economics and Computation (EC), 2016. \newline
+[4] Yishay Mansour, Aleksandrs Slivkins, and Zhiwei Steven Wu. Bayesian exploration: Incentivizing exploration in bayesian games. In Proceedings of the 9th Innovations in Theoretical Computer Science (ITCS) conference, 2018. \newline
+[5] Aleksandrs Slivkins. Incentivizing exploration via information asymmetry. ACM Crossroads, 24 (1):38–41, 2017. \newline
+[6] Peter Frazier, David Kempe, Jon Kleinberg, and Robert Kleinberg. Incentivizing exploration. In Proceedings of the 15th ACM conference on Economics and Computation (EC), pages 5–22. ACM, 2014. \newline
+[7] Li Han, David Kempe, and Ruixin Qiang. Incentivizing exploration with heterogeneous value of money. In Proceedings of the 11th International Conference on Web and Internet Economics (WINE), pages 370–383. Springer, 2015.
+\end{block}
+\end{column}
+\end{columns}
+\end{frame}
+\end{document}
