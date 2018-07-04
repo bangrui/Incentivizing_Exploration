@@ -86,24 +86,28 @@
 %--abstract block--------------------------------------------------------------
 \begin{alertblock}{Abstract}
 \begin{itemize}[label=\textbullet]
-\item We consider the problem of incentivizing exploration with heterogeneous agents. 
-\item Under the assumption that each arm is preferred by at least a fraction $p > 0$ of agents, we propose an algorithm that achieves expected cumulative regret of $O(Ne^{2/p} + N \log^{3}(T))$, using expected cumulative payments of $O(N^{2}e^{2/p})$. 
-\item If $p$ is known or the distribution over agent preferences is discrete, the exponential term $e^{2/p}$ can be replaced with suitable polynomials in $N$ and $1/p$. 
-\item For discrete preferences, the regret’s dependence on T can be eliminated entirely, giving constant (depending only polynomially on N and 1/p) expected regret and payments.
+\item We consider incentivizing exploration with heterogeneous agents. 
+\item When each arm is preferred by at least a fraction $p > 0$ of agents, our algorithm achieves expected cumulative regret of $O(Ne^{2/p} + N \log^{3}(T))$ using expected cumulative payments of $O(N^{2}e^{2/p})$. 
+\item If $p$ is known or the distribution over agent preferences is discrete, the exponential term $e^{2/p}$ can be replaced with polynomials in $N$ and $1/p$. 
+\item For discrete preferences, the regret’s dependence on T can be eliminated, giving constant (depending only polynomially on N and 1/p) expected regret and payments.
 %\item We give variance bounds of the Markov chain in terms of the proposed gap
 \end{itemize}
 \end{alertblock}
 \vskip2ex
 %--requirements block-----------------------------------------------------------
 
-\begin{block}{Preliminaries}
+\begin{block}{Model}
 \begin{itemize}[label=\textbullet]
-\item In this problem, $N$ bandit arms provide vector-valued outcomes equal to an unknown arm-specific attribute vector $u_{i}\in \mathbb{R}^{d}$, perturbed by independent noise. 
-\item Agents arrive sequentially with preference vector $\theta_t$ and choose arms to pull based on their own private and heterogeneous linear utility functions over attributes and the estimates of the arms’ attribute vectors $\hat{u}_{i,t}$, derived from observations of other agents’ past pulls. 
-\item Agents are myopic and selfish and thus would choose the arm with maximum estimated utility, i.e. they will pull arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}\}$.
-\item  A principal, knowing only the distribution from which agents’ preferences are drawn, but not the specific draws, can offer arm-specific incentive payments $c_{t,i}$ to encourage agents to explore underplayed arms. 
-\item We define the regret at time $t$ as $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and payment $c_t = c_{t,i_t}$.
-\item The principal seeks to minimize the total expected cumulative regret incurred by agents relative to their best arms, while also making a small expected cumulative payment.
+\item $N$ bandit arms provide vector-valued outcomes equal to an unknown arm-specific attribute vector $u_{i}\in \mathbb{R}^{d}$, perturbed by independent noise. 
+\item Agents arrive sequentially.
+\item Agent $t$ sees estimates of the arms’ attribute vectors $\hat{u}_{i,t}$, which are averages of other agents’ past pulls. 
+\item Agents have heterogeneous linear preferences over arm attributes.
+\item Agent $t$ has preference vector $\theta_t$ drawn from a known distribution.
+\item A principal knows only the distribution from which agents’ preferences are drawn but not the specific draws.
+\item The principal can offer arm-specific incentive payments $c_{t,i}$ to encourage agents to explore underplayed arms. 
+\item Agents are myopic and selfish and choose the arm with maximum estimated utility, $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t} + c_{t,i_t}\}$.
+\item The regret at time $t$ is $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and the payment is $c_t = c_{t,i_t}$.
+\item The principal seeks to minimize the total expected cumulative regret while also making a small expected cumulative payment.
 \end{itemize}
 \end{block}
 
@@ -142,10 +146,10 @@ both the expected regret and expected payment are bounded by constants
 \begin{block}{Algorithm}
 
 
-\textbf{Notations:}
+\textbf{Notation:}
 \vspace{0.5cm}
 \begin{itemize}[label=\textbullet]
-\item Phase: Our algorithm divides time into \emph{phases} $s = 1, 2, 3, \ldots$. Phase $s$ starts when each arm has been pulled at least $s$ times. We use $m_{t,i}$ to denote the number of pulls for arm $i$ up to time $t$ and indicate the start time of phase $s$ by $t_s$. 
+\item Phase: We divide time into \emph{phases} $s = 1, 2, 3, \ldots$. Phase $s$ starts when each arm has been pulled at least $s$ times. $m_{t,i}$ denotes the number of pulls for arm $i$ up to time $t$. The start time of phase $s$ is $t_s$. 
 \item Payment-eligible: An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$) if both of the following hold:
 \begin{itemize}[label=\textbullet]
 \item $i$ has been pulled at most $s$ times up to time $t$, i.e., $m_{t,i} \leq s$.
