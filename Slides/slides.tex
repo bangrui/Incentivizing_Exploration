@@ -93,10 +93,12 @@ Department of Computer Science       \\
 \end{frame}
 %#################################################
 
-\begin{frame}{Our Contribution}
+\begin{frame}{Heterogeneity Provides Free Exploration}
 \begin{itemize} [label=\textbullet]
-\item First algorithm and analysis for incentivizing exploration when users have heterogeneous preferences over arms;
-\item We proved \textbf{“heterogeneity provides free exploration”}.
+\item In the classical MAB: cumulative regret is $O(\log(T))$
+\item In incentizing exploration with heterogeneous users:\\ we show, with assumptions, cumulative regret is $O(1)$
+\item Key insight: Heterogeneity provides free exploration
+\item Our contribution: First algorithm and analysis for incentivizing exploration when users have heterogeneous preferences over arms
 \end{itemize}
 \end{frame}
 
@@ -105,14 +107,16 @@ Department of Computer Science       \\
 
 \textbf{$N$ arms}
 \begin{itemize}[label=\textbullet]
-\item Each arm is associated with a feature vector $u_i\in R^{d}$;
-\item Both the agents and the principal can observe the current estimate of $u_i$, denoted as $\hat{u}_{i,t}$, which equals to the average of all past observations;
+\item Each arm has an unknown feature vector $u_i\in R^{d}$
+\item Pulling arm $i$ gives $u_i$ perturbed by independent sub-Gaussian noise
+\item The agents and principal observe averages of each arm's past pulls $\hat{u}_{i,t}$
 \end{itemize}
 \vspace{1cm}
 \textbf{Myopic Agents}
 \begin{itemize}[label=\textbullet]
-\item Agents arrive sequentially and their preference $\theta_t\in R^{d}$ follows known distribution $F(\cdot)$.
-\item Without any incentives, agent $\theta_t$ would choose the arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}\}$.
+\item Agents arrive sequentially
+\item Agent $t$ has linear preferences with weight vector $\theta_t\in R^{d}$ drawn from known distribution $F$
+\item Without incentives, agent $t$ would choose the arm maximizing $\theta_{t}\cdot \hat{u}_{i,t}$.
 \end{itemize}
 
 \end{frame}
@@ -121,17 +125,16 @@ Department of Computer Science       \\
 %#################################################
 \begin{frame}{Problem Setting}
 
-\textbf{Agents behavior and feedback}
+\textbf{Agents' behavior}
 \begin{itemize}[label=\textbullet]
-\item Principal chooses payment $c_{t,i}$ for arm $i$ at time $t$;
-\item Agent $\theta_t$ would choose the arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}+c_{t,i}\}$;
-\item Each pull provides vector-valued outcomes equal to $u_{i}$, perturbed by independent noise.
+\item Principal chooses payment $c_{t,i}$ for arm $i$ at time $t$
+\item Agent $\theta_t$ pulls arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}+c_{t,i}\}$
 \end{itemize}
 \vspace{1cm}
 \textbf{Principal's goal}
 \begin{itemize}[label=\textbullet]
-\item Regret $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and payment $c_t = c_{t,i_t}$;
-\item Incentivize to minimize the cumulative regret while making a small cumulative payment;
+\item Regret $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and payment $c_t = c_{t,i_t}$
+\item Incentivize to minimize the cumulative regret while making a small cumulative payment
 \end{itemize}
 
 \end{frame}
@@ -154,16 +157,19 @@ Department of Computer Science       \\
 \begin{frame}{Main Result}
 \begin{block}{Theorem 1}
 
-With the previously stated assumptions, there is a policy that achieves expected 
-cumulative regret $O (N e^{2/p} + L N \log^3(T))$,
-using expected cumulative payments of $O(N^2 e^{2/p})$.
-\newline
-\newline
-In particular, when agents who are close to tied between two arms have measure $0$,
-both the expected regret and expected payment are bounded by constants
-(with respect to $T$). 
-
+Our policy achieves:
+\begin{itemize}
+\item expected cumulative regret $O (N e^{2/p} + L N \log^3(T))$,
+\item using expected cumulative payments of $O(N^2 e^{2/p})$.
+\end{itemize}
 \end{block}
+
+Special case: 
+When agent preferences are discrete, $L=0$ and
+%When $L=0$ (i.e., agents nearly tied between two arms have measure $0$),
+regret and payment are bounded by constants in $T$.
+
+
 
 \end{frame}
 %#################################################
