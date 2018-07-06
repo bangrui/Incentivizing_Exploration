@@ -88,40 +88,35 @@
 \begin{column}{\onecolwid} % The first column
 
 
-\begin{alertblock}{Abstract}
+\begin{block}{Motivation}
+\begin{center}
+\includegraphics[scale=1]{example}
+\end{center}
 
-\begin{itemize}
-\item We consider incentivizing exploration with heterogeneous agents. 
-\item When each arm is preferred by at least a fraction $p > 0$ of agents, our algorithm achieves expected cumulative regret of $O(Ne^{2/p} + N \log^{3}(T))$ using expected cumulative payments of $O(N^{2}e^{2/p})$. 
-\item If $p$ is known or the distribution over agent preferences is discrete, the exponential term $e^{2/p}$ can be replaced with polynomials in $N$ and $1/p$. 
-\item For discrete preferences, the regret’s dependence on $T$ can be eliminated, giving constant (depending only polynomially on $N$ and $1/p$) expected regret and payments.
-\end{itemize}
-
-\end{alertblock}
-
-
-\begin{block}{Model}
-\begin{itemize}
-\item $N$ bandit arms provide vector-valued outcomes equal to an unknown arm-specific attribute vector $u_{i}\in \mathbb{R}^{d}$, perturbed by independent noise. 
-\item Agents arrive sequentially.
-\item Agent $t$ sees estimates of the arms’ attribute vectors $\hat{u}_{i,t}$, which are averages of other agents’ past pulls. 
-\item Agents have heterogeneous linear preferences over arm attributes.
-\item Agent $t$ has preference vector $\theta_t$ drawn from a known distribution.
-\item A principal knows only the distribution from which agents’ preferences are drawn but not the specific draws.
-\item The principal can offer arm-specific incentive payments $c_{t,i}$ to encourage agents to explore underplayed arms. 
-\item Agents are myopic and selfish and choose the arm with maximum estimated utility, $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t} + c_{t,i_t}\}$.
-\item The regret at time $t$ is $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and the payment is $c_t = c_{t,i_t}$.
-\item The principal seeks to minimize the total expected cumulative regret while also making a small expected cumulative payment.
-\end{itemize}
+An alternative that seems worse initially may remain unexplored because customers have no incentives to explore it!
 \end{block}
 
 \begin{block}{Literature Review}
 Two recent lines of work have shown that effecting a societally near-optimal outcome in this setting requires explicitly inducing exploration:
 \begin{itemize}
-\item Kremer et al. (2014) and Mansour et al. (2015, 2016, 2018) (see Slivkins (2017) for an overview) assume that the principal has an informational advantage in being the only one to observe the results of past arm pulls (as in driving route recommendations). The principal can use her advantage to induce exploration by recommending apparently sub-optimal arms, as long as agents cannot do better on their own.
-\item Frazier et al. (2014) and Han et al. (2015) instead assume that the results of all past arm pulls are publicly observable (as on a review-sharing site). They suppose that the principal can incentivize exploration by offering arm-specific reward payments.
+\item \textbf{Without Money Transfer} Kremer et al. (2014) and Mansour et al. (2015, 2016, 2018) assume that the principal has an informational advantage in being the only one to observe the results of past arm pulls (as in driving route recommendations). The principal can use her advantage to induce exploration by recommending apparently sub-optimal arms, as long as agents cannot do better on their own.
+\item \textbf{With Money Transfer} Frazier et al. (2014) and Han et al. (2015) instead assume that the results of all past arm pulls are publicly observable (as on a review-sharing site). They suppose that the principal can incentivize exploration by offering arm-specific reward payments.
 \end{itemize}
-In this work, we present the first algorithm and analysis (of which we are aware) for incentivizing exploration when users have heterogeneous preferences over arms.
+In this work, we present the first algorithm/analysis for incentivizing exploration when users have heterogeneous preferences over arms and we prove \textbf{“heterogeneity provides free exploration"}.
+\end{block}
+
+\begin{block}{Model}
+\begin{itemize}
+\item $N$ bandit arms provide vector-valued outcomes equal to an unknown arm-specific attribute vector $u_{i}\in \mathbb{R}^{d}$, perturbed by independent noise. 
+\item Agents arrive sequentially and observe current estimates of the arms’ attribute vectors $\hat{u}_{i,t}$, which are averages of other agents’ past pulls. 
+\item Agents have heterogeneous linear preferences over arm attributes.
+\item Agent $t$ has preference vector $\theta_t$ drawn from a known distribution.
+\item A principal knows only the distribution from which agents’ preferences are drawn but not the specific draws.
+\item The principal can offer arm-specific incentive payments $c_{t,i}$ to encourage agents to explore underplayed arms. 
+\item Agents are myopic and choose the arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t} + c_{t,i_t}\}$.
+\item The regret at time $t$ is $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and the payment is $c_t = c_{t,i_t}$.
+\item The principal seeks to minimize the total expected cumulative regret while also making a small expected cumulative payment.
+\end{itemize}
 \end{block}
 
 \end{column} % End of the first column
@@ -133,7 +128,7 @@ In this work, we present the first algorithm and analysis (of which we are aware
 \begin{block}{Key Assumptions}
 
 \begin{itemize}
-\item (\textbf{Every arm is someone's best}) Each arm $i$ has a strictly positive proportion of users for whom $i$ is the best arm. We use $p$ to denote the minimum (over all arms) fraction of users that prefer any particular arm.
+\item (\textbf{Every arm is someone's best}) We use $p$ to denote the minimum (over all arms) fraction of users that prefer any particular arm.
 \item (\textbf{Not too many near-ties}) Let $q(z)$ be the cumulative distribution function of those agents whose utility difference between their best and second best arm is less than or equal to $z$, then there exists a $\hat{z}>0$, $L$ such that $q(z)\leq L\cdot z$ for all $z\leq \hat{z}$.
 \item (\textbf{Compact Support}) $\theta$ has a compact support set contained in $[0,D]^{d}$.
 \end{itemize}
@@ -160,7 +155,7 @@ both the expected regret and expected payment are bounded by constants
 \textbf{Notation:}
 \vspace{0.5cm}
 \begin{itemize}
-\item Phase: We divide time into \emph{phases} $s = 1, 2, 3, \ldots$. Phase $s$ starts when each arm has been pulled at least $s$ times. $m_{t,i}$ denotes the number of pulls for arm $i$ up to time $t$. The start time of phase $s$ is $t_s$. 
+\item Phase: Phase $s$ starts when each arm has been pulled at least $s$ times. $m_{t,i}$ denotes the number of pulls for arm $i$ up to time $t$. 
 \item Payment-eligible: An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$) if both of the following hold:
 \begin{itemize}
 \item $i$ has been pulled at most $s$ times up to time $t$, i.e., $m_{t,i} \leq s$.
@@ -200,13 +195,14 @@ both the expected regret and expected payment are bounded by constants
 
 
 \begin{block}{Proof Sketch}
-The key technical lemma in our proof is a Hoeffding-like concentration inequality that holds for a random, adaptively chosen number of samples.
+The key technical lemma in our proof is a Hoeffding-like concentration inequality that holds for a random, adaptively chosen number of samples (Zhao et al. 2016).
 
 \vspace{1cm}
 
 \textbf{Payment Proof:}
 \begin{itemize}
 \item For the early phases, we crudely bound the number of payment by $N$ for each phase;
+\vspace{0.3cm}
 \item For the later phases, we uses our technical lemma to rule out any incentives unless large misestimates of the arm locations occur, which is exponentially unlikely as the phase advances.
 \end{itemize}
 
@@ -214,18 +210,23 @@ The key technical lemma in our proof is a Hoeffding-like concentration inequalit
 
 \textbf{Regret Proof:}
 \begin{itemize}
-\item Regret occurred when an agent was incentivized to pull a sub-optimal arm: the analysis here is very similar to the payment proof;
-\item Regret occurred when an agent myopically pulled a suboptimal arm: in this case, we define a phase-dependent cutoff to further distinguish agents based on their regret.
+\item Regret incurred when an agent was incentivized to pull a sub-optimal arm: the analysis here is very similar to the payment proof;
+\vspace{0.5cm}
+\item Regret incurred when an agent myopically pulled a suboptimal arm: in this case, we define a phase-dependent cutoff $\gamma(s(t))$ to distinguish agents based on their regret.
+\vspace{0.3cm}
 \begin{itemize}
-\item For those agents incurring large regret, which requires severe misestimates of arm locations and such misestimates are exponentially unlikely to occur, we use the following analysis to bound the regret:
+\item Agents with $r(t)\geq \gamma(s(t))$:
 \begin{itemize}
-\item the technical lemma suggests this happens with exponentially decreasing probability;
-\item based on our compact support assumption, the maximum regret is bounded above by a constant;
+\item this requires severe misestimates of arm locations and such misestimates are exponentially unlikely to occur;
+\vspace{0.1cm}
+\item since $\theta_t$ has a compact support, the maximum regret is bounded by a constant;
 \end{itemize}
-\item For those agents incurring small positive regret, which requires these agents to be almost tied in their preference for the best arm, we use the following analysis to bound the regret: 
+\vspace{0.3cm}
+\item Agents with $r(t)\leq \gamma(s(t))$: 
 \begin{itemize}
-\item there are not so many agents have near-ties preferences; 
-\item the maximum regret is bounded above by the phase-dependent cutoff;
+\item this requires agents to be almost tied in their preference for the best arm, but there are not so many agents have near-ties preferences;
+\vspace{0.1cm}
+\item the maximum regret is bounded above by $\gamma(s(t))$;
 \end{itemize}
 \end{itemize}
 \end{itemize}
@@ -238,9 +239,9 @@ The key technical lemma in our proof is a Hoeffding-like concentration inequalit
 [2] Yishay Mansour, Aleksandrs Slivkins, and Vasilis Syrgkanis. Bayesian incentive-compatible bandit exploration. In Proceedings of the 16th ACM Conference on Economics and Computation (EC), pages 565–582. ACM, 2015. \newline
 [3] Yishay Mansour, Aleksandrs Slivkins, Vasilis Syrgkanis, and Zhiwei Steven Wu. Bayesian explo- ration: Incentivizing exploration in bayesian games. In Proceedings of the 17th ACM Conference on Economics and Computation (EC), 2016. \newline
 [4] Yishay Mansour, Aleksandrs Slivkins, and Zhiwei Steven Wu. Bayesian exploration: Incentivizing exploration in bayesian games. In Proceedings of the 9th Innovations in Theoretical Computer Science (ITCS) conference, 2018. \newline
-[5] Aleksandrs Slivkins. Incentivizing exploration via information asymmetry. ACM Crossroads, 24 (1):38–41, 2017. \newline
-[6] Peter Frazier, David Kempe, Jon Kleinberg, and Robert Kleinberg. Incentivizing exploration. In Proceedings of the 15th ACM conference on Economics and Computation (EC), pages 5–22. ACM, 2014. \newline
-[7] Li Han, David Kempe, and Ruixin Qiang. Incentivizing exploration with heterogeneous value of money. In Proceedings of the 11th International Conference on Web and Internet Economics (WINE), pages 370–383. Springer, 2015.
+[5] Peter Frazier, David Kempe, Jon Kleinberg, and Robert Kleinberg. Incentivizing exploration. In Proceedings of the 15th ACM conference on Economics and Computation (EC), pages 5–22. ACM, 2014. \newline
+[6] Li Han, David Kempe, and Ruixin Qiang. Incentivizing exploration with heterogeneous value of money. In Proceedings of the 11th International Conference on Web and Internet Economics (WINE), pages 370–383. Springer, 2015. \newline
+[7] Shengjia Zhao, Enze Zhou, Ashish Sabharwal, and Stefano Ermon. Adaptive concentration inequal- ities for sequential decision problems. In Proceedings of the 30th Advances In Neural Information Processing Systems (NIPS), pages 1343–1351, 2016.
 \end{block}
 
 %----------------------------------------------------------------------------------------

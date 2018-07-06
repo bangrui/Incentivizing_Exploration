@@ -65,48 +65,74 @@ Department of Computer Science       \\
 \titlepage
 \end{frame}
 %#################################################
-
-
 %#################################################
-\begin{frame}{Problem Setting}
-\begin{itemize}[label=\textbullet]
-\item We consider the problem of incentivizing exploration with heterogeneous agents.
-\item In this problem, $N$ bandit arms provide vector-valued outcomes equal to an unknown arm-specific attribute vector $u_{i}\in \mathbb{R}^{d}$, perturbed by independent noise. 
-\item Agents arrive sequentially with preference vector $\theta_t$ and choose arms to pull based on their own private and heterogeneous linear utility functions over attributes and the estimates of the arms’ attribute vectors $\hat{u}_{i,t}$, derived from observations of other agents’ past pulls. 
-\item Agents are myopic and selfish and thus would choose the arm with maximum estimated utility, i.e. they will pull arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}\}$.
-\end{itemize}
+\begin{frame}{Motivation}
+\includegraphics[scale=0.4]{example}
 \end{frame}
 %#################################################
-
-%#################################################
-\begin{frame}{Problem Setting}
-\begin{itemize}[label=\textbullet]
-\item  A principal, knowing only the distribution from which agents’ preferences are drawn, but not the specific draws, can offer arm-specific incentive payments $c_{t,i}$ to encourage agents to explore underplayed arms. 
-\item We define the regret at time $t$ as $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and payment $c_t = c_{t,i_t}$.
-\item The principal seeks to minimize the total expected cumulative regret incurred by agents relative to their best arms, while also making a small expected cumulative payment.
-\end{itemize}
-\end{frame}
-%#################################################
-
 
 %#################################################
 \begin{frame}{Previous Work}
+\textbf{Without Money Transfer:}
+\small{
 \begin{itemize}[label=\textbullet]
-\item Kremer et al. (2014) and Mansour et al. (2015, 2016, 2018) (see Slivkins (2017) for an overview) assume that the principal has an informational advantage in being the only one to observe the results of past arm pulls (as in driving route recommendations). The principal can use her advantage to induce exploration by recommending apparently sub-optimal arms, as long as agents cannot do better on their own.
-\item Frazier et al. (2014) and Han et al. (2015) instead assume that the results of all past arm pulls are publicly observable (as on a review-sharing site). They suppose that the principal can incentivize exploration by offering arm-specific reward payments.
+\item Implementing the “Wisdom of the Crowd”, Kremer et al. 2014;
+\item Bayesian incentive-compatible bandit exploration, Mansour et al. 2015;
+\item $\cdots$
 \end{itemize}
+}
+\vspace{1cm}
+\textbf{With Money Transfer}
+\small{
+\begin{itemize}[label=\textbullet]
+\item Incentivizing exploration, Frazier et al. 2014;
+\item Incentivizing exploration with heterogeneous value of money, Han et al. 2015;
+\item $\cdots$
+\end{itemize}
+}
 \end{frame}
 %#################################################
 
+\begin{frame}{Our Contribution}
+\begin{itemize} [label=\textbullet]
+\item First algorithm and analysis for incentivizing exploration when users have heterogeneous preferences over arms;
+\item We proved \textbf{“heterogeneity provides free exploration”}.
+\end{itemize}
+\end{frame}
 
 %#################################################
-\begin{frame}{Our Contribution}
-We present the first algorithm and analysis (of which we are aware) for incentivizing exploration when users have heterogeneous preferences over arms, with the following applications:
+\begin{frame}{Problem Setting}
+
+\textbf{$N$ arms}
 \begin{itemize}[label=\textbullet]
-\item Sites that host user-written reviews of products, restaurants, hotels and travel experiences, such as TripAdvisor;
-\item Citizen science projects such as eBird and Galaxy Zoo.
+\item Each arm is associated with a feature vector $u_i\in R^{d}$;
+\item Both the agents and the principal can observe the current estimate of $u_i$, denoted as $\hat{u}_{i,t}$, which equals to the average of all past observations;
+\end{itemize}
+\vspace{1cm}
+\textbf{Myopic Agents}
+\begin{itemize}[label=\textbullet]
+\item Agents arrive sequentially and their preference $\theta_t\in R^{d}$ follows known distribution $F(\cdot)$.
+\item Without any incentives, agent $\theta_t$ would choose the arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}\}$.
 \end{itemize}
 
+\end{frame}
+%#################################################
+
+%#################################################
+\begin{frame}{Problem Setting}
+
+\textbf{Agents behavior and feedback}
+\begin{itemize}[label=\textbullet]
+\item Principal chooses payment $c_{t,i}$ for arm $i$ at time $t$;
+\item Agent $\theta_t$ would choose the arm $i_t = \arg\max_{i}\{\theta_{t}\cdot \hat{u}_{i,t}+c_{t,i}\}$;
+\item Each pull provides vector-valued outcomes equal to $u_{i}$, perturbed by independent noise.
+\end{itemize}
+\vspace{1cm}
+\textbf{Principal's goal}
+\begin{itemize}[label=\textbullet]
+\item Regret $r_t = (\max_{i} \theta_t \cdot u_i) - \theta_t \cdot u_{i_t}$ and payment $c_t = c_{t,i_t}$;
+\item Incentivize to minimize the cumulative regret while making a small cumulative payment;
+\end{itemize}
 
 \end{frame}
 %#################################################
@@ -114,8 +140,10 @@ We present the first algorithm and analysis (of which we are aware) for incentiv
 %#################################################
 \begin{frame}{Key Assumptions}
 \begin{itemize}[label=\textbullet]
-\item (\textbf{Every arm is someone's best}) Each arm $i$ has a strictly positive proportion of users for whom $i$ is the best arm. We use $p$ to denote the minimum (over all arms) fraction of users that prefer any particular arm.
+\item (\textbf{Every arm is someone's best}) We use $p$ to denote the minimum (over all arms) fraction of users that prefer any particular arm.
+\vspace{0.2cm}
 \item (\textbf{Not too many near-ties}) Let $q(z)$ be the cumulative distribution function of those agents whose utility difference between their best and second best arm is less than or equal to $z$, then there exists a $\hat{z}>0$, $L$ such that $q(z)\leq L\cdot z$ for all $z\leq \hat{z}$.
+\vspace{0.2cm}
 \item (\textbf{Compact Support}) $\theta$ has a compact support set contained in $[0,D]^{d}$.\
 \end{itemize}
 
@@ -142,13 +170,16 @@ both the expected regret and expected payment are bounded by constants
 %#################################################
 \begin{frame}{Notations}
 
+\textbf{Phase}
 \begin{itemize}[label=\textbullet]
-\item<1-> Phase: Our algorithm divides time into \emph{phases} $s = 1, 2, 3, \ldots$. Phase $s$ starts when each arm has been pulled at least $s$ times. We use $m_{t,i}$ to denote the number of pulls for arm $i$ up to time $t$ and indicate the start time of phase $s$ by $t_s$. 
-\item<2-> Payment-eligible: An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$) if both of the following hold:
-\begin{itemize}[label=\textbullet]
-\item $i$ has been pulled at most $s$ times up to time $t$, i.e., $m_{t,i} \leq s$.
-\item  The conditional probability of pulling arm $i$ is less than $1/\log(s)$ given the current estimates $\hat{u}_{t,i'}$ of the arms' attribute vectors.  
+\item Phase $s$ starts when each arm has been pulled at least $s$ times.
 \end{itemize}
+
+\vspace{0.7cm}
+\textbf{Payment-eligible}
+\begin{itemize}[label=\textbullet]
+\item Arm $i$ has been pulled at most $s$ times up to time $t$;
+\item The conditional probability of pulling arm $i$ is less than $\frac{1}{\log(s)}$ given the current estimates $\hat{u}_{i,t}$.
 \end{itemize}
 
 \end{frame}
@@ -176,37 +207,35 @@ both the expected regret and expected payment are bounded by constants
 %#################################################
 %#################################################
 \begin{frame}{Payment Analysis}
-The key technical lemma in our proof is a Hoeffding-like concentration inequality that holds for a random, adaptively chosen number of samples.
+\textbf{Key technical lemma}: an adaptive concentration inequality (Zhao et al. 2016);
+\vspace{1cm}
 
-\begin{itemize}[label=\textbullet]
-\item For the early phases, we crudely bound the number of payment by $N$ for each phase;
-\item For the later phases, we uses our technical lemma to rule out any incentives unless large misestimates of the arm locations occur, which is exponentially unlikely as the phase advances.
-\end{itemize}
+\textbf{Early Phases}: bound by $N$;
+\vspace{1cm}
+
+\textbf{Later Phases}: exponentially unlikely as the phases advances;
 \end{frame}
 %#################################################
 
 %#################################################
 \begin{frame}{Regret Analysis}
 
-\footnotesize{
-\textbf{Regret Proof:}
+\textbf{When principal incentivizes:} similar to the payment proof;
+\vspace{0.5cm}
+
+\textbf{When agents pull myopically:} We define a phase-dependent cutoff $\gamma(s(t))$ to further distinguish agents based on the regret.
 \begin{itemize}[label=\textbullet]
-\item<1-> Regret occurred when an agent was incentivized to pull a sub-optimal arm: the analysis here is very similar to the payment proof;
-\item<2-> Regret occurred when an agent myopically pulled a suboptimal arm: in this case, we define a phase-dependent cutoff to further distinguish agents based on their regret.
-\begin{itemize}[label=\textbullet]
-\item<3-> For those agents incurring large regret, which requires severe misestimates of arm locations and such misestimates are exponentially unlikely to occur, we use the following analysis to bound the regret:
+\item $r(t)\geq \gamma(s(t))$:
 \begin{itemize}[label=$\star$]
-\item the technical lemma suggests this happens with exponentially decreasing probability;
-\item based on our compact support assumption, the maximum regret is bounded above by a constant;
+\item this happens with exponentially decreasing probability;
+\item since $\theta_t$ has a compact support, the maximum regret is bounded by a constant;
 \end{itemize}
-\item<4-> For those agents incurring small positive regret, which requires these agents to be almost tied in their preference for the best arm, we use the following analysis to bound the regret: 
+\item $r(t)\leq \gamma(s(t))$:
 \begin{itemize}[label=$\star$] 
-\item there are not so many agents have near-ties preferences; 
-\item the maximum regret is bounded above by the phase-dependent cutoff;
+\item not so many agents have near-ties preferences; 
+\item the maximum regret is bounded above by $\gamma(s(t))$;
 \end{itemize}
 \end{itemize}
-\end{itemize}
-}
 
 \end{frame}
 %#################################################

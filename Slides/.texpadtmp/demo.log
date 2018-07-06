@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  5 JUL 2018 20:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2018) (preloaded format=pdflatex 2018.4.16)  4 JUL 2018 23:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**slides.tex
-(./slides.tex
+**demo.tex
+(./demo.tex
 LaTeX2e <2018-04-01> patch level 2
 Babel <3.18> and hyphenation patterns for 84 language(s) loaded.
 (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamer.cls
@@ -102,12 +102,8 @@ Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
 \Gm@layoutvoffset=\dimen125
 \Gm@dimlist=\toks15
 )
-
-Class beamer Warning: ``serif'' is obsolete. Use font theme ``serif'' instead o
-n input line 336.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/size11.clo
-File: size11.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
+(/usr/local/texlive/2018/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2014/09/29 v1.4h Standard LaTeX file (size option)
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
 (/usr/local/texlive/2018/texmf-dist/tex/latex/graphics/graphicx.sty
@@ -482,6 +478,11 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \symAMSb=\mathgroup5
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/usr/local/texlive/2018/texmf-dist/tex/latex/sansmathaccent/sansmathaccent.sty
+Package: sansmathaccent 2013/03/28
+(/usr/local/texlive/2018/texmf-dist/tex/latex/filehook/filehook.sty
+Package: filehook 2011/10/12 v0.5d Hooks for input files
 )))
 (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerbasetranslator.sty
 (/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator.sty
@@ -655,644 +656,208 @@ y
 \beamer@dimb=\dimen189
 )
 (/usr/local/texlive/2018/texmf-dist/tex/latex/beamer/beamerouterthemedefault.st
-y))) (./beamerthemeCornell.sty)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2018/02/14 3.18 The Babel package
+y))) (./beamerthemem.sty
+Package: beamerthemem 
 
-(/usr/local/texlive/2018/texmf-dist/tex/generic/babel/switch.def
-File: switch.def 2018/02/14 3.18 Babel switching mechanism
+(/usr/local/texlive/2018/texmf-dist/tex/latex/fontspec/fontspec.sty
+(/usr/local/texlive/2018/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+(/usr/local/texlive/2018/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2018/03/05 L3 programming layer (loader) 
+
+(/usr/local/texlive/2018/texmf-dist/tex/latex/l3kernel/expl3-code.tex
+Package: expl3 2018/03/05 L3 programming layer (code)
+\c_max_int=\count155
+\l_tmpa_int=\count156
+\l_tmpb_int=\count157
+\g_tmpa_int=\count158
+\g_tmpb_int=\count159
+\g__intarray_font_int=\count160
+\g__prg_map_int=\count161
+\c_log_iow=\count162
+\l_iow_line_count_int=\count163
+\l__iow_line_target_int=\count164
+\l__iow_one_indent_int=\count165
+\l__iow_indent_int=\count166
+\c_zero_dim=\dimen190
+\c_max_dim=\dimen191
+\l_tmpa_dim=\dimen192
+\l_tmpb_dim=\dimen193
+\g_tmpa_dim=\dimen194
+\g_tmpb_dim=\dimen195
+\c_zero_skip=\skip57
+\c_max_skip=\skip58
+\l_tmpa_skip=\skip59
+\l_tmpb_skip=\skip60
+\g_tmpa_skip=\skip61
+\g_tmpb_skip=\skip62
+\c_zero_muskip=\muskip12
+\c_max_muskip=\muskip13
+\l_tmpa_muskip=\muskip14
+\l_tmpb_muskip=\muskip15
+\g_tmpa_muskip=\muskip16
+\g_tmpb_muskip=\muskip17
+\l_keys_choice_int=\count167
+\c__fp_leading_shift_int=\count168
+\c__fp_middle_shift_int=\count169
+\c__fp_trailing_shift_int=\count170
+\c__fp_big_leading_shift_int=\count171
+\c__fp_big_middle_shift_int=\count172
+\c__fp_big_trailing_shift_int=\count173
+\c__fp_Bigg_leading_shift_int=\count174
+\c__fp_Bigg_middle_shift_int=\count175
+\c__fp_Bigg_trailing_shift_int=\count176
+\c__fp_rand_size_int=\count177
+\c__fp_rand_four_int=\count178
+\c__fp_rand_eight_int=\count179
+\l__sort_length_int=\count180
+\l__sort_min_int=\count181
+\l__sort_top_int=\count182
+\l__sort_max_int=\count183
+\l__sort_true_max_int=\count184
+\l__sort_block_int=\count185
+\l__sort_begin_int=\count186
+\l__sort_end_int=\count187
+\l__sort_A_int=\count188
+\l__sort_B_int=\count189
+\l__sort_C_int=\count190
+\l__tl_build_start_index_int=\count191
+\l__tl_build_index_int=\count192
+\l__tl_analysis_normal_int=\count193
+\l__tl_analysis_index_int=\count194
+\l__tl_analysis_nesting_int=\count195
+\l__tl_analysis_type_int=\count196
+\l__regex_internal_a_int=\count197
+\l__regex_internal_b_int=\count198
+\l__regex_internal_c_int=\count199
+\l__regex_balance_int=\count266
+\l__regex_group_level_int=\count267
+\l__regex_mode_int=\count268
+\c__regex_cs_in_class_mode_int=\count269
+\c__regex_cs_mode_int=\count270
+\l__regex_catcodes_int=\count271
+\l__regex_default_catcodes_int=\count272
+\c__regex_catcode_D_int=\count273
+\c__regex_catcode_S_int=\count274
+\c__regex_catcode_L_int=\count275
+\c__regex_catcode_O_int=\count276
+\c__regex_catcode_A_int=\count277
+\c__regex_all_catcodes_int=\count278
+\l__regex_show_lines_int=\count279
+\l__regex_min_state_int=\count280
+\l__regex_max_state_int=\count281
+\l__regex_left_state_int=\count282
+\l__regex_right_state_int=\count283
+\l__regex_capturing_group_int=\count284
+\l__regex_min_pos_int=\count285
+\l__regex_max_pos_int=\count286
+\l__regex_curr_pos_int=\count287
+\l__regex_start_pos_int=\count288
+\l__regex_success_pos_int=\count289
+\l__regex_curr_char_int=\count290
+\l__regex_curr_catcode_int=\count291
+\l__regex_last_char_int=\count292
+\l__regex_case_changed_char_int=\count293
+\l__regex_curr_state_int=\count294
+\l__regex_step_int=\count295
+\l__regex_min_active_int=\count296
+\l__regex_max_active_int=\count297
+\l__regex_replacement_csnames_int=\count298
+\l__regex_match_count_int=\count299
+\l__regex_min_submatch_int=\count300
+\l__regex_submatch_int=\count301
+\l__regex_zeroth_submatch_int=\count302
+\g__regex_trace_regex_int=\count303
+\c_empty_box=\box53
+\l_tmpa_box=\box54
+\l_tmpb_box=\box55
+\g_tmpa_box=\box56
+\g_tmpb_box=\box57
+\l__box_top_dim=\dimen196
+\l__box_bottom_dim=\dimen197
+\l__box_left_dim=\dimen198
+\l__box_right_dim=\dimen199
+\l__box_top_new_dim=\dimen256
+\l__box_bottom_new_dim=\dimen257
+\l__box_left_new_dim=\dimen258
+\l__box_right_new_dim=\dimen259
+\l__box_internal_box=\box58
+\l__coffin_internal_box=\box59
+\l__coffin_internal_dim=\dimen260
+\l__coffin_offset_x_dim=\dimen261
+\l__coffin_offset_y_dim=\dimen262
+\l__coffin_x_dim=\dimen263
+\l__coffin_y_dim=\dimen264
+\l__coffin_x_prime_dim=\dimen265
+\l__coffin_y_prime_dim=\dimen266
+\c_empty_coffin=\box60
+\l__coffin_aligned_coffin=\box61
+\l__coffin_aligned_internal_coffin=\box62
+\l_tmpa_coffin=\box63
+\l_tmpb_coffin=\box64
+\l__coffin_display_coffin=\box65
+\l__coffin_display_coord_coffin=\box66
+\l__coffin_display_pole_coffin=\box67
+\l__coffin_display_offset_dim=\dimen267
+\l__coffin_display_x_dim=\dimen268
+\l__coffin_display_y_dim=\dimen269
+\l__coffin_bounding_shift_dim=\dimen270
+\l__coffin_left_corner_dim=\dimen271
+\l__coffin_right_corner_dim=\dimen272
+\l__coffin_bottom_corner_dim=\dimen273
+\l__coffin_top_corner_dim=\dimen274
+\l__coffin_scaled_total_height_dim=\dimen275
+\l__coffin_scaled_width_dim=\dimen276
 )
-(/usr/local/texlive/2018/texmf-dist/tex/generic/babel-english/english.ldf
-Language: english 2017/06/06 v3.3r English support from the babel system
-
-(/usr/local/texlive/2018/texmf-dist/tex/generic/babel/babel.def
-File: babel.def 2018/02/14 3.18 Babel common definitions
-\babel@savecnt=\count155
-\U@D=\dimen190
-
-(/usr/local/texlive/2018/texmf-dist/tex/generic/babel/txtbabel.def)
-LaTeX Info: Redefining \textlatin on input line 1839.
-\bbl@dirlevel=\count156
-)
-\l@canadian = a dialect from \language\l@american 
-\l@australian = a dialect from \language\l@british 
-\l@newzealand = a dialect from \language\l@british 
+(/usr/local/texlive/2018/texmf-dist/tex/latex/l3kernel/l3pdfmode.def
+File: l3pdfmode.def 2017/03/18 v L3 Experimental driver: PDF mode
+\l__driver_color_stack_int=\count304
 ))
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/fontenc.sty
-Package: fontenc 2017/04/05 v2.0i Standard LaTeX package
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/t1enc.def
-File: t1enc.def 2017/04/05 v2.0i Standard LaTeX file
-LaTeX Font Info:    Redeclaring font encoding T1 on input line 48.
-))
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/lmodern.sty
-Package: lmodern 2009/10/30 v1.6 Latin Modern Fonts
-LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
-LaTeX Font Info:    Overwriting symbol font `letters' in version `normal'
-(Font)                  OML/cmm/m/it --> OML/lmm/m/it on input line 23.
-LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
-(Font)                  OMS/cmsy/m/n --> OMS/lmsy/m/n on input line 24.
-LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
-(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 25.
-LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 26.
-LaTeX Font Info:    Overwriting symbol font `letters' in version `bold'
-(Font)                  OML/cmm/b/it --> OML/lmm/b/it on input line 27.
-LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
-(Font)                  OMS/cmsy/b/n --> OMS/lmsy/b/n on input line 28.
-LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
-(Font)                  OMX/cmex/m/n --> OMX/lmex/m/n on input line 29.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 31.
-LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/lmss/m/n on input line 32.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/lmr/m/it on input line 33.
-LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 34.
-LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/lmr/bx/n on input line 35.
-LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/lmss/bx/n on input line 36.
-LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
-LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
+Package: xparse 2018/02/21 L3 Experimental document command parser
+\l__xparse_current_arg_int=\count305
+\g__xparse_grabber_int=\count306
+\l__xparse_m_args_int=\count307
+\l__xparse_mandatory_args_int=\count308
+\l__xparse_v_nesting_int=\count309
 )
-(/usr/local/texlive/2018/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
-Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
-\symrsfs=\mathgroup6
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/biblatex.sty
-Package: biblatex 2018/03/04 v3.11 programmable bibliographies (PK/MW)
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/logreq/logreq.sty
-Package: logreq 2010/08/04 v1.0 xml request logger
-\lrq@indent=\count157
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/logreq/logreq.def
-File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
-))
-(/usr/local/texlive/2018/texmf-dist/tex/latex/base/ifthen.sty
-Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-)
-(/usr/local/texlive/2018/texmf-dist/tex/generic/xstring/xstring.sty
-(/usr/local/texlive/2018/texmf-dist/tex/generic/xstring/xstring.tex
-\@xs@message=\write5
-\integerpart=\count158
-\decimalpart=\count159
-)
-Package: xstring 2013/10/13  v1.7c  String manipulations (C Tellechea)
-)
-\c@tabx@nest=\count160
-\c@listtotal=\count161
-\c@listcount=\count162
-\c@liststart=\count163
-\c@liststop=\count164
-\c@citecount=\count165
-\c@citetotal=\count166
-\c@multicitecount=\count167
-\c@multicitetotal=\count168
-\c@instcount=\count169
-\c@maxnames=\count170
-\c@minnames=\count171
-\c@maxitems=\count172
-\c@minitems=\count173
-\c@citecounter=\count174
-\c@savedcitecounter=\count175
-\c@uniquelist=\count176
-\c@uniquename=\count177
-\c@refsection=\count178
-\c@refsegment=\count179
-\c@maxextratitle=\count180
-\c@maxextratitleyear=\count181
-\c@maxextradate=\count182
-\c@maxextraalpha=\count183
-\c@abbrvpenalty=\count184
-\c@highnamepenalty=\count185
-\c@lownamepenalty=\count186
-\c@maxparens=\count187
-\c@parenlevel=\count188
-\blx@tempcnta=\count189
-\blx@tempcntb=\count190
-\blx@tempcntc=\count191
-\blx@maxsection=\count192
-\blx@maxsegment@0=\count193
-\blx@notetype=\count194
-\blx@parenlevel@text=\count195
-\blx@parenlevel@foot=\count196
-\blx@sectionciteorder@0=\count197
-\labelnumberwidth=\skip57
-\labelalphawidth=\skip58
-\biblabelsep=\skip59
-\bibitemsep=\skip60
-\bibnamesep=\skip61
-\bibinitsep=\skip62
-\bibparsep=\skip63
-\bibhang=\skip64
-\blx@bcfin=\read2
-\blx@bcfout=\write6
-\c@mincomprange=\count198
-\c@maxcomprange=\count199
-\c@mincompwidth=\count266
-Package biblatex Info: Trying to load biblatex default data model...
-Package biblatex Info: ... file 'blx-dm.def' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/blx-dm.def
-File: blx-dm.def 2018/03/04 v3.11 biblatex localization (PK/MW)
-)
-Package biblatex Info: Trying to load biblatex custom data model...
-Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
-\c@afterword=\count267
-\c@savedafterword=\count268
-\c@annotator=\count269
-\c@savedannotator=\count270
-\c@author=\count271
-\c@savedauthor=\count272
-\c@bookauthor=\count273
-\c@savedbookauthor=\count274
-\c@commentator=\count275
-\c@savedcommentator=\count276
-\c@editor=\count277
-\c@savededitor=\count278
-\c@editora=\count279
-\c@savededitora=\count280
-\c@editorb=\count281
-\c@savededitorb=\count282
-\c@editorc=\count283
-\c@savededitorc=\count284
-\c@foreword=\count285
-\c@savedforeword=\count286
-\c@holder=\count287
-\c@savedholder=\count288
-\c@introduction=\count289
-\c@savedintroduction=\count290
-\c@namea=\count291
-\c@savednamea=\count292
-\c@nameb=\count293
-\c@savednameb=\count294
-\c@namec=\count295
-\c@savednamec=\count296
-\c@translator=\count297
-\c@savedtranslator=\count298
-\c@shortauthor=\count299
-\c@savedshortauthor=\count300
-\c@shorteditor=\count301
-\c@savedshorteditor=\count302
-\c@labelname=\count303
-\c@savedlabelname=\count304
-\c@institution=\count305
-\c@savedinstitution=\count306
-\c@lista=\count307
-\c@savedlista=\count308
-\c@listb=\count309
-\c@savedlistb=\count310
-\c@listc=\count311
-\c@savedlistc=\count312
-\c@listd=\count313
-\c@savedlistd=\count314
-\c@liste=\count315
-\c@savedliste=\count316
-\c@listf=\count317
-\c@savedlistf=\count318
-\c@location=\count319
-\c@savedlocation=\count320
-\c@organization=\count321
-\c@savedorganization=\count322
-\c@origlocation=\count323
-\c@savedoriglocation=\count324
-\c@origpublisher=\count325
-\c@savedorigpublisher=\count326
-\c@publisher=\count327
-\c@savedpublisher=\count328
-\c@language=\count329
-\c@savedlanguage=\count330
-\c@origlanguage=\count331
-\c@savedoriglanguage=\count332
-\c@pageref=\count333
-\c@savedpageref=\count334
-\shorthandwidth=\skip65
-\shortjournalwidth=\skip66
-\shortserieswidth=\skip67
-\shorttitlewidth=\skip68
-\shortauthorwidth=\skip69
-\shorteditorwidth=\skip70
-\locallabelnumberwidth=\skip71
-\locallabelalphawidth=\skip72
-\localshorthandwidth=\skip73
-\localshortjournalwidth=\skip74
-\localshortserieswidth=\skip75
-\localshorttitlewidth=\skip76
-\localshortauthorwidth=\skip77
-\localshorteditorwidth=\skip78
-Package biblatex Info: Trying to load compatibility code...
-Package biblatex Info: ... file 'blx-compat.def' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/blx-compat.def
-File: blx-compat.def 2018/03/04 v3.11 biblatex compatibility (PK/MW)
-)
-Package biblatex Info: Trying to load generic definitions...
-Package biblatex Info: ... file 'biblatex.def' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/biblatex.def
-File: biblatex.def 2018/03/04 v3.11 biblatex compatibility (PK/MW)
-\c@textcitecount=\count335
-\c@textcitetotal=\count336
-\c@textcitemaxnames=\count337
-\c@biburlnumpenalty=\count338
-\c@biburlucpenalty=\count339
-\c@biburllcpenalty=\count340
-\c@smartand=\count341
-)
-Package biblatex Info: Trying to load bibliography style 'numeric'...
-Package biblatex Info: ... file 'numeric.bbx' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/bbx/numeric.bbx
-File: numeric.bbx 2018/03/04 v3.11 biblatex bibliography style (PK/MW)
-Package biblatex Info: Trying to load bibliography style 'standard'...
-Package biblatex Info: ... file 'standard.bbx' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
-File: standard.bbx 2018/03/04 v3.11 biblatex bibliography style (PK/MW)
-\c@bbx:relatedcount=\count342
-\c@bbx:relatedtotal=\count343
-))
-Package biblatex Info: Trying to load citation style 'numeric'...
-Package biblatex Info: ... file 'numeric.cbx' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/cbx/numeric.cbx
-File: numeric.cbx 2018/03/04 v3.11 biblatex citation style (PK/MW)
-Package biblatex Info: Redefining '\cite'.
-Package biblatex Info: Redefining '\parencite'.
-Package biblatex Info: Redefining '\footcite'.
-Package biblatex Info: Redefining '\footcitetext'.
-Package biblatex Info: Redefining '\smartcite'.
-Package biblatex Info: Redefining '\supercite'.
-Package biblatex Info: Redefining '\textcite'.
-Package biblatex Info: Redefining '\textcites'.
-Package biblatex Info: Redefining '\cites'.
-Package biblatex Info: Redefining '\parencites'.
-Package biblatex Info: Redefining '\smartcites'.
-)
-Package biblatex Info: Trying to load configuration file...
-Package biblatex Info: ... file 'biblatex.cfg' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/biblatex.cfg
-File: biblatex.cfg 
-))
-(/usr/local/texlive/2018/texmf-dist/tex/latex/enumitem/enumitem.sty
-Package: enumitem 2011/09/28 v3.5.2 Customized lists
-\labelindent=\skip79
-\enit@outerparindent=\dimen191
-\enit@toks=\toks43
-\enit@inbox=\box53
-\enitdp@description=\count344
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/algorithms/algorithm.sty
-Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
-nment
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/float/float.sty
-Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count345
-\float@exts=\toks44
-\float@box=\box54
-\@float@everytoks=\toks45
-\@floatcapt=\box55
-)
-\@float@every@algorithm=\toks46
-\c@algorithm=\count346
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/algorithms/algorithmic.sty
-Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
-\c@ALC@unique=\count347
-\c@ALC@line=\count348
-\c@ALC@rem=\count349
-\c@ALC@depth=\count350
-\ALC@tlm=\skip80
-\algorithmicindent=\skip81
-)
-Package biblatex Info: Trying to load language 'english'...
-Package biblatex Info: ... file 'english.lbx' found.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/biblatex/lbx/english.lbx
-File: english.lbx 2018/03/04 v3.11 biblatex localization (PK/MW)
-)
-
-Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
-(biblatex)                Loading 'csquotes' recommended.
-
-\@quotelevel=\count351
-\@quotereset=\count352
-
-(/Users/bangruichen/work/2018_COLT/Incentivizing_Exploration/Slides/.texpadtmp/
-slides.aux)
-\openout1 = `slides.aux'.
-
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 61.
- (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmr.fd
-File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-*geometry* driver: auto-detecting
-*geometry* detected driver: pdftex
-*geometry* verbose mode - [ preamble ] result:
-* driver: pdftex
-* paper: custom
-* layout: <same size as paper>
-* layoutoffset:(h,v)=(0.0pt,0.0pt)
-* modes: includehead includefoot 
-* h-part:(L,W,R)=(28.45274pt, 307.28987pt, 28.45274pt)
-* v-part:(T,H,B)=(0.0pt, 273.14662pt, 0.0pt)
-* \paperwidth=364.19536pt
-* \paperheight=273.14662pt
-* \textwidth=307.28987pt
-* \textheight=244.6939pt
-* \oddsidemargin=-43.81725pt
-* \evensidemargin=-43.81725pt
-* \topmargin=-72.26999pt
-* \headheight=14.22636pt
-* \headsep=0.0pt
-* \topskip=11.0pt
-* \footskip=14.22636pt
-* \marginparwidth=4.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-(/usr/local/texlive/2018/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count353
-\scratchdimen=\dimen192
-\scratchbox=\box56
-\nofMPsegments=\count354
-\nofMParguments=\count355
-\everyMPshowfont=\toks47
-\MPscratchCnt=\count356
-\MPscratchDim=\dimen193
-\MPnumerator=\count357
-\makeMPintoPDFobject=\count358
-\everyMPtoPDFconversion=\toks48
-) (/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
-Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/oberdiek/grfext.sty
-Package: grfext 2016/05/16 v1.2 Manage graphics extensions (HO)
-)
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-38.
-Package grfext Info: Graphics extension search list:
-(grfext)             [.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPE
-G,.JBIG2,.JB2,.eps]
-(grfext)             \AppendGraphicsExtensions on input line 456.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box57
-Package hyperref Info: Link coloring OFF on input line 61.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/hyperref/nameref.sty
-Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
-
-(/usr/local/texlive/2018/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
-Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
-)
-\c@section@level=\count359
-)
-LaTeX Info: Redefining \ref on input line 61.
-LaTeX Info: Redefining \pageref on input line 61.
-LaTeX Info: Redefining \nameref on input line 61.
-
-(/Users/bangruichen/work/2018_COLT/Incentivizing_Exploration/Slides/.texpadtmp/
-slides.out)
-(/Users/bangruichen/work/2018_COLT/Incentivizing_Exploration/Slides/.texpadtmp/
-slides.out)
-\@outlinefile=\write7
-\openout7 = `slides.out'.
+Package: fontspec 2017/11/09 v2.6g Font selection for XeLaTeX and LuaLaTeX
 
 
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-basic-dicti
-onary-English.dict
-Dictionary: translator-basic-dictionary, Language: English 
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-bibliograph
-y-dictionary-English.dict
-Dictionary: translator-bibliography-dictionary, Language: English 
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-environment
--dictionary-English.dict
-Dictionary: translator-environment-dictionary, Language: English 
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-months-dict
-ionary-English.dict
-Dictionary: translator-months-dictionary, Language: English 
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-numbers-dic
-tionary-English.dict
-Dictionary: translator-numbers-dictionary, Language: English 
-)
-(/usr/local/texlive/2018/texmf-dist/tex/latex/translator/translator-theorem-dic
-tionary-English.dict
-Dictionary: translator-theorem-dictionary, Language: English 
-)
-Package biblatex Info: Input encoding 'utf8' detected.
-Package biblatex Info: Automatic encoding selection.
-(biblatex)             Assuming data encoding 'utf8'.
-\openout6 = `slides.bcf'.
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!
+/usr/local/texlive/2018/texmf-dist/tex/latex/fontspec/fontspec.sty:44: Fatal fo
+ntspec error: "cannot-use-pdftex"
+! 
+! The fontspec package requires either XeTeX or LuaTeX.
+! 
+! You must change your typesetting engine to, e.g., "xelatex" or
+! "lualatex"instead of "latex" or "pdflatex".
+! 
+! See the fontspec documentation for further information.
+! 
+! For immediate help type H <return>.
+!...............................................  
+                                                  
+l.44 \msg_fatal:nn {fontspec} {cannot-use-pdftex}
+                                                 
+|'''''''''''''''''''''''''''''''''''''''''''''''
+| This is a fatal error: LaTeX will abort.
+|...............................................
 
-Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'slides.bbl' not found.
-
-No file slides.bbl.
-Package biblatex Info: Reference section=0 on input line 61.
-Package biblatex Info: Reference segment=0 on input line 61.
-
-(/Users/bangruichen/work/2018_COLT/Incentivizing_Exploration/Slides/.texpadtmp/
-slides.nav)
-
-LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
-(Font)              using `T1/lmr/bx/n' instead on input line 61.
-
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 66.
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 66.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omllmm.fd
-File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 66.
-
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omslmsy.fd
-File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 66.
-
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 66.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 66.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 66.
-LaTeX Font Info:    Try loading font information for U+msa on input line 66.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Try loading font information for U+msb on input line 66.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Try loading font information for U+rsfs on input line 66.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/jknapltx/ursfs.fd
-File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-)
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 66.
-
-(/usr/local/texlive/2018/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [1
-
-{/usr/local/texlive/2018/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<example.png, id=24, 768.8725pt x 404.51125pt>
-File: example.png Graphic file (type png)
-<use example.png>
-Package pdftex.def Info: example.png  used on input line 71.
-(pdftex.def)             Requested size: 307.54355pt x 161.80162pt.
-
-Overfull \hbox (0.25368pt too wide) in paragraph at lines 71--71
-[][]  
- []
-
-[2
-
- <./example.png>]
-LaTeX Font Info:    Try loading font information for OMS+lmr on input line 93.
- (/usr/local/texlive/2018/texmf-dist/tex/latex/lm/omslmr.fd
-File: omslmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 93.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 93.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 93.
-[3
-
-]
-LaTeX Font Info:    Font shape `OMS/lmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/lmsy/m/n' tried instead on input line 101.
- [4
-
-]
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 118.
- [5
-
-] [6
-
-] [7
-
-] [8
-
-] [9
-
-] [10
-
-] [11
-
-] [12
-
-] [13
-
-]
-\tf@nav=\write8
-\openout8 = `slides.nav'.
-
-\tf@toc=\write9
-\openout9 = `slides.toc'.
-
-\tf@snm=\write10
-\openout10 = `slides.snm'.
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 252.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 252.
-
-(/Users/bangruichen/work/2018_COLT/Incentivizing_Exploration/Slides/.texpadtmp/
-slides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 252.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 252.
-Package rerunfilecheck Info: File `slides.out' has not changed.
-(rerunfilecheck)             Checksum: <no file>.
-
-
-LaTeX Font Warning: Some font shapes were not available, defaults substituted.
-
-Package logreq Info: Writing requests to 'slides.run.xml'.
-\openout1 = `slides.run.xml'.
-
- ) 
+ ) ) )
+(\end occurred when \ifx on line 3 was incomplete)
+(\end occurred when \ifx on line 3 was incomplete) 
 Here is how much of TeX's memory you used:
- 24209 strings out of 492649
- 454701 string characters out of 6129622
- 891076 words of memory out of 5000000
- 27564 multiletter control sequences out of 15000+600000
- 66036 words of font info for 66 fonts, out of 8000000 for 9000
+ 23819 strings out of 492649
+ 469024 string characters out of 6129622
+ 526683 words of memory out of 5000000
+ 27385 multiletter control sequences out of 15000+600000
+ 530577 words of font info for 23 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 48i,17n,51p,773b,1600s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/local/
-texlive/2018/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/local/texlive/20
-18/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/usr/local/texlive/2018/texmf-dist/
-fonts/enc/dvips/lm/lm-mathit.enc}</usr/local/texlive/2018/texmf-dist/fonts/type
-1/public/lm/lmbx10.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/l
-m/lmbx6.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmcsc10.p
-fb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/l
-ocal/texlive/2018/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/local/texliv
-e/2018/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/local/texlive/2018/texm
-f-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2018/texmf-dist/font
-s/type1/public/lm/lmr12.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/pub
-lic/lm/lmr17.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmr8
-.pfb></usr/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr
-/local/texlive/2018/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/local/texl
-ive/2018/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on /Users/bangruichen/work/2018_COLT/Incentivizing_Exploration/S
-lides/.texpadtmp/slides.pdf (13 pages, 898611 bytes).
+ 59i,1n,55p,10439b,277s stack positions out of 5000i,500n,10000p,200000b,80000s
+
+No pages of output.
 PDF statistics:
- 176 PDF objects out of 1000 (max. 8388607)
- 133 compressed objects within 2 object streams
- 27 named destinations out of 1000 (max. 500000)
- 72 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 9 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
