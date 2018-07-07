@@ -15,7 +15,7 @@
 \usepackage{lmodern}
 \usepackage{mathrsfs}
 \usepackage{biblatex}
-\usepackage{enumitem}
+%\usepackage{enumitem}
 \usepackage{bm}
 
 
@@ -74,21 +74,31 @@ Department of Computer Science       \\
 
 %#################################################
 \begin{frame}{Previous Work}
-\textbf{Without Money Transfer:}
+\textbf{Without Money Transfer}\\
 \small{
-\begin{itemize}[label=\textbullet]
-\item Implementing the “Wisdom of the Crowd”, Kremer et al. 2014;
-\item Bayesian incentive-compatible bandit exploration, Mansour et al. 2015;
-\item $\cdots$
+\begin{itemize}
+\item Kremer, Mansour \& Perry 2014
+\item Mansour, Slivkins \& Syrgkanis 2015
+\item Mansour, Slivkins, Syrgkanis \& Wu 2016
+\item Mansour, Slivkins \& Wu 2018
+\item Slivkins 2017
 \end{itemize}
+%Kremer et al. 2014; Mansour et al. 2015, 2016, 2018; Slivkins 2017\\
+%\begin{itemize}
+%\item %Implementing the “Wisdom of the Crowd”, Kremer et al. 2014;
+%\item %Bayesian incentive-compatible bandit exploration, Mansour et al. 2015;
+%\end{itemize}
 }
-\vspace{1cm}
-\textbf{With Money Transfer}
+\vspace{0.5cm}
+\textbf{With Money Transfer}\\
 \small{
-\begin{itemize}[label=\textbullet]
-\item Incentivizing exploration, Frazier et al. 2014;
-\item Incentivizing exploration with heterogeneous value of money, Han et al. 2015;
-\item $\cdots$
+\begin{itemize}
+\item Frazier, Kempe, Kleinberg \& Kleinberg 2014
+\item Han, Kempe \& Qiang 2015
+\item This paper
+% Frazier et al. 2014; Han et al. 2015
+%\item Incentivizing exploration, Frazier et al. 2014;
+%\item Incentivizing exploration with heterogeneous value of money, Han et al. 2015;
 \end{itemize}
 }
 \end{frame}
@@ -112,7 +122,7 @@ Department of Computer Science       \\
 %#################################################
 
 \begin{frame}{Heterogeneity Provides Free Exploration}
-\begin{itemize} [label=\textbullet]
+\begin{itemize} 
 \item In the classical MAB: cumulative regret is $O(\log(T))$
 \item In incentizing exploration with heterogeneous users:\\ we show, with assumptions, cumulative regret is $O(1)$
 \item Key insight: Heterogeneity provides free exploration
@@ -123,36 +133,48 @@ Department of Computer Science       \\
 %#################################################
 \begin{frame}{Problem Setting}
 
-\textbf{$N$ arms}
-\begin{itemize}[label=\textbullet]
-\item Each arm has an unknown feature vector $\bm{u}_i\in R^{d}$
-\item Pulling arm $i$ gives observation of $\bm{u}_i$, perturbed by independent sub-Gaussian noise
-\item The agents and principal observe averages $\hat{\bm{u}}_{i,t}$ of each arm's past pulls
+%\textbf{Myopic Agents}
+\textbf{Agents}
+\begin{itemize}
+\item Myopic agents arrive sequentially
+\item Agent $t$ has linear preferences with weight vector $\bm{\theta}_t\in \mathbb{R}^{d}$ drawn from known distribution $F$
 \end{itemize}
+\vspace{0.5cm}
+
+%\textbf{$N$ arms}
+\textbf{Arms}
+\begin{itemize}
+\item Each arm has an unknown feature vector $\bm{u}_i\in \mathbb{R}^{d}$
+\item Agent $t$ derives expected value $\bm{\theta}_{t}\cdot \bm{u}_{i}$ from pulling arm $i$
+% \item Everyone sees averages $\hat{\bm{u}}_{i,t}$ of noisy 
+\item Pulls gives noisy observation of $\bm{u}_i$ 
+%{\footnotesize (independent sub-Gaussian noise)}
+\item Everyone observes averages $\hat{\bm{u}}_{i,t}$ of each arm's past pulls
+\end{itemize}
+
+\vspace{0.5cm}
+\textbf{Agents' behavior}
+\begin{itemize}
+\item Principal chooses payment $c_{t,i}$ for arm $i$ at time $t$
+\item Agent $t$ pulls arm $i_t = \arg\max_{i}\{\bm{\theta}_{t}\cdot \hat{\bm{u}}_{i,t}+c_{t,i}\}$
+\end{itemize}
+
+
+%\item Without incentives, agent $t$ would choose the arm maximizing $\bm{\theta}_{t}\cdot \hat{\bm{u}}_{i,t}$.
+
 \vspace{1cm}
-\textbf{Myopic Agents}
-\begin{itemize}[label=\textbullet]
-\item Agents arrive sequentially
-\item Agent $t$ has linear preferences with weight vector $\bm{\theta}_t\in R^{d}$ drawn from known distribution $F$
-\item Without incentives, agent $t$ would choose the arm maximizing $\bm{\theta}_{t}\cdot \hat{\bm{u}}_{i,t}$.
-\end{itemize}
 
 \end{frame}
 %#################################################
 
 %#################################################
-\begin{frame}{Problem Setting}
+\begin{frame}{The Principal's Goal}
 
-\textbf{Agents' behavior}
-\begin{itemize}[label=\textbullet]
-\item Principal chooses payment $c_{t,i}$ for arm $i$ at time $t$
-\item Agent $\bm{\theta}_t$ pulls arm $i_t = \arg\max_{i}\{\bm{\theta}_{t}\cdot \hat{\bm{u}}_{i,t}+c_{t,i}\}$
-\end{itemize}
 \vspace{1cm}
-\textbf{Principal's goal}
-\begin{itemize}[label=\textbullet]
-\item Regret $r_t = (\max_{i} \bm{\theta}_t \cdot \bm{u}_i) - \bm{\theta}_t \cdot \bm{u}_{i_t}$ and payment $c_t = c_{t,i_t}$
-\item Incentivize to minimize the cumulative regret while making a small cumulative payment
+\begin{itemize}
+\item Regret: $r_t = (\max_{i} \bm{\theta}_t \cdot \bm{u}_i) - \bm{\theta}_t \cdot \bm{u}_{i_t}$
+\item Payment: $c_t = c_{t,i_t}$
+\item \textbf{Principal's Goal}: Incentivize to minimize the cumulative regret while making a small cumulative payment
 \end{itemize}
 
 \end{frame}
@@ -160,12 +182,19 @@ Department of Computer Science       \\
 
 %#################################################
 \begin{frame}{Key Assumptions}
-\begin{itemize}[label=\textbullet]
+\begin{itemize}
 \item (\textbf{Every arm is someone's best}) Each arm is preferred by at least $p$ fraction of users.
 \vspace{0.2cm}
-\item (\textbf{Not too many near-ties}) Let $q(z)$ be the cumulative distribution function of those agents whose utility difference between their best and second best arm is less than or equal to $z$. Then, there exists a $\hat{z}>0$, $L$ such that $q(z)\leq L\cdot z$ for all $z\leq \hat{z}$.
+\item (\textbf{Compact Support}) $\bm{\theta}$ has compact support.
+% contained in $[0,D]^{d}$.
 \vspace{0.2cm}
-\item (\textbf{Compact Support}) $\bm{\theta}$ has compact support contained in $[0,D]^{d}$.
+\item (\textbf{Few near-ties}) 
+Let $q(z)$ be the proportion of agents with
+$\text{Utility(best arm)} \le z + \text{Utility($2^{\mathrm{nd}}$ best arm)}$.\\
+Then $q(z)\leq L\cdot z$ for all small enough $z$.
+%whose best arm is no better than $z$ + their second best arm\\
+%There exists a $\hat{z}>0$, $L$ such that $q(z)\leq L\cdot z$ for all $z\leq \hat{z}$.
+% utility difference between their best and second best arm is less than or equal to $z$. 
 \end{itemize}
 
 \end{frame}
@@ -192,35 +221,51 @@ regret and payment are bounded by constants in $T$.
 \end{frame}
 %#################################################
 
-\begin{frame}{Algorithm}
+\begin{frame}{Algorithm Sketch}
 
-\begin{algorithmic}
-\STATE Set the current phase number $s = 1$.
-\COMMENT{Each arm is pulled once initially ``for free.''}
-\FOR{time steps $t = 1, 2, 3, \ldots$} {
-\STATE Update the current phase number if needed;
-\IF {there is a payment-eligible arm $i$} 
-    \STATE Offer ''whatever it takes'' payment for pulling arm $i$ (and payment 0 for all other arms).
-\ELSE
-    \STATE Let agent $t$ play myopically, i.e., offer payments 0 for all arms.
-\ENDIF 
-}\ENDFOR
-\end{algorithmic}
+An arm is \textbf{payment-eligible} if:
+\begin{itemize}
+\item without incentives, its probability of being pulled is below a threshold
+\item AND it hasn't been pulled in a long-time
+\end{itemize}
+\vspace{0.5cm}
 
+Our \textbf{algorithm}:
+\begin{itemize}
+\item If there is a payment-eligible arm, offer enough incentive to raise its probability of being pulled above the threshold
+\item Otherwise, let agents play myopically
+\end{itemize}
 \end{frame}
+
+%\begin{frame}{Algorithm}
+%
+%\begin{algorithmic}
+%\STATE Set the current phase number $s = 1$.
+%\COMMENT{Each arm is pulled once initially ``for free.''}
+%\FOR{time steps $t = 1, 2, 3, \ldots$} {
+%\STATE Update the current phase number if needed;
+%\IF {there is a payment-eligible arm $i$} 
+    %\STATE Offer ''whatever it takes'' payment for pulling arm $i$ (and payment 0 for all other arms).
+%\ELSE
+    %\STATE Let agent $t$ play myopically, i.e., offer payments 0 for all arms.
+%\ENDIF 
+%}\ENDFOR
+%\end{algorithmic}
+%
+%\end{frame}
 
 
 %#################################################
 %\begin{frame}{Notations}
 
 %\textbf{Phase}
-%\begin{itemize}[label=\textbullet]
+%\begin{itemize}
 %\item Phase $s$ starts when each arm has been pulled at least $s$ times.
 %\end{itemize}
 
 %\vspace{0.7cm}
 %\textbf{Payment-eligible}
-%\begin{itemize}[label=\textbullet]
+%\begin{itemize}
 %\item Arm $i$ has been pulled at most $s$ times up to time $t$;
 %\item The conditional probability of pulling arm $i$ is less than $\frac{1}{\log(s)}$ given the current estimates $\hat{u}_{i,t}$.
 %\end{itemize}
@@ -269,7 +314,7 @@ regret and payment are bounded by constants in $T$.
 %\vspace{0.5cm}
 
 %\textbf{When agents pull myopically:} We define a phase-dependent cutoff $\gamma(s(t))$ to further distinguish agents based on the regret.
-%\begin{itemize}[label=\textbullet]
+%\begin{itemize}
 %\item $r(t)\geq \gamma(s(t))$:
 %\begin{itemize}[label=$\star$]
 %\item this happens with exponentially decreasing probability;
@@ -284,7 +329,7 @@ regret and payment are bounded by constants in $T$.
 
 %\end{frame}
 %#################################################
-\begin{frame}{Question?}
+\begin{frame}{Questions?}
 \begin{center}
 \Huge{Thanks for your time!}
 \end{center}
