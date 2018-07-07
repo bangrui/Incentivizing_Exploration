@@ -16,7 +16,7 @@
 \usepackage{mathrsfs}
 \usepackage{biblatex}
 \usepackage[normalem]{ulem}
-%\usepackage{enumitem}
+\usepackage{enumitem}
 \usepackage{bm}
 
 
@@ -79,9 +79,9 @@ Department of Computer Science       \\
 \begin{frame}{Customers Undervalue Exploration}
 %\includegraphics[scale=0.4]{example}
 \includegraphics[width=10cm]{example_crop}
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Incentives are misaligned:
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Customers are myopic and want to \textbf{exploit}
 \item Amazon wants customers to \textbf{explore}
 \end{itemize}
@@ -94,7 +94,7 @@ Department of Computer Science       \\
 \begin{frame}{Previous Work}
 \textbf{Without Money Transfer}\\
 \small{
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Kremer, Mansour \& Perry 2014
 \item Mansour, Slivkins \& Syrgkanis 2015
 \item Mansour, Slivkins, Syrgkanis \& Wu 2016
@@ -110,14 +110,15 @@ Department of Computer Science       \\
 \vspace{0.5cm}
 \textbf{With Money Transfer}\\
 \small{
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Frazier, Kempe, Kleinberg \& Kleinberg 2014
 \item Han, Kempe \& Qiang 2015
-\item This paper
 % Frazier et al. 2014; Han et al. 2015
 %\item Incentivizing exploration, Frazier et al. 2014;
 %\item Incentivizing exploration with heterogeneous value of money, Han et al. 2015;
 \end{itemize}
+
+All of this work assumes agents have homogeneous preferences over items 
 }
 \end{frame}
 
@@ -132,7 +133,7 @@ Department of Computer Science       \\
 \begin{center}
 \includegraphics[scale=0.30]{example2}
 \end{center}
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item \textbf{Our setting}: Customers have different preferences
 \item \textbf{Challenge}: Amazon doesn't know these preferences
 \item \textbf{Opportunity}: Heterogeneity provides free explorations
@@ -186,7 +187,7 @@ Department of Computer Science       \\
 
 %\textbf{Myopic Agents}
 \textbf{Agents}
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Myopic agents arrive sequentially
 \item Agent $t$ has linear utility with preference vector $\bm{\theta}_t\in \mathbb{R}^{d}$ drawn from known distribution $F$
 \end{itemize}
@@ -194,29 +195,32 @@ Department of Computer Science       \\
 
 %\textbf{$N$ arms}
 \textbf{Arms}
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Each arm has an unknown feature vector $\bm{u}_i\in \mathbb{R}^{d}$
 % \item Everyone sees averages $\hat{\bm{u}}_{i,t}$ of noisy 
-\item Pulls give noisy observation of $\bm{u}_i$ 
-%{\footnotesize (independent sub-Gaussian noise)}
+\item Pulls give noisy observation of $\bm{u}_i$ \\ with independent sub-Gaussian noise
 \item Everyone observes averages $\hat{\bm{u}}_{i,t}$ of each arm's past pulls
 \end{itemize}
 
-\vspace{0.5cm}
+\end{frame}
+
+\begin{frame}{Problem Setting}
+
 \textbf{Agents' behavior}
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Principal chooses payment $c_{t,i}$ for arm $i$ at time $t$
 %\item Agent $t$ derives expected value $\bm{\theta}_{t}\cdot \bm{u}_{i}$ from pulling arm $i$
 \item Agent $t$ pulls arm $i_t = \arg\max_{i}\{\bm{\theta}_{t}\cdot \hat{\bm{u}}_{i,t}+c_{t,i}\}$
 \end{itemize}
-
 
 %\item Without incentives, agent $t$ would choose the arm maximizing $\bm{\theta}_{t}\cdot \hat{\bm{u}}_{i,t}$.
 
 \vspace{0.5cm}
 
 \textbf{Principal's Goal}
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
+\item Regret: $r_t = (\max_{i} \bm{\theta}_t \cdot \bm{u}_i) - \bm{\theta}_t \cdot \bm{u}_{i_t}$
+\item Payment: $c_t = c_{t,i_t}$
 \item Minimize cumulative regret with small cumulative payment
 \end{itemize}
 
@@ -240,14 +244,14 @@ Department of Computer Science       \\
 \begin{frame}{Algorithm Sketch}
 
 An arm is \textbf{payment-eligible} if:
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item without incentives, its probability of being pulled is below a threshold
 \item AND it hasn't been pulled in a long-time
 \end{itemize}
 \vspace{0.5cm}
 
 Our \textbf{algorithm}:
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item If there is a payment-eligible arm, offer enough incentive to raise its probability of being pulled above the threshold
 \item Otherwise, let agents play myopically
 \end{itemize}
@@ -255,9 +259,48 @@ Our \textbf{algorithm}:
 
 
 
+\begin{frame}{Algorithm Notation}
+\begin{itemize}[label=\textbullet]
+\item \textbf{Phase}: Phase $s$ starts when each arm has been pulled at least $s$ times. 
+\item \textbf{Number of Pulls}: $m_{t,i}$ is the number of pulls of arm $i$ up to time $t$. 
+\item \textbf{Payment-eligible}: An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$) if:
+\begin{itemize}[label=\textbullet]
+\normalsize{
+\item $i$ has been pulled at most $s$ times up to time $t$, i.e., $m_{t,i} \leq s$.
+\item  AND the conditional probability of pulling arm $i$ is less than $1/\log(s)$ given $\hat{u}_{t,i}$.  
+}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Our Algorithm:}
+
+\begin{algorithmic}
+\STATE Set the current phase number $s = 1$.
+\FOR{time steps $t = 1, 2, 3, \ldots$} {
+\IF {$m_{t,i} \geq s+1$ for all arms $i$}
+\STATE Increment the phase $s = s + 1$.
+\ENDIF
+\IF {there is a payment-eligible arm $i$} 
+    \STATE Let $i$ be an arbitrary payment-eligible arm.
+    \STATE Offer payment $c_{t,i} = \max_{\theta,i'} \theta \cdot (\hat{\mu}_{t,i'} - \hat{\mu}_{t,i})$ for pulling arm $i$ (and payment 0 for all other arms).
+\ELSE
+    \STATE Let agent play myopically, i.e., offer no payments.
+\ENDIF 
+}\ENDFOR
+\end{algorithmic}
+
+\end{frame}
+	
+
+
+
+
+
 %#################################################
 \begin{frame}{Key Assumptions}
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item (\textbf{Every arm is someone's best}) Each arm is preferred by at least $p$ fraction of users.
 \vspace{0.2cm}
 \item (\textbf{Compact Support}) $\bm{\theta}$ has compact support.
@@ -280,7 +323,7 @@ Then $q(z)\leq L\cdot z$ for all small enough $z$.
 \begin{block}{Theorem 1}
 
 Our policy achieves:
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item expected cumulative regret $O (N e^{2/p} + L N \log^3(T))$,
 \item using expected cumulative payments of $O(N^2 e^{2/p})$.
 \end{itemize}
@@ -288,11 +331,11 @@ Our policy achieves:
 
 \vspace{0.5cm}
 
-We improve our bounds to polynomial in $1/p$ if
-\begin{itemize}
-\item agent preferences are discrete,
-\item OR we know a lower bound on $p$.
-\end{itemize}
+%We improve our bounds to polynomial in $1/p$ if
+%\begin{itemize}[label=\textbullet]
+%\item agent preferences are discrete,
+%\item OR we know a lower bound on $p$.
+%\end{itemize}
 
 %Special case: 
 %When agent preferences are discrete, i.e. $L=0$,
@@ -327,16 +370,16 @@ We improve our bounds to polynomial in $1/p$ if
 
 %#################################################
 \begin{frame}{\large{Discrete Preferences Give Constant Regret}}
-\begin{alertblock}{Theorem 2}
+\begin{block}{Theorem 2}
 
-When agent preferences are discrete ($L=0$):
-\begin{itemize}
+When agent preferences are discrete ($L=0$), an algorithm using a modified algorithm has:
+\begin{itemize}[label=\textbullet]
 \item expected cumulative regret $O (N^2/p)$,
 \item using expected cumulative payments of $O(N/p)$.
 \end{itemize}
-\end{alertblock}
+\end{block}
 
-\begin{itemize}
+\begin{itemize}[label=\textbullet]
 \item Regret and payment are constant in $T$
 \item The classical MAB has regret $O(\log T)$
 % \item Incentivizing exploration with heterogeneous users is ``easier'' than classical MAB!
@@ -344,6 +387,21 @@ When agent preferences are discrete ($L=0$):
 \end{itemize}
 
 \end{frame}
+
+
+\begin{frame}{\large{Known $p$ Gives Poly($1/p$) Regret/Payment}}
+\begin{block}{Theorem 3}
+When a lower bound on $p$ is known, an algorithm using a modified threshold has:
+\begin{itemize}[label=\textbullet]
+\item expected cumulative regret $O(\frac{N^2}{p^2} + \frac{N L \log^3(T)}{p})$,
+\item using expected cumulative payments of $O(N^2\cdot \max(1,(L/p)^{5/2}))$.
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+
+
 
 
 % \begin{frame}{\large{We can drop exponential dependence on $p$ under more assumptions}}
@@ -408,46 +466,40 @@ When agent preferences are discrete ($L=0$):
 
 
 %#################################################
-%\begin{frame}{Payment Analysis}
-%\textbf{Key technical lemma}: an adaptive concentration inequality (Zhao et al. 2016);
-%\vspace{1cm}
+\begin{frame}{Payment Analysis}
+\textbf{Key technical lemma}: An adaptive concentration inequality (Zhao et al. 2016).
+\vspace{1cm}
 
-%\textbf{Early Phases}: bound by $N$;
-%\vspace{1cm}
+\textbf{Early Phases}: Bound the number of payments in each phase by $N$.
+\vspace{1cm}
 
-%\textbf{Later Phases}: exponentially unlikely as the phases advances;
-%\end{frame}
-%#################################################
-
-%#################################################
-%\begin{frame}{Regret Analysis}
-
-%\textbf{When principal incentivizes:} similar to the payment proof;
-%\vspace{0.5cm}
-
-%\textbf{When agents pull myopically:} We define a phase-dependent cutoff $\gamma(s(t))$ to further distinguish agents based on the regret.
-%\begin{itemize}
-%\item $r(t)\geq \gamma(s(t))$:
-%\begin{itemize}[label=$\star$]
-%\item this happens with exponentially decreasing probability;
-%\item since $\theta_t$ has a compact support, the maximum regret is bounded by a constant;
-%\end{itemize}
-%\item $r(t)\leq \gamma(s(t))$:
-%\begin{itemize}[label=$\star$] 
-%\item not so many agents have near-ties preferences; 
-%\item the maximum regret is bounded above by $\gamma(s(t))$;
-%\end{itemize}
-%\end{itemize}
-
-%\end{frame}
-%#################################################
-\begin{frame}{Questions?}
-\begin{center}
-\Huge{Thanks for your time!}
-\end{center}
+\textbf{Later Phases}: Incentives are only needed when estimation error is large.  Their probability shrinks exponentially as phases advance.
 \end{frame}
 %#################################################
 
+%#################################################
+\begin{frame}{Regret Analysis}
+
+\textbf{When principal incentivizes:} similar to the payment proof
+\vspace{0.5cm}
+
+\textbf{When agents pull myopically:} We define a phase-dependent cutoff $\gamma(s(t))$ to separate agents with small and large regret.
+\begin{itemize}[label=\textbullet]
+\item $r(t)\geq \gamma(s(t))$:
+\begin{itemize}[label=$\star$]
+\item this requires severe misestimates of arm attributes
+\item this happens with exponentially decreasing probability
+\item since $\theta_t$ has a compact support, the maximum regret is bounded by a constant
+\end{itemize}
+\item $r(t)\leq \gamma(s(t))$:
+\begin{itemize}[label=$\star$] 
+\item this requires nearly-tied preferences 
+\item few agents have nearly-tied preferences
+\item the maximum regret is bounded above by $\gamma(s(t))$
+\end{itemize}
+\end{itemize}
+
+\end{frame}
 
 
 
