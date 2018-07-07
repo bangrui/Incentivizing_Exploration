@@ -15,6 +15,7 @@
 \usepackage{lmodern}
 \usepackage{mathrsfs}
 \usepackage{biblatex}
+\usepackage[normalem]{ulem}
 %\usepackage{enumitem}
 \usepackage{bm}
 
@@ -67,8 +68,25 @@ Department of Computer Science       \\
 \end{frame}
 %#################################################
 %#################################################
-\begin{frame}{Motivation}
-\includegraphics[scale=0.4]{example}
+%Incentives are mis-aligned in crowdsourced online reviews
+%Myopic agents must be incentivized to explore
+%Exploration May Need To Be Incentivized
+%Incentives Can Increase Exploration
+%Platforms Value Exploration More Than Users
+%Users Undervalue Exploration
+%\begin{frame}{\large{Platforms Value Exploration More Than Users Do}}
+%\begin{frame}{Customers Undervalue Exploration and Learning}
+\begin{frame}{Customers Undervalue Exploration}
+%\includegraphics[scale=0.4]{example}
+\includegraphics[width=10cm]{example_crop}
+\begin{itemize}
+\item Incentives are misaligned:
+\begin{itemize}
+\item Customers are myopic and want to \textbf{exploit}
+\item Amazon wants customers to \textbf{explore}
+\end{itemize}
+\item To fix this, Amazon can \textbf{incentivize exploration}
+\end{itemize}
 \end{frame}
 %#################################################
 
@@ -104,32 +122,65 @@ Department of Computer Science       \\
 \end{frame}
 
 %#################################################
+%Heterogeneity presents a challenge and an opportunity
+%We study user heterogeneity
+%We study heterogeneous users
 
-\begin{frame}{Heterogeneity presents a new challenge}
+
+%\begin{frame}{Heterogeneity presents a new challenge}
+\begin{frame}{We Incentivize \textbf{Heterogeneous} Agents}
 \begin{center}
-\includegraphics[scale=0.35]{example2}
+\includegraphics[scale=0.30]{example2}
 \end{center}
 \begin{itemize}
-\item \textbf{Customers prefer different kinds of items}
-\item \textbf{Amazon doesn't know which item each user prefers}
+\item \textbf{Our setting}: Customers have different preferences
+\item \textbf{Challenge}: Amazon doesn't these preferences
+\item \textbf{Opportunity}: Heterogeneity provides free explorations
 \end{itemize}
-
 \end{frame}
+
+
+
+
+%\begin{frame}{Heterogeneity presents a new challenge}
+%\begin{center}
+%\includegraphics[scale=0.35]{example2}
+%\end{center}
+%\begin{itemize}
+%\item \textbf{Customers prefer different kinds of items}
+%\item \textbf{Amazon doesn't know which item each user prefers}
+%\end{itemize}
+%
+%\end{frame}
 
 %#################################################
 
 
 %#################################################
 
-\begin{frame}{Heterogeneity Provides Free Exploration}
-\begin{itemize} 
-\item In the classical MAB: cumulative regret is $O(\log(T))$
-\item In incentizing exploration with heterogeneous users:\\ we show, with assumptions, cumulative regret is $O(1)$
-\item Key insight: Heterogeneity provides free exploration
-\item Our contribution: First algorithm and analysis for incentivizing exploration when users have heterogeneous preferences over arms
-\end{itemize}
-\end{frame}
+%\begin{frame}{Heterogeneity Provides Free Exploration}
+%\begin{itemize} 
+%\item In the classical MAB: cumulative regret is $O(\log(T))$
+%\item In incentizing exploration with heterogeneous users:\\ we show, with assumptions, cumulative regret is $O(1)$
+%\item Key insight: Heterogeneity provides free exploration
+%\item Our contribution: First algorithm and analysis for incentivizing exploration when users have heterogeneous preferences over arms
+%\end{itemize}
+%\end{frame}
 
+%\begin{frame}{We study Heter}
+%\begin{itemize} 
+%\item In the classical MAB: cumulative regret is $O(\log(T))$
+%\item Our problem seems harder: we can't make users do what we want; we don't know what they want
+%\item But, we should 
+%
+%\item In incentizing exploration with heterogeneous users:\\ we show, with assumptions, cumulative regret is $O(1)$
+%\item Key insight: Heterogeneity provides free exploration
+%% \item Our contribution: First algorithm and analysis for incentivizing exploration when users have heterogeneous preferences over arms
+%\end{itemize}
+%\end{frame}
+%
+%
+%
 %#################################################
 \begin{frame}{Problem Setting}
 
@@ -162,22 +213,24 @@ Department of Computer Science       \\
 
 %\item Without incentives, agent $t$ would choose the arm maximizing $\bm{\theta}_{t}\cdot \hat{\bm{u}}_{i,t}$.
 
-\vspace{1cm}
+\vspace{0.5cm}
+
+\textbf{Principal's Goal}: Minimize cumulative regret with small cumulative payment
 
 \end{frame}
 %#################################################
 
 %#################################################
-\begin{frame}{The Principal's Goal}
+%\begin{frame}{The Principal's Goal}
 
-\vspace{1cm}
-\begin{itemize}
-\item Regret: $r_t = (\max_{i} \bm{\theta}_t \cdot \bm{u}_i) - \bm{\theta}_t \cdot \bm{u}_{i_t}$
-\item Payment: $c_t = c_{t,i_t}$
-\item \textbf{Principal's Goal}: Incentivize to minimize the cumulative regret while making a small cumulative payment
-\end{itemize}
+%\vspace{1cm}
+%\begin{itemize}
+%\item Regret: $r_t = (\max_{i} \bm{\theta}_t \cdot \bm{u}_i) - \bm{\theta}_t \cdot \bm{u}_{i_t}$
+%\item Payment: $c_t = c_{t,i_t}$
+%\item \textbf{Principal's Goal}: Minimize cumulative regret with small cumulative payment
+%\end{itemize}
 
-\end{frame}
+%\end{frame}
 %#################################################
 
 %#################################################
@@ -211,15 +264,68 @@ Our policy achieves:
 \end{itemize}
 \end{block}
 
-Special case: 
-When agent preferences are discrete, i.e. $L=0$,
+\vspace{0.5cm}
+
+We improve our bounds to polynomial in $1/p$ if
+\begin{itemize}
+\item agent preferences are discrete,
+\item OR we know a lower bound on $p$.
+\end{itemize}
+
+%Special case: 
+%When agent preferences are discrete, i.e. $L=0$,
 %When $L=0$ (i.e., agents nearly tied between two arms have measure $0$),
-regret and payment are bounded by constants in $T$.
+%regret and payment are bounded by constants in $T$.
 
 
 
 \end{frame}
 %#################################################
+%\begin{frame}{\large{Discrete Preferences Give Constant Regret}}
+%\begin{block}{Theorem 1}
+
+%When agent preferences are discrete ($L=0$):
+%\begin{itemize}
+%\item expected cumulative regret $O (N e^{2/p} +$ \sout{$L N \log^3(T)$}$)$,
+%\item using expected cumulative payments of $O(N^2 e^{2/p})$.
+%\end{itemize}
+%\end{block}
+
+%\begin{itemize}
+%\item Regret and payment are constant in $T$.
+%\item The classical MAB has regret $O(\log T)$
+%\item Incentivizing exploration with heterogeneous users is ``easier'' than classical MAB!
+%\end{itemize}
+%When agent preferences are discrete, i.e. $L=0$,
+%When $L=0$ (i.e., agents nearly tied between two arms have measure $0$),
+
+%\end{frame}
+%#################################################
+
+
+%#################################################
+\begin{frame}{\large{Discrete Preferences Give Constant Regret}}
+\begin{alertblock}{Theorem 2}
+
+When agent preferences are discrete ($L=0$):
+\begin{itemize}
+\item expected cumulative regret $O (N^2/p)$,
+\item using expected cumulative payments of $O(N/p)$.
+\end{itemize}
+\end{alertblock}
+
+\begin{itemize}
+\item Regret and payment are constant in $T$
+\item The classical MAB has regret $O(\log T)$
+% \item Incentivizing exploration with heterogeneous users is ``easier'' than classical MAB!
+\item \textbf{Heterogeneity gives free exploration}
+\end{itemize}
+
+\end{frame}
+
+
+% \begin{frame}{\large{We can drop exponential dependence on $p$ under more assumptions}}
+% \end{frame}
 
 \begin{frame}{Algorithm Sketch}
 
