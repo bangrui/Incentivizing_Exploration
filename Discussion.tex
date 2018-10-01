@@ -8,11 +8,43 @@ decreases slowly.
 This slow decrease is needed to bound the regret in the later phases
 when the concentration inequality kicks in as in
 Equation~(\ref{equ:small_regret_bound}).
-In this section, we discuss two restrictions under which we can
-modify the algorithm slightly and provide stronger bounds,
-avoiding this exponential dependence.
+\bccomment{In this secion, we first introduce a modified version of
+\textit{payment-eligible} definition with general probability threshold, and analyze
+its regret and payment bound. Then we discuss two restrictions under
+which we can provide stronger bounds, avoiding this exponential dependence.}
+%In this section, we discuss two restrictions under which we can
+%modify the algorithm slightly and provide stronger bounds,
+%avoiding this exponential dependence.
 Both problem settings are special cases of the more general
 setting previously considered. 
+
+
+\bccomment{
+\subsubsection{General Algorithm}
+In this section, we introduce a more general definition of payment-eligible.
+More specifically, an arm $i$ is payment-eligible at time $t$ in phase $s$ when both of
+the following are true: 
+
+\begin{itemize}
+\item $i$ has been pulled at most $s$ times up to time $t$,
+i.e., $\NumPull{t}{i} \leq s$.
+\item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors,
+    the probability of pulling arm $i$ is less than $\phi(s)$
+\end{itemize}
+
+The general algorithm operates the same as Algorithm~\ref{alg:basic-incentivizing},
+except using the new definition of payment-eligible.
+
+With this definition of payment-eligible arms and probability threshold $\phi(s)$, we can
+prove
+
+\begin{theorem}
+\label{rst:general}
+With the probability threshold $\phi(s)$, the expected total payment for 
+Algorithm~\ref{alg:basic-incentivizing} is at most XXX, and the expected
+cumulative regret up to time T is bounded above by XXX.
+\end{theorem}
+}
 
 \subsubsection{Discrete Preferences}
 \label{subsec:discrete}
@@ -30,30 +62,43 @@ $\AlmostTied{\hat{z}} = 0$.
 When Assumption~\ref{a:discrete} holds,
 we restrict the payment-eligibility criterion by only incentivizing
 arms with much smaller probability to be pulled:
-an arm $i$ is payment-eligible at time $t$ in phase $s$ when both of
-the following are true: 
+\bccomment{we choose $\phi(s)=1/s$ (compared to $1/log(s)$ in Algorithm~\ref{alg:basic-incentivizing})}.
 
-\begin{itemize}
-\item $i$ has been pulled at most $s$ times up to time $t$,
-i.e., $\NumPull{t}{i} \leq s$.
-\item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors,
-the probability of pulling arm $i$ is less than $1/s$
-(compared to $1/\log(s)$ in the general algorithm).
-\end{itemize}
+%an arm $i$ is payment-eligible at time $t$ in phase $s$ when both of
+%the following are true: 
+
+%\begin{itemize}
+%\item $i$ has been pulled at most $s$ times up to time $t$,
+%i.e., $\NumPull{t}{i} \leq s$.
+%\item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors,
+%the probability of pulling arm $i$ is less than $1/s$
+%(compared to $1/\log(s)$ in the general algorithm).
+%\end{itemize}
 
 We refer to this modified version of
 Algorithm~\ref{alg:basic-incentivizing} as the
 \emph{Discrete-Preference Algorithm.}
-We outline a proof of the following result for this algorithm under
-Assumption~\ref{a:discrete} in Appendix~\ref{sec:discussion-proof1}.
+\bccomment{
+    Plug $\phi(s)=1/s$ into Theorem~\ref{rst:general}, after some calculation (see details in XXX), we get:
+%We outline a proof of the following result for this algorithm under
+%Assumption~\ref{a:discrete} in Appendix~\ref{sec:discussion-proof1}.
 
-\begin{theorem}
+\begin{corollary}
 \label{rst:discrete}
 Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm
 has expected payment bounded above by 
 $O \left(\ARMNUM^2/\MinProb \right)$
 and expected regret bounded above by $O(\ARMNUM / \MinProb)$.
-\end{theorem}
+\end{corollary}
+}
+
+%\begin{theorem}
+%\label{rst:discrete}
+%Under Assumption~\ref{a:discrete}, the Discrete-Preference Algorithm
+%has expected payment bounded above by 
+%$O \left(\ARMNUM^2/\MinProb \right)$
+%and expected regret bounded above by $O(\ARMNUM / \MinProb)$.
+%\end{theorem}
 
 \subsubsection{Known \MinProb}
 An alternative useful assumption is that \MinProb
@@ -66,34 +111,51 @@ A strictly positive lower bound on \MinProb is known in advance.
 
 When this assumption holds, we choose a different modification in the
 definition of payment eligibility.
-Let $s_0 = \exp(2/\MinProb)$.
-An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
-if both:
-\begin{itemize}
-\item $i$ has been pulled at most
-$s$ times up to time $t$, i.e., $\NumPull{t}{i} \leq s$.
-\item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors,
-the probability of pulling arm $i$ is less than $1/\log(s+s_0)$.
-\end{itemize}
+Let $s_0 = \exp(2/\MinProb)$ \bccomment{ and we set $\phi(s)=1/\log(s+s_0)$.}
+
+%An arm $i$ is \emph{payment-eligible} at time $t$ (in phase $s$)
+%if both:
+%\begin{itemize}
+%\item $i$ has been pulled at most
+%$s$ times up to time $t$, i.e., $\NumPull{t}{i} \leq s$.
+%\item Based on the current estimates \ArmEV{t}{i'} of all arms' attribute vectors,
+%the probability of pulling arm $i$ is less than $1/\log(s+s_0)$.
+%\end{itemize}
 
 This knowledge of \MinProb allows the algorithm to incentivize
 significantly fewer arm pulls.
 We refer to this modified version of
 Algorithm~\ref{alg:basic-incentivizing} as the \emph{Known-\MinProb
 Algorithm.}
-We outline a proof of the following result for this algorithm under
-Assumption~\ref{a:known-p} in Appendix~\ref{sec:discussion-proof2}.
 
-\begin{theorem}
+\bccomment{
+Plug $\phi(s)=1/s$ into Theorem~\ref{rst:general}, after some calculation (see details in XXX), we get:
+\begin{corollary}
 \label{rst:known-p}
 Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has
 expected payment  bounded above by  
 $O(\ARMNUM^2 \cdot \max(1,(\TieDensity/\MinProb)^{5/2}))$ 
 and expected regret bounded above by
+\begin{align*}
+O \left( \frac{\ARMNUM^2}{\MinProb^2}
+  +\frac{\ARMNUM \TieDensity \log^3(T)}{\MinProb}\right).
+\end{align*}
+\end{corollary}
+}
+
+%We outline a proof of the following result for this algorithm under
+%Assumption~\ref{a:known-p} in Appendix~\ref{sec:discussion-proof2}.
+
+%\begin{theorem}
+%\label{rst:known-p}
+%Under Assumption~\ref{a:known-p}, the Known-\MinProb Algorithm has
+%expected payment  bounded above by  
+%$O(\ARMNUM^2 \cdot \max(1,(\TieDensity/\MinProb)^{5/2}))$ 
+%and expected regret bounded above by
 %\begin{align*}
-$O \left( \frac{\ARMNUM^2}{\MinProb^2}
+%$O \left( \frac{\ARMNUM^2}{\MinProb^2}
 %  + \frac{\ARMNUM^2}{\hat{z}^2}+\frac{\ARMNUM}{\hat{z}^3}
-  +\frac{\ARMNUM \TieDensity \log^3(T)}{\MinProb}\right)$.
+%  +\frac{\ARMNUM \TieDensity \log^3(T)}{\MinProb}\right)$.
 %  \end{align*}
-\end{theorem}
+%\end{theorem}
 

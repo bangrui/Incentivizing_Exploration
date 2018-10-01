@@ -49,7 +49,7 @@
 %\addauthor[Bangrui]{bc}{green}
 %\addauthor[David]{dk}{red}
 
-%\newcommand{\bccomment}[1]{{\color{blue}BC: #1}}
+\newcommand{\bccomment}[1]{{\color{blue}BC: #1}}
 %\newcommand{\pfcomment}[1]{{\color{blue}PF: #1}}
 
 \providecommand{\SET}[1]{\ensuremath{\{ #1 \}}\xspace}
@@ -89,6 +89,15 @@
 \noindent \ifthenelse{\equal{#1}{}}{\bf #2 #3}{\bf #2 #3 (#1)}
 \begin{it}
 }{\end{it}}
+
+\newenvironment{rcorollary}[3][]{
+
+\bigskip
+
+\noindent \ifthenelse{\equal{#1}{}}{\bf #2 #3}{\bf #2 #3 (#1)}
+\begin{it}
+}{\end{it}}
+
 
 \newenvironment{rlemma}[3][]{
 
